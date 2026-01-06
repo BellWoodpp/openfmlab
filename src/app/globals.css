@@ -1,26 +1,516 @@
+/* 加载 Tailwind（核心工具）
+加载动画插件（tw-animate-css） */
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* 定义一个 Tailwind 的自定义 variant：dark:
+让 dark: 作用于 .dark class 下的所有元素 */
+@custom-variant dark (&:is(.dark *));
 
+/* 正式进入主题系统，这里非常关键。
+将 CSS 变量（--background）映射给 Tailwind 的“color.XXX” 或 “radius.XXX”
+Tailwind 会把 bg-background 解析成：background-color: var(--background)
+因为你定义了：--color-background: var(--background) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* :root { … } 明亮模式颜色 
+这里定义默认（明亮模式）颜色
+使用 OKLCH 色彩：oklch(亮度 色度 色相)
+比 RGB、HSL 更专业、显示更一致
+例如：
+--background: oklch(1 0 0);   // 白色
+--foreground: oklch(0.145 0 0); // 几乎黑色
+这些变量会被映射到 @theme inline 里的 Tailwind 颜色。*/
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* .dark { … } 暗色模式变量
+  .dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  ...
+}
+当 HTML 上出现 .dark class：
+<html class="dark">
+就会覆盖颜色，让网页变成 Dark Mode。 */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* @layer base — 基础样式 
+✔️ 1. 所有元素统一边框颜色 + outline 颜色
+* {
+  @apply border-border outline-ring/50;
+}等于：
+border-color: var(--border)
+outline-color: var(--ring, opacity 50%)
+body {
+  @apply bg-background text-foreground;
+}
+也就是：
+css
+复制代码
+background-color: var(--background);
+color: var(--foreground);*/
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes glitch-shift-a {
+  0% {
+    clip-path: inset(8% 0 78% 0);
+    transform: translate3d(-2px, 0, 0);
+  }
+  8% {
+    clip-path: inset(54% 0 20% 0);
+    transform: translate3d(3px, -1px, 0);
+  }
+  10% {
+    clip-path: inset(58% 0 18% 0);
+    transform: translate3d(2px, 0, 0);
+  }
+  16% {
+    clip-path: inset(24% 0 52% 0);
+    transform: translate3d(-4px, 1px, 0);
+  }
+  20% {
+    clip-path: inset(18% 0 58% 0);
+    transform: translate3d(-3px, 0, 0);
+  }
+  26% {
+    clip-path: inset(66% 0 10% 0);
+    transform: translate3d(4px, 0, 0);
+  }
+  30% {
+    clip-path: inset(72% 0 8% 0);
+    transform: translate3d(3px, 0, 0);
+  }
+  36% {
+    clip-path: inset(10% 0 74% 0);
+    transform: translate3d(-3px, -1px, 0);
+  }
+  40% {
+    clip-path: inset(36% 0 44% 0);
+    transform: translate3d(-1px, 0, 0);
+  }
+  50% {
+    clip-path: inset(10% 0 74% 0);
+    transform: translate3d(1px, 0, 0);
+  }
+  54% {
+    clip-path: inset(46% 0 32% 0);
+    transform: translate3d(-5px, 0, 0);
+  }
+  60%,
+  100% {
+    clip-path: inset(8% 0 78% 0);
+    transform: translate3d(0, 0, 0);
+  }
 }
+
+@keyframes glitch-shift-b {
+  0% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate3d(2px, 0, 0);
+  }
+  10% {
+    clip-path: inset(14% 0 62% 0);
+    transform: translate3d(-4px, 0, 0);
+  }
+  12% {
+    clip-path: inset(12% 0 66% 0);
+    transform: translate3d(-2px, 0, 0);
+  }
+  20% {
+    clip-path: inset(52% 0 26% 0);
+    transform: translate3d(5px, 1px, 0);
+  }
+  24% {
+    clip-path: inset(42% 0 38% 0);
+    transform: translate3d(3px, 0, 0);
+  }
+  32% {
+    clip-path: inset(18% 0 62% 0);
+    transform: translate3d(-5px, -1px, 0);
+  }
+  36% {
+    clip-path: inset(18% 0 62% 0);
+    transform: translate3d(-3px, 0, 0);
+  }
+  44% {
+    clip-path: inset(64% 0 12% 0);
+    transform: translate3d(4px, 0, 0);
+  }
+  48% {
+    clip-path: inset(62% 0 14% 0);
+    transform: translate3d(1px, 0, 0);
+  }
+  60%,
+  100% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes glitch-bars {
+  0%,
+  100% {
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position: 0 0, -120px 0;
+  }
+}
+
+@keyframes glitch-flicker {
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+  12% {
+    opacity: 0.55;
+  }
+  18% {
+    opacity: 0.88;
+  }
+  44% {
+    opacity: 0.62;
+  }
+  58% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes orb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orb-pulse {
+  0%,
+  100% {
+    opacity: 0.78;
+    filter: saturate(1) brightness(1);
+  }
+  50% {
+    opacity: 0.92;
+    filter: saturate(1.08) brightness(1.06);
+  }
+}
+
+@keyframes orb-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -15px) scale(1.02);
+  }
+  66% {
+    transform: translate(-5px, 8px) scale(0.98);
+  }
+}
+
+@keyframes orb-shape {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+}
+
+.animate-orb-float {
+  animation: orb-float 10s ease-in-out infinite;
+}
+
+.animate-orb-shape {
+  animation: orb-shape 8s ease-in-out infinite alternate;
+}
+
+.animate-orb-fluid {
+  animation: orb-spin 40s linear infinite;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  background-image:
+    linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.16) 0 6px,
+      rgba(255, 255, 255, 0) 6px 16px
+    );
+  background-blend-mode: screen;
+  background-size: 100% 100%, 120px 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 24px rgba(168, 85, 247, 0.22),
+    0 0 48px rgba(59, 130, 246, 0.1);
+  animation: glitch-bars 1.8s infinite linear;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+.glitch::before {
+  text-shadow:
+    -3px 0 rgba(96, 165, 250, 0.95),
+    0 0 34px rgba(96, 165, 250, 0.32);
+  animation:
+    glitch-shift-a 1.85s infinite steps(2, end),
+    glitch-flicker 2.6s infinite steps(1, end);
+}
+
+.glitch::after {
+  text-shadow:
+    3px 0 rgba(244, 114, 182, 0.92),
+    0 0 34px rgba(244, 114, 182, 0.22);
+  animation:
+    glitch-shift-b 1.7s infinite steps(2, end),
+    glitch-flicker 3.1s infinite steps(1, end);
+}
+
+.sample-play-icon {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: rgba(147, 197, 253, 0.9);
+  clip-path: polygon(22% 12%, 22% 88%, 90% 50%);
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.28));
+  transition: clip-path 160ms ease, background-color 160ms ease, opacity 160ms ease;
+}
+
+.sample-play-icon::before,
+.sample-play-icon::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 4px;
+  border-radius: 2px;
+  background: rgba(147, 197, 253, 0.9);
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.sample-play-icon::before {
+  left: 2px;
+}
+
+.sample-play-icon::after {
+  right: 2px;
+}
+
+.sample-play-icon[data-playing="true"] {
+  clip-path: none;
+  background: transparent;
+}
+
+.sample-play-icon[data-playing="true"]::before,
+.sample-play-icon[data-playing="true"]::after {
+  opacity: 1;
+}
+
+@keyframes sample-wave-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleY(1.35);
+    opacity: 0.9;
+  }
+}
+
+.sample-wave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  padding-right: 4px;
+}
+
+.sample-wave span {
+  width: 3px;
+  border-radius: 9999px;
+  background: rgba(148, 163, 184, 0.35);
+  opacity: 0.45;
+  transform-origin: center;
+}
+
+.sample-wave.is-playing span {
+  background: linear-gradient(180deg, rgba(96, 165, 250, 0.95), rgba(244, 114, 182, 0.72));
+  animation: sample-wave-bounce 1.05s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.045s);
+  filter: drop-shadow(0 0 16px rgba(167, 139, 250, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sample-wave.is-playing span {
+    animation: none;
+  }
+}
+
+.orb-spin-slow {
+  animation: orb-spin 18s linear infinite, orb-pulse 6.5s ease-in-out infinite;
+  will-change: transform, opacity, filter;
+}
+
+.orb-spin-fast {
+  animation: orb-spin 11s linear infinite reverse, orb-pulse 5.2s ease-in-out infinite;
+  will-change: transform, opacity, filter;
+}
+
+.orb-spin-slow,
+.orb-spin-fast {
+  transform-origin: 50% 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-spin-slow,
+  .orb-spin-fast {
+    animation: none;
+  }
+}
+
+.orb-ring {
+  background: conic-gradient(
+    from 210deg,
+    rgba(96, 165, 250, 0.8),
+    rgba(167, 139, 250, 0.95),
+    rgba(244, 114, 182, 0.85),
+    rgba(96, 165, 250, 0.8)
+  );
+  -webkit-mask: radial-gradient(circle, transparent 58%, #000 61%);
+  mask: radial-gradient(circle, transparent 58%, #000 61%);
+}
+/*  总结
+@import	载入 Tailwind + 动画插件
+@custom-variant	定义 dark: 的作用方式
+@theme inline	把 CSS 变量映射给 Tailwind（主题核心）
+:root { … }	明亮模式的颜色变量
+.dark { … }	暗色模式颜色变量
+@layer base	设定基础样式（边框、body 颜色） */
