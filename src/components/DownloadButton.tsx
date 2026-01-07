@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Download } from "./ui/Icons";
 import { Button } from "./ui/button";
 import { appStore } from "@/lib/store";
@@ -30,110 +30,42 @@ const PlayingWaveform = ({
   </div>
 );
 
-const IS_CHROME =
-  // @ts-expect-error - it's a safe reach
-  navigator.userAgentData?.brands?.some(
-    (b: { brand: string }) => b.brand === "Google Chrome"
-  ) === true;
-
 export default function DownloadButton() {
-  const latestAudioUrl = appStore.useState((s) => s.latestAudioUrl);
-  const [dataUrl, setDataUrl] = useState<string | null>(null);
+  const latestAudioBlobUrl = appStore.useState((s) => s.latestAudioBlobUrl);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!latestAudioUrl) return;
-
-    let objectUrl = "";
-    const handler = (e: MessageEvent) => {
-      if (e.data.type === "ADD_TO_CACHE" && e.data.url === latestAudioUrl) {
-        objectUrl = URL.createObjectURL(e.data.blob);
-        setDataUrl(objectUrl);
-      }
-    };
-    navigator.serviceWorker.addEventListener("message", handler);
-
-    return () => {
-      setDataUrl(null);
-      URL.revokeObjectURL(objectUrl);
-      navigator.serviceWorker.removeEventListener("message", handler);
-    };
-  }, [latestAudioUrl]);
-
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        // update file name when updating the service worker to avoid cache issues
-        .register("/worker-444eae9e2e1bdd6edd8969f319655e70.js")
-        .catch((err) => console.error("SW registration failed", err));
-    }
-  }, []);
-
   const handleDownload = async () => {
-    const {
-      selectedEntry,
-      input,
-      prompt,
-      voice,
-      latestAudioUrl: storeUrl,
-    } = appStore.getState();
+    const { voice } = appStore.getState();
+    if (!latestAudioBlobUrl) {
+      alert("Click Play to generate audio first.");
+      return;
+    }
 
-    const vibe =
-      selectedEntry?.name.toLowerCase().replace(/ /g, "-") ?? "audio";
+    const vibe = "audio";
+    const filename = `voiceslab-${voice}-${vibe}.mp3`;
 
-    const filename = `openai-fm-${voice}-${vibe}.${IS_CHROME ? "wav" : "mp3"}`;
-
-    if (!storeUrl) {
-      setLoading(true);
-      const form = new FormData();
-      form.append("input", input);
-      form.append("prompt", prompt);
-      form.append("voice", voice);
-      form.append("generation", crypto.randomUUID());
-      form.append("vibe", vibe);
-
-      const res = await fetch("/api/generate", { method: "POST", body: form });
-      const blob = await res.blob();
+    setLoading(true);
+    try {
       const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
+      link.href = latestAudioBlobUrl;
       link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    } catch (err) {
+      console.error("Error downloading audio:", err);
+      alert(err instanceof Error ? err.message : "Error downloading audio");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    appStore.setState({ latestAudioUrl: null });
-
-    if (!dataUrl) {
-      setLoading(true);
-      const handler = (e: MessageEvent) => {
-        if (e.data.type === "ADD_TO_CACHE" && e.data.url === storeUrl) {
-          navigator.serviceWorker.removeEventListener("message", handler);
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(e.data.blob);
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          setLoading(false);
-        }
-      };
-      navigator.serviceWorker.addEventListener("message", handler);
-      return;
-    }
-
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
-    <Button color="tertiary" onClick={handleDownload} disabled={loading}>
+    <Button
+      color="tertiary"
+      onClick={handleDownload}
+      disabled={loading || !latestAudioBlobUrl}
+    >
       {loading ? (
         <PlayingWaveform
           audioLoaded={false}

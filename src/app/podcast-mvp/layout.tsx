@@ -10,19 +10,19 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.openai.fm'),
-  title: "OpenAI.fm",
-  description: "An interactive demo for developers to try the new text-to-speech model in the OpenAI API",
-  authors: [{ name: "OpenAI" }],
+  metadataBase: new URL('https://www.voiceslab.ai'),
+  title: "Voiceslab",
+  description: "AI Voice Cloning and Text-to-Speech",
+  authors: [{ name: "Voiceslab" }],
   openGraph: {
-    title: "OpenAI.fm",
-    description: "An interactive demo for developers to try the new text-to-speech model in the OpenAI API",
+    title: "Voiceslab",
+    description: "AI Voice Cloning and Text-to-Speech",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "OpenAI.fm, a text-to-speech demo",
+        alt: "Voiceslab",
       },
     ],
   },

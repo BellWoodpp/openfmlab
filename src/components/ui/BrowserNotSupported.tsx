@@ -1,5 +1,6 @@
-import * as React from "react";
+import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { Button } from "./button";
 
 const BrowserNotSupported = ({
   open,
@@ -7,21 +8,28 @@ const BrowserNotSupported = ({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}) => (
-  <Dialog.Root onOpenChange={onOpenChange} open={open}>
-    <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 bg-black/30 data-[state=open]:animate-overlayShow z-100" />
-      <Dialog.Content className="z-100 fixed bg-white left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray1 p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow">
-        <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12">
-          Browser not supported
-        </Dialog.Title>
-        <Dialog.Description className="mb-5 mt-2.5 text-[15px] leading-normal text-mauve11">
-          Please open <b>openai.fm</b> directly in a modern browser to enjoy the
-          full audio experience.
-        </Dialog.Description>
-      </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root>
-);
+}) => {
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-overlayShow z-50" />
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[51] data-[state=open]:animate-contentShow">
+          <Dialog.Title className="text-foreground m-0 text-[17px] font-medium mb-4">
+            Browser Not Supported
+          </Dialog.Title>
+          <Dialog.Description className="text-foreground/70 mt-[10px] mb-5 text-[15px] leading-normal">
+            Your browser does not support the features required for this demo.
+            Please use a modern browser like Chrome, Edge, or Firefox.
+          </Dialog.Description>
+          <div className="mt-[25px] flex justify-end">
+            <Button color="primary" onClick={() => onOpenChange(false)}>
+              Close
+            </Button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+};
 
 export default BrowserNotSupported;

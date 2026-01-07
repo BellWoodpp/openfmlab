@@ -1,46 +1,48 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { LibraryEntry } from "./types";
-import {
-  DEFAULT_VOICE,
-  getLibraryByPrompt,
-  getRandomLibrarySet,
-} from "./library";
 
 export interface AppState {
   voice: string;
+  tone: "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised";
+  speakingRateMode: "auto" | "custom";
+  speakingRate: number;
+  playbackRate: number;
+  volumeGainDb: number;
   input: string;
-  inputDirty: boolean;
-  prompt: string;
   codeView: string;
-  selectedEntry: LibraryEntry | null;
-  librarySet: LibraryEntry[];
+  latestAudioId: string | null;
   latestAudioUrl: string | null;
+  latestAudioBlobUrl: string | null;
+  ttsHistory: Array<{
+    id: string;
+    createdAt: string;
+    voice: string;
+    tone: AppState["tone"];
+    audioUrl: string;
+  }>;
 }
+
+const DEFAULT_VOICE = "en-US-Standard-C";
 
 const INITIAL_STATE: AppState = {
   voice: DEFAULT_VOICE,
+  tone: "neutral",
+  speakingRateMode: "auto",
+  speakingRate: 1,
+  playbackRate: 1,
+  volumeGainDb: 0,
   input: "",
-  inputDirty: false,
-  prompt: "",
   codeView: "py",
-  selectedEntry: null,
-  librarySet: [],
+  latestAudioId: null,
   latestAudioUrl: null,
+  latestAudioBlobUrl: null,
+  ttsHistory: [],
 };
 
 class AppStore {
   private store = create(immer(() => INITIAL_STATE));
 
   constructor() {
-    this.store.setState((draft) => {
-      const randomSet = getRandomLibrarySet();
-      draft.librarySet = randomSet;
-      draft.selectedEntry = randomSet[0];
-      draft.input = randomSet[0].input;
-      draft.prompt = randomSet[0].prompt;
-    });
-
     if (typeof window === "undefined") {
       return;
     }
@@ -61,19 +63,16 @@ class AppStore {
         if (data) {
           this.store.setState((draft) => {
             draft.input = data.input;
-            draft.prompt = data.prompt;
             draft.voice = data.voice;
-
-            const maybeSpecificVibe = getLibraryByPrompt(data.prompt);
-            if (maybeSpecificVibe) {
-              const exists = draft.librarySet.find(
-                (lib) => lib.prompt === maybeSpecificVibe.prompt
-              );
-              if (!exists) {
-                draft.librarySet[0] = maybeSpecificVibe;
-                draft.selectedEntry = maybeSpecificVibe;
-              }
-            }
+            draft.tone = "neutral";
+            draft.speakingRateMode = "auto";
+            draft.speakingRate = 1;
+            draft.playbackRate = 1;
+            draft.volumeGainDb = 0;
+            draft.latestAudioId = null;
+            draft.latestAudioUrl = null;
+            draft.latestAudioBlobUrl = null;
+            draft.ttsHistory = [];
           });
         }
       })

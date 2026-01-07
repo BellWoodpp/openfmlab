@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { rateLimitOrThrow } from "@/lib/rate-limit";
 import { encodePcmWav, parseWav, silencePcmBytes, type WavPcm } from "@/lib/wav";
+import { getTtsMeta, getTtsProvider, synthesizeTts } from "@/lib/tts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -61,34 +62,21 @@ function badRequest(message: string) {
 }
 
 async function ttsToWavBuffer(opts: {
-  apiKey: string;
-  model: string;
   voice: string;
   input: string;
   instructions?: string;
+  openAi?: { apiKey: string; model: string };
 }) {
-  const res = await fetch("https://api.openai.com/v1/audio/speech", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${opts.apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: opts.model,
-      voice: opts.voice,
-      input: opts.input,
-      response_format: "wav",
-      ...(opts.instructions ? { instructions: opts.instructions } : {}),
-    }),
+  const audio = await synthesizeTts({
+    provider: getTtsProvider(),
+    input: opts.input,
+    voice: opts.voice,
+    format: "wav",
+    instructions: opts.instructions,
+    openAi: opts.openAi,
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`TTS failed (${res.status}): ${text || "unknown error"}`);
-  }
-
-  const arrayBuffer = await res.arrayBuffer();
-  return Buffer.from(arrayBuffer);
+  return Buffer.from(audio);
 }
 
 function assertCompatible(base: WavPcm, next: WavPcm) {
@@ -100,8 +88,9 @@ function assertCompatible(base: WavPcm, next: WavPcm) {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = getEnv("OPENAI_API_KEY");
-  if (!apiKey) {
+  const provider = getTtsProvider();
+  const apiKey = provider === "openai" ? getEnv("OPENAI_API_KEY") : undefined;
+  if (provider === "openai" && !apiKey) {
     return Response.json({ error: "Missing OPENAI_API_KEY on server" }, { status: 500 });
   }
 
@@ -141,6 +130,7 @@ export async function POST(req: NextRequest) {
   const model = getEnv("OPENAI_MODEL_TTS") || "gpt-4o-mini-tts";
 
   const wavParts: WavPcm[] = [];
+  const metaSet = new Set<string>();
   for (const segment of segments) {
     const speaker = segment?.speaker === "GUEST" ? "GUEST" : "HOST";
     const text = normalizeString(segment?.text);
@@ -148,7 +138,22 @@ export async function POST(req: NextRequest) {
     if (text.length > 1200) return badRequest("Segment text too long (max 1200 chars)");
 
     const voice = speaker === "GUEST" ? voiceGuest : voiceHost;
-    const wavBuffer = await ttsToWavBuffer({ apiKey, model, voice, input: text, instructions });
+    const meta = getTtsMeta({ provider, voice, format: "wav", openAiModel: model });
+    metaSet.add(
+      [
+        meta.provider,
+        meta.billingTier,
+        meta.languageCode || "",
+        meta.voiceName || meta.voiceInput,
+        meta.model || "",
+      ].join("|"),
+    );
+    const wavBuffer = await ttsToWavBuffer({
+      voice,
+      input: text,
+      instructions,
+      openAi: apiKey ? { apiKey, model } : undefined,
+    });
     const wav = parseWav(wavBuffer);
     wavParts.push(wav);
   }
@@ -181,11 +186,16 @@ export async function POST(req: NextRequest) {
 
   const responseBody = new Uint8Array(output);
 
+  const metaParts = Array.from(metaSet);
+  const metaSummary = metaParts.length <= 8 ? metaParts.join(",") : `${metaParts.slice(0, 8).join(",")}...`;
+
   return new Response(responseBody, {
     headers: {
       "Content-Type": "audio/wav",
       "Content-Disposition": `attachment; filename="${filename}"`,
       "Cache-Control": "no-store",
+      "X-TTS-Provider": provider,
+      "X-TTS-Meta": metaSummary,
     },
   });
 }

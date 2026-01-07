@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { rateLimitOrThrow } from "@/lib/rate-limit";
+import { getTtsMeta, getTtsProvider, synthesizeTts } from "@/lib/tts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,6 +32,22 @@ function getEnv(name: string): string | undefined {
 function normalizeString(value: unknown): string {
   if (typeof value !== "string") return "";
   return value.trim();
+}
+
+function normalizeTone(value: string): "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised" {
+  const v = normalizeString(value).toLowerCase();
+  if (v === "calm") return "calm";
+  if (v === "serious") return "serious";
+  if (v === "cheerful") return "cheerful";
+  if (v === "excited") return "excited";
+  if (v === "surprised") return "surprised";
+  return "neutral";
+}
+
+function clampFloat(value: unknown, min: number, max: number, fallback: number): number {
+  const n = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, n));
 }
 
 function clampInt(value: unknown, min: number, max: number, fallback: number): number {
@@ -77,41 +94,25 @@ function contentType(format: AudioFormat): string {
   return format === "wav" ? "audio/wav" : "audio/mpeg";
 }
 
-async function tts(opts: {
-  apiKey: string;
-  model: string;
-  voice: Voice;
-  input: string;
-  instructions?: string;
-  format: AudioFormat;
-}) {
-  const res = await fetch("https://api.openai.com/v1/audio/speech", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${opts.apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: opts.model,
-      voice: opts.voice,
-      input: opts.input,
-      response_format: opts.format,
-      ...(opts.instructions ? { instructions: opts.instructions } : {}),
-    }),
-  });
+function buildTtsHeaders(meta: ReturnType<typeof getTtsMeta>) {
+  const headers: Record<string, string> = {
+    "X-TTS-Provider": meta.provider,
+    "X-TTS-Format": meta.format,
+    "X-TTS-Voice-Input": meta.voiceInput,
+    "X-TTS-Billing-Tier": meta.billingTier,
+  };
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`TTS failed (${res.status}): ${text || "unknown error"}`);
-  }
+  if (meta.languageCode) headers["X-TTS-Language-Code"] = meta.languageCode;
+  if (meta.voiceName) headers["X-TTS-Voice-Name"] = meta.voiceName;
+  if (meta.model) headers["X-TTS-Model"] = meta.model;
 
-  const arrayBuffer = await res.arrayBuffer();
-  return new Uint8Array(arrayBuffer);
+  return headers;
 }
 
 export async function GET(req: NextRequest) {
-  const apiKey = getEnv("OPENAI_API_KEY");
-  if (!apiKey) {
+  const provider = getTtsProvider();
+  const apiKey = provider === "openai" ? getEnv("OPENAI_API_KEY") : undefined;
+  if (provider === "openai" && !apiKey) {
     return Response.json({ error: "Missing OPENAI_API_KEY on server" }, { status: 500 });
   }
 
@@ -128,15 +129,37 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const input = normalizeString(searchParams.get("input"));
   const instructions = normalizeString(searchParams.get("prompt"));
-  const voiceParam = normalizeString(searchParams.get("voice")) || "alloy";
+  const defaultVoice = provider === "google" ? "en-US-Standard-C" : "alloy";
+  const voiceParam = normalizeString(searchParams.get("voice")) || defaultVoice;
+  const tone = normalizeTone(searchParams.get("tone") || "");
+  const speakingRateRaw = searchParams.get("speakingRate");
+  const speakingRate = speakingRateRaw ? clampFloat(speakingRateRaw, 0.25, 4, 1) : undefined;
+  const volumeGainDb = clampFloat(searchParams.get("volumeGainDb"), -96, 16, 0);
   const generation = normalizeString(searchParams.get("generation"));
   const requestedFormat = searchParams.get("format");
 
   if (!input) return Response.json({ error: "Missing input" }, { status: 400 });
-  if (!isValidVoice(voiceParam)) return Response.json({ error: "Invalid voice" }, { status: 400 });
+  if (provider === "openai" && !isValidVoice(voiceParam)) {
+    return Response.json({ error: "Invalid voice" }, { status: 400 });
+  }
 
   const model = getEnv("OPENAI_MODEL_TTS") || "gpt-4o-mini-tts";
   const format = resolveFormat(requestedFormat, req);
+  const meta = getTtsMeta({ provider, voice: voiceParam, format, openAiModel: model });
+  if (getEnv("TTS_DEBUG_LOG") === "1") {
+    console.info("[TTS]", {
+      provider: meta.provider,
+      billingTier: meta.billingTier,
+      voiceInput: meta.voiceInput,
+      voiceName: meta.voiceName,
+      languageCode: meta.languageCode,
+      format: meta.format,
+      model: meta.model,
+      tone,
+      speakingRate,
+      volumeGainDb,
+    });
+  }
 
   const maxChars = clampInt(Number(searchParams.get("maxChars")), 100, 5000, 2000);
   if (input.length > maxChars) {
@@ -144,20 +167,27 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const audio = await tts({
-      apiKey,
-      model,
-      voice: voiceParam,
+    const audio = await synthesizeTts({
+      provider,
       input,
-      instructions: instructions || undefined,
       format,
+      voice: voiceParam,
+      tone,
+      speakingRate,
+      volumeGainDb,
+      instructions: instructions || undefined,
+      openAi: apiKey ? { apiKey, model } : undefined,
     });
 
-    return new Response(audio, {
+    return new Response(Buffer.from(audio), {
       headers: {
         "Content-Type": contentType(format),
         "Cache-Control": generation ? "public, max-age=31536000, immutable" : "no-store",
         "X-Content-Type-Options": "nosniff",
+        "X-TTS-Tone": tone,
+        ...(speakingRate !== undefined ? { "X-TTS-Speaking-Rate": String(speakingRate) } : { "X-TTS-Speaking-Rate": "auto" }),
+        "X-TTS-Volume-Gain-Db": String(volumeGainDb),
+        ...buildTtsHeaders(meta),
       },
     });
   } catch (err) {
@@ -167,8 +197,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = getEnv("OPENAI_API_KEY");
-  if (!apiKey) {
+  const provider = getTtsProvider();
+  const apiKey = provider === "openai" ? getEnv("OPENAI_API_KEY") : undefined;
+  if (provider === "openai" && !apiKey) {
     return Response.json({ error: "Missing OPENAI_API_KEY on server" }, { status: 500 });
   }
 
@@ -191,39 +222,67 @@ export async function POST(req: NextRequest) {
 
   const input = normalizeString(formData.get("input"));
   const instructions = normalizeString(formData.get("prompt"));
-  const voiceParam = normalizeString(formData.get("voice")) || "alloy";
+  const defaultVoice = provider === "google" ? "en-US-Standard-C" : "alloy";
+  const voiceParam = normalizeString(formData.get("voice")) || defaultVoice;
+  const tone = normalizeTone(String(formData.get("tone") || ""));
+  const speakingRateRaw = formData.get("speakingRate");
+  const speakingRate = speakingRateRaw ? clampFloat(speakingRateRaw, 0.25, 4, 1) : undefined;
+  const volumeGainDb = clampFloat(formData.get("volumeGainDb"), -96, 16, 0);
   const vibe = normalizeString(formData.get("vibe")) || "audio";
   const requestedFormat = normalizeString(formData.get("format"));
 
   if (!input) return Response.json({ error: "Missing input" }, { status: 400 });
-  if (!isValidVoice(voiceParam)) return Response.json({ error: "Invalid voice" }, { status: 400 });
+  if (provider === "openai" && !isValidVoice(voiceParam)) {
+    return Response.json({ error: "Invalid voice" }, { status: 400 });
+  }
 
   const model = getEnv("OPENAI_MODEL_TTS") || "gpt-4o-mini-tts";
   const format = resolveFormat(requestedFormat, req);
+  const meta = getTtsMeta({ provider, voice: voiceParam, format, openAiModel: model });
+  if (getEnv("TTS_DEBUG_LOG") === "1") {
+    console.info("[TTS]", {
+      provider: meta.provider,
+      billingTier: meta.billingTier,
+      voiceInput: meta.voiceInput,
+      voiceName: meta.voiceName,
+      languageCode: meta.languageCode,
+      format: meta.format,
+      model: meta.model,
+      tone,
+      speakingRate,
+      volumeGainDb,
+    });
+  }
 
   if (input.length > 5000) {
     return Response.json({ error: "Input too long (max 5000 chars)" }, { status: 400 });
   }
 
   const ext = format;
-  const filename = `openai-fm-${voiceParam}-${sanitizeFilename(vibe) || "audio"}.${ext}`;
-
+      const filename = `voiceslab-${voiceParam}-${sanitizeFilename(vibe) || "audio"}.${ext}`;
   try {
-    const audio = await tts({
-      apiKey,
-      model,
-      voice: voiceParam,
+    const audio = await synthesizeTts({
+      provider,
       input,
-      instructions: instructions || undefined,
       format,
+      voice: voiceParam,
+      tone,
+      speakingRate,
+      volumeGainDb,
+      instructions: instructions || undefined,
+      openAi: apiKey ? { apiKey, model } : undefined,
     });
 
-    return new Response(audio, {
+    return new Response(Buffer.from(audio), {
       headers: {
         "Content-Type": contentType(format),
         "Content-Disposition": `attachment; filename="${filename}"`,
         "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
+        "X-TTS-Tone": tone,
+        ...(speakingRate !== undefined ? { "X-TTS-Speaking-Rate": String(speakingRate) } : { "X-TTS-Speaking-Rate": "auto" }),
+        "X-TTS-Volume-Gain-Db": String(volumeGainDb),
+        ...buildTtsHeaders(meta),
       },
     });
   } catch (err) {
@@ -231,4 +290,3 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: (err as Error).message }, { status: 502 });
   }
 }
-

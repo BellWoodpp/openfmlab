@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Play } from "./ui/Icons";
 import { Button } from "./ui/button";
 import { appStore } from "@/lib/store";
@@ -35,6 +35,8 @@ const PlayingWaveform = ({
 );
 
 export default function PlayButton() {
+  const inputValue = appStore.useState((s) => s.input);
+  const playbackRate = appStore.useState((s) => s.playbackRate);
   const [audioLoading, setAudioLoading] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -48,42 +50,94 @@ export default function PlayButton() {
   const amplitudeIntervalRef = useRef<number | null>(null);
   const useStaticAnimation = IS_SAFARI || IS_IOS;
 
+  useEffect(() => {
+    if (!audioRef.current) return;
+    const next = Number.isFinite(playbackRate) ? playbackRate : 1;
+    audioRef.current.defaultPlaybackRate = next;
+    audioRef.current.playbackRate = next;
+  }, [playbackRate]);
+
   const generateRandomAmplitudes = () =>
     Array(5)
       .fill(0)
       .map(() => Math.random() * 0.06);
 
   const handleSubmit = async () => {
-    const { input, prompt, voice } = appStore.getState();
+    const { input, voice, tone, speakingRateMode, speakingRate, volumeGainDb } = appStore.getState();
 
     if (audioLoading) return;
+    if (!input.trim()) {
+      alert("Please enter text to generate speech.");
+      return;
+    }
 
     // toggle off if already playing
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-        setAudioLoaded(false);
-        audioRef.current = null;
-        if (amplitudeIntervalRef.current) {
-          clearInterval(amplitudeIntervalRef.current);
-          amplitudeIntervalRef.current = null;
-        }
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setAudioLoaded(false);
+      audioRef.current = null;
+      if (amplitudeIntervalRef.current) {
+        clearInterval(amplitudeIntervalRef.current);
+        amplitudeIntervalRef.current = null;
       }
       return;
     }
 
     setAudioLoading(true);
-    appStore.setState({ latestAudioUrl: null });
+    appStore.setState({ latestAudioId: null, latestAudioUrl: null, latestAudioBlobUrl: null });
 
     try {
-      const url = new URL("/api/generate", window.location.origin);
-      url.searchParams.append("input", input);
-      url.searchParams.append("prompt", prompt);
-      url.searchParams.append("voice", voice);
-      url.searchParams.append("generation", crypto.randomUUID());
-      const audioUrl = url.toString();
-      appStore.setState({ latestAudioUrl: audioUrl });
+      const metaUrl = new URL("/api/tts/meta", window.location.origin);
+      metaUrl.searchParams.set("voice", voice);
+      metaUrl.searchParams.set("format", "mp3");
+      metaUrl.searchParams.set("tone", tone);
+      metaUrl.searchParams.set("volumeGainDb", String(volumeGainDb));
+      if (speakingRateMode === "custom" && Math.abs(speakingRate - 1) > 1e-6) {
+        metaUrl.searchParams.set("speakingRate", String(speakingRate));
+      }
+
+      fetch(metaUrl.toString())
+        .then((res) => (res.ok ? res.json() : null))
+        .then((meta) => {
+          if (meta) console.info("[TTS meta]", meta);
+        })
+        .catch(() => {});
+
+      const res = await fetch("/api/tts/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input,
+          voice,
+          tone,
+          speakingRateMode,
+          speakingRate,
+          volumeGainDb,
+        }),
+      });
+      if (!res.ok) {
+        if (res.status === 401) {
+          throw new Error("Please sign in to generate and save audio history.");
+        }
+        const details = await res.text().catch(() => "");
+        throw new Error(details || "Error generating audio");
+      }
+
+      const data = (await res.json()) as { id: string; audioUrl: string; createdAt?: string | null };
+      const audioPath = data.audioUrl;
+      const audioUrl = audioPath.startsWith("http") ? audioPath : audioPath;
+
+      appStore.setState((draft) => {
+        draft.latestAudioId = data.id;
+        draft.latestAudioUrl = audioUrl;
+        draft.latestAudioBlobUrl = audioUrl;
+        const createdAt = data.createdAt ?? new Date().toISOString();
+        draft.ttsHistory = [
+          { id: data.id, createdAt, voice, tone, audioUrl },
+          ...draft.ttsHistory.filter((it) => it.id !== data.id),
+        ];
+      });
 
       // reset any old sampler
       if (amplitudeIntervalRef.current !== null) {
@@ -93,6 +147,8 @@ export default function PlayButton() {
 
       const audio = new Audio();
       audio.preload = "none";
+      audio.defaultPlaybackRate = playbackRate;
+      audio.playbackRate = playbackRate;
       audioRef.current = audio;
 
       // for non‑iOS/Safari, hook up WebAudio analyzer
@@ -156,6 +212,7 @@ export default function PlayButton() {
       setAudioLoading(false);
       setAudioLoaded(false);
       setIsPlaying(false);
+      alert(err instanceof Error ? err.message : "Error generating audio");
     }
   };
 
@@ -165,6 +222,7 @@ export default function PlayButton() {
       onClick={handleSubmit}
       selected={audioLoading || isPlaying}
       className="relative"
+      disabled={!inputValue.trim()}
     >
       {isPlaying ? (
         <PlayingWaveform

@@ -52,7 +52,6 @@ export async function POST(req: NextRequest) {
   const voice = normalizeString((body as { voice?: unknown })?.voice);
 
   if (!input) return badRequest("Missing input");
-  if (!prompt) return badRequest("Missing prompt");
   if (!voice) return badRequest("Missing voice");
 
   if (input.length > 5000) return badRequest("Input too long");

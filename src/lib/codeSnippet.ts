@@ -1,63 +1,39 @@
+function escapeForQuery(value: string): string {
+  return encodeURIComponent(value);
+}
+
 export const getCodeSnippet = (
   language: string,
-  { input, prompt, voice }: { input: string; prompt: string; voice: string }
+  { input, voice }: { input: string; voice: string },
 ): string => {
+  const baseUrl = "http://localhost:3000";
+  const query = `input=${escapeForQuery(input)}` + `&voice=${escapeForQuery(voice)}` + `&format=mp3`;
+
   switch (language) {
     case "py":
-      return `import asyncio
+      return `import requests
 
-from openai import AsyncOpenAI
-from openai.helpers import LocalAudioPlayer
+url = "${baseUrl}/api/generate?${query}"
+res = requests.get(url)
+res.raise_for_status()
 
-openai = AsyncOpenAI()
-
-input = ""${JSON.stringify(input)}""
-
-instructions = ""${JSON.stringify(prompt)}""
-
-async def main() -> None:
-
-    async with openai.audio.speech.with_streaming_response.create(
-        model="gpt-4o-mini-tts",
-        voice="${voice}",
-        input=input,
-        instructions=instructions,
-        response_format="pcm",
-    ) as response:
-        await LocalAudioPlayer().play(response)
-
-if __name__ == "__main__":
-    asyncio.run(main())`;
+with open("speech.mp3", "wb") as f:
+    f.write(res.content)
+`;
     case "js":
-      return `import OpenAI from 'openai';
-import { playAudio } from 'openai/helpers/audio';
+      return `const url = "${baseUrl}/api/generate?${query}";
 
-const openai = new OpenAI();
+const res = await fetch(url);
+if (!res.ok) throw new Error(await res.text());
 
-const input = ${JSON.stringify(input)};
+const blob = await res.blob();
+const audioUrl = URL.createObjectURL(blob);
 
-const instructions = ${JSON.stringify(prompt)};
-
-const response = await openai.audio.speech.create({
-  model: 'gpt-4o-mini-tts',
-  voice: '${voice}',
-  input,
-  instructions,
-});
-
-await playAudio(response);
+const audio = new Audio(audioUrl);
+audio.play();
 `;
     case "curl":
-      return `curl https://api.openai.com/v1/audio/speech \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--H "Content-Type: application/json" \
--d '{
-  "model": "gpt-4o-mini-tts",
-  "voice": "${voice}",
-  "input": ${JSON.stringify(input)},
-  "instructions": ${JSON.stringify(prompt)},
-  "response_format": "wav"
-}' | ffplay -i -`;
+      return `curl "${baseUrl}/api/generate?${query}" --output speech.mp3`;
     default:
       return "";
   }

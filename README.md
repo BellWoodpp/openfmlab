@@ -10,11 +10,14 @@ This repo is based on the ShipBase SaaS template, plus an added minimal “podca
 
 ### Required env
 
-- `OPENAI_API_KEY`
+- TTS 选其一：
+  - OpenAI：`TTS_PROVIDER=openai` + `OPENAI_API_KEY`
+  - Google Cloud TTS：`TTS_PROVIDER=google` + `GOOGLE_APPLICATION_CREDENTIALS=/abs/path/to/service-account.json`
 
 Optional:
 - `OPENAI_MODEL_TEXT` (default `gpt-4o-mini`)
 - `OPENAI_MODEL_TTS` (default `gpt-4o-mini-tts`)
+- `DATABASE_URL` (enable saved TTS history + public share links; run Drizzle migration in `drizzle/`)
 
 ## Setup
 
