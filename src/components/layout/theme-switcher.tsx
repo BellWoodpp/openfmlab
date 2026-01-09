@@ -19,7 +19,7 @@ interface ThemeSwitcherProps {
 }
 
 export function ThemeSwitcher({ dictionary, triggerId }: ThemeSwitcherProps) {
-  const [theme, setTheme] = useState<Theme>("system");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     try {
@@ -29,6 +29,10 @@ export function ThemeSwitcher({ dictionary, triggerId }: ThemeSwitcherProps) {
         // and we sync from localStorage only after mount.
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setTheme(savedTheme);
+      } else {
+        // Default to dark unless the user explicitly chose light.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setTheme("dark");
       }
     } catch (error) {
       console.error("Error reading theme from localStorage:", error);

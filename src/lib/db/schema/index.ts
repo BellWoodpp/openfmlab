@@ -4,6 +4,7 @@ import * as orders from "./orders";
 import * as blogs from "./blogs";
 import * as shares from "./shares";
 import * as tts from "./tts";
+import * as voiceClones from "./voiceClones";
 
 export const schema = {
   users,
@@ -12,6 +13,7 @@ export const schema = {
   ...blogs,
   ...shares,
   ...tts,
+  ...voiceClones,
 };
 
 export type Schema = typeof schema;
@@ -22,3 +24,4 @@ export * from "./orders";
 export * from "./blogs";
 export * from "./shares";
 export * from "./tts";
+export * from "./voiceClones";

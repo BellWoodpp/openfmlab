@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, real, customType } from "drizzle-orm/pg-core";
+import { bigint, customType, pgTable, primaryKey, real, text, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users";
 
 const pgBytea = customType<{ data: Buffer; driverData: Buffer }>({
@@ -35,8 +35,24 @@ export const ttsShares = pgTable("tts_shares", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const ttsMonthlyUsage = pgTable(
+  "tts_monthly_usage",
+  {
+    month: text("month").notNull(),
+    provider: text("provider").notNull().default("google"),
+    billingTier: text("billing_tier").notNull(),
+    chars: bigint("chars", { mode: "number" }).notNull().default(0),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.month, t.provider, t.billingTier] }),
+  }),
+);
+
 export type TtsGeneration = typeof ttsGenerations.$inferSelect;
 export type NewTtsGeneration = typeof ttsGenerations.$inferInsert;
 
 export type TtsShare = typeof ttsShares.$inferSelect;
 export type NewTtsShare = typeof ttsShares.$inferInsert;
+
+export type TtsMonthlyUsage = typeof ttsMonthlyUsage.$inferSelect;

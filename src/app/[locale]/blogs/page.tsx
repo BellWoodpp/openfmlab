@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { BlogsPage } from "@/components/blogs";
 import { getDictionary, locales } from "@/i18n";
+import Link from "next/link";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { db } from "@/lib/db/client";
 import { blogs } from "@/lib/db/schema/blogs";
 import { eq, and, desc } from "drizzle-orm";
@@ -27,9 +29,39 @@ export default async function LocaleBlogsPage({ params }: LocaleBlogsPageProps) 
   const hasDb = Boolean(process.env.DATABASE_URL);
 
   if (!hasDb) {
+    const homeLabelByLocale: Partial<Record<(typeof locales)[number], string>> = {
+      en: "Home",
+      zh: "首页",
+      es: "Inicio",
+      ar: "الرئيسية",
+      id: "Beranda",
+      pt: "Início",
+      fr: "Accueil",
+      ja: "ホーム",
+      ru: "Главная",
+      de: "Start",
+    };
+    const homeLabel = homeLabelByLocale[normalizedLocale] ?? "Home";
+    const homeHref = normalizedLocale === "en" ? "/" : `/${normalizedLocale}/`;
+
     return (
       <div className="min-h-screen bg-white dark:bg-neutral-950 px-6 py-16 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-3xl">
+          <div className="mb-8 flex justify-center sm:justify-start">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={homeHref}>{homeLabel}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Blog</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
           <h1 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">Blog</h1>
           <p className="mt-3 text-neutral-600 dark:text-neutral-300">
             Blogs are disabled because <code className="font-mono">DATABASE_URL</code> is not configured.

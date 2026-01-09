@@ -3,10 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { useLocale } from "@/hooks";
 import { Calendar, ArrowRight, Search } from "lucide-react";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { AppDictionary } from "@/i18n";
+import type { AppDictionary, Locale } from "@/i18n";
 import { format } from "date-fns";
 
 // 安全地将 tags 转换为字符串数组
@@ -39,12 +42,30 @@ interface BlogsPageProps {
 
 export function BlogsPage({ dictionary, initialBlogs = [] }: BlogsPageProps) {
   const { blogs: blogDict } = dictionary.pages;
+  const { locale: currentLocale } = useLocale();
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [blogPosts, setBlogPosts] = useState<Blog[]>(initialBlogs);
   const [allBlogs, setAllBlogs] = useState<Blog[]>(initialBlogs);
   const [loading, setLoading] = useState(false);
+
+  const homeLabelByLocale: Partial<Record<Locale, string>> = {
+    en: "Home",
+    zh: "首页",
+    es: "Inicio",
+    ar: "الرئيسية",
+    id: "Beranda",
+    pt: "Início",
+    fr: "Accueil",
+    ja: "ホーム",
+    ru: "Главная",
+    de: "Start",
+  };
+
+  const homeLabel = homeLabelByLocale[currentLocale] ?? "Home";
+  const homeHref = currentLocale === "en" ? "/" : `/${currentLocale}/`;
+  const blogsHref = currentLocale === "en" ? "/blogs" : `/${currentLocale}/blogs`;
 
   // 如果 initialBlogs 为空，则在客户端获取数据
   useEffect(() => {
@@ -126,6 +147,21 @@ export function BlogsPage({ dictionary, initialBlogs = [] }: BlogsPageProps) {
       {/* Header Section */}
       <section className="relative overflow-hidden py-20">
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+          <div className="mb-8 flex justify-center">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={homeHref}>{homeLabel}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{blogDict.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
           <div className="text-center">
             <h1 className="mb-4 text-5xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-6xl lg:text-7xl">
               {blogDict.title}
@@ -227,7 +263,7 @@ export function BlogsPage({ dictionary, initialBlogs = [] }: BlogsPageProps) {
                     <Button
                       variant="ghost"
                       className="group/btn mt-4 w-full justify-between"
-                      onClick={() => router.push(`/blogs/${post.slug}`)}
+                      onClick={() => router.push(`${blogsHref}/${post.slug}`)}
                     >
                       <span>{blogDict.readMore}</span>
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />

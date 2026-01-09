@@ -102,6 +102,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
   }
+
+  // If DB isn't configured, skip dynamic blog entries.
+  // This keeps `next build` usable without a Postgres connection.
+  if (!process.env.DATABASE_URL) {
+    return staticPageEntries;
+  }
   
   // 获取所有已发布的博客文章
   // 1. 创建一个数组，用来放所有博客 sitemap 项 
@@ -180,4 +186,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 合并所有条目
   return [...staticPageEntries, ...blogEntries];
 }
-

@@ -3,10 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { useLocale } from "@/hooks";
 import { ArrowLeft, Calendar, Tag } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { format } from "date-fns";
+import type { Locale } from "@/i18n";
 
 // 安全地将 tags 转换为字符串数组
 function getTags(tags: unknown): string[] {
@@ -35,6 +39,25 @@ interface BlogDetailProps {
 
 export function BlogDetail({ blog }: BlogDetailProps) {
   const router = useRouter();
+  const { locale: currentLocale, dictionary } = useLocale();
+
+  const homeLabelByLocale: Partial<Record<Locale, string>> = {
+    en: "Home",
+    zh: "首页",
+    es: "Inicio",
+    ar: "الرئيسية",
+    id: "Beranda",
+    pt: "Início",
+    fr: "Accueil",
+    ja: "ホーム",
+    ru: "Главная",
+    de: "Start",
+  };
+
+  const homeLabel = homeLabelByLocale[currentLocale] ?? "Home";
+  const homeHref = currentLocale === "en" ? "/" : `/${currentLocale}/`;
+  const blogsHref = currentLocale === "en" ? "/blogs" : `/${currentLocale}/blogs`;
+  const blogsLabel = dictionary.pages.blogs.title ?? "Blog";
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
@@ -50,9 +73,30 @@ export function BlogDetail({ blog }: BlogDetailProps) {
       {/* Header */}
       <section className="py-12">
         <div className="mx-auto max-w-4xl px-6 sm:px-10 lg:px-16">
+          <div className="mb-8 flex justify-center sm:justify-start">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={homeHref}>{homeLabel}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={blogsHref}>{blogsLabel}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{blog.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
           <Button
             variant="ghost"
-            onClick={() => router.push("/blogs")}
+            onClick={() => router.push(blogsHref)}
             className="mb-8"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />

@@ -1,7 +1,9 @@
 import type { PageDictionary, FeaturesPageDictionary, PricingPageDictionary, DocsPageDictionary, IntegrationsPageDictionary, HelpPageDictionary, ContactPageDictionary, StatusPageDictionary, PrivacyPageDictionary, TermsPageDictionary, CookiesPageDictionary, Locale } from "@/i18n/types";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Zap, Shield, Rocket, Code, Database, Globe, BarChart3, Bot, CreditCard, Users } from "lucide-react";
 import { PricingComponent } from "@/components/pricing";
 
@@ -11,6 +13,22 @@ interface PageTemplateProps {
 }
 
 export function PageTemplate({ dictionary, locale }: PageTemplateProps) {
+  const homeLabelByLocale: Partial<Record<Locale, string>> = {
+    en: "Home",
+    zh: "首页",
+    es: "Inicio",
+    ar: "الرئيسية",
+    id: "Beranda",
+    pt: "Início",
+    fr: "Accueil",
+    ja: "ホーム",
+    ru: "Главная",
+    de: "Start",
+  };
+
+  const homeLabel = homeLabelByLocale[locale] ?? "Home";
+  const homeHref = locale === "en" ? "/" : `/${locale}/`;
+
   // 根据页面类型渲染不同的内容
   const renderPageContent = () => {
     // 使用类型判断而不是title字符串
@@ -71,6 +89,21 @@ export function PageTemplate({ dictionary, locale }: PageTemplateProps) {
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-neutral-900 dark:to-neutral-800">
           <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+            <div className="mb-8 flex justify-center">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link href={homeHref}>{homeLabel}</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>{dictionary.title}</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
             <div className="text-center">
               <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-6xl">
                 {dictionary.title}

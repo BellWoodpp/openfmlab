@@ -15,6 +15,13 @@ function normalizeString(value: unknown): string {
 }
 
 export async function POST(req: NextRequest) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      { error: "Sharing is disabled. Set DATABASE_URL and run migrations to enable it." },
+      { status: 501 },
+    );
+  }
+
   const session = await auth.api.getSession({ headers: req.headers });
   const userId = session?.user?.id;
   if (!userId) {
@@ -59,4 +66,3 @@ export async function POST(req: NextRequest) {
     url: `/api/tts/shared/${shareId}`,
   });
 }
-

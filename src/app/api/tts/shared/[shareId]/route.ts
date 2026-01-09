@@ -7,10 +7,21 @@ import { ttsGenerations, ttsShares } from "@/lib/db/schema/tts";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function safeFilenamePart(value: string): string {
+  return value.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
+}
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ shareId: string }> },
 ) {
+  if (!process.env.DATABASE_URL) {
+    return Response.json(
+      { error: "Sharing is disabled. Set DATABASE_URL and run migrations to enable it." },
+      { status: 501 },
+    );
+  }
+
   const { shareId } = await params;
 
   const rows = await db
@@ -30,7 +41,7 @@ export async function GET(
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  const filename = `voiceslab-${found.voice}-${found.generationId}.mp3`;
+  const filename = `voiceslab-${safeFilenamePart(found.voice)}-${found.generationId}.mp3`;
   return new Response(new Uint8Array(found.audio), {
     headers: {
       "Content-Type": found.mimeType || "audio/mpeg",

@@ -1,15 +1,18 @@
 import { TextToSpeechClient, protos } from "@google-cloud/text-to-speech";
 
-export type TtsProvider = "openai" | "google";
+export type TtsProvider = "openai" | "google" | "elevenlabs";
 export type TtsFormat = "mp3" | "wav";
 export type TtsTone = "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised";
+export type GoogleVoiceSelectionParams = protos.google.cloud.texttospeech.v1.IVoiceSelectionParams;
 
 export type TtsBillingTier =
   | "openai"
+  | "elevenlabs"
   | "standard"
   | "wavenet"
   | "studio"
   | "chirp3-hd"
+  | "chirp-voice-cloning"
   | "neural2"
   | "unknown";
 
@@ -32,6 +35,7 @@ function getEnv(name: string): string | undefined {
 export function getTtsProvider(): TtsProvider {
   const raw = (getEnv("TTS_PROVIDER") || "openai").toLowerCase();
   if (raw === "google" || raw === "gcp" || raw === "google-cloud") return "google";
+  if (raw === "elevenlabs" || raw === "eleven-labs" || raw === "11labs") return "elevenlabs";
   return "openai";
 }
 
@@ -72,6 +76,41 @@ async function openAiTts(opts: {
       input: opts.input,
       response_format: opts.format,
       ...(opts.instructions ? { instructions: opts.instructions } : {}),
+    }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`TTS failed (${res.status}): ${text || "unknown error"}`);
+  }
+
+  const arrayBuffer = await res.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+async function elevenLabsTts(opts: {
+  apiKey: string;
+  voiceId: string;
+  input: string;
+  format: TtsFormat;
+}) {
+  const outputFormat = opts.format === "wav" ? "pcm_44100" : "mp3_44100_128";
+  const url = new URL(
+    `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(opts.voiceId)}`,
+  );
+  url.searchParams.set("output_format", outputFormat);
+
+  const modelId = getEnv("ELEVENLABS_MODEL_ID");
+  const res = await fetch(url.toString(), {
+    method: "POST",
+    headers: {
+      "xi-api-key": opts.apiKey,
+      "Content-Type": "application/json",
+      Accept: opts.format === "wav" ? "audio/wav" : "audio/mpeg",
+    },
+    body: JSON.stringify({
+      text: opts.input,
+      ...(modelId ? { model_id: modelId } : {}),
     }),
   });
 
@@ -160,6 +199,16 @@ export function getTtsMeta(opts: {
     };
   }
 
+  if (opts.provider === "elevenlabs") {
+    return {
+      provider: "elevenlabs",
+      format: opts.format,
+      voiceInput: opts.voice,
+      voiceName: opts.voice,
+      billingTier: "elevenlabs",
+    };
+  }
+
   return {
     provider: "openai",
     format: opts.format,
@@ -177,12 +226,13 @@ async function googleCloudTts(opts: {
   tone: TtsTone;
   volumeGainDb: number;
   speakingRate?: number;
+  voiceSelection?: GoogleVoiceSelectionParams;
 }) {
   const audioEncoding =
     opts.format === "wav"
       ? protos.google.cloud.texttospeech.v1.AudioEncoding.LINEAR16
       : protos.google.cloud.texttospeech.v1.AudioEncoding.MP3;
-  const voice = resolveGoogleVoice(opts.voice);
+  const voice: GoogleVoiceSelectionParams = opts.voiceSelection ?? resolveGoogleVoice(opts.voice);
 
   // Prefer audioConfig controls for speed/volume since some voices don't fully honor SSML prosody rate/volume.
   const audioConfig: protos.google.cloud.texttospeech.v1.IAudioConfig = {
@@ -222,7 +272,19 @@ export async function synthesizeTts(opts: {
   speakingRate?: number;
   instructions?: string;
   openAi?: { apiKey: string; model: string };
+  elevenLabs?: { apiKey: string };
+  google?: { voiceSelection?: GoogleVoiceSelectionParams };
 }) {
+  if (opts.provider === "elevenlabs") {
+    if (!opts.elevenLabs?.apiKey) throw new Error("Missing ELEVENLABS_API_KEY on server");
+    return elevenLabsTts({
+      apiKey: opts.elevenLabs.apiKey,
+      voiceId: opts.voice,
+      input: opts.input,
+      format: opts.format,
+    });
+  }
+
   if (opts.provider === "google") {
     // Google Cloud Text-to-Speech does not support OpenAI-style "instructions" for voice acting.
     return googleCloudTts({
@@ -239,6 +301,7 @@ export async function synthesizeTts(opts: {
           : "neutral",
       volumeGainDb: typeof opts.volumeGainDb === "number" ? opts.volumeGainDb : 0,
       speakingRate: typeof opts.speakingRate === "number" ? opts.speakingRate : undefined,
+      voiceSelection: opts.google?.voiceSelection,
     });
   }
 

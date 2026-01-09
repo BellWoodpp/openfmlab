@@ -38,12 +38,8 @@ export default function RootLayout({
       <head>
         {/* 1. dangerouslySetInnerHTML：危险，设置内部HTML：加了它，脚本才能在 React 水和之前抢先执行 → 从第一帧开始就是正确的黑/白 → 丝滑无闪！
             2. const theme = localStorage.getItem('theme'); 先去 localStorage 看看你上次选的是啥主题
-            3. if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark'); 如果你手动选过“dark”，或者你没选过但系统是暗黑模式 → 马上加 dark 类
-            4. else if (theme === 'light') {document.documentElement.classList.add('light') 
-                如果你手动选的是“light” → 加 light 类（有些项目会用到）;
-            5. else {const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                document.documentElement.classList.add(systemTheme);} 其他情况（比如 localStorage 被清了）→ 按照你电脑/手机的系统设置来
+            3. 默认走 dark：只有当你明确选择 light 时才变白。
+            4. 如果你选择 system，则跟随系统主题。
             6. catch (e) {} 万一 localStorage 被禁用（有些人开无痕模式），直接忽略错误}
             */}
         <script
@@ -51,13 +47,15 @@ export default function RootLayout({
             __html: `
               try {
                 const theme = localStorage.getItem('theme');
-                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                } else if (theme === 'light') {
-                  document.documentElement.classList.add('light');
-                } else {
+                document.documentElement.classList.remove('light', 'dark');
+                if (theme === 'light') {
+                  // Default :root is light; keep no .dark class
+                } else if (theme === 'system') {
                   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                   document.documentElement.classList.add(systemTheme);
+                } else {
+                  // Default to dark unless explicitly set to light
+                  document.documentElement.classList.add('dark');
                 }
               } catch (e) {}
             `,

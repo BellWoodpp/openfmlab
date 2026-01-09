@@ -3,6 +3,7 @@ import { nextCookies } from "better-auth/next-js";
 import { magicLink } from "better-auth/plugins/magic-link";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db/client";
+import { randomBytes } from "crypto";
 
 const appBaseURL =
   process.env.BETTER_AUTH_URL ??
@@ -42,11 +43,23 @@ if (Object.keys(socialProviders).length === 0) {
   );
 }
 
+const secretFromEnv = process.env.BETTER_AUTH_SECRET;
+const secret =
+  secretFromEnv && secretFromEnv.trim().length > 0
+    ? secretFromEnv.trim()
+    : randomBytes(32).toString("base64");
+
+if (!secretFromEnv) {
+  console.warn(
+    "[Better Auth] Missing BETTER_AUTH_SECRET. Generated an ephemeral secret; sessions will be invalidated on restart. Set BETTER_AUTH_SECRET in .env.local for stable sessions.",
+  );
+}
+
 export const auth = betterAuth({
   appName: "Shipbase",
   baseURL: appBaseURL,
   basePath: "/api/auth",
-  secret: process.env.BETTER_AUTH_SECRET,
+  secret,
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
