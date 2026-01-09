@@ -84,6 +84,9 @@ export interface HomeDictionary {
   viewDetails: string;
   promotionText: string;
   userCount: string;
+  heroHighlightFidelity: string;
+  heroHighlightNoCard: string;
+  heroHighlightManyVoices: string;
 
   // Sample Voices Section
   sampleVoicesTitle: string;

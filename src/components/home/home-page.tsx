@@ -147,15 +147,15 @@ export function HomePage({ dictionary }: HomePageProps) {
               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-neutral-800 to-neutral-500 dark:from-white dark:to-white/60">voice in seconds</span>
             </h1>
 
-            <div className="mt-2 text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
-              <span className="glitch relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400" data-text="voice cloning">
-                voice cloning
-              </span>
-            </div>
+	            <div className="mt-2 text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
+	              <span className="glitch relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 text-balance" data-text="Text to Speed — clone and speak in seconds.">
+	                Text to Speed — clone and speak in seconds.
+	              </span>
+	            </div>
 
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 sm:text-xl font-light leading-relaxed">
-              Create a replica of your voice that sounds just like you. Generate voiceovers, podcasts, and content by simply reading a short script.
-            </p>
+	            <p className="mx-auto mt-8 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 sm:text-xl font-light leading-relaxed">
+	              Generate natural-sounding speech from text in seconds. Pick a voice, tweak speed, and create voiceovers, podcasts, and content from a script. (Voice cloning coming soon.)
+	            </p>
 
             <div className="mt-12 flex flex-col items-center justify-center">
                 <Button
@@ -172,23 +172,44 @@ export function HomePage({ dictionary }: HomePageProps) {
                 <div className="mt-12 flex gap-8 text-xs font-medium text-neutral-500 uppercase tracking-widest">
                   <div className="flex items-center gap-2">
                      <Play className="w-3 h-3 fill-current" />
-                     High Fidelity Audio
+                     {home.heroHighlightFidelity}
                   </div>
                   <div className="flex items-center gap-2">
                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                     No Credit Card Required
+                     {home.heroHighlightNoCard}
+                  </div>
+                  <div className="flex items-center gap-2">
+                     <Headphones className="w-3 h-3" />
+                     {home.heroHighlightManyVoices}
                   </div>
                 </div>
             </div>
             
-            <div className="mt-16 flex justify-center">
-               <ChevronDown className="h-6 w-6 text-neutral-400 dark:text-neutral-600 animate-bounce" />
+	            <div className="mt-16 flex justify-center">
+	               <ChevronDown className="h-6 w-6 text-neutral-400 dark:text-neutral-600 animate-bounce" />
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+
+      {/* Product UI Mockup */}
+      <section className="px-6 pb-24 bg-white dark:bg-black transition-colors duration-300">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative mx-auto max-w-6xl">
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.10),transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.18),transparent_60%)]" />
+            <div className="rounded-[2.25rem] border border-neutral-200 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
+              <Image
+                src="/mockups/tts-ui.png"
+                alt="Text to Speech UI"
+                width={1536}
+                height={768}
+                priority
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </div>
       </section>
-
-
 
       {/* Sample Voices Section */}
       <section className="py-24 px-6 bg-white dark:bg-neutral-950 relative overflow-hidden transition-colors duration-300">
