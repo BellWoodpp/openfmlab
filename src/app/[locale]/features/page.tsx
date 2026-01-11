@@ -38,15 +38,15 @@ export async function generateMetadata({ params }: LocaleFeaturesPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Features - ShipBase",
-      description: "Powerful features to accelerate your development",
+      title: "Features - RTVox",
+      description: "Text to speech that sounds real",
     };;
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.features.title} - ShipBase`,
+    title: `${dictionary.pages.features.title} - RTVox`,
     description: dictionary.pages.features.subtitle,
   };;
 }

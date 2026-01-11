@@ -33,19 +33,19 @@ export function PageTemplate({ dictionary, locale }: PageTemplateProps) {
   const renderPageContent = () => {
     // 使用类型判断而不是title字符串
     if ('coreFeatures' in dictionary) {
-      return <FeaturesContent dictionary={dictionary as FeaturesPageDictionary} />;
+      return <FeaturesContent dictionary={dictionary as FeaturesPageDictionary} locale={locale} />;
     }
     if ('plans' in dictionary) {
       return <PricingContent dictionary={dictionary as PricingPageDictionary} locale={locale} />;
     }
     if ('quickStart' in dictionary) {
-      return <DocsContent dictionary={dictionary as DocsPageDictionary} />;
+      return <DocsContent dictionary={dictionary as DocsPageDictionary} locale={locale} />;
     }
     if ('categories' in dictionary && 'popularIntegrations' in dictionary) {
       return <IntegrationsContent dictionary={dictionary as IntegrationsPageDictionary} locale={locale} />;
     }
     if ('searchPlaceholder' in dictionary) {
-      return <HelpContent dictionary={dictionary as HelpPageDictionary} />;
+      return <HelpContent dictionary={dictionary as HelpPageDictionary} locale={locale} />;
     }
     if ('contactMethods' in dictionary) {
       return <ContactContent dictionary={dictionary as ContactPageDictionary} />;
@@ -137,6 +137,7 @@ function getIcon(iconName: string) {
     Rocket: <Rocket className="h-8 w-8 text-red-600" />,
     BarChart3: <BarChart3 className="h-8 w-8 text-indigo-600" />,
     Globe: <Globe className="h-8 w-8 text-teal-600" />,
+    Zap: <Zap className="h-8 w-8 text-yellow-600" />,
   };
   return iconMap[iconName as keyof typeof iconMap] || <Code className="h-8 w-8 text-blue-600" />;
 }
@@ -158,7 +159,9 @@ function getCategoryIcon(iconName: string) {
 }
 
 // 功能特性页面内容
-function FeaturesContent({ dictionary }: { dictionary: FeaturesPageDictionary }) {
+function FeaturesContent({ dictionary, locale }: { dictionary: FeaturesPageDictionary; locale: Locale }) {
+  const ttsHref = locale === "en" ? "/podcast-mvp" : `/${locale}/podcast-mvp`;
+  const pricingHref = locale === "en" ? "/pricing" : `/${locale}/pricing`;
 
   return (
       <div className="space-y-16">
@@ -287,11 +290,11 @@ function FeaturesContent({ dictionary }: { dictionary: FeaturesPageDictionary })
             {dictionary.cta.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8">
-              {dictionary.cta.primaryButton}
+            <Button size="lg" className="px-8" asChild>
+              <Link href={ttsHref}>{dictionary.cta.primaryButton}</Link>
             </Button>
-            <Button variant="outline" size="lg" className="px-8">
-              {dictionary.cta.secondaryButton}
+            <Button variant="outline" size="lg" className="px-8" asChild>
+              <Link href={pricingHref}>{dictionary.cta.secondaryButton}</Link>
             </Button>
           </div>
         </div>
@@ -338,13 +341,27 @@ function PricingContent({ dictionary, locale }: { dictionary: PricingPageDiction
 }
 
 // 文档页面内容
-function DocsContent({ dictionary }: { dictionary: DocsPageDictionary }) {
+function DocsContent({ dictionary, locale }: { dictionary: DocsPageDictionary; locale: Locale }) {
   const quickStart = dictionary.quickStart.steps;
 
   const docSections = dictionary.navigation.sections.map(section => ({
     ...section,
     icon: getIcon(section.icon)
   }));
+
+  const localizeHref = (href: string) => {
+    if (!href) return href;
+    if (
+      href.startsWith("http://") ||
+      href.startsWith("https://") ||
+      href.startsWith("//") ||
+      href.startsWith("mailto:")
+    ) {
+      return href;
+    }
+    if (!href.startsWith("/")) return href;
+    return locale === "en" ? href : `/${locale}${href}`;
+  };
 
   return (
       <div className="space-y-16">
@@ -412,7 +429,7 @@ function DocsContent({ dictionary }: { dictionary: DocsPageDictionary }) {
                     {section.links.map((link, idx) => (
                         <li key={idx}>
                           <a
-                              href={link.href}
+                              href={localizeHref(link.href)}
                               className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
                           >
                             {link.name}
@@ -434,11 +451,15 @@ function DocsContent({ dictionary }: { dictionary: DocsPageDictionary }) {
             {dictionary.support.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8">
-              {dictionary.support.discordButton}
+            <Button size="lg" className="px-8" asChild>
+              <Link href={locale === "en" ? "/contact" : `/${locale}/contact`}>
+                {dictionary.support.discordButton}
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="px-8">
-              {dictionary.support.faqButton}
+            <Button variant="outline" size="lg" className="px-8" asChild>
+              <Link href={locale === "en" ? "/help" : `/${locale}/help`}>
+                {dictionary.support.faqButton}
+              </Link>
             </Button>
           </div>
         </div>
@@ -684,7 +705,20 @@ function IntegrationsContent({ dictionary, locale }: { dictionary: IntegrationsP
 }
 
 // 帮助中心页面内容
-function HelpContent({ dictionary }: { dictionary: HelpPageDictionary }) {
+function HelpContent({ dictionary, locale }: { dictionary: HelpPageDictionary; locale: Locale }) {
+  const localizeHref = (href: string) => {
+    if (!href) return href;
+    if (
+      href.startsWith("http://") ||
+      href.startsWith("https://") ||
+      href.startsWith("//") ||
+      href.startsWith("mailto:")
+    ) {
+      return href;
+    }
+    if (!href.startsWith("/")) return href;
+    return locale === "en" ? href : `/${locale}${href}`;
+  };
 
   return (
       <div className="space-y-16">
@@ -710,26 +744,33 @@ function HelpContent({ dictionary }: { dictionary: HelpPageDictionary }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dictionary.popularArticles.articles.map((article, index) => (
-                <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                  <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3">
-                    {article.title}
-                  </h3>
-                  <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                    {article.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {article.tags.map((tag, tagIndex) => (
-                        <Badge key={tagIndex} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                    ))}
-                  </div>
-                </Card>
-            ))}
-          </div>
-        </div>
+	          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+	            {dictionary.popularArticles.articles.map((article, index) => (
+	              <Link
+	                key={index}
+	                href={localizeHref(article.href)}
+	                className="block group focus:outline-none"
+	                aria-label={article.title}
+	              >
+	                <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-blue-500">
+	                  <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3">
+	                    {article.title}
+	                  </h3>
+	                  <p className="text-neutral-600 dark:text-neutral-300 mb-4">
+	                    {article.description}
+	                  </p>
+	                  <div className="flex flex-wrap gap-2">
+	                    {article.tags.map((tag, tagIndex) => (
+	                      <Badge key={tagIndex} variant="secondary" className="text-xs">
+	                        {tag}
+	                      </Badge>
+	                    ))}
+	                  </div>
+	                </Card>
+	              </Link>
+	            ))}
+	          </div>
+	        </div>
 
         {/* 帮助分类 */}
         <div>
@@ -757,7 +798,7 @@ function HelpContent({ dictionary }: { dictionary: HelpPageDictionary }) {
                   <div className="space-y-2">
                     {category.articles.slice(0, 3).map((article, articleIndex) => (
                         <div key={articleIndex} className="text-left">
-                          <a href={article.href} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                          <a href={localizeHref(article.href)} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                             {article.title}
                           </a>
                         </div>
@@ -805,11 +846,11 @@ function HelpContent({ dictionary }: { dictionary: HelpPageDictionary }) {
               {dictionary.contact.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                {dictionary.contact.emailButton}
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+                <Link href={localizeHref("/contact")}>{dictionary.contact.emailButton}</Link>
               </Button>
-              <Button variant="outline">
-                {dictionary.contact.discordButton}
+              <Button variant="outline" asChild>
+                <Link href={localizeHref("/docs")}>{dictionary.contact.discordButton}</Link>
               </Button>
             </div>
           </div>

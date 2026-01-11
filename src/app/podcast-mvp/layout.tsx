@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import clsx from "clsx";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -10,19 +11,19 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.voiceslab.ai'),
-  title: "Voiceslab",
-  description: "AI Voice Cloning and Text-to-Speech",
-  authors: [{ name: "Voiceslab" }],
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: siteConfig.brandName,
+  description: siteConfig.defaultDescription,
+  authors: [{ name: siteConfig.brandName }],
   openGraph: {
-    title: "Voiceslab",
-    description: "AI Voice Cloning and Text-to-Speech",
+    title: siteConfig.brandName,
+    description: siteConfig.defaultDescription,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Voiceslab",
+        alt: siteConfig.brandName,
       },
     ],
   },

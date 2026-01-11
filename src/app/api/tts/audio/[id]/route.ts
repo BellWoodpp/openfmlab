@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { ttsGenerations } from "@/lib/db/schema/tts";
+import { siteConfig } from "@/lib/site-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -87,7 +88,7 @@ export async function GET(
 
   const mimeType = found.mimeType || "audio/mpeg";
   const ext = fileExtensionFromMimeType(mimeType);
-  const filename = `voiceslab-${safeFilenamePart(found.voice)}-${id}.${ext}`;
+  const filename = `${siteConfig.downloadPrefix}-${safeFilenamePart(found.voice)}-${id}.${ext}`;
 
   const audioBuffer = Buffer.from(found.audio);
   const size = audioBuffer.length;

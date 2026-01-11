@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: LocaleHelpPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Help Center - ShipBase",
+      title: "Help Center - RTVox",
       description: "Get the support you need",
     };;
   }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: LocaleHelpPageProps) {
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.help.title} - ShipBase`,
+    title: `${dictionary.pages.help.title} - RTVox`,
     description: dictionary.pages.help.subtitle,
   };;
 }

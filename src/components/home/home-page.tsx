@@ -3,11 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, CheckCircle, Star, Users, Zap, Shield, Rocket, ChevronDown, ChevronLeft, ChevronRight, Mic, Play, Sparkles, Languages, Activity, Clock, Lock, Headphones, Megaphone, Globe, GraduationCap, MessageSquareText } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Zap, Shield, Rocket, ChevronDown, ChevronLeft, ChevronRight, Mic, Play, Sparkles, Languages, Activity, Clock, Lock, Headphones, Megaphone, Globe, GraduationCap, MessageSquareText } from "lucide-react";
 import type { AppDictionary } from "@/i18n";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { TtsUiMockup } from "./tts-ui-mockup";
 
 interface HomePageProps {
   dictionary: AppDictionary;
@@ -15,6 +16,7 @@ interface HomePageProps {
 
 export function HomePage({ dictionary }: HomePageProps) {
   const { home } = dictionary;
+  const isVoiceCloningUiEnabled = process.env.NEXT_PUBLIC_VOICE_CLONING_ENABLED === "1";
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [isSamplePlaying, setIsSamplePlaying] = useState<"original" | "clone" | null>(null);
   const sampleWaveHeights = [6, 10, 7, 12, 8, 14, 9, 16, 10, 13, 7, 15, 9, 12, 8, 14, 10, 16, 9, 13, 7, 15, 8, 14, 9, 12, 8, 10];
@@ -193,25 +195,29 @@ export function HomePage({ dictionary }: HomePageProps) {
 	      </section>
 
       {/* Product UI Mockup */}
-      <section className="px-6 pb-24 bg-white dark:bg-black transition-colors duration-300">
+      <section className="px-6 pt-24 pb-24 bg-white dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-6 tracking-tight">
+              Text to Speech
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              Listen to the difference. Our AI captures every nuance, breath, and emotion.
+            </p>
+          </div>
           <div className="relative mx-auto max-w-6xl">
             <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.10),transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.18),transparent_60%)]" />
             <div className="rounded-[2.25rem] border border-neutral-200 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
-              <Image
-                src="/mockups/tts-ui.png"
-                alt="Text to Speech UI"
-                width={1536}
-                height={768}
-                priority
-                className="w-full h-auto"
-              />
+              <div className="p-6 sm:p-8">
+                <TtsUiMockup />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Sample Voices Section */}
+      {isVoiceCloningUiEnabled ? (
       <section className="py-24 px-6 bg-white dark:bg-neutral-950 relative overflow-hidden transition-colors duration-300">
          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.1),transparent_70%)]" />
         <div className="mx-auto max-w-7xl">
@@ -267,9 +273,11 @@ export function HomePage({ dictionary }: HomePageProps) {
                         {/* Top Highlight Line */}
                         <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-90 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
                         
-                        <div className="grid gap-8 md:grid-cols-2 relative p-6 md:p-10">
+                        <div className={`grid gap-8 ${isVoiceCloningUiEnabled ? "md:grid-cols-2" : "md:grid-cols-1"} relative p-6 md:p-10`}>
                             {/* Center Divider */}
-                            <div className="hidden md:block absolute left-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-neutral-200 dark:via-white/10 to-transparent" />
+                            {isVoiceCloningUiEnabled ? (
+                              <div className="hidden md:block absolute left-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-neutral-200 dark:via-white/10 to-transparent" />
+                            ) : null}
 
                             {/* Original Voice */}
                             <div className="flex flex-col justify-between h-full">
@@ -322,7 +330,8 @@ export function HomePage({ dictionary }: HomePageProps) {
                             </div>
 
                             {/* AI Clone */}
-                            <div className="flex flex-col justify-between h-full">
+                            {isVoiceCloningUiEnabled ? (
+                              <div className="flex flex-col justify-between h-full">
                                 <div className="flex items-center gap-4 mb-8 md:flex-row-reverse md:text-right">
                                     <div className="relative">
                                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center border-2 border-white dark:border-white/10 overflow-hidden relative z-10 shadow-lg">
@@ -369,7 +378,8 @@ export function HomePage({ dictionary }: HomePageProps) {
                                         ))}
                                     </div>
                                 </div>
-                            </div>
+                              </div>
+                            ) : null}
                         </div>
                     </div>
                   </div>
@@ -380,8 +390,10 @@ export function HomePage({ dictionary }: HomePageProps) {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Voice Cloning Info Section */}
+      {isVoiceCloningUiEnabled ? (
       <section className="py-24 px-6 relative bg-white dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -452,6 +464,7 @@ export function HomePage({ dictionary }: HomePageProps) {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Fast Processing Section (3.png Style) */}
       <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
@@ -508,20 +521,20 @@ export function HomePage({ dictionary }: HomePageProps) {
            <div>
               <div className="inline-flex items-center gap-2 mb-6">
                   <Zap className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Fast Processing</span>
+                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Text to Speech</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                  Fast Processing
+                  Text to Speech
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                  Experience lightning-fast voice cloning that delivers results in seconds. Our cutting-edge AI technology streamlines the entire process from voice analysis to speech generation, making voice cloning more efficient than ever.
+                  Turn any text into natural-sounding audio in seconds. Pick a voice, choose the right tone, and generate clean voiceovers for videos, podcasts, and scripts—without recording.
               </p>
               <div className="flex flex-wrap gap-4">
-                  <Button className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
-                      AI Voice Cloning Now
+                  <Button asChild className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
+                      <Link href="/podcast-mvp">AI Text to Speech Now</Link>
                   </Button>
-                  <Button variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
-                      View Pricing Plans
+                  <Button asChild variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
+                      <Link href="/pricing">View Pricing Plans</Link>
                   </Button>
               </div>
            </div>
@@ -541,14 +554,14 @@ export function HomePage({ dictionary }: HomePageProps) {
                   Secure and Private
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                  Trust in our commitment to your privacy with end-to-end encrypted voice cloning. Your voice data and cloned voices are protected with enterprise-grade security, ensuring your digital voice identity remains completely under your control.
+                  Your text stays yours. We protect your content with secure processing and strict access controls, so you can generate speech confidently for scripts, videos, and podcasts—without compromising privacy.
               </p>
               <div className="flex flex-wrap gap-4">
-                  <Button className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
-                      AI Voice Cloning Now
+                  <Button asChild className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
+                      <Link href="/podcast-mvp">AI Text to Speech Now</Link>
                   </Button>
-                  <Button variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
-                      View Pricing Plans
+                  <Button asChild variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
+                      <Link href="/pricing">View Pricing Plans</Link>
                   </Button>
               </div>
            </div>
@@ -598,6 +611,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       </section>
 
       {/* Use Cases Section (5.png & 6.png Style) */}
+      {isVoiceCloningUiEnabled ? (
       <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300 border-t border-neutral-200 dark:border-white/5">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-20">
@@ -658,6 +672,7 @@ export function HomePage({ dictionary }: HomePageProps) {
           </div>
         </div>
       </section>
+      ) : null}
 
 
 
@@ -721,46 +736,6 @@ export function HomePage({ dictionary }: HomePageProps) {
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     {feature.description}
                   </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-6 bg-white dark:bg-neutral-950 transition-colors duration-300">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
-              {home.testimonialsTitle}
-            </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400">
-              {home.testimonialsSubtitle}
-            </p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            {home.testimonials.map((testimonial, index) => (
-              <div key={index} className="p-8 rounded-3xl bg-neutral-50 border border-neutral-200 dark:bg-neutral-900/50 dark:border-white/5 relative">
-                <div className="mb-6 flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-blue-500 text-blue-500" />
-                  ))}
-                </div>
-                <blockquote className="text-lg text-neutral-700 dark:text-neutral-300 mb-6 leading-relaxed">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </blockquote>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600" />
-                  <div>
-                    <div className="font-bold text-neutral-900 dark:text-white text-sm">
-                      {testimonial.author}
-                    </div>
-                    <div className="text-xs text-neutral-500">
-                      {testimonial.role}
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}
@@ -833,7 +808,7 @@ export function HomePage({ dictionary }: HomePageProps) {
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-lg border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" asChild>
-                   <Link href="/docs">
+                   <Link href="/pricing">
                     {home.finalCtaSecondary}
                   </Link>
                 </Button>

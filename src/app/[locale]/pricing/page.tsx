@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: LocalePricingPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Pricing - ShipBase",
+      title: "Pricing - RTVox",
       description: "Simple, transparent pricing",
     };;
   }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: LocalePricingPageProps) {
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.pricing.title} - ShipBase`,
+    title: `${dictionary.pages.pricing.title} - RTVox`,
     description: dictionary.pages.pricing.subtitle,
   };;
 }

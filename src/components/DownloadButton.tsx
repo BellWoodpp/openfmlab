@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Download } from "./ui/Icons";
 import { Button } from "./ui/button";
 import { appStore } from "@/lib/store";
+import { siteConfig } from "@/lib/site-config";
 
 const PlayingWaveform = ({
   audioLoaded,
@@ -42,7 +43,7 @@ export default function DownloadButton() {
     }
 
     const vibe = "audio";
-    const filename = `voiceslab-${voice}-${vibe}.mp3`;
+    const filename = `${siteConfig.downloadPrefix}-${voice}-${vibe}.mp3`;
 
     setLoading(true);
     try {

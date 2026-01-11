@@ -35,19 +35,12 @@ export function PricingCard({
       return;
     }
 
-    // 如果是企业版，也调用原有回调（可能需要联系销售）
-    if (plan.id === 'enterprise') {
-      onSelect?.(plan.id, period);
-      return;
-    }
-
     // 其他付费计划，调用支付接口
-    await createCheckout(plan.id);
+    await createCheckout(plan.id, period);
   };
 
   const getCtaText = () => {
     if (plan.id === 'free') return copy.getStarted;
-    if (plan.id === 'enterprise') return copy.contactSales;
     return copy.buyNow;
   };
 

@@ -37,6 +37,8 @@ export function PricingComponent({
 
   const pricingConfig = getPricingConfig(locale);
   const pricingCopy = getPricingCopy(locale);
+  const gridColsClassName =
+    pricingConfig.plans.length <= 2 ? "md:grid-cols-2" : "md:grid-cols-3";
 
   return (
     <div className={cn("w-full", className)}>
@@ -62,7 +64,7 @@ export function PricingComponent({
       </div>
 
       {/* 价格卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className={cn("grid grid-cols-1 gap-6 max-w-6xl mx-auto", gridColsClassName)}>
         {pricingConfig.plans.map((plan) => (
           <PricingCard
             key={plan.id}

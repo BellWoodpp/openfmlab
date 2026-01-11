@@ -14,6 +14,14 @@ import { OrderService } from "@/lib/orders/service";
 // locale:本地化/地域设置
 type Locale = Parameters<typeof getPricingConfig>[0];
 
+const SUPPORTED_PERIODS = ["monthly", "yearly"] as const;
+type SupportedPeriod = (typeof SUPPORTED_PERIODS)[number];
+
+function normalizePeriod(input: unknown): SupportedPeriod {
+  if (typeof input !== "string") return "monthly";
+  return (SUPPORTED_PERIODS as readonly string[]).includes(input) ? (input as SupportedPeriod) : "monthly";
+}
+
 function respErr(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
 }
@@ -24,7 +32,7 @@ function respData<T>(data: T, status = 200) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { product_id }: { product_id?: string } = await req.json();
+    const { product_id, period: periodRaw }: { product_id?: string; period?: unknown } = await req.json();
 
     // as:类型断言,"en" 这个值的类型是 Locale
     const locale = ("en") as Locale;
@@ -63,16 +71,19 @@ export async function POST(req: NextRequest) {
       return respErr("unsupported provider");
     }
 
-    // 获取价格信息（这里需要根据period获取，暂时使用one-time） period:定价周期
-    const period: PricingPeriod = "one-time";
+    // 获取价格信息
+    const period: PricingPeriod = normalizePeriod(periodRaw);
     const pricing = plan.pricing[period];
+    if (!pricing) {
+      return respErr("invalid pricing config");
+    }
     
     // 创建订单
     const order = await OrderService.createOrder({
       userId,
       productId: product_id,
       productName: plan.name,
-      productType: period === "one-time" ? "one_time" : "subscription",
+      productType: "subscription",
       amount: pricing.price.toString(),
       currency: pricing.currency,
       paymentProvider: provider,
@@ -94,12 +105,14 @@ export async function POST(req: NextRequest) {
 
     const param: {
       productKey: string;
+      period: PricingPeriod;
       locale: string;
       requestId: string;
       customerEmail: string;
       metadata: Record<string, string>;
     } = {
       productKey: product_id,
+      period,
       locale,
       requestId,
       customerEmail: userEmail,
@@ -125,12 +138,14 @@ export async function POST(req: NextRequest) {
 
 async function creemCheckout({
   productKey,
+  period,
   locale,
   requestId,
   customerEmail,
   metadata,
 }: {
   productKey: string;
+  period: PricingPeriod;
   locale: string;
   requestId: string;
   customerEmail: string;
@@ -149,9 +164,10 @@ async function creemCheckout({
   }
   console.log("creem products: ", products);
 
-  const providerProductId = products[productKey || ""] || "";
+  const providerProductIdKey = `${productKey}:${period}`;
+  const providerProductId = products[providerProductIdKey] || "";
   if (!providerProductId) {
-    throw new Error("invalid product_id mapping");
+    throw new Error(`billing period is not configured: ${providerProductIdKey}`);
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000";

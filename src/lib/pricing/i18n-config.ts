@@ -61,18 +61,16 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'free',
         name: '免费版',
-        description: '适合个人开发者和小型项目',
+        description: '适合体验 RTVox 的标准音色与基础功能',
         features: [
-          '基础 Next.js 模板',
-          'GitHub 集成',
-          '社区支持',
-          '基础文档',
-          '个人使用许可'
+          '标准音色（Standard）',
+          '语气/语速/音量基础控制',
+          'MP3 导出与分享',
+          '生成历史记录'
         ],
         limitations: [
-          '不支持商业使用',
-          '无技术支持',
-          '功能有限'
+          '高级音色（WaveNet/Neural2/Chirp3-HD/Studio）需付费会员',
+          '语音克隆仅对付费会员开放（功能开启时）'
         ],
         popular: false,
         pricing: {
@@ -96,17 +94,12 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'professional',
         name: '专业版',
-        description: '适合初创公司和中小企业',
+        description: '适合创作者与团队，解锁高级音色与更高质量',
         features: [
-          '完整功能模板',
-          '身份验证系统',
-          '支付集成',
-          '数据库设置',
-          'AI 集成',
-          '一键部署',
-          '邮件支持',
-          '商业使用许可',
-          '源码访问'
+          '包含免费版全部功能',
+          '解锁高级音色：WaveNet / Neural2 / Chirp3-HD / Studio',
+          '可商用使用',
+          '优先支持（邮件）'
         ],
         limitations: [],
         popular: true,
@@ -130,43 +123,6 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
           }
         }
       },
-      {
-        id: 'enterprise',
-        name: '企业版',
-        description: '适合大型企业和团队',
-        features: [
-          '专业版所有功能',
-          '高级 AI 功能',
-          '多租户支持',
-          '高级分析',
-          '优先技术支持',
-          '定制开发服务',
-          '团队协作功能',
-          'SLA 保障',
-          '培训服务'
-        ],
-        limitations: [],
-        popular: false,
-        pricing: {
-          'one-time': {
-            price: 999,
-            currency: 'CNY',
-            period: '一次性付费'
-          },
-          'monthly': {
-            price: 129,
-            currency: 'CNY',
-            period: '每月'
-          },
-          'yearly': {
-            price: 1238,
-            currency: 'CNY',
-            period: '每年',
-            originalPrice: 1548,
-            discount: 20
-          }
-        }
-      }
     ]
   },
   en: {
@@ -189,18 +145,16 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'free',
         name: 'Free',
-        description: 'Perfect for individual developers and small projects',
+        description: 'Try RTVox with Standard voices and essential controls',
         features: [
-          'Basic Next.js template',
-          'GitHub integration',
-          'Community support',
-          'Basic documentation',
-          'Personal use license'
+          'Standard voice tier',
+          'Tone/speed/volume basics',
+          'MP3 export & sharing',
+          'Generation history'
         ],
         limitations: [
-          'No commercial use',
-          'No technical support',
-          'Limited features'
+          'Premium tiers (WaveNet/Neural2/Chirp3-HD/Studio) require paid membership',
+          'Voice cloning is paid-only (when enabled)'
         ],
         popular: false,
         pricing: {
@@ -224,17 +178,12 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'professional',
         name: 'Professional',
-        description: 'Perfect for startups and small businesses',
+        description: 'Unlock premium voice tiers for creators and teams',
         features: [
-          'Complete feature templates',
-          'Authentication system',
-          'Payment integration',
-          'Database setup',
-          'AI integration',
-          'One-click deployment',
-          'Email support',
-          'Commercial use license',
-          'Source code access'
+          'Everything in Free',
+          'Premium tiers: WaveNet / Neural2 / Chirp3-HD / Studio',
+          'Commercial use',
+          'Priority email support'
         ],
         limitations: [],
         popular: true,
@@ -254,43 +203,6 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
             currency: 'USD',
             period: 'per year',
             originalPrice: 72,
-            discount: 20
-          }
-        }
-      },
-      {
-        id: 'enterprise',
-        name: 'Enterprise',
-        description: 'Perfect for large enterprises and teams',
-        features: [
-          'All Professional features',
-          'Advanced AI features',
-          'Multi-tenant support',
-          'Advanced analytics',
-          'Priority technical support',
-          'Custom development services',
-          'Team collaboration features',
-          'SLA guarantee',
-          'Training services'
-        ],
-        limitations: [],
-        popular: false,
-        pricing: {
-          'one-time': {
-            price: 199,
-            currency: 'USD',
-            period: 'One-time payment'
-          },
-          'monthly': {
-            price: 19,
-            currency: 'USD',
-            period: 'per month'
-          },
-          'yearly': {
-            price: 182,
-            currency: 'USD',
-            period: 'per year',
-            originalPrice: 228,
             discount: 20
           }
         }
@@ -317,18 +229,16 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'free',
         name: '無料版',
-        description: '個人開発者や小規模プロジェクトに最適',
+        description: 'RTVoxを標準音声と基本機能でお試し',
         features: [
-          '基本的なNext.jsテンプレート',
-          'GitHub統合',
-          'コミュニティサポート',
-          '基本ドキュメント',
-          '個人利用ライセンス'
+          '標準音声（Standard）',
+          'トーン/速度/音量の基本調整',
+          'MP3書き出し・共有',
+          '生成履歴'
         ],
         limitations: [
-          '商用利用不可',
-          '技術サポートなし',
-          '機能制限あり'
+          'プレミアム音声（WaveNet/Neural2/Chirp3-HD/Studio）は有料',
+          '音声クローンは有料（機能有効時）'
         ],
         popular: false,
         pricing: {
@@ -352,17 +262,12 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
       {
         id: 'professional',
         name: 'プロフェッショナル版',
-        description: 'スタートアップや中小企業に最適',
+        description: 'プレミアム音声ティアを解放し、高品質な読み上げに',
         features: [
-          '完全な機能テンプレート',
-          '認証システム',
-          '決済統合',
-          'データベース設定',
-          'AI統合',
-          'ワンクリックデプロイ',
-          'メールサポート',
-          '商用利用ライセンス',
-          'ソースコードアクセス'
+          '無料版のすべて',
+          'プレミアム音声：WaveNet / Neural2 / Chirp3-HD / Studio',
+          '商用利用',
+          '優先サポート（メール）'
         ],
         limitations: [],
         popular: true,
@@ -382,43 +287,6 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
             currency: 'JPY',
             period: '年額',
             originalPrice: 10800,
-            discount: 20
-          }
-        }
-      },
-      {
-        id: 'enterprise',
-        name: 'エンタープライズ版',
-        description: '大企業やチームに最適',
-        features: [
-          'プロフェッショナル版の全機能',
-          '高度なAI機能',
-          'マルチテナントサポート',
-          '高度な分析',
-          '優先技術サポート',
-          'カスタム開発サービス',
-          'チームコラボレーション機能',
-          'SLA保証',
-          'トレーニングサービス'
-        ],
-        limitations: [],
-        popular: false,
-        pricing: {
-          'one-time': {
-            price: 24000,
-            currency: 'JPY',
-            period: '一回払い'
-          },
-          'monthly': {
-            price: 2400,
-            currency: 'JPY',
-            period: '月額'
-          },
-          'yearly': {
-            price: 23040,
-            currency: 'JPY',
-            period: '年額',
-            originalPrice: 28800,
             discount: 20
           }
         }
@@ -450,7 +318,8 @@ export function getAllPricingForPlan(planId: string, locale: Locale = 'en') {
 
 // 获取推荐的价格周期（年付优先）
 export function getRecommendedPeriod(): PricingPeriod {
-  return 'yearly';
+  // Temporarily disable one-time payments in UI; default to monthly.
+  return 'monthly';
 }
 
 // 计算年付节省金额

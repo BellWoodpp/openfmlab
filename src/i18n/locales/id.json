@@ -1,9 +1,9 @@
 {
   "home": {
     "badgeLabel": "2025🚀 Kirim Sekarang",
-    "heroTitle": "ShipBase, Kirim Lebih Banyak.",
-    "heroDescription": "ShipBase adalah boilerplate NextJS untuk membangun startup AI SaaS. Kirim cepat dengan beragam template dan komponen.",
-    "ctaPrimary": "Mulai",
+    "heroTitle": "RTVox, ubah teks jadi suara.",
+    "heroDescription": "RTVox adalah studio text-to-speech dengan suara Google. Tempel skrip, pilih suara, dan hasilkan audio alami dalam hitungan detik.",
+    "ctaPrimary": "Text to Speech",
     "ctaSecondary": "Baca Dokumen",
     "watchDemo": "Tonton Demo",
     "viewDetails": "Lihat Detail",
@@ -338,7 +338,7 @@
     }
   },
   "footer": {
-    "description": "Platform SaaS modern yang membantu Anda membangun dan mendepoy aplikasi dengan cepat.",
+    "description": "RTVox mengubah teks menjadi suara alami dalam hitungan detik—cocok untuk voiceover, podcast, dan mendengarkan sehari-hari.",
     "product": "Produk",
     "features": "Fitur",
     "pricing": "Harga",
@@ -352,8 +352,7 @@
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Ketentuan Layanan",
     "cookiePolicy": "Kebijakan Cookie",
-    "copyright": "© 2024 ShipBase. Hak cipta dilindungi.",
-    "madeWithLove": "Dibuat dengan ❤️"
+    "copyright": "© 2026 RTVox. Hak cipta dilindungi."
   },
   "pages": {
     "features": {

@@ -17,7 +17,7 @@ export function Header() {
   const isAuthenticated = Boolean(session.data?.user);
   const defaultTokens = 500;
   const [tokens, setTokens] = useState(defaultTokens);
-  const githubUrl = "https://github.com/buildnewapp/ShipBase";
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com";
 
   useEffect(() => {
     const controller = new AbortController();
@@ -64,10 +64,10 @@ export function Header() {
         <div className="flex items-center flex-1">
           <Link href={locale === 'en' ? '/' : `/${locale}/`} className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
+              <span className="text-white font-bold text-sm">R</span>
             </div>
             <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-              ShipBase
+              RTVox
             </span>
           </Link>
         </div>

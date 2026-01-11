@@ -2,19 +2,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { Header } from "./ui/Header";
-import { Docs, Waveform, Refresh } from "./ui/Icons";
+import { Waveform, Refresh } from "./ui/Icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import dynamic from "next/dynamic";
 import { Upload, X } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { useLocale } from "@/hooks";
 import type { Locale } from "@/i18n";
 import { useBodyScrollable } from "@/hooks/useBodyScrollable";
 import { Block } from "./ui/Block";
 import { Footer } from "./ui/Footer";
 import { appStore } from "@/lib/store";
+import { siteConfig } from "@/lib/site-config";
 import { Skeleton } from "@/components/ui/skeleton";
 import BrowserNotSupported from "./ui/BrowserNotSupported";
 import PlayButton from "./PlayButton";
@@ -37,6 +40,54 @@ type CostEstimateData = {
   month?: string;
 };
 
+function ToneHelpDialog() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="Tone help"
+          title="Tone help"
+        >
+          <QuestionMarkCircledIcon className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50 data-[state=open]:animate-overlayShow" />
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[520px] translate-x-[-50%] translate-y-[-50%] rounded-[12px] bg-background p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[51] data-[state=open]:animate-contentShow">
+          <Dialog.Title className="text-foreground m-0 text-[16px] font-semibold">
+            Tone 说明
+          </Dialog.Title>
+          <Dialog.Description className="text-foreground/70 mt-2 text-[13px] leading-relaxed">
+            Tone 用来描述你希望合成语音呈现的语气/情绪。不同提供商对 Tone 的支持强度不同，但它会作为风格提示用于生成。
+          </Dialog.Description>
+
+          <div className="mt-4 space-y-2 text-[13px] leading-relaxed text-foreground">
+            <div><span className="font-medium">Neutral</span>：中性自然，不刻意表达情绪，适合旁白/说明/长文朗读。</div>
+            <div><span className="font-medium">Calm</span>：更平静克制、柔和放松，适合教程/冥想/轻松叙述。</div>
+            <div><span className="font-medium">Serious</span>：更正式严肃、语气更稳，适合公告/新闻/严谨内容。</div>
+            <div><span className="font-medium">Cheerful</span>：更明亮友好、带笑意，适合欢迎语/营销口播/轻松对话。</div>
+            <div><span className="font-medium">Excited</span>：更有能量、强调重点，适合开场/高潮段落/促销信息。</div>
+            <div><span className="font-medium">Surprised</span>：更“惊讶/反转”语气、起伏更明显，适合剧情转折/悬念/有梗的句子。</div>
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                className="inline-flex h-9 items-center justify-center rounded-full border border-border bg-muted/10 px-4 text-sm text-foreground hover:bg-muted/20"
+              >
+                关闭
+              </button>
+            </Dialog.Close>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
 const PremiumCrownIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -53,6 +104,51 @@ const PremiumCrownIcon = ({ className }: { className?: string }) => (
   >
     <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
     <path d="M5 21h14" />
+  </svg>
+);
+
+const NotebookTextIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={clsx("lucide lucide-notebook-text-icon lucide-notebook-text", className)}
+    aria-hidden="true"
+  >
+    <path d="M2 6h4" />
+    <path d="M2 10h4" />
+    <path d="M2 14h4" />
+    <path d="M2 18h4" />
+    <rect width="16" height="20" x="4" y="2" rx="2" />
+    <path d="M9.5 8h5" />
+    <path d="M9.5 12H16" />
+    <path d="M9.5 16H14" />
+  </svg>
+);
+
+const HistoryIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={clsx("lucide lucide-history-icon lucide-history", className)}
+    aria-hidden="true"
+  >
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+    <path d="M3 3v5h5" />
+    <path d="M12 7v5l4 2" />
   </svg>
 );
 
@@ -335,17 +431,17 @@ const Sidebar = ({
            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
              <Waveform className="text-white w-5 h-5" />
            </div>
-           <span className="font-bold text-lg tracking-tight">Voiceslab</span>
+		           <span className="font-bold text-lg tracking-tight">{siteConfig.brandName}</span>
         </div>
       </div>
 
       <nav className="flex-1 px-4 py-2 space-y-1">
-	        <SidebarItem 
-	          icon={<Docs className="w-5 h-5" />} 
-	          label="Text to Speech" 
-	          active={currentView === 'tts'} 
-	          onClick={() => onViewChange('tts')}
-	        />
+	    <SidebarItem 
+	      icon={<NotebookTextIcon className="w-5 h-5" />} 
+	      label="Text to Speech" 
+	      active={currentView === 'tts'} 
+	      onClick={() => onViewChange('tts')}
+	    />
           {showVoiceCloning ? (
 	          <SidebarItem 
 	            icon={<Waveform className="w-5 h-5" />} 
@@ -360,7 +456,7 @@ const Sidebar = ({
 	          />
           ) : null}
 	        <SidebarItem
-	          icon={<Refresh className="w-5 h-5" />}
+	          icon={<HistoryIcon className="w-5 h-5" />}
 	          label="History"
 	          active={currentView === 'history'}
 	          onClick={() => onViewChange('history')}
@@ -372,10 +468,10 @@ const Sidebar = ({
 	          <div className="text-sm font-medium">如果有使用上的问题，联系我们</div>
 	          <a
 	            className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
-	            href="mailto:support@voiceslab.ai"
-	          >
-	            support@voiceslab.ai
-	          </a>
+		            href={`mailto:${siteConfig.supportEmail}`}
+		          >
+			            {siteConfig.supportEmail}
+			          </a>
 	        </div>
 	      </div>
 	    </aside>
@@ -556,8 +652,8 @@ const TTSBoard = () => {
 
 	  const safeDownloadName = (voice: string) => {
 	    const safe = voice.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
-	    return `voiceslab-${safe}.mp3`;
-	  };
+			    return `${siteConfig.downloadPrefix}-${safe}.mp3`;
+		  };
 
   const formatPartSize = (length: number) => {
     if (!Number.isFinite(length) || length <= 0) return "0";
@@ -789,9 +885,15 @@ const TTSBoard = () => {
             {/* Controls */}
             <div className="mt-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                <label className="text-xs text-muted-foreground flex flex-col gap-1.5 md:col-span-3">
-                  Tone
+                <div className="md:col-span-3 flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="tone" className="text-xs text-muted-foreground">
+                      Tone
+                    </label>
+                    <ToneHelpDialog />
+                  </div>
                   <select
+                    id="tone"
                     value={tone}
                     onChange={(e) => {
                       const raw = e.target.value;
@@ -818,7 +920,7 @@ const TTSBoard = () => {
                     <option value="excited">Excited</option>
                     <option value="surprised">Surprised</option>
                   </select>
-                </label>
+                </div>
 
                 <label className="text-xs text-muted-foreground flex flex-col gap-1.5 md:col-span-3">
                   Speed
@@ -1128,7 +1230,7 @@ const HistoryBoard = () => {
 
   const safeDownloadName = (voice: string) => {
     const safe = voice.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
-    return `voiceslab-${safe}.mp3`;
+	    return `${siteConfig.downloadPrefix}-${safe}.mp3`;
   };
 
   const loadPage = async (requestedPageRaw: number, allowFallback = true) => {

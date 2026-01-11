@@ -3,6 +3,11 @@ import { locales, defaultLocale } from '@/i18n/types';
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const lastSegment = pathname.split("/").pop() ?? "";
+  const isPublicFile = lastSegment.includes(".");
+
+  // Don't rewrite public files (e.g. /mockups/tts-ui.png).
+  if (isPublicFile) return;
   
   // 检查路径是否缺少语言前缀
   const pathnameIsMissingLocale = locales.every(
@@ -24,9 +29,10 @@ export const config = {
   // - admin 路由
   // - _next/static (静态文件)
   // - _next/image (图片优化)
+  // - public files (e.g. *.png, *.svg)
   // - favicon.ico
   // - sitemap.xml, robots.txt (SEO 文件)
   matcher: [
-    '/((?!api|admin|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    "/((?!api|admin|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*).*)",
   ],
 };

@@ -7,8 +7,8 @@ import { defaultLocale, locales, type Locale } from "@/i18n";
 import { Button } from "@/components/ui/button";
 import { Check } from "@/components/ui/Icons";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const avatarCache = new Map<string, string>();
+import { voiceAvatarDataUri } from "@/lib/voice-avatar";
+import { siteConfig } from "@/lib/site-config";
 
 type VoicesResponse = {
   lang: string;
@@ -38,6 +38,25 @@ type LanguagesResponse = {
 };
 
 type PublicVoiceTier = "all" | "standard" | "wavenet" | "neural2" | "chirp3-hd" | "studio";
+
+const STATIC_PUBLIC_VOICES: VoicesResponse["voices"] = [
+  { name: "en-US-Standard-C", languageCodes: ["en-US"], billingTier: "standard" },
+  { name: "en-US-Standard-J", languageCodes: ["en-US"], billingTier: "standard" },
+  { name: "en-US-Wavenet-D", languageCodes: ["en-US"], billingTier: "wavenet" },
+  { name: "en-US-Neural2-F", languageCodes: ["en-US"], billingTier: "neural2" },
+  { name: "en-US-Studio-O", languageCodes: ["en-US"], billingTier: "studio" },
+  { name: "en-US-Chirp3-HD-Umbriel", languageCodes: ["en-US"], billingTier: "chirp3-hd" },
+
+  { name: "zh-CN-Standard-A", languageCodes: ["zh-CN"], billingTier: "standard" },
+  { name: "zh-CN-Wavenet-A", languageCodes: ["zh-CN"], billingTier: "wavenet" },
+  { name: "zh-CN-Neural2-A", languageCodes: ["zh-CN"], billingTier: "neural2" },
+
+  { name: "ja-JP-Standard-A", languageCodes: ["ja-JP"], billingTier: "standard" },
+  { name: "ja-JP-Wavenet-A", languageCodes: ["ja-JP"], billingTier: "wavenet" },
+  { name: "ja-JP-Neural2-B", languageCodes: ["ja-JP"], billingTier: "neural2" },
+];
+
+const STATIC_LANGUAGE_OPTIONS = ["en-US", "zh-CN", "ja-JP"];
 
 function PremiumCrownIcon({ className }: { className?: string }) {
   return (
@@ -100,52 +119,80 @@ function languageDisplayName(lang: string): string {
   return lang;
 }
 
-function voiceAvatarAlt(voiceName: string): string {
-  const display = voiceDisplayName(voiceName);
-  const first = display.trim().slice(0, 1).toUpperCase();
-  return first || "V";
-}
+function voiceAvatarSeed(voiceName: string): string {
+  const trimmed = voiceName.trim();
+  if (!trimmed) return "voice";
 
-function hashString(input: string): number {
-  // Simple stable 32-bit hash (FNV-1a style)
-  let hash = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    hash ^= input.charCodeAt(i);
-    hash = Math.imul(hash, 16777619);
+  // Normalize Google-style names to match homepage demo avatar seeds:
+  // - en-US-Neural2-F -> en_us_neural2_f
+  // - zh-CN-Wavenet-A -> zh_cn_wavenet_a
+  const parts = trimmed.split("-").filter(Boolean);
+  if (parts.length >= 3 && parts[0]?.length === 2 && parts[1]?.length === 2) {
+    const [lang, region, ...rest] = parts;
+    const restLower = rest.join("-").toLowerCase();
+    const restNormalized = restLower.replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+
+    // Homepage demo uses a generic Chirp3-HD id (no voice-name suffix like "-Umbriel").
+    const chirpPrefix = "chirp3_hd";
+    const normalizedRestForSeed = restNormalized.startsWith(chirpPrefix) ? chirpPrefix : restNormalized;
+
+    return `${lang.toLowerCase()}_${region.toLowerCase()}_${normalizedRestForSeed}`.replace(/_+/g, "_");
   }
-  return hash >>> 0;
+
+  return trimmed.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "voice";
 }
 
-function base64EncodeUtf8(input: string): string {
-  // btoa only supports latin-1; encode as UTF-8 first.
-  return btoa(unescape(encodeURIComponent(input)));
+const CHIRP3_HD_LABEL = "Chirp3‑HD";
+
+function avatarFolderForVoiceName(voiceName: string): "English" | "Chinese" | "Japanese" {
+  const trimmed = voiceName.trim();
+  const lang = trimmed.split("-")[0]?.toLowerCase();
+  if (lang === "zh" || lang === "cmn" || lang === "yue") return "Chinese";
+  if (lang === "ja") return "Japanese";
+  return "English";
 }
 
-function avatarDataUriForVoice(voiceName: string): string {
-  const cached = avatarCache.get(voiceName);
-  if (cached) return cached;
+function VoiceAvatar({ voiceName, selected }: { voiceName: string; selected: boolean }) {
+  const seed = voiceAvatarSeed(voiceName);
+  const displayName = voiceDisplayName(voiceName);
+  const avatarName = voiceName.includes("Chirp3-HD") ? CHIRP3_HD_LABEL : displayName;
+  const folder = avatarFolderForVoiceName(voiceName);
+  const fileSrc = `/avator/${folder}/${encodeURIComponent(avatarName)}.png`;
+  const legacyFileSrc = `/avator/${encodeURIComponent(avatarName)}.png`;
+  const fallbackSrc = voiceAvatarDataUri(seed, { variant: siteConfig.voiceAvatarVariant });
 
-  const hash = hashString(voiceName);
-  const hue1 = hash % 360;
-  const hue2 = (hue1 + 45 + ((hash >>> 8) % 90)) % 360;
-  const initial = voiceAvatarAlt(voiceName);
-
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="hsl(${hue1} 80% 55%)"/>
-      <stop offset="100%" stop-color="hsl(${hue2} 80% 45%)"/>
-    </linearGradient>
-  </defs>
-  <circle cx="40" cy="40" r="40" fill="url(#g)"/>
-  <circle cx="40" cy="40" r="39" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-  <text x="40" y="46" text-anchor="middle" font-size="34" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-weight="700" fill="rgba(255,255,255,0.92)">${initial}</text>
-</svg>`;
-
-  const uri = `data:image/svg+xml;base64,${base64EncodeUtf8(svg)}`;
-  avatarCache.set(voiceName, uri);
-  return uri;
+  return (
+    <div
+      className={[
+        "relative shrink-0 h-16 w-16 rounded-full grid place-items-center bg-white ring-1 shadow-sm",
+        selected ? "ring-primary/40" : "ring-border/50 group-hover:ring-primary/30",
+      ].join(" ")}
+    >
+      <img
+        src={fileSrc}
+        alt={voiceDisplayName(voiceName)}
+        className="h-14 w-14 rounded-full object-cover"
+        onError={(e) => {
+          if (e.currentTarget.dataset.fallbackApplied === "2") {
+            e.currentTarget.src = "/avatar-placeholder.svg";
+            return;
+          }
+          if (e.currentTarget.dataset.fallbackApplied === "1") {
+            e.currentTarget.dataset.fallbackApplied = "2";
+            e.currentTarget.src = fallbackSrc;
+            return;
+          }
+          e.currentTarget.dataset.fallbackApplied = "1";
+          e.currentTarget.src = legacyFileSrc;
+        }}
+      />
+      {selected ? (
+        <span className="absolute -top-1 -right-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background shadow-sm">
+          <Check className="h-2.5 w-2.5" />
+        </span>
+      ) : null}
+    </div>
+  );
 }
 
 function languageOptionLabel(tag: string, uiLocale: string): string {
@@ -256,7 +303,7 @@ export default function GoogleVoicePicker() {
   const [clonesLoading, setClonesLoading] = useState(false);
 
   const [voiceSource, setVoiceSource] = useState<"public" | "private">("public");
-  const [publicTier, setPublicTier] = useState<PublicVoiceTier | null>(null);
+  const [publicTier, setPublicTier] = useState<PublicVoiceTier | null>("standard");
 
   const [lang, setLang] = useState("en-US");
   const [query, setQuery] = useState("");
@@ -385,6 +432,17 @@ export default function GoogleVoicePicker() {
     },
     [voices, publicTier],
   );
+  const staticVoices = useMemo(() => {
+    const list = STATIC_PUBLIC_VOICES.filter((v) => v.languageCodes.includes(resolvedLang));
+    const q = debouncedQuery.trim().toLowerCase();
+    if (!q) return list;
+    return list.filter((v) => v.name.toLowerCase().includes(q) || voiceDisplayName(v.name).toLowerCase().includes(q));
+  }, [resolvedLang, debouncedQuery]);
+  const limitedStaticVoices = useMemo(() => {
+    if (!publicTier) return [];
+    if (publicTier === "all") return staticVoices;
+    return staticVoices.filter((v) => v.billingTier === publicTier);
+  }, [staticVoices, publicTier]);
   const tierCounts = useMemo(() => {
     const counts = new Map<string, number>();
     for (const v of voices) {
@@ -463,11 +521,8 @@ export default function GoogleVoicePicker() {
     return clones.find((c) => c.id === cloneId) ?? null;
   }, [clones, currentVoice]);
 
-  const shouldRenderAnything =
-    enabled !== false || (isVoiceCloningUiEnabled && (clones.length > 0 || !!clonesError));
-  if (!shouldRenderAnything) return null;
-
-  const hasPublicVoices = enabled !== false;
+  const hasStaticPublicVoices = STATIC_PUBLIC_VOICES.some((v) => v.languageCodes.includes(resolvedLang));
+  const hasPublicVoices = enabled !== false || hasStaticPublicVoices;
 
   const pricingHref = useMemo(() => {
     const locale = localeFromPathname(pathname || "");
@@ -719,8 +774,74 @@ export default function GoogleVoicePicker() {
             </Button>
           </div>
         ) : (
-          <div className="text-xs text-muted-foreground mb-2">
-            Google voice list is unavailable (TTS provider is not Google). You can still use Private voices above.
+          <div className="flex flex-col gap-3 shrink-0">
+            <div className="text-xs text-muted-foreground">
+              Voice list preview (no API). Showing a static set of voices for layout only.
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs text-muted-foreground">
+                Language
+                <select
+                  value={lang}
+                  onChange={(e) => setLang(e.target.value)}
+                  className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+                >
+                  {STATIC_LANGUAGE_OPTIONS.map((code) => (
+                    <option key={code} value={code}>
+                      {languageOptionLabel(code, uiLocale)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="flex flex-row gap-2">
+                <label className="text-xs text-muted-foreground flex-1">
+                  Search
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+                    placeholder="wavenet / studio / chirp"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3">
+              <div className="text-xs font-medium text-foreground/80">Voice categories</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[
+                  { id: "standard", label: "standard", premium: false },
+                  { id: "wavenet", label: "wavenet", premium: true },
+                  { id: "neural2", label: "Neural2", premium: true },
+                  { id: "chirp3-hd", label: "Chirp3-HD", premium: true },
+                  { id: "studio", label: "studio", premium: true },
+                  { id: "all", label: "All", premium: true },
+                ].map((t) => {
+                  const isSelected = publicTier === (t.id as PublicVoiceTier);
+                  const disabled = !hasPublicVoices;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => setPublicTier(t.id as PublicVoiceTier)}
+                      className={[
+                        "inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm transition-colors",
+                        disabled ? "opacity-60 cursor-not-allowed" : "",
+                        isSelected
+                          ? "border-foreground/40 bg-foreground/10 text-foreground"
+                          : "border-border bg-background/60 text-muted-foreground hover:bg-background/80 hover:text-foreground",
+                      ].join(" ")}
+                      aria-pressed={isSelected}
+                    >
+                      {t.premium ? <PremiumCrownIcon className="h-4 w-4" /> : null}
+                      <span>{t.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )
       ) : null}
@@ -821,26 +942,69 @@ export default function GoogleVoicePicker() {
                       }}
                       title={label}
                     >
-                      <div
-                        className={[
-                          "relative shrink-0 rounded-full p-[1px]",
-                          selected ? "bg-primary/30" : "bg-transparent",
-                        ].join(" ")}
-                      >
-                        <img
-                          src={avatarDataUriForVoice(v.name)}
-                          alt={voiceAvatarAlt(v.name)}
-                          className="w-10 h-10 rounded-full object-cover bg-muted ring-1 ring-border/50 group-hover:ring-primary/30"
-                          onError={(e) => {
-                            e.currentTarget.src = "/avatar-placeholder.svg";
-                          }}
-                        />
-                        {selected ? (
-                          <span className="absolute -top-1 -right-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background shadow-sm">
-                            <Check className="h-2.5 w-2.5" />
-                          </span>
-                        ) : null}
+                      <VoiceAvatar voiceName={v.name} selected={selected} />
+                      <div className="min-w-0 w-full text-center">
+                        <div className={["text-[11px] font-medium leading-tight truncate", selected ? "text-primary" : "text-muted-foreground group-hover:text-foreground"].join(" ")}>
+                          {displayName}
+                        </div>
                       </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </>
+      ) : null}
+
+      {voiceSource === "public" && enabled === false ? (
+        <>
+          <div className="mt-1 text-xs text-muted-foreground shrink-0">
+            {publicTier ? (
+              <>
+                Preview: <span className="font-mono text-foreground">{limitedStaticVoices.length}</span> voices{" "}
+                {publicTier === "all" ? (
+                  <>
+                    in <span className="font-mono text-foreground">All</span>.{" "}
+                  </>
+                ) : (
+                  <>
+                    in <span className="font-mono text-foreground">{publicTier}</span>.{" "}
+                  </>
+                )}
+              </>
+            ) : (
+              <>Pick a category above to show voices.{" "}</>
+            )}
+          </div>
+
+          <div className="mt-3 flex-1 min-h-0 max-h-[500px] overflow-y-auto rounded-xl border border-border bg-muted/20 shadow-inner">
+            {!publicTier ? (
+              <div className="p-6 text-sm text-muted-foreground text-center">Select a category (tier) above to show voices.</div>
+            ) : limitedStaticVoices.length === 0 ? (
+              <div className="p-4 text-sm text-muted-foreground text-center">No voices found.</div>
+            ) : (
+              <div className="p-3 grid grid-cols-3 gap-2">
+                {limitedStaticVoices.map((v) => {
+                  const label = `${v.name} (${v.billingTier})`;
+                  const selected = v.name === currentVoice;
+                  const displayName = voiceDisplayName(v.name);
+                  return (
+                    <button
+                      key={v.name}
+                      type="button"
+                      className={[
+                        "group w-full flex flex-col items-center gap-2 rounded-lg p-2 transition-all",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                        selected ? "bg-primary/10 shadow-sm" : "hover:bg-background/80",
+                      ].join(" ")}
+                      onClick={() => {
+                        setManualVoiceByLang((prev) => ({ ...prev, [resolvedLang]: v.name }));
+                        setVoice(v.name);
+                      }}
+                      title={label}
+                    >
+                      <VoiceAvatar voiceName={v.name} selected={selected} />
                       <div className="min-w-0 w-full text-center">
                         <div className={["text-[11px] font-medium leading-tight truncate", selected ? "text-primary" : "text-muted-foreground group-hover:text-foreground"].join(" ")}>
                           {displayName}

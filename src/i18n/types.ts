@@ -230,7 +230,6 @@ export interface FooterDictionary {
   termsOfService: string;
   cookiePolicy: string;
   copyright: string;
-  madeWithLove: string;
 }
 
 export interface PageDictionary {

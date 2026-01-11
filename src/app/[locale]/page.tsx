@@ -36,15 +36,15 @@ export async function generateMetadata({ params }: LocalePageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "ShipBase - 现代化SaaS平台",
-      description: "现代化的SaaS平台，帮助您快速构建和部署应用程序。",
-    };;
+      title: "RTVox - AI Text to Speech",
+      description: "Generate natural-sounding speech from text in seconds.",
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `ShipBase - ${dictionary.home.heroTitle}`,
+    title: `RTVox - ${dictionary.home.heroTitle}`,
     description: dictionary.home.heroDescription,
-  };;
+  };
 }

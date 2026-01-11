@@ -1,9 +1,9 @@
 {
   "home": {
     "badgeLabel": "2025🚀 Ship Now",
-    "heroTitle": "ShipBase, Ship More.",
-    "heroDescription": "ShipBase is a NextJS boilerplate for building AI SaaS startups. Ship Fast with a variety of templates and components.",
-    "ctaPrimary": "Create Your Voice",
+    "heroTitle": "RTVox, Speak More.",
+    "heroDescription": "RTVox is an AI text-to-speech studio powered by Google voices. Paste a script, pick a voice, and generate natural audio in seconds.",
+    "ctaPrimary": "AI Text to Speech Now",
     "ctaSecondary": "Read Document",
     "watchDemo": "Watch Demo",
     "viewDetails": "View Details",
@@ -115,77 +115,61 @@
         "description": "Get professional technical support to help you get started quickly."
       }
     ],
-    "launchStepsTitle": "How to Launch with ShipBase",
-    "launchStepsSubtitle": "Get your AI SaaS startup running in three simple steps:",
+    "launchStepsTitle": "How to Create Audio with RTVox",
+    "launchStepsSubtitle": "Turn text into natural speech in four simple steps:",
     "launchSteps": [
       {
         "step": "1",
-        "title": "Get ShipBase",
-        "description": "Buy ShipBase with a one-time payment. Check your email for the code and documentation."
+        "title": "Pick a Voice",
+        "description": "Browse voices by language and style, then choose the one that fits your content."
       },
       {
         "step": "2",
-        "title": "Start Your Project",
-        "description": "Read the documentation and clone the code of ShipBase. Start building your AI SaaS startup."
+        "title": "Paste Your Script",
+        "description": "Paste or type your text. RTVox works great for voiceovers, podcasts, and reading."
       },
       {
         "step": "3",
-        "title": "Customize Your Project",
-        "description": "Modify the template with your data and contents. Specific AI functionality needs."
+        "title": "Tune the Style",
+        "description": "Adjust tone, speed, and volume to match the mood and pacing you want."
       },
       {
         "step": "4",
-        "title": "Deploy to Production",
-        "description": "Deploy your project to production with a few steps and start serving customers immediately."
+        "title": "Generate & Export",
+        "description": "Generate audio in seconds, then download or share it whenever you need."
       }
     ],
-    "keyFeaturesTitle": "Key Features of ShipBase",
-    "keyFeaturesSubtitle": "Everything you need to launch your AI SaaS startup quickly and efficiently.",
+    "keyFeaturesTitle": "Key Features of RTVox",
+    "keyFeaturesSubtitle": "Everything you need to turn text into natural speech—fast.",
     "keyFeatures": [
       {
-        "title": "Next.js Boilerplate",
-        "description": "Production-ready Next.js templates with SEO-friendly structure and i18n support."
+        "title": "High-Quality Voices",
+        "description": "Natural, clear audio for voiceovers, podcasts, narration, and scripts."
       },
       {
-        "title": "Authentication & Payments",
-        "description": "Integrated Google OAuth, one-tap login, and Stripe payment processing."
+        "title": "Multi-Language Support",
+        "description": "Generate speech in English, Chinese, Japanese, and more with consistent quality."
       },
       {
-        "title": "Data Infrastructure",
-        "description": "Built-in Supabase integration for reliable and scalable data storage."
+        "title": "Style Controls",
+        "description": "Tune tone, speed, and volume to match the exact delivery you want."
       },
       {
-        "title": "One-Click Deployment",
-        "description": "Seamless deployment to Vercel or Cloudflare with automated setup."
+        "title": "Instant Preview",
+        "description": "Quickly preview voices and iterate before you generate your final audio."
       },
       {
-        "title": "Business Analytics",
-        "description": "Integrated Google Analytics and Search Console for tracking growth."
+        "title": "Download & Share",
+        "description": "Export audio and share it with a link whenever you need."
       },
       {
-        "title": "AI-Ready Infrastructure",
-        "description": "Pre-configured AI integration with built-in credits system and API sales."
+        "title": "Credits & History",
+        "description": "Track usage with transparent credits and keep a history of generated audio."
       }
     ],
-    "testimonialsTitle": "What Users Say About ShipBase",
-    "testimonialsSubtitle": "Hear from developers and founders who launched their AI startups with ShipBase.",
-    "testimonials": [
-      {
-        "quote": "ShipBase has made the journey from idea to product simpler than ever before. Its comprehensive templates, scripts, and foundational infrastructure mean I hardly need to spend time on basic development. I highly recommend it to founders looking to quickly launch their SaaS businesses.",
-        "author": "Author of AITDK",
-        "role": "Independent Developer"
-      },
-      {
-        "quote": "ShipBase made it super easy to set up payments and handle all the nuts and bolts of commercialization, so we could stay laser-focused on building features that matter. If you're looking to ship and scale your AI SaaS fast, ShipBase is a no-brainer!",
-        "author": "Scar",
-        "role": "Front-end Engineer"
-      },
-      {
-        "quote": "I used ShipBase and launched a new website in 8 minutes, including login/payment, so amazing!",
-        "author": "Lafe",
-        "role": "Tech Lead"
-      }
-    ],
+    "testimonialsTitle": "",
+    "testimonialsSubtitle": "",
+    "testimonials": [],
     "productShowcaseTitle": "AI SaaS Startups built with ShipBase",
     "productShowcaseSubtitle": "See amazing AI SaaS applications built with ShipBase",
     "showcaseItems": [
@@ -245,38 +229,38 @@
         "description": "Ship Fast in"
       }
     ],
-    "faqTitle": "Frequently Asked Questions About ShipBase",
-    "faqSubtitle": "Have another question? Contact us on Discord or by email.",
+    "faqTitle": "Frequently Asked Questions About RTVox",
+    "faqSubtitle": "Have another question? Email us at support@rtvox.com.",
     "faqs": [
       {
-        "question": "What exactly is ShipBase and how does it work?",
-        "answer": "ShipBase is a comprehensive NextJS boilerplate designed specifically for building AI SaaS startups. It provides ready-to-use templates, infrastructure setup, and deployment tools that help you launch your AI business in hours instead of days."
+        "question": "What is RTVox and how does it work?",
+        "answer": "RTVox turns text into natural-sounding speech. Pick a voice, paste your script, adjust the style, and generate audio you can download or share."
       },
       {
-        "question": "Do I need advanced technical skills to use ShipBase?",
-        "answer": "While basic programming knowledge is helpful, ShipBase is designed to be developer-friendly. Our templates and documentation make it easy to get started, even if you're not an expert in AI or cloud infrastructure."
+        "question": "Which languages and voices are supported?",
+        "answer": "RTVox supports multiple languages (including English, Chinese, and Japanese) and a growing set of high-quality voices. The available voices depend on the provider and your selected language."
       },
       {
-        "question": "What types of AI SaaS can I build with ShipBase?",
-        "answer": "ShipBase supports a wide range of AI applications, from content generation to data analysis tools. Our templates cover popular use cases like AI chatbots, content generators, image processing apps, and more."
+        "question": "How are credits calculated?",
+        "answer": "Credits are estimated from character count and the voice you choose. You’ll see an estimate before generating, and your balance updates after each generation."
       },
       {
-        "question": "How long does it typically take to launch with ShipBase?",
-        "answer": "With ShipBase, you can have a working prototype in hours and a production-ready application in hours. Our one-click deployment and pre-configured infrastructure significantly reduce the traditional months-long development cycle."
+        "question": "What audio formats can I export?",
+        "answer": "You can export audio as MP3 or WAV (depending on the voice/provider and playback environment). Use Download to save the file locally."
       },
       {
-        "question": "What's included in the ShipBase infrastructure?",
-        "answer": "ShipBase provides a complete infrastructure stack including authentication, database setup, API integration, payment processing, and scalable cloud deployment. Everything is pre-configured following industry best practices."
+        "question": "Is my text private?",
+        "answer": "Your text is processed to generate audio and is not publicly accessible unless you choose to share it. Avoid submitting sensitive personal information."
       },
       {
-        "question": "Can I customize the templates to match my brand?",
-        "answer": "Absolutely! All ShipBase templates are fully customizable. You can modify the design, features, and functionality to match your brand identity and specific business requirements while maintaining the robust underlying infrastructure."
+        "question": "Is there a text limit per generation?",
+        "answer": "Yes. To keep generation fast and reliable, each request has a character limit. If you have longer content, split it into multiple parts."
       }
     ],
-    "finalCtaTitle": "Ship your first AI SaaS Startup",
-    "finalCtaSubtitle": "Start from here, ship with ShipBase.",
-    "finalCtaButton": "Get ShipBase",
-    "finalCtaSecondary": "Read Document"
+    "finalCtaTitle": "Generate your first voice with RTVox",
+    "finalCtaSubtitle": "Start from here—turn your text into natural speech in seconds.",
+    "finalCtaButton": "Try Text to Speech",
+    "finalCtaSecondary": "View Pricing"
   },
   "authPanel": {
     "title": "Sign in to Shipbase",
@@ -341,7 +325,7 @@
     }
   },
   "footer": {
-    "description": "A modern SaaS platform that helps you quickly build and deploy applications.",
+    "description": "RTVox turns text into natural speech in seconds—perfect for voiceovers, podcasts, and everyday listening.",
     "product": "Product",
     "features": "Features",
     "pricing": "Pricing",
@@ -355,207 +339,176 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "cookiePolicy": "Cookie Policy",
-    "copyright": "© 2024 ShipBase. All rights reserved.",
-    "madeWithLove": "Made with ❤️"
+    "copyright": "© 2026 RTVox. All rights reserved."
   },
   "pages": {
     "features": {
       "title": "Features",
-      "subtitle": "Powerful features to accelerate your development",
-      "description": "Discover the comprehensive set of tools and features that make ShipBase the perfect platform for modern SaaS applications.",
+      "subtitle": "Text to speech that sounds real",
+      "description": "Generate natural speech with premium voices, tone controls, and fast exports—built for creators, teams, and everyday listening.",
       "coreFeatures": {
         "title": "Core Features",
-        "subtitle": "Complete solution tailored for modern SaaS applications, letting you focus on product innovation rather than infrastructure setup",
+        "subtitle": "Everything you need to turn scripts into natural speech.",
         "features": [
           {
-            "icon": "Code",
-            "title": "Next.js Full-Stack Framework",
-            "description": "Built on the latest Next.js 14+ with App Router, Server Components, and Edge Runtime support, providing optimal performance and development experience.",
-            "highlights": [
-              "App Router",
-              "Server Components",
-              "Edge Runtime",
-              "TypeScript Support"
-            ]
-          },
-          {
-            "icon": "Shield",
-            "title": "Enterprise-Grade Authentication",
-            "description": "Integrated Better Auth supporting multiple login methods including Google OAuth, GitHub OAuth, and Magic Link, ensuring security and reliability.",
-            "highlights": [
-              "Google OAuth",
-              "GitHub OAuth",
-              "Magic Link",
-              "Session Management"
-            ]
-          },
-          {
-            "icon": "CreditCard",
-            "title": "Stripe Payment Integration",
-            "description": "Complete payment solution supporting subscriptions, one-time payments, and invoice management, making commercialization easy.",
-            "highlights": [
-              "Subscription Management",
-              "One-time Payments",
-              "Invoice System",
-              "Webhook Handling"
-            ]
-          },
-          {
-            "icon": "Database",
-            "title": "Supabase Database",
-            "description": "Powerful PostgreSQL database with built-in real-time features, authentication, and storage, providing reliable data foundation for your application.",
-            "highlights": [
-              "PostgreSQL",
-              "Real-time Subscriptions",
-              "File Storage",
-              "Row Level Security"
-            ]
-          },
-          {
             "icon": "Bot",
-            "title": "AI-Ready Infrastructure",
-            "description": "Pre-configured AI integration supporting mainstream AI services like OpenAI, Anthropic, with built-in credit system and API sales functionality.",
+            "title": "Natural Voices",
+            "description": "Choose from high-quality voices designed for voiceovers, narration, and podcasts.",
             "highlights": [
-              "OpenAI Integration",
-              "Credit System",
-              "API Sales",
-              "Multi-model Support"
-            ]
-          },
-          {
-            "icon": "Rocket",
-            "title": "One-Click Deployment",
-            "description": "One-click deployment support for mainstream platforms like Vercel, Cloudflare, with automated CI/CD processes, making publishing simple.",
-            "highlights": [
-              "Vercel Deployment",
-              "Cloudflare Pages",
-              "CI/CD Automation",
-              "Environment Management"
-            ]
-          },
-          {
-            "icon": "BarChart3",
-            "title": "Business Analytics",
-            "description": "Integrated Google Analytics, Search Console, and other analytics tools to help you understand user behavior and business growth.",
-            "highlights": [
-              "Google Analytics",
-              "Search Console",
-              "User Behavior Analysis",
-              "Conversion Tracking"
+              "Clear & expressive",
+              "Instant preview",
+              "Consistent output"
             ]
           },
           {
             "icon": "Globe",
-            "title": "Internationalization Support",
-            "description": "Built-in multi-language support for Chinese, English, Japanese, and other languages, helping your product reach global users.",
+            "title": "Multi-Language Support",
+            "description": "Generate speech in multiple languages with stable quality and natural pacing.",
             "highlights": [
-              "Multi-language Support",
-              "RTL Support",
-              "Dynamic Language Switching",
-              "SEO Optimization"
+              "English",
+              "Chinese",
+              "Japanese",
+              "More"
+            ]
+          },
+          {
+            "icon": "BarChart3",
+            "title": "Tone & Speed Controls",
+            "description": "Tune tone, speed, and volume to match the mood you want—then preview instantly.",
+            "highlights": [
+              "Tone presets",
+              "Speed",
+              "Volume",
+              "Quick iteration"
+            ]
+          },
+          {
+            "icon": "Rocket",
+            "title": "Fast Generation",
+            "description": "Turn text into audio in seconds, so you can iterate quickly and ship faster.",
+            "highlights": [
+              "Seconds to audio",
+              "Reliable output",
+              "Preview-first workflow"
+            ]
+          },
+          {
+            "icon": "Database",
+            "title": "Export & History",
+            "description": "Download and reuse your generated audio with a clear history and simple sharing.",
+            "highlights": [
+              "MP3 export",
+              "Share links",
+              "Generation history"
+            ]
+          },
+          {
+            "icon": "Shield",
+            "title": "Secure & Private",
+            "description": "Your content stays protected with secure transport and privacy-first defaults.",
+            "highlights": [
+              "Encrypted transport",
+              "Access control",
+              "You control your data"
             ]
           }
         ]
       },
       "techStack": {
-        "title": "Technology Stack",
-        "subtitle": "Built on industry best practices and latest technologies, ensuring your application has optimal performance, security, and scalability",
+        "title": "Voices & Output",
+        "subtitle": "Pick a voice, dial in the style, and export audio you can use anywhere.",
         "technologies": [
           {
-            "name": "Next.js 14+",
-            "description": "React Full-stack Framework"
+            "name": "English Voices",
+            "description": "Clean, natural voices for narration and scripts."
           },
           {
-            "name": "React 19",
-            "description": "User Interface Library"
+            "name": "Chinese Voices",
+            "description": "Natural Mandarin voices for narration and everyday listening."
           },
           {
-            "name": "TypeScript",
-            "description": "Type-safe JavaScript"
+            "name": "Japanese Voices",
+            "description": "Smooth, easy-to-understand voices with natural intonation."
           },
           {
-            "name": "Tailwind CSS",
-            "description": "Utility-first CSS Framework"
+            "name": "Tone Presets",
+            "description": "Choose different delivery styles for different scenes."
           },
           {
-            "name": "Shadcn/UI",
-            "description": "Modern Component Library"
+            "name": "Speed & Volume",
+            "description": "Adjust pacing and loudness to match your content."
           },
           {
-            "name": "Better Auth",
-            "description": "Authentication Solution"
+            "name": "Instant Preview",
+            "description": "Compare voices quickly before final generation."
           },
           {
-            "name": "Stripe",
-            "description": "Payment Processing Platform"
+            "name": "MP3 Export",
+            "description": "Download audio you can drop into your workflow."
           },
           {
-            "name": "Supabase",
-            "description": "Backend as a Service"
-          },
-          {
-            "name": "Vercel",
-            "description": "Deployment Platform"
+            "name": "History",
+            "description": "Keep track of what you generated and reuse it anytime."
           }
         ]
       },
       "comparison": {
-        "title": "Why Choose ShipBase",
-        "subtitle": "Compared to traditional development methods, ShipBase saves you 90% of development time",
+        "title": "Why RTVox",
+        "subtitle": "Skip the re-recording loop and ship audio faster.",
         "traditional": {
-          "title": "Traditional Development",
+          "title": "Traditional Recording",
           "items": [
             {
-              "text": "Requires 3-6 months to build infrastructure"
+              "text": "Requires a quiet room, mic, and multiple takes"
             },
             {
-              "text": "Need to learn multiple technology stacks"
+              "text": "Time-consuming editing and re-recording"
             },
             {
-              "text": "Need to handle complex deployment processes"
+              "text": "Hard to iterate on tone and pacing"
             },
             {
-              "text": "Need to implement authentication and payments yourself"
+              "text": "Difficult to localize into multiple languages"
             },
             {
-              "text": "Need significant time for debugging and optimization"
+              "text": "Inconsistent output across sessions"
             }
           ]
         },
         "shipbase": {
-          "title": "Using ShipBase",
+          "title": "With RTVox",
           "items": [
             {
-              "text": "Complete basic setup in 5 minutes"
+              "text": "Pick a voice and generate speech in seconds"
             },
             {
-              "text": "Complete solution out of the box"
+              "text": "Preview, tweak tone/speed, and iterate fast"
             },
             {
-              "text": "One-click deployment to production"
+              "text": "Create consistent audio for any script"
             },
             {
-              "text": "Pre-configured authentication and payments"
+              "text": "Generate in multiple languages when needed"
             },
             {
-              "text": "Focus on product feature development"
+              "text": "Export MP3 and reuse with history"
             }
           ]
         }
       },
       "cta": {
-        "title": "Ready to Build Your AI SaaS?",
-        "subtitle": "Get ShipBase now and launch your next project in minutes",
-        "primaryButton": "Get ShipBase",
-        "secondaryButton": "View Documentation"
+        "title": "Ready to generate speech?",
+        "subtitle": "Try RTVox text to speech now.",
+        "primaryButton": "Open Text to Speech",
+        "secondaryButton": "View Pricing"
       }
     },
     "pricing": {
       "title": "Pricing",
-      "subtitle": "Simple, transparent pricing",
-      "description": "Choose the plan that fits your needs. Start free and scale as you grow.",
+      "subtitle": "Unlock premium voices when you need them",
+      "description": "Start free with Standard voices, then upgrade to access premium tiers like WaveNet, Neural2, Studio, and Chirp3-HD.",
       "plansTitle": "Choose Your Plan",
-      "plansSubtitle": "Simple, transparent pricing with no hidden fees. Choose the plan that best fits your needs and upgrade anytime.",
+      "plansSubtitle": "Start with Standard voices, then unlock premium voice tiers for higher quality.",
       "billingCycles": {
         "one-time": {
           "label": "One-time Payment",
@@ -575,65 +528,38 @@
           "name": "Free",
           "price": "$0",
           "period": "Forever",
-          "description": "Perfect for individual developers and small projects",
+          "description": "Try RTVox with Standard voices and essential controls",
           "features": [
-            "Basic Next.js templates",
-            "GitHub integration",
-            "Community support",
-            "Basic documentation",
-            "Personal use license"
+            "Standard voice tier",
+            "Tone/speed/volume basics",
+            "MP3 export & sharing",
+            "Generation history"
           ],
           "limitations": [
-            "No commercial use",
-            "No technical support",
-            "Limited features"
+            "Premium tiers require paid membership",
+            "Voice cloning is paid-only (when enabled)"
           ],
           "cta": "Get Started",
           "popular": false
         },
         {
           "name": "Professional",
-          "price": "$299",
+          "price": "$49",
           "period": "One-time payment",
-          "description": "Perfect for startups and small businesses",
+          "description": "Unlock premium voice tiers for creators and teams",
           "features": [
-            "Complete feature templates",
-            "Authentication system",
-            "Payment integration",
-            "Database setup",
-            "AI integration",
-            "One-click deployment",
-            "Email support",
-            "Commercial use license",
-            "Source code access"
+            "Everything in Free",
+            "Premium tiers: WaveNet / Neural2 / Chirp3-HD / Studio",
+            "Commercial use",
+            "Priority email support"
           ],
           "limitations": [],
           "cta": "Buy Now",
           "popular": true
-        },
-        {
-          "name": "Enterprise",
-          "price": "$999",
-          "period": "One-time payment",
-          "description": "Perfect for large enterprises and teams",
-          "features": [
-            "All Professional features",
-            "Advanced AI features",
-            "Multi-tenant support",
-            "Advanced analytics",
-            "Priority technical support",
-            "Custom development services",
-            "Team collaboration features",
-            "SLA guarantee",
-            "Training services"
-          ],
-          "limitations": [],
-          "cta": "Contact Sales",
-          "popular": false
         }
       ],
       "cta": {
-        "getStarted": "Get Started",
+        "getStarted": "Currently using",
         "buyNow": "Buy Now",
         "contactSales": "Contact Sales",
         "currentPlan": "Current Plan"
@@ -653,184 +579,180 @@
         "forever": "forever"
       },
       "faqTitle": "Frequently Asked Questions",
-      "faqSubtitle": "Have more questions? We're happy to help",
+      "faqSubtitle": "Have more questions? We're happy to help.",
       "faqs": [
         {
-          "question": "What's the difference between Free and Paid plans?",
-          "answer": "The Free plan provides basic features suitable for learning and personal projects. Paid plans include complete commercial features like authentication, payment integration, AI features, etc., suitable for commercial projects."
+          "question": "What’s the difference between Free and paid plans?",
+          "answer": "Free supports Standard voices and core controls. Paid plans unlock premium voice tiers (WaveNet, Neural2, Studio, Chirp3-HD) and advanced access."
         },
         {
-          "question": "What payment options do you support?",
-          "answer": "We support one-time payment, monthly billing, and yearly billing. Yearly billing offers 20% discount, and one-time payment gives you lifetime access."
+          "question": "Which voices are premium?",
+          "answer": "WaveNet, Neural2, Studio, and Chirp3-HD are premium tiers. Standard voices are available on Free."
         },
         {
           "question": "Do you offer refunds?",
-          "answer": "We offer a 30-day unconditional refund guarantee. If you're not satisfied within 30 days of purchase, you can apply for a full refund."
+          "answer": "If you have billing issues, contact support and we’ll help you resolve them as quickly as possible."
         },
         {
-          "question": "Can I use it for commercial projects?",
-          "answer": "Professional and Enterprise plans support commercial use. The Free plan is limited to personal learning and non-commercial projects."
+          "question": "Can I use the generated audio commercially?",
+          "answer": "Paid plans are designed for commercial use. Always ensure your content complies with applicable laws and third‑party rights."
         },
         {
-          "question": "Does it include technical support?",
-          "answer": "Professional plan provides email support, Enterprise plan provides priority technical support. We respond to your questions within 24 hours."
+          "question": "Does RTVox support multiple languages?",
+          "answer": "Yes. RTVox supports multiple languages and lets you preview voices quickly before generating your final audio."
         },
         {
-          "question": "How do I upgrade to a higher plan?",
-          "answer": "You can upgrade to a higher plan anytime by paying the price difference. After upgrade, you'll immediately enjoy all features of the new plan."
-        },
-        {
-          "question": "What are the benefits of yearly billing?",
-          "answer": "Yearly billing offers 20% discount compared to monthly billing, saving you more money while reducing billing frequency for convenience."
+          "question": "How do I upgrade?",
+          "answer": "Choose a paid plan on this page and complete checkout. Premium voice tiers will be available for your account after payment."
         }
       ]
     },
     "docs": {
-      "title": "Documentation",
-      "subtitle": "Everything you need to get started",
-      "description": "Comprehensive guides, API references, and tutorials to help you build amazing applications.",
+      "title": "Docs",
+      "subtitle": "RTVox + Google Text-to-Speech",
+      "description": "Learn how RTVox turns text into natural speech using Google Cloud Text-to-Speech—voices, tiers, formats, and best practices.",
       "quickStart": {
         "title": "Quick Start",
-        "subtitle": "Get started with ShipBase in just a few simple steps to build your AI SaaS application",
+        "subtitle": "Generate your first audio in minutes",
         "steps": [
           {
             "step": "1",
-            "title": "Install ShipBase",
-            "description": "Clone the repository and install dependencies",
-            "code": "git clone https://github.com/your-repo/shipbase\\ncd shipbase\\npnpm install"
+            "title": "Open Text to Speech",
+            "description": "Go to RTVox Text to Speech and choose a language + voice.",
+            "code": "Open: /podcast-mvp\\nPick a language\\nPick a voice"
           },
           {
             "step": "2",
-            "title": "Configure Environment",
-            "description": "Set up necessary API keys and configuration",
-            "code": "cp .env.example .env.local\\n# Edit .env.local file"
+            "title": "Paste Your Script",
+            "description": "Paste your text. RTVox works well for voiceovers, podcasts, and narration.",
+            "code": "Paste your script into the editor\\nPreview voices before generating"
           },
           {
             "step": "3",
-            "title": "Start Development Server",
-            "description": "Run the project locally",
-            "code": "pnpm dev\\n# Visit http://localhost:3000"
+            "title": "Tune the Style",
+            "description": "Adjust tone, speed, and volume to match the delivery you want.",
+            "code": "Tone: serious (or neutral)\\nSpeed: 1.0\\nVolume: 0 dB"
           },
           {
             "step": "4",
-            "title": "Deploy to Production",
-            "description": "One-click deployment to Vercel",
-            "code": "pnpm build\\nvercel deploy"
+            "title": "Generate & Export",
+            "description": "Generate the audio and download/share it.",
+            "code": "Click: Generate\\nDownload MP3\\nOr share a link"
           }
         ]
       },
       "navigation": {
-        "title": "Documentation Navigation",
-        "subtitle": "Browse our complete documentation to find all the information you need",
+        "title": "Guides",
+        "subtitle": "Key topics for getting the best results with RTVox",
         "sections": [
           {
-            "title": "Quick Start",
-            "description": "Get up and running with ShipBase in 5 minutes",
+            "title": "Getting Started",
+            "description": "Start generating speech from text",
             "icon": "Rocket",
             "links": [
               {
-                "name": "Installation Guide",
-                "href": "#"
+                "name": "Open Text to Speech",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "Environment Setup",
-                "href": "#"
+                "name": "View Pricing",
+                "href": "/pricing"
               },
               {
-                "name": "First Application",
-                "href": "#"
+                "name": "Help Center",
+                "href": "/help"
               }
             ]
           },
           {
-            "title": "Core Features",
-            "description": "Learn about ShipBase's core functionality",
-            "icon": "Code",
-            "links": [
-              {
-                "name": "Authentication",
-                "href": "#"
-              },
-              {
-                "name": "Payment Integration",
-                "href": "#"
-              },
-              {
-                "name": "Database Setup",
-                "href": "#"
-              },
-              {
-                "name": "AI Integration",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "API Reference",
-            "description": "Complete API documentation and examples",
-            "icon": "Database",
-            "links": [
-              {
-                "name": "REST API",
-                "href": "#"
-              },
-              {
-                "name": "GraphQL",
-                "href": "#"
-              },
-              {
-                "name": "Webhooks",
-                "href": "#"
-              },
-              {
-                "name": "SDK",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "Deployment Guide",
-            "description": "Deploy your application to production",
+            "title": "Voices & Languages",
+            "description": "Pick the right voice tier and language",
             "icon": "Globe",
             "links": [
               {
-                "name": "Vercel Deployment",
-                "href": "#"
+                "name": "Browse voices (in-app)",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "Cloudflare Pages",
-                "href": "#"
+                "name": "Google voice catalog (reference)",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "Docker Deployment",
-                "href": "#"
+                "name": "Supported languages (reference)",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "Environment Config",
-                "href": "#"
+                "name": "Voice tiers: Standard/WaveNet/Neural2/Studio/Chirp3-HD",
+                "href": "/pricing"
               }
             ]
           },
           {
-            "title": "Best Practices",
-            "description": "Best practices for development and production",
-            "icon": "Shield",
+            "title": "Audio Output",
+            "description": "Export formats and audio quality tips",
+            "icon": "Database",
             "links": [
               {
-                "name": "Security Guide",
-                "href": "#"
+                "name": "Export MP3",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "Performance Optimization",
-                "href": "#"
+                "name": "Audio formats (Google reference)",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               },
               {
-                "name": "Monitoring & Logging",
-                "href": "#"
+                "name": "Long scripts: split and preview",
+                "href": "/help"
               },
               {
-                "name": "Error Handling",
-                "href": "#"
+                "name": "Share links & history",
+                "href": "/podcast-mvp"
+              }
+            ]
+          },
+          {
+            "title": "Tone & SSML",
+            "description": "Control delivery with tone and speech markup",
+            "icon": "Code",
+            "links": [
+              {
+                "name": "Tone presets",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "How tones work (SSML)",
+                "href": "https://cloud.google.com/text-to-speech/docs/ssml"
+              },
+              {
+                "name": "Speed & volume controls",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "Best practices",
+                "href": "/help"
+              }
+            ]
+          },
+          {
+            "title": "Billing & Limits",
+            "description": "Understand tiers, characters, and usage",
+            "icon": "CreditCard",
+            "links": [
+              {
+                "name": "Pricing & plans",
+                "href": "/pricing"
+              },
+              {
+                "name": "Google pricing (reference)",
+                "href": "https://cloud.google.com/text-to-speech/pricing"
+              },
+              {
+                "name": "Why premium tiers require membership",
+                "href": "/pricing"
+              },
+              {
+                "name": "Usage troubleshooting",
+                "href": "/help"
               }
             ]
           },
@@ -840,20 +762,20 @@
             "icon": "Zap",
             "links": [
               {
-                "name": "FAQ",
-                "href": "#"
+                "name": "Help Center",
+                "href": "/help"
               },
               {
-                "name": "Error Codes",
-                "href": "#"
+                "name": "Contact support",
+                "href": "/contact"
               },
               {
-                "name": "Debugging Tips",
-                "href": "#"
+                "name": "Billing issues",
+                "href": "/pricing"
               },
               {
-                "name": "Community Support",
-                "href": "#"
+                "name": "Google Text-to-Speech docs (reference)",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               }
             ]
           }
@@ -861,10 +783,10 @@
       },
       "support": {
         "title": "Need Help?",
-        "subtitle": "Our community and support team are here to help",
-        "description": "Join our Discord community or check out the FAQ.",
-        "discordButton": "Join Discord",
-        "faqButton": "View FAQ"
+        "subtitle": "We’re here to help you get great audio",
+        "description": "Check the Help Center for common questions, or contact us for support.",
+        "discordButton": "Contact Support",
+        "faqButton": "Open Help Center"
       }
     },
     "integrations": {
@@ -1194,71 +1116,71 @@
     },
     "help": {
       "title": "Help Center",
-      "subtitle": "Get the support you need",
-      "description": "Find answers to common questions, troubleshooting guides, and best practices.",
+      "subtitle": "Support for RTVox text to speech",
+      "description": "Find answers about voices, tiers, tone controls, exports, and billing. RTVox is powered by Google Cloud Text-to-Speech.",
       "searchPlaceholder": "Search help articles...",
       "popularArticles": {
         "title": "Popular Articles",
         "subtitle": "Most viewed help articles",
         "articles": [
           {
-            "title": "Getting Started with ShipBase",
-            "description": "Learn how to quickly set up and deploy your first AI SaaS application",
-            "href": "#",
+            "title": "Generate your first audio",
+            "description": "Pick a language and voice, paste a script, and generate natural speech in seconds.",
+            "href": "/podcast-mvp",
             "tags": [
-              "Quick Start",
-              "Deployment",
-              "Setup"
+              "Getting Started",
+              "Generate",
+              "Preview"
             ]
           },
           {
-            "title": "Authentication Configuration Guide",
-            "description": "Detailed instructions for configuring Google OAuth, GitHub OAuth, and Magic Link",
-            "href": "#",
+            "title": "Choosing the right voice tier",
+            "description": "Understand Standard vs premium tiers like WaveNet, Neural2, Studio, and Chirp3-HD.",
+            "href": "/pricing",
             "tags": [
-              "Authentication",
-              "OAuth",
-              "Configuration"
+              "Voices",
+              "Tiers",
+              "Pricing"
             ]
           },
           {
-            "title": "Stripe Payment Integration",
-            "description": "How to set up subscriptions, one-time payments, and invoice management",
-            "href": "#",
+            "title": "Tone, speed, and volume controls",
+            "description": "Use tone presets and fine‑tune delivery for voiceovers and narration.",
+            "href": "/podcast-mvp",
             "tags": [
-              "Payments",
-              "Stripe",
-              "Subscriptions"
+              "Tone",
+              "Controls",
+              "Workflow"
             ]
           },
           {
-            "title": "AI Features Integration",
-            "description": "Complete guide to integrating OpenAI, Anthropic, and other AI services",
-            "href": "#",
+            "title": "SSML basics (Google reference)",
+            "description": "Learn how Speech Synthesis Markup Language affects speaking style and pronunciation.",
+            "href": "https://cloud.google.com/text-to-speech/docs/ssml",
             "tags": [
-              "AI",
-              "OpenAI",
-              "Integration"
+              "SSML",
+              "Google",
+              "Advanced"
             ]
           },
           {
-            "title": "Database Setup and Migration",
-            "description": "Supabase database configuration and data migration best practices",
-            "href": "#",
+            "title": "Audio formats & quality",
+            "description": "Choose output formats like MP3 and learn best practices for clear speech.",
+            "href": "https://cloud.google.com/text-to-speech/docs",
             "tags": [
-              "Database",
-              "Supabase",
-              "Migration"
+              "MP3",
+              "Audio",
+              "Quality"
             ]
           },
           {
-            "title": "Deploy to Production",
-            "description": "Detailed steps for Vercel and Cloudflare deployment",
-            "href": "#",
+            "title": "Premium required: why you may see limits",
+            "description": "Premium voice tiers require membership. Learn what’s included and how to upgrade.",
+            "href": "/pricing",
             "tags": [
-              "Deployment",
-              "Vercel",
-              "Production"
+              "Premium",
+              "Membership",
+              "Limits"
             ]
           }
         ]
@@ -1267,169 +1189,159 @@
       "categoriesSubtitle": "Browse help articles by category",
       "categories": [
         {
-          "title": "Quick Start",
-          "description": "New user onboarding guides",
+          "title": "Getting Started",
+          "description": "From text to audio in a simple flow",
           "icon": "Rocket",
           "articles": [
             {
-              "title": "Installation and Setup",
-              "description": "Set up a ShipBase project from scratch",
-              "href": "#",
+              "title": "Open Text to Speech",
+              "description": "Start generating speech from text.",
+              "href": "/podcast-mvp",
               "tags": [
-                "Installation",
-                "Setup",
-                "Environment"
+                "Start",
+                "Generate",
+                "Voices"
               ]
             },
             {
-              "title": "First Application",
-              "description": "Create your first AI SaaS application",
-              "href": "#",
+              "title": "Export & share",
+              "description": "Download MP3 and reuse results from your history.",
+              "href": "/podcast-mvp",
               "tags": [
-                "Tutorial",
-                "Application",
-                "Development"
+                "MP3",
+                "Share",
+                "History"
               ]
             },
             {
-              "title": "Environment Variables Configuration",
-              "description": "Properly configure all necessary environment variables",
-              "href": "#",
+              "title": "Trouble generating?",
+              "description": "Common reasons generation fails and how to fix them.",
+              "href": "/help",
               "tags": [
-                "Configuration",
-                "Environment Variables",
-                "API Keys"
+                "Errors",
+                "Limits",
+                "Tips"
               ]
             }
           ]
         },
         {
-          "title": "Core Features",
-          "description": "Usage guides for ShipBase main features",
-          "icon": "Code",
-          "articles": [
-            {
-              "title": "Authentication System",
-              "description": "User login, registration, and session management",
-              "href": "#",
-              "tags": [
-                "Authentication",
-                "User Management",
-                "Sessions"
-              ]
-            },
-            {
-              "title": "Payment Processing",
-              "description": "Subscription management and payment flows",
-              "href": "#",
-              "tags": [
-                "Payments",
-                "Subscriptions",
-                "Billing"
-              ]
-            },
-            {
-              "title": "Database Operations",
-              "description": "Data storage and query best practices",
-              "href": "#",
-              "tags": [
-                "Database",
-                "Queries",
-                "Storage"
-              ]
-            },
-            {
-              "title": "AI Integration",
-              "description": "Integration and usage of AI services",
-              "href": "#",
-              "tags": [
-                "AI",
-                "Machine Learning",
-                "API"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Deployment & Operations",
-          "description": "Production deployment and operations guides",
+          "title": "Voices & Languages",
+          "description": "Choose voices and understand tiers",
           "icon": "Globe",
           "articles": [
             {
-              "title": "Vercel Deployment",
-              "description": "Deploy your application using Vercel",
-              "href": "#",
+              "title": "Google voice catalog (reference)",
+              "description": "Official list of voices and language variants.",
+              "href": "https://cloud.google.com/text-to-speech/docs/voices",
               "tags": [
-                "Vercel",
-                "Deployment",
-                "CDN"
+                "Voices",
+                "Languages",
+                "Google"
               ]
             },
             {
-              "title": "Cloudflare Pages",
-              "description": "Cloudflare Pages deployment guide",
-              "href": "#",
+              "title": "Premium tiers explained",
+              "description": "WaveNet, Neural2, Studio, and Chirp3-HD vs Standard.",
+              "href": "/pricing",
               "tags": [
-                "Cloudflare",
-                "Deployment",
-                "Edge Computing"
+                "Tiers",
+                "Pricing",
+                "Premium"
               ]
             },
             {
-              "title": "Environment Management",
-              "description": "Development, testing, and production environment management",
-              "href": "#",
+              "title": "Language selection in RTVox",
+              "description": "How language affects available voices and pronunciation.",
+              "href": "/podcast-mvp",
               "tags": [
-                "Environment",
-                "Configuration",
-                "Management"
+                "Language",
+                "Pronunciation",
+                "Voices"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Tone & SSML",
+          "description": "Control delivery and speaking style",
+          "icon": "Code",
+          "articles": [
+            {
+              "title": "Tone presets",
+              "description": "Pick a tone for serious, cheerful, excited, and more.",
+              "href": "/podcast-mvp",
+              "tags": [
+                "Tone",
+                "Style",
+                "Preview"
               ]
             },
             {
-              "title": "Monitoring and Logging",
-              "description": "Application monitoring and logging",
-              "href": "#",
+              "title": "SSML reference",
+              "description": "How SSML works in Google Text-to-Speech.",
+              "href": "https://cloud.google.com/text-to-speech/docs/ssml",
               "tags": [
-                "Monitoring",
-                "Logging",
-                "Analytics"
+                "SSML",
+                "Google",
+                "Reference"
+              ]
+            },
+            {
+              "title": "Speed & volume tips",
+              "description": "Make speech clearer with pacing and volume adjustments.",
+              "href": "/podcast-mvp",
+              "tags": [
+                "Speed",
+                "Volume",
+                "Clarity"
+              ]
+            },
+            {
+              "title": "Billing tiers & characters",
+              "description": "How character counts relate to pricing tiers.",
+              "href": "https://cloud.google.com/text-to-speech/pricing",
+              "tags": [
+                "Pricing",
+                "Characters",
+                "Google"
               ]
             }
           ]
         },
         {
           "title": "Troubleshooting",
-          "description": "Common issues and solutions",
+          "description": "Fix common problems quickly",
           "icon": "Zap",
           "articles": [
             {
-              "title": "Common Errors",
-              "description": "Resolve common deployment and runtime errors",
-              "href": "#",
+              "title": "Premium required errors",
+              "description": "Why some voices require a paid plan and how to upgrade.",
+              "href": "/pricing",
               "tags": [
-                "Errors",
-                "Debugging",
-                "Resolution"
+                "Premium",
+                "Tiers",
+                "Fix"
               ]
             },
             {
-              "title": "Performance Optimization",
-              "description": "Tips to improve application performance",
-              "href": "#",
+              "title": "Voice sounds different than expected",
+              "description": "Tips for choosing the right voice and tone.",
+              "href": "/podcast-mvp",
               "tags": [
-                "Performance",
-                "Optimization",
-                "Speed"
+                "Voices",
+                "Tone",
+                "Preview"
               ]
             },
             {
-              "title": "Security Best Practices",
-              "description": "Protect your application and data security",
-              "href": "#",
+              "title": "Can’t download or share audio",
+              "description": "Check your generation history and export options.",
+              "href": "/podcast-mvp",
               "tags": [
-                "Security",
-                "Best Practices",
-                "Protection"
+                "Download",
+                "Share",
+                "History"
               ]
             }
           ]
@@ -1440,37 +1352,37 @@
         "subtitle": "Quickly find the answers you need",
         "faqs": [
           {
-            "question": "Which AI services does ShipBase support?",
-            "answer": "ShipBase supports mainstream AI services like OpenAI, Anthropic, Google AI, and provides a unified interface to manage different AI providers."
+            "question": "What powers RTVox?",
+            "answer": "RTVox uses Google Cloud Text-to-Speech to generate natural‑sounding speech from text."
           },
           {
-            "question": "How can I customize ShipBase's interface?",
-            "answer": "ShipBase uses Tailwind CSS and Shadcn/UI, making it easy to customize styles. All components are customizable and support theme switching."
+            "question": "Which voice tiers are premium?",
+            "answer": "WaveNet, Neural2, Studio, and Chirp3‑HD are premium tiers. Standard voices are available on Free."
           },
           {
-            "question": "Does ShipBase support multiple languages?",
-            "answer": "Yes, ShipBase has built-in internationalization support. Currently supports Chinese, English, and Japanese, and you can easily add more languages."
+            "question": "Does RTVox support multiple languages?",
+            "answer": "Yes. You can generate speech in multiple languages and preview voices before generating."
           },
           {
-            "question": "How do I upgrade ShipBase versions?",
-            "answer": "You can upgrade ShipBase by pulling the latest code via Git. We recommend backing up your custom code before upgrading."
+            "question": "Can I control speaking style?",
+            "answer": "Yes. RTVox supports tone presets and lets you adjust speed and volume for better delivery."
           },
           {
-            "question": "How is ShipBase's performance?",
-            "answer": "ShipBase is built on Next.js 14+ with Server Components and Edge Runtime support, delivering excellent performance."
+            "question": "What audio formats does RTVox export?",
+            "answer": "RTVox generates MP3 for easy sharing and editing."
           },
           {
             "question": "How can I get technical support?",
-            "answer": "You can contact us via email or join our Discord community for real-time assistance."
+            "answer": "Use the Contact page to reach support, or review the Docs for product details."
           }
         ]
       },
       "contact": {
         "title": "Need More Help?",
         "subtitle": "Contact our support team",
-        "description": "If you can't find the answer in our documentation, our support team is here to help.",
-        "emailButton": "Send Email",
-        "discordButton": "Join Discord"
+        "description": "If you can't find an answer, contact support or review the docs for detailed guidance.",
+        "emailButton": "Contact Support",
+        "discordButton": "Open Docs"
       }
     },
     "contact": {

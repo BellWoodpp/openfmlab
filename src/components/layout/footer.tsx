@@ -45,10 +45,10 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">S</span>
+                <span className="text-white font-bold text-sm">R</span>
               </div>
               <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-                ShipBase
+                RTVox
               </span>
             </div>
             <p className="text-sm text-neutral-600 dark:text-neutral-300 max-w-xs">
@@ -197,13 +197,8 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
         <div className="mt-12 border-t border-neutral-200 dark:border-neutral-800 pt-8">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              {dictionary.copyright.replace('2024', currentYear.toString())}
+              {dictionary.copyright.replace(/\d{4}/, currentYear.toString())}
             </p>
-            <div className="flex items-center space-x-6">
-              <span className="text-sm text-neutral-600 dark:text-neutral-300">
-                {dictionary.madeWithLove}
-              </span>
-            </div>
           </div>
         </div>
         <div className="mt-8 border-t border-neutral-200 dark:border-neutral-800 pt-8">

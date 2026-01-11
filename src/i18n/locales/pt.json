@@ -1,9 +1,9 @@
 {
   "home": {
     "badgeLabel": "2025🚀 Lance agora",
-    "heroTitle": "ShipBase, lance mais.",
-    "heroDescription": "ShipBase é um boilerplate de NextJS para construir startups de IA (SaaS). Lance rápido com uma variedade de templates e componentes.",
-    "ctaPrimary": "Começar",
+    "heroTitle": "RTVox, dê voz ao texto.",
+    "heroDescription": "RTVox é um estúdio de texto para fala com vozes do Google. Cole um roteiro, escolha uma voz e gere áudio natural em segundos.",
+    "ctaPrimary": "Texto para fala",
     "ctaSecondary": "Ler Documentação",
     "watchDemo": "Assistir à Demo",
     "viewDetails": "Ver Detalhes",
@@ -338,7 +338,7 @@
     }
   },
   "footer": {
-    "description": "Uma plataforma SaaS moderna que ajuda você a criar e publicar aplicações rapidamente.",
+    "description": "O RTVox transforma texto em voz natural em segundos — ideal para narrações, podcasts e uso no dia a dia.",
     "product": "Produto",
     "features": "Recursos",
     "pricing": "Preços",
@@ -352,8 +352,7 @@
     "privacyPolicy": "Política de Privacidade",
     "termsOfService": "Termos de Serviço",
     "cookiePolicy": "Política de Cookies",
-    "copyright": "© 2024 ShipBase. Todos os direitos reservados.",
-    "madeWithLove": "Feito com ❤️"
+    "copyright": "© 2026 RTVox. Todos os direitos reservados."
   },
   "pages": {
     "features": {

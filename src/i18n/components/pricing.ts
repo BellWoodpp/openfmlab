@@ -26,12 +26,12 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     header: {
       title: "Pricing Plans",
       subtitle:
-        "Simple and transparent pricing with no hidden fees. Choose the plan that best fits your needs, upgrade anytime.",
+        "Unlock premium voices and higher quality tiers for RTVox text to speech. Upgrade anytime.",
       yearlyDiscount: "Save 20% with yearly billing compared to monthly billing",
     },
     card: {
       popular: "Popular",
-      getStarted: "Get Started",
+      getStarted: "Currently using",
       buyNow: "Buy Now",
       contactSales: "Contact Sales",
       included: "Included Features",
@@ -46,7 +46,7 @@ const pricingCopy: Record<Locale, PricingCopy> = {
   zh: {
     header: {
       title: "价格方案",
-      subtitle: "简单透明的定价，没有隐藏费用。选择最适合您需求的方案，随时可以升级。",
+      subtitle: "解锁 RTVox 的高级音色与更高质量的语音层级，随时升级。",
       yearlyDiscount: "年付享受 20% 优惠，相比月付节省更多费用",
     },
     card: {
@@ -67,7 +67,7 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     header: {
       title: "料金プラン",
       subtitle:
-        "シンプルで透明な料金設定、隠れた費用はありません。ニーズに最適なプランを選択し、いつでもアップグレードできます。",
+        "RTVoxのプレミアム音声と高品質ティアを解放。いつでもアップグレードできます。",
       yearlyDiscount: "年払いで月払いと比較して20%お得",
     },
     card: {

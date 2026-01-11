@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { rateLimitOrThrow } from "@/lib/rate-limit";
 import { getTtsMeta, getTtsProvider, synthesizeTts } from "@/lib/tts";
+import { siteConfig } from "@/lib/site-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -259,7 +260,7 @@ export async function POST(req: NextRequest) {
   }
 
   const ext = format;
-      const filename = `voiceslab-${voiceParam}-${sanitizeFilename(vibe) || "audio"}.${ext}`;
+  const filename = `${siteConfig.downloadPrefix}-${voiceParam}-${sanitizeFilename(vibe) || "audio"}.${ext}`;
   try {
     const audio = await synthesizeTts({
       provider,

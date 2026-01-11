@@ -4,6 +4,7 @@ import { useState } from "react";
 
 interface PaymentRequest {
   product_id: string;
+  period?: string;
   locale?: string;
 }
 
@@ -30,7 +31,7 @@ export function usePayment() {
     checkoutUrl: null,
   });
 
-  const createCheckout = async (productId: string): Promise<boolean> => {
+  const createCheckout = async (productId: string, period?: string): Promise<boolean> => {
     setState({
       isLoading: true,
       error: null,
@@ -45,6 +46,7 @@ export function usePayment() {
         },
         body: JSON.stringify({
           product_id: productId,
+          ...(period ? { period } : {}),
         } as PaymentRequest),
       });
 

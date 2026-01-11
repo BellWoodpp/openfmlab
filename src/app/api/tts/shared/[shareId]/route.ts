@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db/client";
 import { ttsGenerations, ttsShares } from "@/lib/db/schema/tts";
+import { siteConfig } from "@/lib/site-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,7 +42,7 @@ export async function GET(
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  const filename = `voiceslab-${safeFilenamePart(found.voice)}-${found.generationId}.mp3`;
+  const filename = `${siteConfig.downloadPrefix}-${safeFilenamePart(found.voice)}-${found.generationId}.mp3`;
   return new Response(new Uint8Array(found.audio), {
     headers: {
       "Content-Type": found.mimeType || "audio/mpeg",

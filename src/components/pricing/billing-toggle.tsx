@@ -19,7 +19,8 @@ export function BillingToggle({
   discountLabel,
   className
 }: BillingToggleProps) {
-  const periods: PricingPeriod[] = ['one-time', 'monthly', 'yearly'];
+  // Temporarily disable one-time payments in UI
+  const periods: PricingPeriod[] = ['monthly', 'yearly'];
   const pricingConfig = getPricingConfig(locale);
 
   return (

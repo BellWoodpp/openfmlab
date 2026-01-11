@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { siteConfig } from "./site-config"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -18,5 +19,5 @@ export function getBaseUrl(): string {
   if (process.env.NODE_ENV === "development") return "http://localhost:3000"
 
   // Fallback for builds without a configured domain.
-  return "https://www.voiceslab.ai"
+  return siteConfig.siteUrl
 }

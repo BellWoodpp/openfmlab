@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: LocaleDocsPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Documentation - ShipBase",
+      title: "Documentation - RTVox",
       description: "Everything you need to get started",
     };;
   }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: LocaleDocsPageProps) {
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.docs.title} - ShipBase`,
+    title: `${dictionary.pages.docs.title} - RTVox`,
     description: dictionary.pages.docs.subtitle,
   };;
 }

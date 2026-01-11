@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import clsx from "clsx";
+import { siteConfig } from "@/lib/site-config";
 import "../podcast-mvp/globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -10,8 +11,8 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.voiceslab.ai"),
-  title: "Voiceslab — Voice Cloning",
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: `${siteConfig.brandName} — Voice Cloning`,
   description: "High quality AI voice cloning.",
 };
 
@@ -26,4 +27,3 @@ export default function VoiceCloningLayout({
     </html>
   );
 }
-

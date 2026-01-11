@@ -1,9 +1,9 @@
 {
   "home": {
     "badgeLabel": "2025🚀 立即发布",
-    "heroTitle": "ShipBase，发布更多。",
-    "heroDescription": "ShipBase 是一个用于构建 AI SaaS 初创公司的 NextJS 模板。通过多种模板和组件快速发布。",
-    "ctaPrimary": "创建你的声音",
+    "heroTitle": "RTVox，让文字开口。",
+    "heroDescription": "RTVox 是一款 AI 文本转语音工具，基于 Google 语音模型，几秒即可生成自然流畅的音频。",
+    "ctaPrimary": "立即文本转语音",
     "ctaSecondary": "阅读文档",
     "watchDemo": "观看演示",
     "viewDetails": "查看详情",
@@ -115,77 +115,61 @@
         "description": "获得专业技术支持，帮助您快速上手。"
       }
     ],
-    "launchStepsTitle": "如何使用 ShipBase 发布",
-    "launchStepsSubtitle": "通过三个简单步骤让您的 AI SaaS 初创公司运行：",
+    "launchStepsTitle": "如何用 RTVox 生成语音",
+    "launchStepsSubtitle": "四步将文本转换为自然语音：",
     "launchSteps": [
       {
         "step": "1",
-        "title": "获取 ShipBase",
-        "description": "一次性购买 ShipBase。检查您的电子邮件获取代码和文档。"
+        "title": "选择声音",
+        "description": "按语言与风格浏览音色，选择最适合你内容的声音。"
       },
       {
         "step": "2",
-        "title": "开始您的项目",
-        "description": "阅读文档并克隆 ShipBase 代码。开始构建您的 AI SaaS 初创公司。"
+        "title": "粘贴脚本",
+        "description": "粘贴或输入文本，用于配音、播客或朗读都很方便。"
       },
       {
         "step": "3",
-        "title": "自定义您的项目",
-        "description": "使用您的数据和内容修改模板。满足特定的 AI 功能需求。"
+        "title": "调整风格",
+        "description": "根据需要设置语气、语速与音量，让表达更贴合场景。"
       },
       {
         "step": "4",
-        "title": "部署到生产环境",
-        "description": "通过几个步骤将您的项目部署到生产环境，立即开始为客户服务。"
+        "title": "生成与导出",
+        "description": "几秒生成音频，随时下载或分享使用。"
       }
     ],
-    "keyFeaturesTitle": "ShipBase 的关键特性",
-    "keyFeaturesSubtitle": "快速高效地启动 AI SaaS 初创公司所需的一切。",
+    "keyFeaturesTitle": "RTVox 的核心特性",
+    "keyFeaturesSubtitle": "将文本转换为自然语音所需的一切——快速、简单。",
     "keyFeatures": [
       {
-        "title": "Next.js 模板",
-        "description": "生产就绪的 Next.js 模板，具有 SEO 友好的结构和 i18n 支持。"
+        "title": "高质量声音",
+        "description": "自然清晰的音频，适用于配音、播客、朗读与脚本。"
       },
       {
-        "title": "身份验证和支付",
-        "description": "集成 Google OAuth、一键登录和 Stripe 支付处理。"
+        "title": "多语言支持",
+        "description": "支持英语、中文、日语等多种语言，输出稳定一致。"
       },
       {
-        "title": "数据基础设施",
-        "description": "内置 Supabase 集成，提供可靠和可扩展的数据存储。"
+        "title": "风格可调",
+        "description": "可调整语气、语速与音量，获得你想要的表达方式。"
       },
       {
-        "title": "一键部署",
-        "description": "无缝部署到 Vercel 或 Cloudflare，自动设置。"
+        "title": "快速预览",
+        "description": "先试听再生成，高效对比不同声音与风格。"
       },
       {
-        "title": "业务分析",
-        "description": "集成 Google Analytics 和 Search Console 用于跟踪增长。"
+        "title": "下载与分享",
+        "description": "一键导出音频，并通过链接随时分享使用。"
       },
       {
-        "title": "AI 就绪基础设施",
-        "description": "预配置的 AI 集成，内置积分系统和 API 销售。"
+        "title": "积分与历史",
+        "description": "透明的积分消耗与历史记录，方便管理与复用。"
       }
     ],
-    "testimonialsTitle": "用户对 ShipBase 的评价",
-    "testimonialsSubtitle": "听听使用 ShipBase 启动 AI 初创公司的开发者和创始人的声音。",
-    "testimonials": [
-      {
-        "quote": "ShipBase 让从想法到产品的旅程变得比以往任何时候都简单。其全面的模板、脚本和基础基础设施意味着我几乎不需要花时间在基础开发上。我强烈推荐给希望快速启动 SaaS 业务的创始人。",
-        "author": "AITDK 作者",
-        "role": "独立开发者"
-      },
-      {
-        "quote": "ShipBase 让设置支付和处理商业化的所有细节变得超级简单，这样我们就可以专注于构建重要的功能。如果您想快速发布和扩展 AI SaaS，ShipBase 是不二之选！",
-        "author": "Scar",
-        "role": "前端工程师"
-      },
-      {
-        "quote": "我使用 ShipBase 在8分钟内启动了一个新网站，包括登录/支付，太棒了！",
-        "author": "Lafe",
-        "role": "技术负责人"
-      }
-    ],
+    "testimonialsTitle": "",
+    "testimonialsSubtitle": "",
+    "testimonials": [],
     "productShowcaseTitle": "AI SaaS 初创公司展示",
     "productShowcaseSubtitle": "看看使用 ShipBase 构建的令人惊叹的 AI SaaS 应用",
     "showcaseItems": [
@@ -245,38 +229,38 @@
         "description": "快速发布"
       }
     ],
-    "faqTitle": "关于 ShipBase 的常见问题",
-    "faqSubtitle": "还有其他问题？在 Discord 上联系我们或发送邮件。",
+    "faqTitle": "关于 RTVox 的常见问题",
+    "faqSubtitle": "还有其他问题？请发送邮件至 support@rtvox.com。",
     "faqs": [
       {
-        "question": "ShipBase 到底是什么，它是如何工作的？",
-        "answer": "ShipBase 是专门为构建 AI SaaS 初创公司而设计的综合 NextJS 模板。它提供即用型模板、基础设施设置和部署工具，帮助您在几小时内而不是几天内启动 AI 业务。"
+        "question": "RTVox 是什么？它如何工作？",
+        "answer": "RTVox 可以把文本快速转换为自然语音。选择声音，粘贴脚本，调整风格，然后生成音频进行下载或分享。"
       },
       {
-        "question": "使用 ShipBase 需要高级技术技能吗？",
-        "answer": "虽然基本的编程知识很有帮助，但 ShipBase 被设计为对开发者友好。我们的模板和文档让您即使不是 AI 或云基础设施专家也能轻松上手。"
+        "question": "支持哪些语言与声音？",
+        "answer": "支持多种语言（包括英语、中文、日语等）与丰富音色。可用的声音会根据你选择的语言与提供商而变化。"
       },
       {
-        "question": "我可以使用 ShipBase 构建什么类型的 AI SaaS？",
-        "answer": "ShipBase 支持广泛的 AI 应用，从内容生成到数据分析工具。我们的模板涵盖了流行的用例，如 AI 聊天机器人、内容生成器、图像处理应用等。"
+        "question": "积分如何计算？",
+        "answer": "积分通常根据字符数与所选声音来估算。生成前会显示预计消耗，生成后会同步更新余额。"
       },
       {
-        "question": "使用 ShipBase 发布通常需要多长时间？",
-        "answer": "使用 ShipBase，您可以在几小时内拥有一个工作原型，在几小时内拥有一个生产就绪的应用程序。我们的一键部署和预配置基础设施大大减少了传统的数月开发周期。"
+        "question": "可以导出哪些音频格式？",
+        "answer": "可导出 MP3 或 WAV（取决于声音/提供商与播放环境）。使用下载按钮即可保存到本地。"
       },
       {
-        "question": "ShipBase 基础设施包含什么？",
-        "answer": "ShipBase 提供完整的基础设施堆栈，包括身份验证、数据库设置、API 集成、支付处理和可扩展的云部署。一切都预配置遵循行业最佳实践。"
+        "question": "我的文本内容安全吗？",
+        "answer": "文本仅用于生成语音，除非你主动分享，否则不会公开可见。建议避免提交敏感的个人信息。"
       },
       {
-        "question": "我可以自定义模板以匹配我的品牌吗？",
-        "answer": "当然可以！所有 ShipBase 模板都是完全可自定义的。您可以修改设计、功能和特性以匹配您的品牌标识和特定业务需求，同时保持强大的底层基础设施。"
+        "question": "单次生成有长度限制吗？",
+        "answer": "有。为了保证生成速度与稳定性，每次请求会限制字符数。长内容建议拆分成多段生成。"
       }
     ],
-    "finalCtaTitle": "发布您的第一个 AI SaaS 初创公司",
-    "finalCtaSubtitle": "从这里开始，使用 ShipBase 发布。",
-    "finalCtaButton": "获取 ShipBase",
-    "finalCtaSecondary": "阅读文档"
+    "finalCtaTitle": "用 RTVox 生成你的第一段语音",
+    "finalCtaSubtitle": "从这里开始，几秒把文本变成自然语音。",
+    "finalCtaButton": "立即体验文本转语音",
+    "finalCtaSecondary": "查看价格"
   },
   "authPanel": {
     "title": "登录 Shipbase",
@@ -341,7 +325,7 @@
     }
   },
   "footer": {
-    "description": "现代化的SaaS平台，帮助您快速构建和部署应用程序。",
+    "description": "RTVox 可在几秒内将文本转换为自然语音，适用于配音、播客与日常收听。",
     "product": "产品",
     "features": "功能特性",
     "pricing": "价格方案",
@@ -355,205 +339,174 @@
     "privacyPolicy": "隐私政策",
     "termsOfService": "服务条款",
     "cookiePolicy": "Cookie政策",
-    "copyright": "© 2024 ShipBase. 保留所有权利。",
-    "madeWithLove": "由 ❤️ 制造"
+    "copyright": "© 2026 RTVox. 保留所有权利。"
   },
   "pages": {
     "features": {
       "title": "功能特性",
-      "subtitle": "强大的功能加速您的开发",
-      "description": "发现全面的工具和功能集，让ShipBase成为现代SaaS应用程序的完美平台。",
+      "subtitle": "真实自然的文本转语音",
+      "description": "几秒将文本转换为自然语音，适用于配音、播客、脚本与日常收听。",
       "coreFeatures": {
         "title": "核心特性",
-        "subtitle": "为现代 SaaS 应用量身定制的完整解决方案，让您专注于产品创新而非基础设施搭建",
+        "subtitle": "从脚本到音频，一站式完成生成、试听与导出。",
         "features": [
           {
-            "icon": "Code",
-            "title": "Next.js 全栈框架",
-            "description": "基于最新的 Next.js 14+ 构建，支持 App Router、Server Components 和 Edge Runtime，提供最佳的性能和开发体验。",
-            "highlights": [
-              "App Router",
-              "Server Components",
-              "Edge Runtime",
-              "TypeScript 支持"
-            ]
-          },
-          {
-            "icon": "Shield",
-            "title": "企业级身份验证",
-            "description": "集成 Better Auth，支持多种登录方式，包括 Google OAuth、GitHub OAuth 和 Magic Link，确保安全可靠。",
-            "highlights": [
-              "Google OAuth",
-              "GitHub OAuth",
-              "Magic Link",
-              "会话管理"
-            ]
-          },
-          {
-            "icon": "CreditCard",
-            "title": "Stripe 支付集成",
-            "description": "完整的支付解决方案，支持订阅、一次性支付和发票管理，让您轻松实现商业化。",
-            "highlights": [
-              "订阅管理",
-              "一次性支付",
-              "发票系统",
-              "Webhook 处理"
-            ]
-          },
-          {
-            "icon": "Database",
-            "title": "Supabase 数据库",
-            "description": "强大的 PostgreSQL 数据库，内置实时功能、身份验证和存储，为您的应用提供可靠的数据基础。",
-            "highlights": [
-              "PostgreSQL",
-              "实时订阅",
-              "文件存储",
-              "Row Level Security"
-            ]
-          },
-          {
             "icon": "Bot",
-            "title": "AI 就绪基础设施",
-            "description": "预配置的 AI 集成，支持 OpenAI、Anthropic 等主流 AI 服务，内置积分系统和 API 销售功能。",
+            "title": "自然音色",
+            "description": "高质量声音适用于配音、朗读、播客与旁白。",
             "highlights": [
-              "OpenAI 集成",
-              "积分系统",
-              "API 销售",
-              "多模型支持"
-            ]
-          },
-          {
-            "icon": "Rocket",
-            "title": "一键部署",
-            "description": "支持 Vercel、Cloudflare 等主流平台的一键部署，自动化 CI/CD 流程，让发布变得简单。",
-            "highlights": [
-              "Vercel 部署",
-              "Cloudflare Pages",
-              "CI/CD 自动化",
-              "环境管理"
-            ]
-          },
-          {
-            "icon": "BarChart3",
-            "title": "业务分析",
-            "description": "集成 Google Analytics、Search Console 等分析工具，帮助您了解用户行为和业务增长。",
-            "highlights": [
-              "Google Analytics",
-              "Search Console",
-              "用户行为分析",
-              "转化跟踪"
+              "清晰自然",
+              "一键试听",
+              "输出稳定"
             ]
           },
           {
             "icon": "Globe",
-            "title": "国际化支持",
-            "description": "内置多语言支持，支持中文、英文、日文等多种语言，让您的产品触达全球用户。",
+            "title": "多语言支持",
+            "description": "支持多语言生成，语速与节奏自然一致。",
             "highlights": [
-              "多语言支持",
-              "RTL 支持",
-              "动态语言切换",
-              "SEO 优化"
+              "英语",
+              "中文",
+              "日语",
+              "更多语言"
+            ]
+          },
+          {
+            "icon": "BarChart3",
+            "title": "语气与语速可调",
+            "description": "按场景选择语气，并调整语速与音量，生成前即可快速对比。",
+            "highlights": [
+              "语气类型",
+              "语速",
+              "音量",
+              "快速迭代"
+            ]
+          },
+          {
+            "icon": "Rocket",
+            "title": "快速生成",
+            "description": "几秒出音频，随时修改脚本并重新生成。",
+            "highlights": [
+              "生成迅速",
+              "稳定输出",
+              "先试听再生成"
+            ]
+          },
+          {
+            "icon": "Database",
+            "title": "导出与历史",
+            "description": "支持下载与复用，历史记录清晰可追溯，方便管理与分享。",
+            "highlights": [
+              "MP3 导出",
+              "分享链接",
+              "生成历史"
+            ]
+          },
+          {
+            "icon": "Shield",
+            "title": "安全与隐私",
+            "description": "采用安全传输与隐私优先的默认设置，保护你的内容与使用数据。",
+            "highlights": [
+              "加密传输",
+              "访问控制",
+              "数据可控"
             ]
           }
         ]
       },
       "techStack": {
-        "title": "技术栈",
-        "subtitle": "基于业界最佳实践和最新技术构建，确保您的应用具有最佳的性能、安全性和可扩展性",
+        "title": "声音与导出",
+        "subtitle": "选择音色、调整风格，并导出可直接使用的音频。",
         "technologies": [
           {
-            "name": "Next.js 14+",
-            "description": "React 全栈框架"
+            "name": "English Voices",
+            "description": "适合旁白、脚本与播客的清晰英语声音。"
           },
           {
-            "name": "React 19",
-            "description": "用户界面库"
+            "name": "中文声音",
+            "description": "适合配音、朗读与日常收听。"
           },
           {
-            "name": "TypeScript",
-            "description": "类型安全的 JavaScript"
+            "name": "日本語ボイス",
+            "description": "自然的语调，听感顺滑。"
           },
           {
-            "name": "Tailwind CSS",
-            "description": "实用优先的 CSS 框架"
+            "name": "语气类型",
+            "description": "不同场景选择不同表达风格。"
           },
           {
-            "name": "Shadcn/UI",
-            "description": "现代组件库"
+            "name": "语速与音量",
+            "description": "调整节奏与响度以匹配内容。"
           },
           {
-            "name": "Better Auth",
-            "description": "身份验证解决方案"
+            "name": "即时预览",
+            "description": "生成前快速对比不同声音。"
           },
           {
-            "name": "Stripe",
-            "description": "支付处理平台"
+            "name": "MP3 导出",
+            "description": "下载音频，直接用于你的工作流。"
           },
           {
-            "name": "Supabase",
-            "description": "后端即服务"
-          },
-          {
-            "name": "Vercel",
-            "description": "部署平台"
+            "name": "历史记录",
+            "description": "随时回看与复用生成内容。"
           }
         ]
       },
       "comparison": {
-        "title": "为什么选择 ShipBase",
-        "subtitle": "与传统开发方式相比，ShipBase 让您节省 90% 的开发时间",
+        "title": "为什么选择 RTVox",
+        "subtitle": "告别反复录音与剪辑，让音频制作更高效。",
         "traditional": {
-          "title": "传统开发",
+          "title": "传统录音",
           "items": [
             {
-              "text": "需要 3-6 个月搭建基础设施"
+              "text": "需要安静环境、设备与多次录制"
             },
             {
-              "text": "需要学习多种技术栈"
+              "text": "剪辑与返工耗时"
             },
             {
-              "text": "需要处理复杂的部署流程"
+              "text": "语气、节奏修改成本高"
             },
             {
-              "text": "需要自己实现身份验证和支付"
+              "text": "多语言版本难以快速产出"
             },
             {
-              "text": "需要大量时间调试和优化"
+              "text": "不同录制批次易产生不一致"
             }
           ]
         },
         "shipbase": {
-          "title": "使用 ShipBase",
+          "title": "使用 RTVox",
           "items": [
             {
-              "text": "5 分钟内完成基础设置"
+              "text": "选择声音，几秒生成语音"
             },
             {
-              "text": "开箱即用的完整解决方案"
+              "text": "先试听再调整，快速迭代"
             },
             {
-              "text": "一键部署到生产环境"
+              "text": "脚本再长也能保持输出一致"
             },
             {
-              "text": "预配置的身份验证和支付"
+              "text": "需要时可生成多语言版本"
             },
             {
-              "text": "专注于产品功能开发"
+              "text": "导出 MP3，并通过历史记录复用"
             }
           ]
         }
       },
       "cta": {
-        "title": "准备开始构建您的 AI SaaS？",
-        "subtitle": "立即获取 ShipBase，在几分钟内启动您的下一个项目",
-        "primaryButton": "获取 ShipBase",
-        "secondaryButton": "查看文档"
+        "title": "准备生成语音了吗？",
+        "subtitle": "立即体验 RTVox 文本转语音。",
+        "primaryButton": "打开文本转语音",
+        "secondaryButton": "查看价格"
       }
     },
     "pricing": {
       "title": "价格方案",
-      "subtitle": "简单透明的定价",
-      "description": "选择适合您需求的方案。免费开始，随需扩展。",
+      "subtitle": "需要时解锁高级音色",
+      "description": "免费使用 Standard 音色；升级后可使用 WaveNet、Neural2、Studio、Chirp3-HD 等高级层级。",
       "plansTitle": "选择适合您的方案",
       "plansSubtitle": "简单透明的定价，没有隐藏费用。选择最适合您需求的方案，随时可以升级。",
       "billingCycles": {
@@ -575,18 +528,16 @@
           "name": "免费版",
           "price": "¥0",
           "period": "永久免费",
-          "description": "适合个人开发者和小型项目",
+          "description": "适合体验 RTVox 的标准音色与基础功能",
           "features": [
-            "基础 Next.js 模板",
-            "GitHub 集成",
-            "社区支持",
-            "基础文档",
-            "个人使用许可"
+            "标准音色（Standard）",
+            "语气/语速/音量基础控制",
+            "MP3 导出与分享",
+            "生成历史记录"
           ],
           "limitations": [
-            "不支持商业使用",
-            "无技术支持",
-            "功能有限"
+            "高级音色（WaveNet/Neural2/Chirp3-HD/Studio）需付费会员",
+            "语音克隆仅对付费会员开放（功能开启时）"
           ],
           "cta": "开始使用",
           "popular": false
@@ -595,41 +546,16 @@
           "name": "专业版",
           "price": "¥299",
           "period": "一次性付费",
-          "description": "适合初创公司和中小企业",
+          "description": "适合创作者与团队，解锁高级音色与更高质量",
           "features": [
-            "完整功能模板",
-            "身份验证系统",
-            "支付集成",
-            "数据库设置",
-            "AI 集成",
-            "一键部署",
-            "邮件支持",
-            "商业使用许可",
-            "源码访问"
+            "包含免费版全部功能",
+            "解锁高级音色：WaveNet / Neural2 / Chirp3-HD / Studio",
+            "可商用使用",
+            "优先支持（邮件）"
           ],
           "limitations": [],
           "cta": "立即购买",
           "popular": true
-        },
-        {
-          "name": "企业版",
-          "price": "¥999",
-          "period": "一次性付费",
-          "description": "适合大型企业和团队",
-          "features": [
-            "专业版所有功能",
-            "高级 AI 功能",
-            "多租户支持",
-            "高级分析",
-            "优先技术支持",
-            "定制开发服务",
-            "团队协作功能",
-            "SLA 保障",
-            "培训服务"
-          ],
-          "limitations": [],
-          "cta": "联系销售",
-          "popular": false
         }
       ],
       "cta": {
@@ -653,184 +579,184 @@
         "forever": "永久"
       },
       "faqTitle": "常见问题",
-      "faqSubtitle": "还有其他问题？我们很乐意为您解答",
+      "faqSubtitle": "还有更多问题？我们很乐意帮助你。",
       "faqs": [
         {
           "question": "免费版和付费版有什么区别？",
-          "answer": "免费版提供基础功能，适合学习和个人项目。付费版包含完整的商业功能，如身份验证、支付集成、AI 功能等，适合商业项目。"
+          "answer": "免费版支持 Standard 音色与基础控制；付费版解锁 WaveNet/Neural2/Studio/Chirp3-HD 等高级音色层级。"
         },
         {
-          "question": "支持哪些付费方式？",
-          "answer": "我们支持一次性付费、按月付费和按年付费三种方式。年付享受 20% 的优惠折扣，一次性付费永久使用。"
+          "question": "哪些音色属于高级层级？",
+          "answer": "WaveNet、Neural2、Studio、Chirp3-HD 属于高级层级；Standard 音色可在免费版使用。"
         },
         {
-          "question": "支持退款吗？",
-          "answer": "我们提供 30 天无条件退款保证。如果您在购买后 30 天内不满意，可以申请全额退款。"
+          "question": "是否支持多语言？",
+          "answer": "支持。RTVox 提供多语言音色，并可在生成前快速试听对比。"
         },
         {
-          "question": "可以用于商业项目吗？",
-          "answer": "专业版和企业版支持商业使用。免费版仅限个人学习和非商业项目使用。"
+          "question": "生成的音频可以商用吗？",
+          "answer": "付费方案面向商业使用场景；同时请确保内容符合当地法律法规与第三方权利要求。"
         },
         {
-          "question": "包含技术支持吗？",
-          "answer": "专业版提供邮件支持，企业版提供优先技术支持。我们会在 24 小时内回复您的问题。"
+          "question": "如何升级？",
+          "answer": "在本页选择付费方案完成支付后，你的账号将可使用高级音色层级。"
         },
         {
-          "question": "如何升级到更高版本？",
-          "answer": "您可以随时升级到更高版本，只需支付差价即可。升级后立即享受新版本的所有功能。"
+          "question": "遇到支付或账单问题怎么办？",
+          "answer": "请联系支持，我们会尽快协助处理。"
         },
         {
-          "question": "年付有什么优势？",
-          "answer": "年付享受 20% 的优惠折扣，相比月付可以节省更多费用，同时减少续费频率，更加便捷。"
+          "question": "付费后就一定能用所有音色吗？",
+          "answer": "付费会员可解锁高级音色层级；生成语音仍会消耗积分/额度，具体以页面提示为准。"
         }
       ]
     },
     "docs": {
       "title": "文档",
-      "subtitle": "开始所需的一切",
-      "description": "全面的指南、API参考和教程，帮助您构建出色的应用程序。",
+      "subtitle": "RTVox + Google 文本转语音",
+      "description": "了解 RTVox 如何基于 Google Cloud Text-to-Speech 生成自然语音：音色层级、语言、音频格式与最佳实践。",
       "quickStart": {
         "title": "快速开始",
-        "subtitle": "只需几个简单步骤，您就可以开始使用 ShipBase 构建您的 AI SaaS 应用",
+        "subtitle": "几分钟生成第一段语音",
         "steps": [
           {
             "step": "1",
-            "title": "安装 ShipBase",
-            "description": "克隆仓库并安装依赖",
-            "code": "git clone https://github.com/your-repo/shipbase\\ncd shipbase\\npnpm install"
+            "title": "打开文本转语音",
+            "description": "进入 RTVox 文本转语音页面，选择语言与音色。",
+            "code": "打开：/podcast-mvp\\n选择语言\\n选择音色"
           },
           {
             "step": "2",
-            "title": "配置环境变量",
-            "description": "设置必要的 API 密钥和配置",
-            "code": "cp .env.example .env.local\\n# 编辑 .env.local 文件"
+            "title": "粘贴脚本",
+            "description": "粘贴文本。适用于配音、播客、旁白与朗读。",
+            "code": "将脚本粘贴到编辑器\\n生成前先试听对比"
           },
           {
             "step": "3",
-            "title": "启动开发服务器",
-            "description": "在本地运行项目",
-            "code": "pnpm dev\\n# 访问 http://localhost:3000"
+            "title": "调整风格",
+            "description": "根据场景设置语气、语速与音量。",
+            "code": "语气：serious（或 neutral）\\n语速：1.0\\n音量：0 dB"
           },
           {
             "step": "4",
-            "title": "部署到生产环境",
-            "description": "一键部署到 Vercel",
-            "code": "pnpm build\\nvercel deploy"
+            "title": "生成与导出",
+            "description": "生成音频后下载或分享。",
+            "code": "点击：Generate\\n下载 MP3\\n或分享链接"
           }
         ]
       },
       "navigation": {
         "title": "文档导航",
-        "subtitle": "浏览我们的完整文档，找到您需要的所有信息",
+        "subtitle": "快速找到你需要的主题",
         "sections": [
           {
-            "title": "快速开始",
-            "description": "5 分钟快速上手 ShipBase",
+            "title": "开始使用",
+            "description": "从文本到语音的完整流程",
             "icon": "Rocket",
             "links": [
               {
-                "name": "安装指南",
-                "href": "#"
+                "name": "打开文本转语音",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "环境配置",
-                "href": "#"
+                "name": "查看价格",
+                "href": "/pricing"
               },
               {
-                "name": "第一个应用",
-                "href": "#"
+                "name": "帮助中心",
+                "href": "/help"
               }
             ]
           },
           {
-            "title": "核心功能",
-            "description": "了解 ShipBase 的核心功能",
-            "icon": "Code",
-            "links": [
-              {
-                "name": "身份验证",
-                "href": "#"
-              },
-              {
-                "name": "支付集成",
-                "href": "#"
-              },
-              {
-                "name": "数据库设置",
-                "href": "#"
-              },
-              {
-                "name": "AI 集成",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "API 参考",
-            "description": "完整的 API 文档和示例",
-            "icon": "Database",
-            "links": [
-              {
-                "name": "REST API",
-                "href": "#"
-              },
-              {
-                "name": "GraphQL",
-                "href": "#"
-              },
-              {
-                "name": "Webhooks",
-                "href": "#"
-              },
-              {
-                "name": "SDK",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "部署指南",
-            "description": "将您的应用部署到生产环境",
+            "title": "音色与语言",
+            "description": "选择合适的语言与音色层级",
             "icon": "Globe",
             "links": [
               {
-                "name": "Vercel 部署",
-                "href": "#"
+                "name": "在站内浏览音色",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "Cloudflare Pages",
-                "href": "#"
+                "name": "Google 音色列表（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "Docker 部署",
-                "href": "#"
+                "name": "支持语言（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "环境配置",
-                "href": "#"
+                "name": "音色层级：Standard/WaveNet/Neural2/Studio/Chirp3-HD",
+                "href": "/pricing"
               }
             ]
           },
           {
-            "title": "最佳实践",
-            "description": "开发和生产环境的最佳实践",
-            "icon": "Shield",
+            "title": "音频与导出",
+            "description": "导出格式与音质建议",
+            "icon": "Database",
             "links": [
               {
-                "name": "安全指南",
-                "href": "#"
+                "name": "导出 MP3",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "性能优化",
-                "href": "#"
+                "name": "音频格式（Google 参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               },
               {
-                "name": "监控和日志",
-                "href": "#"
+                "name": "长文本建议：分段与预览",
+                "href": "/help"
               },
               {
-                "name": "错误处理",
-                "href": "#"
+                "name": "分享链接与历史",
+                "href": "/podcast-mvp"
+              }
+            ]
+          },
+          {
+            "title": "语气与 SSML",
+            "description": "用语气和语音标记控制表达",
+            "icon": "Code",
+            "links": [
+              {
+                "name": "语气类型",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "SSML 说明（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/ssml"
+              },
+              {
+                "name": "语速与音量",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "最佳实践",
+                "href": "/help"
+              }
+            ]
+          },
+          {
+            "title": "计费与额度",
+            "description": "理解层级、字符与使用量",
+            "icon": "CreditCard",
+            "links": [
+              {
+                "name": "价格与方案",
+                "href": "/pricing"
+              },
+              {
+                "name": "Google 定价（参考）",
+                "href": "https://cloud.google.com/text-to-speech/pricing"
+              },
+              {
+                "name": "为什么高级音色需要会员",
+                "href": "/pricing"
+              },
+              {
+                "name": "额度问题排查",
+                "href": "/help"
               }
             ]
           },
@@ -840,20 +766,20 @@
             "icon": "Zap",
             "links": [
               {
-                "name": "常见问题",
-                "href": "#"
+                "name": "帮助中心",
+                "href": "/help"
               },
               {
-                "name": "错误代码",
-                "href": "#"
+                "name": "联系支持",
+                "href": "/contact"
               },
               {
-                "name": "调试技巧",
-                "href": "#"
+                "name": "支付与账单问题",
+                "href": "/pricing"
               },
               {
-                "name": "社区支持",
-                "href": "#"
+                "name": "Google 文档（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               }
             ]
           }
@@ -861,10 +787,10 @@
       },
       "support": {
         "title": "需要帮助？",
-        "subtitle": "我们的社区和支持团队随时为您提供帮助",
-        "description": "加入我们的 Discord 社区或查看常见问题。",
-        "discordButton": "加入 Discord",
-        "faqButton": "查看 FAQ"
+        "subtitle": "我们随时为你提供支持",
+        "description": "先查看帮助中心的常见问题，或直接联系我们获取支持。",
+        "discordButton": "联系支持",
+        "faqButton": "打开帮助中心"
       }
     },
     "integrations": {
@@ -1194,242 +1120,222 @@
     },
     "help": {
       "title": "帮助中心",
-      "subtitle": "获得您需要的支持",
-      "description": "查找常见问题的答案、故障排除指南和最佳实践。",
+      "subtitle": "RTVox 文本转语音支持",
+      "description": "这里汇总了音色与层级、语气控制、导出与计费等常见问题。RTVox 基于 Google Cloud Text-to-Speech。",
       "searchPlaceholder": "搜索帮助文章...",
       "popularArticles": {
         "title": "热门文章",
         "subtitle": "最常被查看的帮助文章",
         "articles": [
           {
-            "title": "如何开始使用 ShipBase",
-            "description": "了解如何快速设置和部署您的第一个 AI SaaS 应用",
-            "href": "#",
+            "title": "生成第一段语音",
+            "description": "选择语言与音色，粘贴脚本，几秒即可生成自然语音。",
+            "href": "/podcast-mvp",
             "tags": [
               "快速开始",
-              "部署",
-              "设置"
+              "生成",
+              "试听"
             ]
           },
           {
-            "title": "身份验证配置指南",
-            "description": "详细说明如何配置 Google OAuth、GitHub OAuth 和 Magic Link",
-            "href": "#",
+            "title": "如何选择音色层级",
+            "description": "理解 Standard 与 WaveNet/Neural2/Studio/Chirp3-HD 等高级层级的区别。",
+            "href": "/pricing",
             "tags": [
-              "身份验证",
-              "OAuth",
-              "配置"
+              "音色",
+              "层级",
+              "价格"
             ]
           },
           {
-            "title": "Stripe 支付集成",
-            "description": "如何设置订阅、一次性支付和发票管理",
-            "href": "#",
+            "title": "语气、语速、音量怎么调",
+            "description": "用语气类型快速定风格，再微调语速与音量获得更自然的表达。",
+            "href": "/podcast-mvp",
             "tags": [
-              "支付",
-              "Stripe",
-              "订阅"
+              "语气",
+              "控制",
+              "工作流"
             ]
           },
           {
-            "title": "AI 功能集成",
-            "description": "集成 OpenAI、Anthropic 等 AI 服务的完整指南",
-            "href": "#",
+            "title": "SSML 入门（Google 参考）",
+            "description": "了解 SSML 如何影响语速、停顿与发音等细节。",
+            "href": "https://cloud.google.com/text-to-speech/docs/ssml",
             "tags": [
-              "AI",
-              "OpenAI",
-              "集成"
+              "SSML",
+              "Google",
+              "进阶"
             ]
           },
           {
-            "title": "数据库设置和迁移",
-            "description": "Supabase 数据库配置和数据迁移最佳实践",
-            "href": "#",
+            "title": "音频格式与音质",
+            "description": "了解 MP3 等输出格式与获得清晰语音的最佳实践。",
+            "href": "https://cloud.google.com/text-to-speech/docs",
             "tags": [
-              "数据库",
-              "Supabase",
-              "迁移"
+              "MP3",
+              "音频",
+              "音质"
             ]
           },
           {
-            "title": "部署到生产环境",
-            "description": "Vercel 和 Cloudflare 部署的详细步骤",
-            "href": "#",
+            "title": "为什么会提示需要会员/高级权限",
+            "description": "部分高级音色层级需要会员解锁，了解方案与升级方式。",
+            "href": "/pricing",
             "tags": [
-              "部署",
-              "Vercel",
-              "生产环境"
+              "会员",
+              "层级",
+              "限制"
             ]
           }
         ]
       },
       "categoriesTitle": "帮助分类",
-      "categoriesSubtitle": "按类别浏览帮助文章",
+      "categoriesSubtitle": "按主题快速定位问题",
       "categories": [
         {
-          "title": "快速开始",
-          "description": "新用户入门指南",
+          "title": "开始使用",
+          "description": "从文本到语音的完整流程",
           "icon": "Rocket",
           "articles": [
             {
-              "title": "安装和设置",
-              "description": "从零开始设置 ShipBase 项目",
-              "href": "#",
+              "title": "打开文本转语音",
+              "description": "从页面开始生成语音。",
+              "href": "/podcast-mvp",
               "tags": [
-                "安装",
-                "设置",
-                "环境"
+                "开始",
+                "生成",
+                "音色"
               ]
             },
             {
-              "title": "第一个应用",
-              "description": "创建您的第一个 AI SaaS 应用",
-              "href": "#",
+              "title": "导出与分享",
+              "description": "下载 MP3，并通过历史记录复用生成结果。",
+              "href": "/podcast-mvp",
               "tags": [
-                "教程",
-                "应用",
-                "开发"
+                "MP3",
+                "分享",
+                "历史"
               ]
             },
             {
-              "title": "环境变量配置",
-              "description": "正确配置所有必要的环境变量",
-              "href": "#",
+              "title": "生成失败怎么办",
+              "description": "常见失败原因与解决方式。",
+              "href": "/help",
               "tags": [
-                "配置",
-                "环境变量",
-                "API 密钥"
+                "错误",
+                "限制",
+                "排查"
               ]
             }
           ]
         },
         {
-          "title": "核心功能",
-          "description": "ShipBase 主要功能的使用指南",
-          "icon": "Code",
-          "articles": [
-            {
-              "title": "身份验证系统",
-              "description": "用户登录、注册和会话管理",
-              "href": "#",
-              "tags": [
-                "身份验证",
-                "用户管理",
-                "会话"
-              ]
-            },
-            {
-              "title": "支付处理",
-              "description": "订阅管理和支付流程",
-              "href": "#",
-              "tags": [
-                "支付",
-                "订阅",
-                "计费"
-              ]
-            },
-            {
-              "title": "数据库操作",
-              "description": "数据存储和查询最佳实践",
-              "href": "#",
-              "tags": [
-                "数据库",
-                "查询",
-                "存储"
-              ]
-            },
-            {
-              "title": "AI 集成",
-              "description": "AI 服务的集成和使用",
-              "href": "#",
-              "tags": [
-                "AI",
-                "机器学习",
-                "API"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "部署和运维",
-          "description": "生产环境部署和运维指南",
+          "title": "音色与语言",
+          "description": "选择音色并理解层级",
           "icon": "Globe",
           "articles": [
             {
-              "title": "Vercel 部署",
-              "description": "使用 Vercel 部署您的应用",
-              "href": "#",
+              "title": "Google 音色列表（参考）",
+              "description": "官方音色与语言变体列表。",
+              "href": "https://cloud.google.com/text-to-speech/docs/voices",
               "tags": [
-                "Vercel",
-                "部署",
-                "CDN"
+                "音色",
+                "语言",
+                "Google"
               ]
             },
             {
-              "title": "Cloudflare Pages",
-              "description": "Cloudflare Pages 部署指南",
-              "href": "#",
+              "title": "高级层级说明",
+              "description": "WaveNet/Neural2/Studio/Chirp3‑HD 与 Standard 的区别。",
+              "href": "/pricing",
               "tags": [
-                "Cloudflare",
-                "部署",
-                "边缘计算"
+                "层级",
+                "价格",
+                "会员"
               ]
             },
             {
-              "title": "环境管理",
-              "description": "开发、测试和生产环境管理",
-              "href": "#",
+              "title": "语言选择如何影响发音",
+              "description": "不同语言下可用音色与发音会有所不同。",
+              "href": "/podcast-mvp",
               "tags": [
-                "环境",
-                "配置",
-                "管理"
+                "语言",
+                "发音",
+                "音色"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "语气与 SSML",
+          "description": "控制表达方式与说话风格",
+          "icon": "Code",
+          "articles": [
+            {
+              "title": "语气类型",
+              "description": "在 RTVox 中选择不同的语气并试听对比。",
+              "href": "/podcast-mvp",
+              "tags": [
+                "语气",
+                "风格",
+                "试听"
               ]
             },
             {
-              "title": "监控和日志",
-              "description": "应用监控和日志记录",
-              "href": "#",
+              "title": "SSML 参考",
+              "description": "Google Text-to-Speech 的 SSML 使用说明。",
+              "href": "https://cloud.google.com/text-to-speech/docs/ssml",
               "tags": [
-                "监控",
-                "日志",
-                "分析"
+                "SSML",
+                "Google",
+                "参考"
+              ]
+            },
+            {
+              "title": "语速与音量建议",
+              "description": "用节奏与响度提升清晰度和自然度。",
+              "href": "/podcast-mvp",
+              "tags": [
+                "语速",
+                "音量",
+                "清晰"
               ]
             }
           ]
         },
         {
           "title": "故障排除",
-          "description": "常见问题和解决方案",
+          "description": "快速解决常见问题",
           "icon": "Zap",
           "articles": [
             {
-              "title": "常见错误",
-              "description": "解决常见的部署和运行错误",
-              "href": "#",
+              "title": "提示需要会员怎么办",
+              "description": "为什么某些音色需要会员，以及如何升级。",
+              "href": "/pricing",
               "tags": [
-                "错误",
-                "调试",
+                "会员",
+                "层级",
                 "解决"
               ]
             },
             {
-              "title": "性能优化",
-              "description": "提升应用性能的技巧",
-              "href": "#",
+              "title": "听起来不符合预期",
+              "description": "选择正确音色与语气的建议。",
+              "href": "/podcast-mvp",
               "tags": [
-                "性能",
-                "优化",
-                "速度"
+                "音色",
+                "语气",
+                "试听"
               ]
             },
             {
-              "title": "安全最佳实践",
-              "description": "保护您的应用和数据安全",
-              "href": "#",
+              "title": "无法下载或分享音频",
+              "description": "检查历史记录与导出方式。",
+              "href": "/podcast-mvp",
               "tags": [
-                "安全",
-                "最佳实践",
-                "保护"
+                "下载",
+                "分享",
+                "历史"
               ]
             }
           ]
@@ -1440,37 +1346,37 @@
         "subtitle": "快速找到您需要的答案",
         "faqs": [
           {
-            "question": "ShipBase 支持哪些 AI 服务？",
-            "answer": "ShipBase 支持 OpenAI、Anthropic、Google AI 等主流 AI 服务，并提供了统一的接口来管理不同的 AI 提供商。"
+            "question": "RTVox 用的是什么模型？",
+            "answer": "RTVox 使用 Google Cloud Text-to-Speech 将文本转换为自然语音。"
           },
           {
-            "question": "如何自定义 ShipBase 的界面？",
-            "answer": "ShipBase 使用 Tailwind CSS 和 Shadcn/UI，您可以轻松自定义样式。所有组件都是可定制的，支持主题切换。"
+            "question": "哪些音色属于高级层级？",
+            "answer": "WaveNet、Neural2、Studio、Chirp3‑HD 属于高级层级；Standard 音色可在免费版使用。"
           },
           {
-            "question": "ShipBase 是否支持多语言？",
-            "answer": "是的，ShipBase 内置了国际化支持，目前支持中文、英文和日文，您可以轻松添加更多语言。"
+            "question": "是否支持多语言？",
+            "answer": "支持。你可以选择不同语言并在生成前试听音色。"
           },
           {
-            "question": "如何升级 ShipBase 版本？",
-            "answer": "您可以通过 Git 拉取最新代码来升级 ShipBase。我们建议在升级前备份您的自定义代码。"
+            "question": "可以控制语速和语气吗？",
+            "answer": "可以。RTVox 支持语气类型，并可调语速与音量。"
           },
           {
-            "question": "ShipBase 的性能如何？",
-            "answer": "ShipBase 基于 Next.js 14+ 构建，支持 Server Components 和 Edge Runtime，具有出色的性能表现。"
+            "question": "RTVox 导出的音频格式是什么？",
+            "answer": "RTVox 生成 MP3，便于分享与后期处理。"
           },
           {
             "question": "如何获得技术支持？",
-            "answer": "您可以通过邮件联系我们，或者加入我们的 Discord 社区获得实时帮助。"
+            "answer": "你可以通过联系页面获取支持，或先查看文档了解功能细节。"
           }
         ]
       },
       "contact": {
         "title": "需要更多帮助？",
         "subtitle": "联系我们的支持团队",
-        "description": "如果您在文档中找不到答案，我们的支持团队随时为您提供帮助。",
-        "emailButton": "发送邮件",
-        "discordButton": "加入 Discord"
+        "description": "如果在帮助中心没找到答案，可以联系支持，或查看文档获取更详细的说明。",
+        "emailButton": "联系支持",
+        "discordButton": "打开文档"
       }
     },
     "contact": {

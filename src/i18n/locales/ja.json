@@ -1,9 +1,9 @@
 {
   "home": {
     "badgeLabel": "2025🚀 今すぐリリース",
-    "heroTitle": "ShipBase、もっとリリース。",
-    "heroDescription": "ShipBaseはAI SaaSスタートアップを構築するためのNextJSボイラープレートです。様々なテンプレートとコンポーネントで素早くリリース。",
-    "ctaPrimary": "今すぐ始める",
+    "heroTitle": "RTVoxで、もっと話そう。",
+    "heroDescription": "RTVoxはGoogleの音声モデルを活用したAIテキスト読み上げツールです。数秒で自然な音声を生成できます。",
+    "ctaPrimary": "今すぐテキスト読み上げ",
     "ctaSecondary": "ドキュメントを読む",
     "watchDemo": "デモを見る",
     "viewDetails": "詳細を見る",
@@ -338,7 +338,7 @@
     }
   },
   "footer": {
-    "description": "アプリケーションを迅速に構築・デプロイできるモダンなSaaSプラットフォーム。",
+    "description": "RTVox はテキストを数秒で自然な音声に変換します。ナレーション、ポッドキャスト、日常のリスニングに最適です。",
     "product": "製品",
     "features": "機能",
     "pricing": "料金",
@@ -352,207 +352,176 @@
     "privacyPolicy": "プライバシーポリシー",
     "termsOfService": "利用規約",
     "cookiePolicy": "Cookie ポリシー",
-    "copyright": "© 2024 ShipBase. 全著作権所有。",
-    "madeWithLove": "❤️ で作られました"
+    "copyright": "© 2026 RTVox. 全著作権所有。"
   },
   "pages": {
     "features": {
       "title": "機能",
-      "subtitle": "開発を加速する強力な機能",
-      "description": "ShipBaseを現代のSaaSアプリケーションに最適なプラットフォームにする包括的なツールと機能セットを発見してください。",
+      "subtitle": "本物のように自然なテキスト読み上げ",
+      "description": "高品質な音声、トーン調整、そして高速な書き出しで、テキストを数秒で自然な音声に変換します。",
       "coreFeatures": {
         "title": "コア機能",
-        "subtitle": "現代のSaaSアプリケーションに特化した完全ソリューション。インフラストラクチャの構築ではなく、製品イノベーションに集中できます",
+        "subtitle": "スクリプトの貼り付けから音声生成・書き出しまで、RTVoxで完結。",
         "features": [
           {
-            "icon": "Code",
-            "title": "Next.js フルスタックフレームワーク",
-            "description": "最新のNext.js 14+で構築、App Router、Server Components、Edge Runtimeサポートを提供し、最適なパフォーマンスと開発体験を実現。",
-            "highlights": [
-              "App Router",
-              "Server Components",
-              "Edge Runtime",
-              "TypeScript サポート"
-            ]
-          },
-          {
-            "icon": "Shield",
-            "title": "エンタープライズグレード認証",
-            "description": "Better Authを統合し、Google OAuth、GitHub OAuth、Magic Linkなど複数のログイン方法をサポートし、セキュリティと信頼性を確保。",
-            "highlights": [
-              "Google OAuth",
-              "GitHub OAuth",
-              "Magic Link",
-              "セッション管理"
-            ]
-          },
-          {
-            "icon": "CreditCard",
-            "title": "Stripe 決済統合",
-            "description": "サブスクリプション、一回払い、請求書管理をサポートする完全な決済ソリューションで、商業化を簡単に実現。",
-            "highlights": [
-              "サブスクリプション管理",
-              "一回払い",
-              "請求書システム",
-              "Webhook処理"
-            ]
-          },
-          {
-            "icon": "Database",
-            "title": "Supabase データベース",
-            "description": "リアルタイム機能、認証、ストレージを内蔵した強力なPostgreSQLデータベースで、アプリケーションに信頼性の高いデータ基盤を提供。",
-            "highlights": [
-              "PostgreSQL",
-              "リアルタイム購読",
-              "ファイルストレージ",
-              "Row Level Security"
-            ]
-          },
-          {
             "icon": "Bot",
-            "title": "AI対応インフラストラクチャ",
-            "description": "OpenAI、Anthropicなどの主流AIサービスをサポートする事前設定されたAI統合、内蔵クレジットシステムとAPI販売機能。",
+            "title": "自然な音声",
+            "description": "ナレーション、朗読、ポッドキャスト向けの高品質ボイスを用意。",
             "highlights": [
-              "OpenAI統合",
-              "クレジットシステム",
-              "API販売",
-              "マルチモデルサポート"
-            ]
-          },
-          {
-            "icon": "Rocket",
-            "title": "ワンクリックデプロイメント",
-            "description": "Vercel、Cloudflareなどの主流プラットフォームへのワンクリックデプロイメントサポート、自動化されたCI/CDプロセスで公開を簡単に。",
-            "highlights": [
-              "Vercelデプロイメント",
-              "Cloudflare Pages",
-              "CI/CD自動化",
-              "環境管理"
-            ]
-          },
-          {
-            "icon": "BarChart3",
-            "title": "ビジネス分析",
-            "description": "Google Analytics、Search Consoleなどの分析ツールを統合し、ユーザー行動とビジネス成長の理解を支援。",
-            "highlights": [
-              "Google Analytics",
-              "Search Console",
-              "ユーザー行動分析",
-              "コンバージョン追跡"
+              "クリアで自然",
+              "すぐ試聴",
+              "安定した出力"
             ]
           },
           {
             "icon": "Globe",
-            "title": "国際化サポート",
-            "description": "中国語、英語、日本語など複数言語の内蔵サポートで、製品をグローバルユーザーに届けます。",
+            "title": "多言語対応",
+            "description": "複数言語で自然なテンポの音声を生成できます。",
             "highlights": [
-              "マルチ言語サポート",
-              "RTLサポート",
-              "動的言語切り替え",
-              "SEO最適化"
+              "English",
+              "中文",
+              "日本語",
+              "More"
+            ]
+          },
+          {
+            "icon": "BarChart3",
+            "title": "トーン・速度調整",
+            "description": "トーン、速度、音量を調整して、狙った雰囲気に合わせられます。",
+            "highlights": [
+              "トーンプリセット",
+              "速度",
+              "音量",
+              "素早い反復"
+            ]
+          },
+          {
+            "icon": "Rocket",
+            "title": "高速生成",
+            "description": "数秒で音声を生成。スクリプト修正もすぐ反映できます。",
+            "highlights": [
+              "秒速生成",
+              "安定した品質",
+              "プレビュー中心"
+            ]
+          },
+          {
+            "icon": "Database",
+            "title": "書き出しと履歴",
+            "description": "音声をダウンロードし、履歴からいつでも再利用できます。",
+            "highlights": [
+              "MP3書き出し",
+              "共有リンク",
+              "生成履歴"
+            ]
+          },
+          {
+            "icon": "Shield",
+            "title": "安全とプライバシー",
+            "description": "安全な通信とプライバシー重視の設計で、コンテンツを保護します。",
+            "highlights": [
+              "暗号化通信",
+              "アクセス制御",
+              "データはあなたの管理下"
             ]
           }
         ]
       },
       "techStack": {
-        "title": "技術スタック",
-        "subtitle": "業界のベストプラクティスと最新技術に基づいて構築され、アプリケーションに最適なパフォーマンス、セキュリティ、スケーラビリティを保証",
+        "title": "音声と書き出し",
+        "subtitle": "音声を選び、スタイルを調整し、どこでも使える形式で書き出せます。",
         "technologies": [
           {
-            "name": "Next.js 14+",
-            "description": "React フルスタックフレームワーク"
+            "name": "English Voices",
+            "description": "ナレーションや台本に合う自然な英語音声。"
           },
           {
-            "name": "React 19",
-            "description": "ユーザーインターフェースライブラリ"
+            "name": "中文声音",
+            "description": "配音・朗読・日常リスニング向け。"
           },
           {
-            "name": "TypeScript",
-            "description": "型安全なJavaScript"
+            "name": "日本語ボイス",
+            "description": "聞き取りやすい自然な抑揚。"
           },
           {
-            "name": "Tailwind CSS",
-            "description": "ユーティリティファーストCSSフレームワーク"
+            "name": "トーンプリセット",
+            "description": "用途に合わせて話し方の雰囲気を選択。"
           },
           {
-            "name": "Shadcn/UI",
-            "description": "モダンコンポーネントライブラリ"
+            "name": "速度・音量",
+            "description": "テンポや音量を調整して最適化。"
           },
           {
-            "name": "Better Auth",
-            "description": "認証ソリューション"
+            "name": "プレビュー",
+            "description": "生成前に音声を素早く比較できます。"
           },
           {
-            "name": "Stripe",
-            "description": "決済処理プラットフォーム"
+            "name": "MP3書き出し",
+            "description": "そのまま制作フローに組み込めます。"
           },
           {
-            "name": "Supabase",
-            "description": "バックエンド即サービス"
-          },
-          {
-            "name": "Vercel",
-            "description": "デプロイメントプラットフォーム"
+            "name": "履歴",
+            "description": "生成内容を管理し、再利用も簡単。"
           }
         ]
       },
       "comparison": {
-        "title": "なぜShipBaseを選ぶのか",
-        "subtitle": "従来の開発方法と比較して、ShipBaseは開発時間を90%節約",
+        "title": "RTVoxを選ぶ理由",
+        "subtitle": "録音と編集のループを省いて、音声制作をもっと速く。",
         "traditional": {
-          "title": "従来の開発",
+          "title": "従来の録音",
           "items": [
             {
-              "text": "インフラストラクチャ構築に3-6ヶ月必要"
+              "text": "静かな環境と機材が必要で、録り直しも多い"
             },
             {
-              "text": "複数の技術スタックを学習する必要"
+              "text": "編集と再収録に時間がかかる"
             },
             {
-              "text": "複雑なデプロイメントプロセスを処理する必要"
+              "text": "トーンやテンポの調整が大変"
             },
             {
-              "text": "認証と決済を自分で実装する必要"
+              "text": "多言語展開が難しい"
             },
             {
-              "text": "デバッグと最適化に大量の時間が必要"
+              "text": "回ごとに音質や話し方がブレやすい"
             }
           ]
         },
         "shipbase": {
-          "title": "ShipBaseを使用",
+          "title": "RTVoxなら",
           "items": [
             {
-              "text": "5分で基本セットアップ完了"
+              "text": "音声を選んで数秒で生成"
             },
             {
-              "text": "箱から出してすぐに使える完全ソリューション"
+              "text": "プレビューしてトーン/速度を調整し、すぐ反映"
             },
             {
-              "text": "本番環境へのワンクリックデプロイメント"
+              "text": "どのスクリプトでも一貫した音声を作成"
             },
             {
-              "text": "事前設定された認証と決済"
+              "text": "必要に応じて多言語で生成"
             },
             {
-              "text": "製品機能開発に集中"
+              "text": "MP3で書き出し、履歴から再利用"
             }
           ]
         }
       },
       "cta": {
-        "title": "AI SaaSの構築を始めますか？",
-        "subtitle": "ShipBaseを今すぐ取得し、数分で次のプロジェクトを開始",
-        "primaryButton": "ShipBaseを取得",
-        "secondaryButton": "ドキュメントを表示"
+        "title": "音声生成を始めましょう",
+        "subtitle": "RTVoxのテキスト読み上げを今すぐ試せます。",
+        "primaryButton": "テキスト読み上げを開く",
+        "secondaryButton": "料金を見る"
       }
     },
     "pricing": {
       "title": "料金",
-      "subtitle": "シンプルで透明な料金",
-      "description": "ニーズに合ったプランを選択してください。無料で始めて、成長に合わせてスケールアップ。",
+      "subtitle": "必要なときにプレミアム音声を解放",
+      "description": "無料でStandard音声を試し、アップグレードでWaveNet/Neural2/Studio/Chirp3-HDなどの上位ティアにアクセスできます。",
       "plansTitle": "プランを選択",
-      "plansSubtitle": "隠れた料金のないシンプルで透明な料金。ニーズに最適なプランを選択し、いつでもアップグレードできます。",
+      "plansSubtitle": "Standard音声から始めて、必要に応じてプレミアム音声ティアを解放できます。",
       "billingCycles": {
         "one-time": {
           "label": "一回払い",
@@ -572,61 +541,34 @@
           "name": "無料版",
           "price": "¥0",
           "period": "永久無料",
-          "description": "個人開発者と小規模プロジェクトに最適",
+          "description": "Standard音声と基本機能でRTVoxをお試し",
           "features": [
-            "基本的なNext.jsテンプレート",
-            "GitHub統合",
-            "コミュニティサポート",
-            "基本ドキュメント",
-            "個人使用ライセンス"
+            "標準音声（Standard）",
+            "トーン/速度/音量の基本調整",
+            "MP3書き出し・共有",
+            "生成履歴"
           ],
           "limitations": [
-            "商用利用不可",
-            "技術サポートなし",
-            "機能制限あり"
+            "プレミアム音声（WaveNet/Neural2/Chirp3-HD/Studio）は有料",
+            "音声クローンは有料（機能有効時）"
           ],
           "cta": "始める",
           "popular": false
         },
         {
           "name": "プロフェッショナル",
-          "price": "¥299",
+          "price": "¥7200",
           "period": "一回払い",
-          "description": "スタートアップと中小企業に最適",
+          "description": "プレミアム音声ティアを解放し、高品質な読み上げに",
           "features": [
-            "完全機能テンプレート",
-            "認証システム",
-            "決済統合",
-            "データベース設定",
-            "AI統合",
-            "ワンクリックデプロイメント",
-            "メールサポート",
-            "商用利用ライセンス",
-            "ソースコードアクセス"
+            "無料版のすべて",
+            "プレミアム音声：WaveNet / Neural2 / Chirp3-HD / Studio",
+            "商用利用",
+            "優先サポート（メール）"
           ],
           "limitations": [],
           "cta": "今すぐ購入",
           "popular": true
-        },
-        {
-          "name": "エンタープライズ",
-          "price": "¥999",
-          "period": "一回払い",
-          "description": "大企業とチームに最適",
-          "features": [
-            "プロフェッショナル版の全機能",
-            "高度なAI機能",
-            "マルチテナントサポート",
-            "高度な分析",
-            "優先技術サポート",
-            "カスタム開発サービス",
-            "チーム協力機能",
-            "SLA保証",
-            "トレーニングサービス"
-          ],
-          "limitations": [],
-          "cta": "営業に連絡",
-          "popular": false
         }
       ],
       "cta": {
@@ -650,184 +592,184 @@
         "forever": "永久"
       },
       "faqTitle": "よくある質問",
-      "faqSubtitle": "他に質問がありますか？お手伝いします",
+      "faqSubtitle": "ご不明な点があればお気軽にお問い合わせください。",
       "faqs": [
         {
-          "question": "無料版と有料版の違いは何ですか？",
-          "answer": "無料版は学習と個人プロジェクトに適した基本機能を提供します。有料版には認証、決済統合、AI機能などの完全な商用機能が含まれ、商用プロジェクトに適しています。"
+          "question": "無料プランと有料プランの違いは？",
+          "answer": "無料はStandard音声と基本機能に対応。有料はWaveNet/Neural2/Studio/Chirp3-HDなどのプレミアム音声ティアを解放します。"
         },
         {
-          "question": "一回払いですか、それともサブスクリプションですか？",
-          "answer": "ShipBaseは一回払いモデルを使用しています。購入後は月額料金なしで永久に使用できます。これにより、更新ではなく製品自体に集中できます。"
+          "question": "どの音声がプレミアムですか？",
+          "answer": "WaveNet、Neural2、Studio、Chirp3-HDはプレミアム音声ティアです。Standard音声は無料で利用できます。"
         },
         {
-          "question": "返金はありますか？",
-          "answer": "30日間の無条件返金保証を提供しています。購入後30日以内にご満足いただけない場合は、全額返金を申請できます。"
+          "question": "多言語に対応していますか？",
+          "answer": "はい。複数言語の音声を用意しており、生成前にプレビューできます。"
         },
         {
-          "question": "商用プロジェクトで使用できますか？",
-          "answer": "プロフェッショナル版とエンタープライズ版は商用利用をサポートしています。無料版は個人学習と非商用プロジェクトに限定されています。"
+          "question": "生成した音声は商用利用できますか？",
+          "answer": "有料プランは商用利用を想定しています。適用法令や第三者の権利に準拠してください。"
         },
         {
-          "question": "技術サポートは含まれていますか？",
-          "answer": "プロフェッショナル版はメールサポートを提供し、エンタープライズ版は優先技術サポートを提供します。24時間以内にお客様の質問にお答えします。"
+          "question": "アップグレード方法は？",
+          "answer": "このページで有料プランを選んで決済すると、アカウントでプレミアム音声ティアが利用可能になります。"
         },
         {
-          "question": "より高いプランにアップグレードするにはどうすればよいですか？",
-          "answer": "価格差を支払うことで、いつでもより高いプランにアップグレードできます。アップグレード後は、新しいプランの全機能をすぐに利用できます。"
+          "question": "支払い・請求の問題がある場合は？",
+          "answer": "サポートまでご連絡ください。できるだけ早く対応します。"
         },
         {
-          "question": "年額支払いの利点は何ですか？",
-          "answer": "年額支払いでは月額支払いと比較して20%の割引が適用され、より多くの費用を節約できます。また、支払い頻度が減るため、より便利です。"
+          "question": "有料で全音声が必ず使えますか？",
+          "answer": "有料でプレミアム音声ティアは解放されますが、生成にはクレジット/上限が適用されます。"
         }
       ]
     },
     "docs": {
       "title": "ドキュメント",
-      "subtitle": "開始に必要なすべて",
-      "description": "素晴らしいアプリケーションを構築するのに役立つ包括的なガイド、APIリファレンス、チュートリアル。",
+      "subtitle": "RTVox + Google Text-to-Speech",
+      "description": "RTVox が Google Cloud Text-to-Speech を使って自然な音声を生成する方法：音声ティア、言語、出力形式、ベストプラクティス。",
       "quickStart": {
         "title": "クイックスタート",
-        "subtitle": "わずか数ステップでShipBaseを開始し、AI SaaSアプリケーションを構築",
+        "subtitle": "数分で最初の音声を生成",
         "steps": [
           {
             "step": "1",
-            "title": "ShipBaseをインストール",
-            "description": "リポジトリをクローンし、依存関係をインストール",
-            "code": "git clone https://github.com/your-repo/shipbase\\ncd shipbase\\npnpm install"
+            "title": "テキスト読み上げを開く",
+            "description": "RTVox のテキスト読み上げで言語と音声を選択します。",
+            "code": "開く：/podcast-mvp\\n言語を選択\\n音声を選択"
           },
           {
             "step": "2",
-            "title": "環境を設定",
-            "description": "必要なAPIキーと設定をセットアップ",
-            "code": "cp .env.example .env.local\\n# .env.localファイルを編集"
+            "title": "スクリプトを貼り付け",
+            "description": "テキストを貼り付けます。ナレーションやポッドキャストに最適です。",
+            "code": "エディタにテキストを貼り付け\\n生成前にプレビュー"
           },
           {
             "step": "3",
-            "title": "開発サーバーを開始",
-            "description": "プロジェクトをローカルで実行",
-            "code": "pnpm dev\\n# http://localhost:3000 にアクセス"
+            "title": "スタイルを調整",
+            "description": "トーン、速度、音量を調整して話し方を整えます。",
+            "code": "トーン：serious（または neutral）\\n速度：1.0\\n音量：0 dB"
           },
           {
             "step": "4",
-            "title": "本番環境にデプロイ",
-            "description": "Vercelへのワンクリックデプロイ",
-            "code": "pnpm build\\nvercel deploy"
+            "title": "生成して書き出し",
+            "description": "音声を生成し、ダウンロードまたは共有します。",
+            "code": "クリック：Generate\\nMP3をダウンロード\\nまたは共有リンク"
           }
         ]
       },
       "navigation": {
-        "title": "ドキュメントナビゲーション",
-        "subtitle": "必要なすべての情報を見つけるために、完全なドキュメントを閲覧",
+        "title": "ガイド",
+        "subtitle": "RTVoxを使いこなすための主要トピック",
         "sections": [
           {
-            "title": "クイックスタート",
-            "description": "5分でShipBaseを起動",
+            "title": "はじめに",
+            "description": "テキストから音声生成までの流れ",
             "icon": "Rocket",
             "links": [
               {
-                "name": "インストールガイド",
-                "href": "#"
+                "name": "テキスト読み上げを開く",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "環境セットアップ",
-                "href": "#"
+                "name": "料金を見る",
+                "href": "/pricing"
               },
               {
-                "name": "最初のアプリケーション",
-                "href": "#"
+                "name": "ヘルプセンター",
+                "href": "/help"
               }
             ]
           },
           {
-            "title": "コア機能",
-            "description": "ShipBaseのコア機能について学ぶ",
-            "icon": "Code",
-            "links": [
-              {
-                "name": "認証",
-                "href": "#"
-              },
-              {
-                "name": "決済統合",
-                "href": "#"
-              },
-              {
-                "name": "データベース設定",
-                "href": "#"
-              },
-              {
-                "name": "AI統合",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "APIリファレンス",
-            "description": "完全なAPIドキュメントと例",
-            "icon": "Database",
-            "links": [
-              {
-                "name": "REST API",
-                "href": "#"
-              },
-              {
-                "name": "GraphQL",
-                "href": "#"
-              },
-              {
-                "name": "Webhooks",
-                "href": "#"
-              },
-              {
-                "name": "SDK",
-                "href": "#"
-              }
-            ]
-          },
-          {
-            "title": "デプロイメントガイド",
-            "description": "アプリケーションを本番環境にデプロイ",
+            "title": "音声と言語",
+            "description": "言語と音声ティアの選び方",
             "icon": "Globe",
             "links": [
               {
-                "name": "Vercelデプロイメント",
-                "href": "#"
+                "name": "音声を探す（アプリ内）",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "Cloudflare Pages",
-                "href": "#"
+                "name": "Google 音声一覧（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "Dockerデプロイメント",
-                "href": "#"
+                "name": "対応言語（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/voices"
               },
               {
-                "name": "環境設定",
-                "href": "#"
+                "name": "音声ティア：Standard/WaveNet/Neural2/Studio/Chirp3-HD",
+                "href": "/pricing"
               }
             ]
           },
           {
-            "title": "ベストプラクティス",
-            "description": "開発と本番のベストプラクティス",
-            "icon": "Shield",
+            "title": "出力と音質",
+            "description": "書き出し形式と品質のコツ",
+            "icon": "Database",
             "links": [
               {
-                "name": "セキュリティガイド",
-                "href": "#"
+                "name": "MP3を書き出す",
+                "href": "/podcast-mvp"
               },
               {
-                "name": "パフォーマンス最適化",
-                "href": "#"
+                "name": "音声形式（Google 参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               },
               {
-                "name": "監視とログ",
-                "href": "#"
+                "name": "長文のコツ：分割とプレビュー",
+                "href": "/help"
               },
               {
-                "name": "エラーハンドリング",
-                "href": "#"
+                "name": "共有リンクと履歴",
+                "href": "/podcast-mvp"
+              }
+            ]
+          },
+          {
+            "title": "トーンとSSML",
+            "description": "トーンやマークアップで話し方を制御",
+            "icon": "Code",
+            "links": [
+              {
+                "name": "トーンプリセット",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "SSML（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs/ssml"
+              },
+              {
+                "name": "速度と音量",
+                "href": "/podcast-mvp"
+              },
+              {
+                "name": "ベストプラクティス",
+                "href": "/help"
+              }
+            ]
+          },
+          {
+            "title": "課金と上限",
+            "description": "ティア、文字数、利用量を理解する",
+            "icon": "CreditCard",
+            "links": [
+              {
+                "name": "料金とプラン",
+                "href": "/pricing"
+              },
+              {
+                "name": "Google 料金（参考）",
+                "href": "https://cloud.google.com/text-to-speech/pricing"
+              },
+              {
+                "name": "プレミアム音声が有料の理由",
+                "href": "/pricing"
+              },
+              {
+                "name": "利用量のトラブルシュート",
+                "href": "/help"
               }
             ]
           },
@@ -837,20 +779,20 @@
             "icon": "Zap",
             "links": [
               {
-                "name": "FAQ",
-                "href": "#"
+                "name": "ヘルプセンター",
+                "href": "/help"
               },
               {
-                "name": "エラーコード",
-                "href": "#"
+                "name": "サポートに連絡",
+                "href": "/contact"
               },
               {
-                "name": "デバッグのヒント",
-                "href": "#"
+                "name": "支払いの問題",
+                "href": "/pricing"
               },
               {
-                "name": "コミュニティサポート",
-                "href": "#"
+                "name": "Google TTS ドキュメント（参考）",
+                "href": "https://cloud.google.com/text-to-speech/docs"
               }
             ]
           }
@@ -858,10 +800,10 @@
       },
       "support": {
         "title": "ヘルプが必要ですか？",
-        "subtitle": "私たちのコミュニティとサポートチームがお手伝いします",
-        "description": "Discordコミュニティに参加するか、FAQをチェックしてください。",
-        "discordButton": "Discordに参加",
-        "faqButton": "FAQを表示"
+        "subtitle": "より良い音声を作るためにサポートします",
+        "description": "ヘルプセンターをご確認のうえ、必要に応じてサポートまでご連絡ください。",
+        "discordButton": "サポートに連絡",
+        "faqButton": "ヘルプセンターを開く"
       }
     },
     "integrations": {
@@ -1191,242 +1133,222 @@
     },
     "help": {
       "title": "ヘルプセンター",
-      "subtitle": "必要なサポートを取得",
-      "description": "よくある質問の回答、トラブルシューティングガイド、ベストプラクティスを見つけてください。",
+      "subtitle": "RTVox テキスト読み上げサポート",
+      "description": "音声ティア、トーン制御、書き出し、課金などのよくある質問をまとめています。RTVox は Google Cloud Text-to-Speech を利用しています。",
       "searchPlaceholder": "ヘルプ記事を検索...",
       "popularArticles": {
         "title": "人気記事",
-        "subtitle": "最も閲覧されたヘルプ記事",
+        "subtitle": "よく読まれている記事",
         "articles": [
           {
-            "title": "ShipBaseの使い始め",
-            "description": "最初のAI SaaSアプリケーションを素早くセットアップしてデプロイする方法を学ぶ",
-            "href": "#",
+            "title": "最初の音声を生成する",
+            "description": "言語と音声を選び、テキストを貼り付けて数秒で自然な音声を生成します。",
+            "href": "/podcast-mvp",
             "tags": [
-              "クイックスタート",
-              "デプロイ",
-              "セットアップ"
+              "はじめに",
+              "生成",
+              "プレビュー"
             ]
           },
           {
-            "title": "認証設定ガイド",
-            "description": "Google OAuth、GitHub OAuth、Magic Linkの設定に関する詳細な説明",
-            "href": "#",
+            "title": "音声ティアの選び方",
+            "description": "Standard と WaveNet/Neural2/Studio/Chirp3‑HD などの違いを理解します。",
+            "href": "/pricing",
             "tags": [
-              "認証",
-              "OAuth",
-              "設定"
+              "音声",
+              "ティア",
+              "料金"
             ]
           },
           {
-            "title": "Stripe決済統合",
-            "description": "サブスクリプション、一回払い、請求書管理の設定方法",
-            "href": "#",
+            "title": "トーン・速度・音量の調整",
+            "description": "トーンプリセットと調整でナレーションの聞きやすさを改善します。",
+            "href": "/podcast-mvp",
             "tags": [
-              "決済",
-              "Stripe",
-              "サブスクリプション"
+              "トーン",
+              "制御",
+              "ワークフロー"
             ]
           },
           {
-            "title": "AI機能統合",
-            "description": "OpenAI、AnthropicなどのAIサービスの統合完全ガイド",
-            "href": "#",
+            "title": "SSML 入門（Google 参考）",
+            "description": "SSML が読み方や発音にどう影響するかを学びます。",
+            "href": "https://cloud.google.com/text-to-speech/docs/ssml",
             "tags": [
-              "AI",
-              "OpenAI",
-              "統合"
+              "SSML",
+              "Google",
+              "上級"
             ]
           },
           {
-            "title": "データベース設定と移行",
-            "description": "Supabaseデータベース設定とデータ移行のベストプラクティス",
-            "href": "#",
+            "title": "音声形式と品質",
+            "description": "MP3 などの出力形式と、クリアな音声のベストプラクティス。",
+            "href": "https://cloud.google.com/text-to-speech/docs",
             "tags": [
-              "データベース",
-              "Supabase",
-              "移行"
+              "MP3",
+              "音質",
+              "出力"
             ]
           },
           {
-            "title": "本番環境へのデプロイ",
-            "description": "VercelとCloudflareデプロイの詳細ステップ",
-            "href": "#",
+            "title": "プレミアムが必要と表示される理由",
+            "description": "一部の音声ティアは有料プランが必要です。アップグレード方法を確認します。",
+            "href": "/pricing",
             "tags": [
-              "デプロイ",
-              "Vercel",
-              "本番環境"
+              "プレミアム",
+              "制限",
+              "アップグレード"
             ]
           }
         ]
       },
-      "categoriesTitle": "ヘルプカテゴリ",
-      "categoriesSubtitle": "カテゴリ別にヘルプ記事を閲覧",
+      "categoriesTitle": "カテゴリ",
+      "categoriesSubtitle": "テーマ別に探す",
       "categories": [
         {
-          "title": "クイックスタート",
-          "description": "新規ユーザー向けオンボーディングガイド",
+          "title": "はじめに",
+          "description": "テキストから音声生成までの流れ",
           "icon": "Rocket",
           "articles": [
             {
-              "title": "インストールとセットアップ",
-              "description": "ShipBaseプロジェクトをゼロからセットアップ",
-              "href": "#",
+              "title": "テキスト読み上げを開く",
+              "description": "RTVox で音声生成を開始します。",
+              "href": "/podcast-mvp",
               "tags": [
-                "インストール",
-                "セットアップ",
-                "環境"
+                "開始",
+                "生成",
+                "音声"
               ]
             },
             {
-              "title": "最初のアプリケーション",
-              "description": "最初のAI SaaSアプリケーションを作成",
-              "href": "#",
+              "title": "書き出しと共有",
+              "description": "MP3 をダウンロードし、履歴から再利用できます。",
+              "href": "/podcast-mvp",
               "tags": [
-                "チュートリアル",
-                "アプリケーション",
-                "開発"
+                "MP3",
+                "共有",
+                "履歴"
               ]
             },
             {
-              "title": "環境変数設定",
-              "description": "必要な環境変数を適切に設定",
-              "href": "#",
+              "title": "生成できないとき",
+              "description": "よくある原因と解決策。",
+              "href": "/help",
               "tags": [
-                "設定",
-                "環境変数",
-                "APIキー"
+                "エラー",
+                "制限",
+                "対処"
               ]
             }
           ]
         },
         {
-          "title": "コア機能",
-          "description": "ShipBaseの主要機能の使用ガイド",
-          "icon": "Code",
-          "articles": [
-            {
-              "title": "認証システム",
-              "description": "ユーザーログイン、登録、セッション管理",
-              "href": "#",
-              "tags": [
-                "認証",
-                "ユーザー管理",
-                "セッション"
-              ]
-            },
-            {
-              "title": "決済処理",
-              "description": "サブスクリプション管理と決済フロー",
-              "href": "#",
-              "tags": [
-                "決済",
-                "サブスクリプション",
-                "請求"
-              ]
-            },
-            {
-              "title": "データベース操作",
-              "description": "データストレージとクエリのベストプラクティス",
-              "href": "#",
-              "tags": [
-                "データベース",
-                "クエリ",
-                "ストレージ"
-              ]
-            },
-            {
-              "title": "AI統合",
-              "description": "AIサービスの統合と使用",
-              "href": "#",
-              "tags": [
-                "AI",
-                "機械学習",
-                "API"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "デプロイと運用",
-          "description": "本番環境デプロイと運用ガイド",
+          "title": "音声と言語",
+          "description": "音声の選択とティアの理解",
           "icon": "Globe",
           "articles": [
             {
-              "title": "Vercelデプロイ",
-              "description": "Vercelを使用してアプリケーションをデプロイ",
-              "href": "#",
+              "title": "Google 音声一覧（参考）",
+              "description": "公式の音声と言語バリアント一覧。",
+              "href": "https://cloud.google.com/text-to-speech/docs/voices",
               "tags": [
-                "Vercel",
-                "デプロイ",
-                "CDN"
+                "音声",
+                "言語",
+                "Google"
               ]
             },
             {
-              "title": "Cloudflare Pages",
-              "description": "Cloudflare Pagesデプロイガイド",
-              "href": "#",
+              "title": "プレミアムティアの説明",
+              "description": "WaveNet/Neural2/Studio/Chirp3‑HD と Standard の違い。",
+              "href": "/pricing",
               "tags": [
-                "Cloudflare",
-                "デプロイ",
-                "エッジコンピューティング"
+                "ティア",
+                "料金",
+                "プレミアム"
               ]
             },
             {
-              "title": "環境管理",
-              "description": "開発、テスト、本番環境の管理",
-              "href": "#",
+              "title": "言語の選択と発音",
+              "description": "言語によって利用できる音声と発音が変わります。",
+              "href": "/podcast-mvp",
               "tags": [
-                "環境",
-                "設定",
-                "管理"
+                "言語",
+                "発音",
+                "音声"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "トーンとSSML",
+          "description": "話し方と表現をコントロール",
+          "icon": "Code",
+          "articles": [
+            {
+              "title": "トーンプリセット",
+              "description": "用途に合わせてトーンを選び、プレビューで比較します。",
+              "href": "/podcast-mvp",
+              "tags": [
+                "トーン",
+                "スタイル",
+                "プレビュー"
               ]
             },
             {
-              "title": "監視とログ",
-              "description": "アプリケーション監視とログ記録",
-              "href": "#",
+              "title": "SSML 参考",
+              "description": "Google Text-to-Speech の SSML ドキュメント。",
+              "href": "https://cloud.google.com/text-to-speech/docs/ssml",
               "tags": [
-                "監視",
-                "ログ",
-                "分析"
+                "SSML",
+                "Google",
+                "参考"
+              ]
+            },
+            {
+              "title": "速度と音量のコツ",
+              "description": "テンポと音量で聞きやすさを改善します。",
+              "href": "/podcast-mvp",
+              "tags": [
+                "速度",
+                "音量",
+                "明瞭さ"
               ]
             }
           ]
         },
         {
           "title": "トラブルシューティング",
-          "description": "一般的な問題と解決策",
+          "description": "よくある問題を素早く解決",
           "icon": "Zap",
           "articles": [
             {
-              "title": "一般的なエラー",
-              "description": "一般的なデプロイとランタイムエラーの解決",
-              "href": "#",
+              "title": "プレミアム必須のエラー",
+              "description": "一部の音声ティアは有料が必要です。",
+              "href": "/pricing",
               "tags": [
-                "エラー",
-                "デバッグ",
+                "プレミアム",
+                "ティア",
                 "解決"
               ]
             },
             {
-              "title": "パフォーマンス最適化",
-              "description": "アプリケーションのパフォーマンスを向上させるヒント",
-              "href": "#",
+              "title": "想定と違う音に聞こえる",
+              "description": "音声とトーンの選び方のヒント。",
+              "href": "/podcast-mvp",
               "tags": [
-                "パフォーマンス",
-                "最適化",
-                "速度"
+                "音声",
+                "トーン",
+                "比較"
               ]
             },
             {
-              "title": "セキュリティベストプラクティス",
-              "description": "アプリケーションとデータのセキュリティを保護",
-              "href": "#",
+              "title": "ダウンロード/共有できない",
+              "description": "履歴と書き出しの確認方法。",
+              "href": "/podcast-mvp",
               "tags": [
-                "セキュリティ",
-                "ベストプラクティス",
-                "保護"
+                "ダウンロード",
+                "共有",
+                "履歴"
               ]
             }
           ]
@@ -1434,40 +1356,40 @@
       ],
       "faq": {
         "title": "よくある質問",
-        "subtitle": "必要な回答を素早く見つける",
+        "subtitle": "よくある疑問にすぐ答えます",
         "faqs": [
           {
-            "question": "ShipBaseはどのAIサービスをサポートしていますか？",
-            "answer": "ShipBaseはOpenAI、Anthropic、Google AIなどの主流AIサービスをサポートし、異なるAIプロバイダーを管理するための統一インターフェースを提供します。"
+            "question": "RTVox は何を使っていますか？",
+            "answer": "RTVox は Google Cloud Text-to-Speech を使ってテキストを自然な音声に変換します。"
           },
           {
-            "question": "ShipBaseのインターフェースをカスタマイズするにはどうすればよいですか？",
-            "answer": "ShipBaseはTailwind CSSとShadcn/UIを使用しているため、スタイルを簡単にカスタマイズできます。すべてのコンポーネントはカスタマイズ可能で、テーマ切り替えをサポートしています。"
+            "question": "どの音声ティアがプレミアムですか？",
+            "answer": "WaveNet、Neural2、Studio、Chirp3‑HD はプレミアムです。Standard は無料で利用できます。"
           },
           {
-            "question": "ShipBaseは複数言語をサポートしていますか？",
-            "answer": "はい、ShipBaseには国際化サポートが組み込まれています。現在は中国語、英語、日本語をサポートしており、より多くの言語を簡単に追加できます。"
+            "question": "多言語に対応していますか？",
+            "answer": "はい。複数言語に対応し、生成前に音声をプレビューできます。"
           },
           {
-            "question": "ShipBaseのバージョンをアップグレードするにはどうすればよいですか？",
-            "answer": "Gitで最新のコードをプルしてShipBaseをアップグレードできます。アップグレード前にカスタムコードをバックアップすることをお勧めします。"
+            "question": "話し方は調整できますか？",
+            "answer": "はい。トーン、速度、音量を調整できます。"
           },
           {
-            "question": "ShipBaseのパフォーマンスはどうですか？",
-            "answer": "ShipBaseはNext.js 14+で構築され、Server ComponentsとEdge Runtimeサポートを提供し、優れたパフォーマンスを実現します。"
+            "question": "どの形式で書き出せますか？",
+            "answer": "RTVox は MP3 を生成し、共有や編集に便利です。"
           },
           {
-            "question": "技術サポートを受けるにはどうすればよいですか？",
-            "answer": "メールでお問い合わせいただくか、Discordコミュニティに参加してリアルタイムのサポートを受けることができます。"
+            "question": "サポートはどこから受けられますか？",
+            "answer": "お問い合わせページから連絡するか、ドキュメントをご確認ください。"
           }
         ]
       },
       "contact": {
         "title": "さらにヘルプが必要ですか？",
         "subtitle": "サポートチームにお問い合わせ",
-        "description": "ドキュメントで答えが見つからない場合、サポートチームがお手伝いします。",
-        "emailButton": "メールを送信",
-        "discordButton": "Discordに参加"
+        "description": "解決しない場合はサポートに連絡するか、ドキュメントで詳細を確認してください。",
+        "emailButton": "サポートに連絡",
+        "discordButton": "ドキュメントを開く"
       }
     },
     "contact": {
