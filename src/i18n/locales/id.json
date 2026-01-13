@@ -1,8 +1,29 @@
 {
   "home": {
-    "badgeLabel": "2025🚀 Kirim Sekarang",
-    "heroTitle": "RTVox, ubah teks jadi suara.",
-    "heroDescription": "RTVox adalah studio text-to-speech dengan suara Google. Tempel skrip, pilih suara, dan hasilkan audio alami dalam hitungan detik.",
+    "badgeLabel": "PESULAP SUARA",
+    "heroTitle": "Buat suara AI-mu\ndalam hitungan detik",
+    "heroTagline": "Teks ke Ucapan — kloning dan bicara dalam hitungan detik.",
+    "heroDescription": "Hasilkan suara yang terdengar natural dari teks dalam hitungan detik. Pilih suara, atur kecepatannya, dan buat voiceover, podcast, serta konten dari skrip. (Voice cloning segera hadir.)",
+    "productMockupTitle": "Text to Speech",
+    "productMockupSubtitle": "Dengarkan perbedaannya. AI kami menangkap setiap nuansa, napas, dan emosi.",
+    "textToSpeechSectionKicker": "Text to Speech",
+    "textToSpeechSectionTitle": "Text to Speech",
+    "textToSpeechSectionDescription": "Ubah teks apa pun menjadi audio yang terdengar natural dalam hitungan detik. Pilih suara, tentukan tone yang tepat, dan hasilkan voiceover yang bersih untuk video, podcast, dan skrip—tanpa rekaman.",
+    "viewPricingPlansCta": "Lihat paket harga",
+    "securitySectionKicker": "Keamanan",
+    "securitySectionTitle": "Aman dan privat",
+    "securitySectionDescription": "Teks kamu tetap milik kamu. Kami melindungi kontenmu dengan pemrosesan aman dan kontrol akses yang ketat, sehingga kamu bisa menghasilkan suara dengan percaya diri untuk skrip, video, dan podcast—tanpa mengorbankan privasi.",
+    "securitySectionImageAlt": "Keamanan",
+    "ttsMockupTextToSpeechTitle": "Text to Speech",
+    "ttsMockupSelectVoiceTitle": "Pilih suara",
+    "ttsMockupCharTokenCount": "{current} / {max} karakter · {tokens} token",
+    "ttsMockupClearText": "Hapus teks",
+    "ttsMockupGenerate": "Buat",
+    "ttsMockupPublic": "Publik",
+    "ttsMockupVoicesCount": "{count} suara",
+    "ttsMockupLanguage": "Bahasa",
+    "ttsMockupEnableVoicePreviewAria": "Aktifkan pratinjau suara",
+    "ttsMockupDisableVoicePreviewAria": "Nonaktifkan pratinjau suara",
     "ctaPrimary": "Text to Speech",
     "ctaSecondary": "Baca Dokumen",
     "watchDemo": "Tonton Demo",
@@ -57,7 +78,7 @@
     ],
     "voiceCloningDemoOriginalLabel": "ASLI",
     "voiceCloningDemoCloneLabel": "KLON",
-    "techStackTitle": "ShipBase dibangun di atas pundak para raksasa",
+    "techStackTitle": "RTVox dibangun di atas pundak para raksasa",
     "techStackItems": [
       {
         "name": "Next.js",
@@ -80,8 +101,8 @@
         "description": "Platform Deploy"
       }
     ],
-    "featuresTitle": "Apa itu ShipBase",
-    "featuresSubtitle": "ShipBase adalah boilerplate NextJS untuk membangun startup AI SaaS. Dilengkapi berbagai template dan komponen.",
+    "featuresTitle": "Apa itu RTVox",
+    "featuresSubtitle": "RTVox adalah boilerplate NextJS untuk membangun startup AI SaaS. Dilengkapi berbagai template dan komponen.",
     "features": [
       {
         "title": "Template Siap Pakai",
@@ -96,7 +117,7 @@
         "description": "Deploy aplikasi AI SaaS Anda ke produksi dalam hitungan jam, bukan hari."
       }
     ],
-    "benefitsTitle": "Mengapa Memilih ShipBase",
+    "benefitsTitle": "Mengapa Memilih RTVox",
     "benefitsSubtitle": "Dapatkan semua yang Anda butuhkan untuk meluncurkan startup AI Anda—dari template siap pakai hingga dukungan teknis.",
     "benefits": [
       {
@@ -112,18 +133,18 @@
         "description": "Dapatkan dukungan teknis profesional untuk membantu Anda mulai dengan cepat."
       }
     ],
-    "launchStepsTitle": "Cara Meluncur dengan ShipBase",
+    "launchStepsTitle": "Cara Meluncur dengan RTVox",
     "launchStepsSubtitle": "Jalankan startup AI SaaS Anda dalam tiga langkah sederhana:",
     "launchSteps": [
       {
         "step": "1",
-        "title": "Dapatkan ShipBase",
-        "description": "Beli ShipBase dengan pembayaran sekali. Periksa email Anda untuk kode dan dokumentasi."
+        "title": "Dapatkan RTVox",
+        "description": "Beli RTVox dengan pembayaran sekali. Periksa email Anda untuk kode dan dokumentasi."
       },
       {
         "step": "2",
         "title": "Mulai Proyek Anda",
-        "description": "Baca dokumentasi dan klon kode ShipBase. Mulai bangun startup AI SaaS Anda."
+        "description": "Baca dokumentasi dan klon kode RTVox. Mulai bangun startup AI SaaS Anda."
       },
       {
         "step": "3",
@@ -136,7 +157,7 @@
         "description": "Deploy proyek Anda ke produksi dalam beberapa langkah dan mulai melayani pelanggan segera."
       }
     ],
-    "keyFeaturesTitle": "Fitur Utama ShipBase",
+    "keyFeaturesTitle": "Fitur Utama RTVox",
     "keyFeaturesSubtitle": "Semua yang Anda butuhkan untuk meluncurkan startup AI SaaS dengan cepat dan efisien.",
     "keyFeatures": [
       {
@@ -164,27 +185,27 @@
         "description": "Integrasi AI pra-konfigurasi dengan sistem kredit bawaan dan penjualan API."
       }
     ],
-    "testimonialsTitle": "Apa Kata Pengguna tentang ShipBase",
-    "testimonialsSubtitle": "Dengarkan dari developer dan founder yang meluncurkan startup AI mereka dengan ShipBase.",
+    "testimonialsTitle": "Apa Kata Pengguna tentang RTVox",
+    "testimonialsSubtitle": "Dengarkan dari developer dan founder yang meluncurkan startup AI mereka dengan RTVox.",
     "testimonials": [
       {
-        "quote": "ShipBase membuat perjalanan dari ide ke produk jadi lebih sederhana dari sebelumnya. Template, skrip, dan infrastruktur fondasinya yang lengkap membuat saya hampir tak perlu menghabiskan waktu pada pengembangan dasar. Saya sangat merekomendasikannya bagi founder yang ingin cepat meluncurkan bisnis SaaS.",
+        "quote": "RTVox membuat perjalanan dari ide ke produk jadi lebih sederhana dari sebelumnya. Template, skrip, dan infrastruktur fondasinya yang lengkap membuat saya hampir tak perlu menghabiskan waktu pada pengembangan dasar. Saya sangat merekomendasikannya bagi founder yang ingin cepat meluncurkan bisnis SaaS.",
         "author": "Penulis AITDK",
         "role": "Pengembang Independen"
       },
       {
-        "quote": "ShipBase sangat memudahkan penyiapan pembayaran dan semua detail komersialisasi, sehingga kami bisa fokus membangun fitur yang penting. Jika Anda ingin mengirim dan menskalakan AI SaaS dengan cepat, ShipBase adalah pilihan jelas!",
+        "quote": "RTVox sangat memudahkan penyiapan pembayaran dan semua detail komersialisasi, sehingga kami bisa fokus membangun fitur yang penting. Jika Anda ingin mengirim dan menskalakan AI SaaS dengan cepat, RTVox adalah pilihan jelas!",
         "author": "Scar",
         "role": "Engineer Front-end"
       },
       {
-        "quote": "Saya menggunakan ShipBase dan meluncurkan situs baru dalam 8 menit, termasuk login/pembayaran—luar biasa!",
+        "quote": "Saya menggunakan RTVox dan meluncurkan situs baru dalam 8 menit, termasuk login/pembayaran—luar biasa!",
         "author": "Lafe",
         "role": "Tech Lead"
       }
     ],
-    "productShowcaseTitle": "Startup AI SaaS yang Dibangun dengan ShipBase",
-    "productShowcaseSubtitle": "Lihat aplikasi AI SaaS luar biasa yang dibuat dengan ShipBase",
+    "productShowcaseTitle": "Startup AI SaaS yang Dibangun dengan RTVox",
+    "productShowcaseSubtitle": "Lihat aplikasi AI SaaS luar biasa yang dibuat dengan RTVox",
     "showcaseItems": [
       {
         "name": "Raphael AI",
@@ -223,7 +244,7 @@
         "category": "Platform Sosial"
       }
     ],
-    "statsTitle": "Banyak yang Mencintai ShipBase",
+    "statsTitle": "Banyak yang Mencintai RTVox",
     "statsSubtitle": "karena mudah digunakan dan cepat dikirim",
     "stats": [
       {
@@ -242,41 +263,41 @@
         "description": "Kirim Cepat dalam"
       }
     ],
-    "faqTitle": "Pertanyaan yang Sering Diajukan tentang ShipBase",
+    "faqTitle": "Pertanyaan yang Sering Diajukan tentang RTVox",
     "faqSubtitle": "Punya pertanyaan lain? Hubungi kami di Discord atau email.",
     "faqs": [
       {
-        "question": "Apa sebenarnya ShipBase dan bagaimana cara kerjanya?",
-        "answer": "ShipBase adalah boilerplate NextJS komprehensif yang dirancang khusus untuk membangun startup AI SaaS. Menyediakan template siap pakai, penyiapan infrastruktur, dan alat deploy yang membantu Anda meluncurkan bisnis AI dalam hitungan jam, bukan hari."
+        "question": "Apa sebenarnya RTVox dan bagaimana cara kerjanya?",
+        "answer": "RTVox adalah boilerplate NextJS komprehensif yang dirancang khusus untuk membangun startup AI SaaS. Menyediakan template siap pakai, penyiapan infrastruktur, dan alat deploy yang membantu Anda meluncurkan bisnis AI dalam hitungan jam, bukan hari."
       },
       {
-        "question": "Apakah saya perlu skill teknis tingkat lanjut untuk menggunakan ShipBase?",
-        "answer": "Walau pengetahuan pemrograman dasar membantu, ShipBase dirancang ramah developer. Template dan dokumentasi kami memudahkan Anda memulai, bahkan jika Anda bukan ahli AI atau infrastruktur cloud."
+        "question": "Apakah saya perlu skill teknis tingkat lanjut untuk menggunakan RTVox?",
+        "answer": "Walau pengetahuan pemrograman dasar membantu, RTVox dirancang ramah developer. Template dan dokumentasi kami memudahkan Anda memulai, bahkan jika Anda bukan ahli AI atau infrastruktur cloud."
       },
       {
-        "question": "Jenis AI SaaS apa yang bisa saya bangun dengan ShipBase?",
-        "answer": "ShipBase mendukung berbagai aplikasi AI, dari pembuatan konten hingga alat analisis data. Template kami mencakup use case populer seperti chatbot AI, generator konten, aplikasi pemrosesan gambar, dan lainnya."
+        "question": "Jenis AI SaaS apa yang bisa saya bangun dengan RTVox?",
+        "answer": "RTVox mendukung berbagai aplikasi AI, dari pembuatan konten hingga alat analisis data. Template kami mencakup use case populer seperti chatbot AI, generator konten, aplikasi pemrosesan gambar, dan lainnya."
       },
       {
-        "question": "Berapa lama biasanya untuk meluncur dengan ShipBase?",
-        "answer": "Dengan ShipBase, Anda bisa memiliki prototipe kerja dalam hitungan jam dan aplikasi siap produksi juga dalam hitungan jam. Deploy satu klik dan infrastruktur pra-konfigurasi secara signifikan memangkas siklus pengembangan berbulan-bulan."
+        "question": "Berapa lama biasanya untuk meluncur dengan RTVox?",
+        "answer": "Dengan RTVox, Anda bisa memiliki prototipe kerja dalam hitungan jam dan aplikasi siap produksi juga dalam hitungan jam. Deploy satu klik dan infrastruktur pra-konfigurasi secara signifikan memangkas siklus pengembangan berbulan-bulan."
       },
       {
-        "question": "Apa saja yang termasuk dalam infrastruktur ShipBase?",
-        "answer": "ShipBase menyediakan tumpukan infrastruktur lengkap termasuk autentikasi, penyiapan basis data, integrasi API, pemrosesan pembayaran, dan deploy cloud berskala. Semuanya pra-konfigurasi mengikuti praktik terbaik industri."
+        "question": "Apa saja yang termasuk dalam infrastruktur RTVox?",
+        "answer": "RTVox menyediakan tumpukan infrastruktur lengkap termasuk autentikasi, penyiapan basis data, integrasi API, pemrosesan pembayaran, dan deploy cloud berskala. Semuanya pra-konfigurasi mengikuti praktik terbaik industri."
       },
       {
         "question": "Bisakah saya menyesuaikan template agar sesuai merek?",
-        "answer": "Tentu! Semua template ShipBase sepenuhnya dapat dikustomisasi. Anda dapat memodifikasi desain, fitur, dan fungsi agar sesuai identitas merek serta kebutuhan bisnis Anda, sambil mempertahankan infrastruktur yang kokoh."
+        "answer": "Tentu! Semua template RTVox sepenuhnya dapat dikustomisasi. Anda dapat memodifikasi desain, fitur, dan fungsi agar sesuai identitas merek serta kebutuhan bisnis Anda, sambil mempertahankan infrastruktur yang kokoh."
       }
     ],
     "finalCtaTitle": "Kirim AI SaaS Pertama Anda",
-    "finalCtaSubtitle": "Mulai dari sini, kirim dengan ShipBase.",
-    "finalCtaButton": "Dapatkan ShipBase",
+    "finalCtaSubtitle": "Mulai dari sini, kirim dengan RTVox.",
+    "finalCtaButton": "Dapatkan RTVox",
     "finalCtaSecondary": "Baca Dokumen"
   },
   "authPanel": {
-    "title": "Masuk ke ShipBase",
+    "title": "Masuk ke RTVox",
     "description": "Autentikasi dengan Google, GitHub, atau Magic Link dari Better Auth.",
     "signedInAs": "Masuk sebagai {name}",
     "sessionLabel": "ID Sesi: {id}",
@@ -318,6 +339,7 @@
     ]
   },
   "header": {
+    "product": "Produk",
     "features": "Fitur",
     "pricing": "Harga",
     "docs": "Dokumentasi",
@@ -358,7 +380,7 @@
     "features": {
       "title": "Fitur",
       "subtitle": "Fitur kuat untuk mempercepat pengembangan Anda",
-      "description": "Jelajahi rangkaian alat dan fitur komprehensif yang menjadikan ShipBase platform sempurna untuk aplikasi SaaS modern.",
+      "description": "Jelajahi rangkaian alat dan fitur komprehensif yang menjadikan RTVox platform sempurna untuk aplikasi SaaS modern.",
       "coreFeatures": {
         "title": "Fitur Inti",
         "subtitle": "Solusi lengkap yang disesuaikan untuk aplikasi SaaS modern, sehingga Anda fokus pada inovasi produk alih-alih penyiapan infrastruktur",
@@ -496,8 +518,8 @@
         ]
       },
       "comparison": {
-        "title": "Mengapa Memilih ShipBase",
-        "subtitle": "Dibanding metode pengembangan tradisional, ShipBase menghemat 90% waktu pengembangan Anda",
+        "title": "Mengapa Memilih RTVox",
+        "subtitle": "Dibanding metode pengembangan tradisional, RTVox menghemat 90% waktu pengembangan Anda",
         "traditional": {
           "title": "Pengembangan Tradisional",
           "items": [
@@ -519,7 +541,7 @@
           ]
         },
         "shipbase": {
-          "title": "Menggunakan ShipBase",
+          "title": "Menggunakan RTVox",
           "items": [
             {
               "text": "Selesai penyiapan dasar dalam 5 menit"
@@ -541,8 +563,8 @@
       },
       "cta": {
         "title": "Siap Membangun AI SaaS Anda?",
-        "subtitle": "Dapatkan ShipBase sekarang dan luncurkan proyek berikutnya dalam hitungan menit",
-        "primaryButton": "Dapatkan ShipBase",
+        "subtitle": "Dapatkan RTVox sekarang dan luncurkan proyek berikutnya dalam hitungan menit",
+        "primaryButton": "Dapatkan RTVox",
         "secondaryButton": "Lihat Dokumentasi"
       }
     },
@@ -687,11 +709,11 @@
       "description": "Panduan komprehensif, referensi API, dan tutorial untuk membantu Anda membangun aplikasi hebat.",
       "quickStart": {
         "title": "Mulai Cepat",
-        "subtitle": "Mulai dengan ShipBase dalam beberapa langkah sederhana untuk membangun aplikasi AI SaaS Anda",
+        "subtitle": "Mulai dengan RTVox dalam beberapa langkah sederhana untuk membangun aplikasi AI SaaS Anda",
         "steps": [
           {
             "step": "1",
-            "title": "Instal ShipBase",
+            "title": "Instal RTVox",
             "description": "Klon repositori dan instal dependensi",
             "code": "git clone [https://github.com/your-repo/shipbase\ncd](https://github.com/your-repo/shipbase\ncd) shipbase\npnpm install"
           },
@@ -721,7 +743,7 @@
         "sections": [
           {
             "title": "Mulai Cepat",
-            "description": "Siap jalan dengan ShipBase dalam 5 menit",
+            "description": "Siap jalan dengan RTVox dalam 5 menit",
             "icon": "Rocket",
             "links": [
               {
@@ -740,7 +762,7 @@
           },
           {
             "title": "Fitur Inti",
-            "description": "Pelajari fungsi inti ShipBase",
+            "description": "Pelajari fungsi inti RTVox",
             "icon": "Code",
             "links": [
               {
@@ -866,7 +888,7 @@
     "integrations": {
       "title": "Integrasi",
       "subtitle": "Terhubung dengan alat favorit Anda",
-      "description": "Integrasikan ShipBase dengan alur kerja dan layanan pihak ketiga yang sudah Anda gunakan.",
+      "description": "Integrasikan RTVox dengan alur kerja dan layanan pihak ketiga yang sudah Anda gunakan.",
       "categories": [
         {
           "name": "Autentikasi & Keamanan",
@@ -1171,19 +1193,19 @@
             "step": "3",
             "title": "Instal Paket Integrasi",
             "description": "Instal paket integrasi dan dependensinya",
-            "code": "# Instal paket integrasi\npnpm add @shipbase/integrations-stripe"
+            "code": "# Instal paket integrasi\npnpm add @rtvox/integrations-stripe"
           },
           {
             "step": "4",
             "title": "Inisialisasi Integrasi",
             "description": "Inisialisasi layanan integrasi di aplikasi Anda",
-            "code": "# Inisialisasi integrasi\nimport { StripeIntegration } from '@shipbase/integrations-stripe'\nconst stripe = new StripeIntegration()"
+            "code": "# Inisialisasi integrasi\nimport { StripeIntegration } from '@rtvox/integrations-stripe'\nconst stripe = new StripeIntegration()"
           }
         ]
       },
       "cta": {
         "title": "Siap Memulai Integrasi?",
-        "subtitle": "Langsung gunakan fitur integrasi kuat dari ShipBase",
+        "subtitle": "Langsung gunakan fitur integrasi kuat dari RTVox",
         "primaryButton": "Lihat Dokumentasi",
         "secondaryButton": "Hubungi Dukungan"
       }
@@ -1198,7 +1220,7 @@
         "subtitle": "Artikel bantuan paling banyak dibaca",
         "articles": [
           {
-            "title": "Memulai dengan ShipBase",
+            "title": "Memulai dengan RTVox",
             "description": "Pelajari cara menyiapkan dan mendeploy aplikasi AI SaaS pertama Anda dengan cepat",
             "href": "#",
             "tags": [
@@ -1269,7 +1291,7 @@
           "articles": [
             {
               "title": "Instalasi dan Penyiapan",
-              "description": "Menyiapkan proyek ShipBase dari nol",
+              "description": "Menyiapkan proyek RTVox dari nol",
               "href": "#",
               "tags": [
                 "Instalasi",
@@ -1301,7 +1323,7 @@
         },
         {
           "title": "Fitur Inti",
-          "description": "Panduan penggunaan fitur utama ShipBase",
+          "description": "Panduan penggunaan fitur utama RTVox",
           "icon": "Code",
           "articles": [
             {
@@ -1436,24 +1458,24 @@
         "subtitle": "Temukan jawaban yang Anda butuhkan dengan cepat",
         "faqs": [
           {
-            "question": "Layanan AI apa yang didukung ShipBase?",
-            "answer": "ShipBase mendukung layanan AI arus utama seperti OpenAI, Anthropic, Google AI, dan menyediakan antarmuka terpadu untuk mengelola berbagai penyedia AI."
+            "question": "Layanan AI apa yang didukung RTVox?",
+            "answer": "RTVox mendukung layanan AI arus utama seperti OpenAI, Anthropic, Google AI, dan menyediakan antarmuka terpadu untuk mengelola berbagai penyedia AI."
           },
           {
-            "question": "Bagaimana cara menyesuaikan antarmuka ShipBase?",
-            "answer": "ShipBase menggunakan Tailwind CSS dan Shadcn/UI sehingga mudah menyesuaikan gaya. Semua komponen dapat dikustomisasi dan mendukung penggantian tema."
+            "question": "Bagaimana cara menyesuaikan antarmuka RTVox?",
+            "answer": "RTVox menggunakan Tailwind CSS dan Shadcn/UI sehingga mudah menyesuaikan gaya. Semua komponen dapat dikustomisasi dan mendukung penggantian tema."
           },
           {
-            "question": "Apakah ShipBase mendukung banyak bahasa?",
-            "answer": "Ya, ShipBase memiliki dukungan internasionalisasi bawaan. Saat ini mendukung Tionghoa, Inggris, dan Jepang, dan Anda dapat menambahkan bahasa lain dengan mudah."
+            "question": "Apakah RTVox mendukung banyak bahasa?",
+            "answer": "Ya, RTVox memiliki dukungan internasionalisasi bawaan. Saat ini mendukung Tionghoa, Inggris, dan Jepang, dan Anda dapat menambahkan bahasa lain dengan mudah."
           },
           {
-            "question": "Bagaimana cara upgrade versi ShipBase?",
-            "answer": "Anda dapat upgrade ShipBase dengan menarik kode terbaru melalui Git. Kami menyarankan untuk mencadangkan kode kustom Anda sebelum upgrade."
+            "question": "Bagaimana cara upgrade versi RTVox?",
+            "answer": "Anda dapat upgrade RTVox dengan menarik kode terbaru melalui Git. Kami menyarankan untuk mencadangkan kode kustom Anda sebelum upgrade."
           },
           {
-            "question": "Bagaimana performa ShipBase?",
-            "answer": "ShipBase dibangun di atas Next.js 14+ dengan Server Components dan dukungan Edge Runtime sehingga memberikan performa yang sangat baik."
+            "question": "Bagaimana performa RTVox?",
+            "answer": "RTVox dibangun di atas Next.js 14+ dengan Server Components dan dukungan Edge Runtime sehingga memberikan performa yang sangat baik."
           },
           {
             "question": "Bagaimana cara mendapatkan dukungan teknis?",
@@ -1470,116 +1492,116 @@
       }
     },
     "contact": {
-      "title": "Hubungi Kami",
-      "subtitle": "Kami siap membantu",
-      "description": "Hubungi tim kami untuk dukungan, kemitraan, atau pertanyaan umum.",
-      "contactMethodsTitle": "Hubungi Kami",
-      "contactMethodsSubtitle": "Kami senang mendengar dari Anda. Pilih metode kontak yang paling nyaman",
-      "teamTitle": "Kontak Langsung Tim",
-      "teamSubtitle": "Hubungi tim yang tepat sesuai kebutuhan Anda",
-      "responseTimeTitle": "Waktu Respon",
-      "responseTimeSubtitle": "Kami berjanji merespons permintaan Anda dengan cepat",
+      "title": "Hubungi RTVox",
+      "subtitle": "Bicara dengan tim kami tentang Text-to-Speech",
+      "description": "Punya pertanyaan tentang API TTS RTVox, suara, harga, atau kemitraan? Kirim email dan kami akan membalas secepat mungkin.",
+      "contactMethodsTitle": "Cara menghubungi kami",
+      "contactMethodsSubtitle": "Pilih kanal yang sesuai dengan kebutuhan Anda.",
+      "teamTitle": "Anda akan menghubungi",
+      "teamSubtitle": "Kami akan meneruskan setiap pesan ke orang yang tepat.",
+      "responseTimeTitle": "Perkiraan waktu respon",
+      "responseTimeSubtitle": "Sen–Jum (zona waktu AS). Sebagian besar permintaan dijawab dalam 1–2 hari kerja.",
       "contactMethods": [
         {
-          "icon": "Users",
-          "title": "Komunitas Discord",
-          "description": "Bergabunglah dengan komunitas Discord kami untuk terhubung dengan developer lain",
-          "action": "Gabung Discord",
-          "href": "#"
-        },
-        {
           "icon": "Zap",
-          "title": "Dukungan Email",
-          "description": "Kirim email ke [support@shipbase.com](mailto:support@shipbase.com)",
-          "action": "Kirim Email",
-          "href": "mailto:support@shipbase.com"
-        },
-        {
-          "icon": "Shield",
-          "title": "GitHub Issues",
-          "description": "Laporkan masalah atau saran di GitHub",
-          "action": "Lihat Issues",
-          "href": "#"
+          "title": "Dukungan & pertanyaan teknis",
+          "description": "Penggunaan API, bantuan integrasi, dan troubleshooting.",
+          "action": "Email dukungan",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Support"
         },
         {
           "icon": "Rocket",
-          "title": "Kemitraan Enterprise",
-          "description": "Dukungan tingkat enterprise dan layanan pengembangan kustom",
-          "action": "Hubungi Sales",
-          "href": "mailto:sales@shipbase.com"
+          "title": "Penjualan & harga",
+          "description": "Harga, diskon volume, dan kebutuhan enterprise.",
+          "action": "Hubungi penjualan",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Sales"
+        },
+        {
+          "icon": "Users",
+          "title": "Kemitraan",
+          "description": "Kreator, studio, dan kemitraan produk.",
+          "action": "Ajukan kemitraan",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Partnership"
+        },
+        {
+          "icon": "Shield",
+          "title": "Keamanan",
+          "description": "Laporkan kerentanan atau masalah keamanan.",
+          "action": "Laporkan keamanan",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Security"
         }
       ],
       "team": [
         {
-          "name": "Dukungan Teknis",
-          "email": "[support@shipbase.com](mailto:support@shipbase.com)",
-          "description": "Masalah teknis dan pemecahan masalah"
+          "name": "Dukungan",
+          "email": "stormrobin50@gmail.com",
+          "description": "Bantuan integrasi dan pertanyaan produk"
         },
         {
-          "name": "Tim Penjualan",
-          "email": "[sales@shipbase.com](mailto:sales@shipbase.com)",
-          "description": "Kemitraan bisnis dan layanan kustom"
+          "name": "Penjualan",
+          "email": "stormrobin50@gmail.com",
+          "description": "Harga, enterprise, dan volume"
         },
         {
-          "name": "Umpan Balik Produk",
-          "email": "[feedback@shipbase.com](mailto:feedback@shipbase.com)",
-          "description": "Saran produk dan permintaan fitur"
+          "name": "Kemitraan",
+          "email": "stormrobin50@gmail.com",
+          "description": "Proposal kemitraan dan pertanyaan media"
         }
       ],
       "responseTimes": [
         {
-          "time": "< 1 jam",
-          "title": "Dukungan Discord",
-          "description": "Dukungan komunitas dengan respon cepat"
+          "time": "Dalam 1 hari kerja",
+          "title": "Email",
+          "description": "Dukungan, penjualan, dan kemitraan."
         },
         {
-          "time": "< 24 jam",
-          "title": "Dukungan Email",
-          "description": "Tim profesional dengan respon detail"
+          "time": "Dalam 2 hari kerja",
+          "title": "Enterprise",
+          "description": "Kebutuhan kompleks dan diskusi suara kustom."
         },
         {
-          "time": "< 48 jam",
-          "title": "Dukungan Enterprise",
-          "description": "Solusi kustom dan dukungan dedikasi"
+          "time": "Dalam 72 jam",
+          "title": "Keamanan",
+          "description": "Konfirmasi dan triase laporan keamanan."
         }
       ]
     },
     "status": {
-      "title": "Status Layanan",
-      "subtitle": "Status sistem real-time",
-      "description": "Pantau status terkini semua layanan dan infrastruktur ShipBase.",
+      "title": "Status",
+      "subtitle": "Kesehatan layanan saat ini",
+      "description": "Status real-time platform RTVox dan API Text-to-Speech.",
       "overview": {
-        "title": "Ringkasan Status Layanan",
-        "subtitle": "Pemantauan real-time semua layanan ShipBase",
+        "title": "Ringkasan sistem",
+        "subtitle": "Pemantauan real-time layanan RTVox",
         "allSystemsOperational": "Semua Sistem Beroperasi Normal",
         "lastUpdated": "Terakhir diperbarui"
       },
       "services": {
-        "title": "Status Layanan",
-        "subtitle": "Status saat ini semua layanan ShipBase",
+        "title": "Layanan",
+        "subtitle": "Status saat ini layanan RTVox",
         "api": {
-          "name": "Layanan API",
-          "description": "Endpoint dan layanan API inti"
+          "name": "API TTS",
+          "description": "Generasi suara dan metadata voice"
         },
         "auth": {
-          "name": "Autentikasi",
-          "description": "Autentikasi dan otorisasi pengguna"
+          "name": "Konsol & autentikasi",
+          "description": "Masuk dan akses akun"
         },
         "payments": {
-          "name": "Pemrosesan Pembayaran",
-          "description": "Layanan pembayaran Stripe"
+          "name": "Penagihan",
+          "description": "Langganan, faktur, dan pembayaran"
         },
         "database": {
-          "name": "Basis Data",
-          "description": "Layanan basis data Supabase"
+          "name": "Penyimpanan",
+          "description": "Data proyek dan audio yang dihasilkan"
         },
         "cdn": {
           "name": "CDN",
-          "description": "Jaringan pengantaran konten"
+          "description": "Pengantaran audio dan aset statis"
         },
         "monitoring": {
-          "name": "Sistem Monitoring",
-          "description": "Pemantauan sistem dan peringatan"
+          "name": "Monitoring",
+          "description": "Metrik, peringatan, dan deteksi insiden"
         },
         "statusOperational": "Operasional",
         "statusDegraded": "Kinerja Menurun",
@@ -1589,62 +1611,64 @@
         "none": "Tidak ada"
       },
       "subscribe": {
-        "title": "Berlangganan Pembaruan Status",
-        "subtitle": "Dapatkan notifikasi perubahan status layanan via email atau RSS",
-        "emailSubscribe": "Langganan Email",
-        "rssSubscribe": "Langganan RSS",
-        "description": "Tetap terinformasi tentang perubahan status layanan dan jadwal pemeliharaan"
+        "title": "Dapatkan pembaruan status",
+        "subtitle": "Notifikasi via email atau hubungi dukungan",
+        "emailSubscribe": "Pembaruan via email",
+        "rssSubscribe": "Hubungi dukungan",
+        "description": "Berlangganan via email untuk notifikasi insiden, atau hubungi dukungan untuk kasus mendesak."
       }
     },
     "privacy": {
       "title": "Kebijakan Privasi",
-      "subtitle": "Privasi Anda penting",
-      "description": "Pelajari cara kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.",
-      "lastUpdated": "Terakhir diperbarui: 1 Januari 2024",
+      "subtitle": "Cara kami menangani data Anda",
+      "description": "Pelajari bagaimana RTVox mengumpulkan, menggunakan, dan melindungi informasi untuk layanan text-to-speech kami.",
+      "lastUpdated": "Terakhir diperbarui: 11 Januari 2026",
       "introduction": {
         "title": "Pendahuluan",
-        "content": "Selamat datang di ShipBase, **NextJS Boilerplate** yang dirancang untuk membantu Anda membangun startup AI SaaS dengan cepat dan efisien. Di ShipBase, privasi Anda sangat penting bagi kami, dan kebijakan privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda saat menggunakan layanan kami."
+        "content": "Selamat datang di RTVox, layanan text-to-speech (TTS) berbasis AI. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi saat Anda menggunakan RTVox."
       },
       "informationCollection": {
         "title": "Pengumpulan dan Penggunaan Informasi",
-        "subtitle": "Kami mengumpulkan jenis data berikut untuk memberikan pengalaman lebih baik saat menggunakan ShipBase:",
+        "subtitle": "Kami mengumpulkan jenis data berikut untuk mengoperasikan RTVox dan menyediakan text-to-speech:",
         "accountInfo": {
           "title": "Informasi Akun",
-          "whatWeCollect": "Yang Kami Kumpulkan: Nama, alamat email, dan informasi lain yang Anda berikan saat membuat akun.",
-          "purpose": "Tujuan: Mengelola akun Anda dan menyediakan dukungan pelanggan."
+          "whatWeCollect": "Email, nama (jika diberikan), detail autentikasi, dan preferensi akun Anda.",
+          "purpose": "Untuk membuat dan mengelola akun, memberikan dukungan, dan mengamankan akses ke RTVox."
         },
         "usageDetails": {
           "title": "Detail Penggunaan",
-          "whatWeCollect": "Yang Kami Kumpulkan: Informasi tentang cara Anda menggunakan ShipBase, termasuk interaksi, fitur yang diakses, dan frekuensi penggunaan.",
-          "purpose": "Tujuan: Menganalisis keterlibatan pengguna dan meningkatkan layanan kami."
+          "whatWeCollect": "Teks yang Anda kirim untuk sintesis, suara dan pengaturan yang dipilih, jumlah karakter, stempel waktu, serta log kesalahan/diagnostik dasar.",
+          "purpose": "Untuk menghasilkan audio, menampilkan penggunaan dan kuota, memecahkan masalah, dan meningkatkan RTVox."
         },
         "deviceInfo": {
           "title": "Informasi Perangkat",
-          "whatWeCollect": "Yang Kami Kumpulkan: Data mengenai perangkat yang Anda gunakan untuk mengakses ShipBase, seperti tipe perangkat, sistem operasi, dan jenis peramban.",
-          "purpose": "Tujuan: Mengoptimalkan layanan kami untuk berbagai perangkat dan memastikan kompatibilitas."
+          "whatWeCollect": "Data teknis seperti tipe perangkat, sistem operasi, browser, dan alamat IP.",
+          "purpose": "Untuk menjaga layanan tetap andal dan aman serta memastikan kompatibilitas antar perangkat."
         },
         "cookies": {
           "title": "Cookie",
-          "whatWeCollect": "Yang Kami Kumpulkan: File data kecil yang ditempatkan pada perangkat Anda untuk membantu kami melacak preferensi pengguna dan meningkatkan pengalaman.",
-          "purpose": "Tujuan: Meningkatkan fungsionalitas layanan dan mempersonalisasi pengalaman Anda."
+          "whatWeCollect": "File kecil di perangkat Anda untuk menjaga Anda tetap masuk dan mengingat preferensi (misalnya bahasa).",
+          "purpose": "Untuk fungsi inti, meningkatkan pengalaman, dan mempersonalisasi pengaturan."
         },
         "paymentInfo": {
           "title": "Informasi Pembayaran dan Penagihan",
-          "whatWeCollect": "Yang Kami Kumpulkan: Informasi terkait metode pembayaran Anda, seperti nomor kartu kredit, alamat penagihan, dan detail yang diperlukan untuk pemrosesan transaksi.",
-          "purpose": "Tujuan: Memfasilitasi penagihan dan pemrosesan pembayaran untuk layanan kami."
+          "whatWeCollect": "Kontak penagihan dan metadata transaksi. Detail pembayaran (mis. nomor kartu lengkap) diproses oleh penyedia pembayaran kami dan tidak disimpan di server kami.",
+          "purpose": "Untuk memproses pembayaran, mengelola langganan/kredit, dan membantu mencegah penipuan."
         }
       },
       "dataStorage": {
         "title": "Penyimpanan dan Keamanan Data",
-        "content": "Kami menjaga keamanan informasi pribadi Anda dengan serius. Data yang kami kumpulkan disimpan dengan aman di server kami, dan kami menerapkan berbagai langkah keamanan termasuk enkripsi dan kontrol akses untuk melindungi dari akses, perubahan, pengungkapan, atau perusakan yang tidak sah. Namun, harap diketahui bahwa tidak ada metode transmisi melalui Internet atau penyimpanan elektronik yang 100% aman, dan kami tidak dapat menjamin keamanannya secara absolut."
+        "content": "Kami serius menjaga keamanan informasi dan menerapkan langkah-langkah yang wajar seperti enkripsi saat transmisi dan kontrol akses. Jika Anda menghasilkan audio, kami dapat menyimpan audio yang dihasilkan dan metadata terkait untuk menyediakan unduhan dan riwayat. Masa retensi bergantung pada pengaturan, paket, dan kewajiban hukum. Tidak ada metode transmisi atau penyimpanan yang 100% aman."
       },
       "informationSharing": {
         "title": "Berbagi dan Pengungkapan Informasi",
         "content": "Kami tidak menjual, memperdagangkan, atau mentransfer informasi pribadi Anda kepada pihak luar, kecuali dalam keadaan berikut:",
         "circumstances": [
+          "Untuk menghasilkan suara: kami dapat membagikan teks dan pengaturan sintesis Anda kepada penyedia TTS pihak ketiga sebagai penyedia layanan.",
+          "Untuk menyediakan layanan: dengan penyedia infrastruktur, penyimpanan, dan analitik yang membantu kami mengoperasikan RTVox dengan perlindungan yang sesuai.",
+          "Untuk memproses pembayaran: dengan pemroses pembayaran untuk penagihan dan pencegahan penipuan.",
           "Untuk mematuhi kewajiban hukum atau menanggapi permintaan sah dari otoritas publik.",
-          "Untuk melindungi hak, properti, atau keselamatan kami, pengguna kami, atau pihak lain.",
-          "Untuk menyediakan layanan melalui mitra pihak ketiga tepercaya yang membantu kami mengoperasikan situs web atau menjalankan bisnis, tunduk pada perjanjian kerahasiaan."
+          "Untuk melindungi hak, properti, atau keselamatan kami, pengguna kami, atau pihak lain."
         ]
       },
       "policyChanges": {
@@ -1654,25 +1678,25 @@
       "contactUs": {
         "title": "Hubungi Kami",
         "content": "Jika Anda memiliki pertanyaan atau kekhawatiran tentang kebijakan privasi ini atau praktik data kami, hubungi kami di:",
-        "copyrightOwner": "Pemilik Hak Cipta: shipbase.ai",
-        "email": "Email: [support@shipbase.ai](mailto:support@shipbase.ai)"
+        "copyrightOwner": "Pemilik Hak Cipta: rtxox.com",
+        "email": "Email: support@rtxox.com"
       },
       "consent": {
-        "content": "Dengan menggunakan ShipBase, Anda menyetujui kebijakan privasi kami dan menyetujui ketentuannya. Terima kasih telah mempercayakan informasi Anda kepada kami!"
+        "content": "Dengan menggunakan RTVox, Anda menyetujui Kebijakan Privasi ini dan ketentuannya. Terima kasih telah mempercayakan informasi Anda kepada kami."
       }
     },
     "terms": {
       "title": "Ketentuan Layanan",
-      "subtitle": "Syarat dan ketentuan kami",
-      "description": "Baca ketentuan layanan kami dan pahami hak serta tanggung jawab Anda.",
+      "subtitle": "Ketentuan penggunaan RTVox",
+      "description": "Ketentuan ini mengatur akses dan penggunaan Anda terhadap RTVox dan layanan Text-to-Speech (TTS) kami.",
       "lastUpdated": "Terakhir diperbarui: 1 Januari 2024",
       "introduction": {
         "title": "Pendahuluan dan Penerimaan Ketentuan",
-        "content": "Selamat datang di **ShipBase**, boilerplate NextJS yang dirancang untuk membangun startup AI SaaS dengan cepat dan efisien. Dengan mengakses atau menggunakan layanan kami, Anda setuju untuk terikat oleh Ketentuan Layanan ini. Jika Anda tidak setuju dengan ketentuan apa pun, mohon jangan gunakan layanan kami."
+        "content": "Selamat datang di **RTVox**. Ketentuan Layanan ini (\"Ketentuan\") mengatur akses dan penggunaan Anda atas situs web, aplikasi, dan API Text-to-Speech (\"TTS\") RTVox (secara kolektif, \"Layanan\"). Dengan mengakses atau menggunakan Layanan, Anda setuju pada Ketentuan ini. Jika Anda tidak setuju, jangan gunakan Layanan."
       },
       "serviceUse": {
         "title": "Penggunaan Layanan",
-        "content": "ShipBase menyediakan platform komprehensif bagi pengguna untuk membangun dan meluncurkan startup AI SaaS menggunakan template dan infrastruktur kami. Anda setuju menggunakan layanan sesuai hukum dan regulasi yang berlaku di tingkat lokal, negara bagian, nasional, dan internasional."
+        "content": "RTVox menyediakan alat untuk menghasilkan suara dari teks, mengelola proyek, dan mengakses fitur TTS melalui API. Anda setuju menggunakan Layanan sesuai hukum yang berlaku dan bertanggung jawab atas konten yang Anda kirim serta audio yang Anda hasilkan atau distribusikan."
       },
       "userAccounts": {
         "title": "Akun Pengguna dan Pendaftaran",
@@ -1680,42 +1704,42 @@
       },
       "intellectualProperty": {
         "title": "Konten dan Hak Kekayaan Intelektual",
-        "content": "Seluruh konten yang disediakan melalui ShipBase—termasuk namun tidak terbatas pada template, kode, penyiapan infrastruktur, dan dokumentasi—dilindungi oleh hukum hak cipta. Pemilik hak cipta ShipBase adalah **shipbase.ai**.",
+        "content": "Layanan (termasuk perangkat lunak, situs web, API, katalog suara, dan dokumentasi) dimiliki oleh RTVox atau pemberi lisensinya dan dilindungi oleh hukum kekayaan intelektual.",
         "points": [
-          "Anda mengakui tidak memiliki teknologi dasar atau kekayaan intelektual yang membentuk layanan ShipBase, dan setuju menghormati hak kekayaan intelektual shipbase.ai dan pihak ketiga mana pun.",
-          "Meski Anda tetap memiliki kepemilikan atas implementasi dan modifikasi kustom Anda, platform inti dan template ShipBase tetap menjadi milik shipbase.ai."
+          "Anda mempertahankan hak atas teks yang Anda kirim. Dengan tunduk pada Ketentuan ini, Anda dapat menggunakan audio keluaran yang Anda hasilkan.",
+          "Anda tidak boleh menggunakan Layanan dengan cara yang melanggar hak pihak lain (termasuk hak cipta, merek dagang, privasi, atau hak publisitas). Beberapa suara atau fitur dapat memiliki pembatasan tambahan."
         ]
       },
       "prohibitedActivities": {
         "title": "Aktivitas Terlarang",
-        "content": "Anda setuju untuk tidak melakukan aktivitas terlarang berikut saat menggunakan ShipBase:",
+        "content": "Anda setuju untuk tidak melakukan aktivitas terlarang berikut saat menggunakan RTVox:",
         "activities": [
-          "Akses tidak sah atau distribusi kode dan template proprietary kami",
-          "Menjual kembali atau mendistribusikan template ShipBase tanpa izin",
-          "Mengganggu atau merusak keamanan atau kinerja layanan",
-          "Menggunakan layanan untuk tujuan ilegal atau tidak sah",
-          "Mencoba melewati fitur keamanan layanan"
+          "Menggunakan Layanan untuk tujuan ilegal, berbahaya, menipu, atau menyalahgunakan",
+          "Peniruan identitas, penipuan suara, atau pembuatan audio untuk menyesatkan (termasuk deepfake tanpa persetujuan)",
+          "Melanggar hak kekayaan intelektual, privasi, atau hak publisitas pihak ketiga",
+          "Mencoba melewati batas penggunaan, kontrol keamanan, atau pembatasan akses",
+          "Reverse engineering, scraping, atau mengganggu stabilitas/kinerja Layanan"
         ]
       },
       "privacyData": {
         "title": "Privasi dan Pengumpulan Data",
-        "content": "ShipBase mengumpulkan jenis data berikut:",
+        "content": "RTVox dapat mengumpulkan jenis data berikut untuk menjalankan dan meningkatkan Layanan:",
         "dataTypes": [
-          "Informasi Akun: Informasi yang Anda berikan saat membuat akun",
-          "Detail Penggunaan: Data terkait aktivitas Anda di layanan kami",
-          "Informasi Perangkat: Informasi tentang perangkat yang Anda gunakan untuk mengakses layanan",
-          "Cookie: Data yang membantu kami meningkatkan pengalaman Anda",
-          "Informasi Pembayaran dan Penagihan: Data yang diperlukan untuk memproses pembayaran"
+          "Informasi akun: informasi yang Anda berikan saat membuat akun",
+          "Data penggunaan: metrik penggunaan API dan interaksi fitur",
+          "Data konten: teks yang dikirim dan audio yang dihasilkan (seperlunya untuk Layanan)",
+          "Data perangkat dan log: informasi perangkat dan log akses",
+          "Data penagihan: informasi yang diperlukan untuk memproses pembayaran (jika berlaku)"
         ],
         "privacyPolicy": "Untuk detail lebih lanjut, silakan lihat Kebijakan Privasi kami."
       },
       "pricingPayments": {
         "title": "Harga dan Pembayaran",
         "points": [
-          "Semua pembelian bersifat final dan tidak dapat dikembalikan kecuali diwajibkan oleh hukum",
-          "Harga dapat berubah dengan pemberitahuan kepada pengguna",
-          "Anda setuju membayar semua biaya sesuai paket yang dipilih",
-          "Syarat pembayaran mengikuti metode dan paket yang Anda pilih"
+          "Paket dan harga (termasuk penagihan berbasis penggunaan) dapat berubah dengan pemberitahuan jika diperlukan",
+          "Biaya tidak dapat dikembalikan kecuali diwajibkan oleh hukum atau dinyatakan lain",
+          "Anda bertanggung jawab atas semua biaya pada akun Anda, termasuk pajak yang berlaku",
+          "Kegagalan membayar dapat menyebabkan penangguhan atau penghentian akses ke Layanan"
         ]
       },
       "termination": {
@@ -1728,15 +1752,15 @@
       },
       "liability": {
         "title": "Batasan Tanggung Jawab",
-        "content": "Sejauh diizinkan oleh hukum, shipbase.ai tidak bertanggung jawab atas kerusakan langsung, tidak langsung, insidental, khusus, konsekuensial, atau hukuman yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan."
+        "content": "Sejauh diizinkan oleh hukum, RTVox tidak bertanggung jawab atas kerusakan tidak langsung, insidental, khusus, konsekuensial, atau hukuman yang timbul dari penggunaan atau ketidakmampuan menggunakan Layanan."
       },
       "indemnification": {
         "title": "Ganti Rugi",
-        "content": "Anda setuju untuk mengganti rugi dan membebaskan shipbase.ai, afiliasinya, serta pejabat, direktur, karyawan, dan agennya dari klaim, kerusakan, kerugian, tanggung jawab, dan biaya (termasuk biaya pengacara) yang timbul dari penggunaan layanan atau pelanggaran Ketentuan ini."
+        "content": "Anda setuju untuk mengganti rugi dan membebaskan RTVox, afiliasinya, serta pejabat, direktur, karyawan, dan agennya dari klaim, kerusakan, kerugian, tanggung jawab, dan biaya (termasuk biaya pengacara) yang timbul dari penggunaan Layanan atau pelanggaran Ketentuan ini."
       },
       "governingLaw": {
         "title": "Hukum yang Berlaku dan Penyelesaian Sengketa",
-        "content": "Ketentuan ini diatur dan ditafsirkan sesuai hukum yurisdiksi tempat shipbase.ai beroperasi, tanpa memperhatikan pertentangan aturan hukum. Sengketa yang timbul dari Ketentuan ini atau layanan akan diselesaikan melalui arbitrase yang mengikat sesuai hukum yang berlaku."
+        "content": "Ketentuan ini diatur dan ditafsirkan sesuai hukum yurisdiksi tempat RTVox beroperasi, tanpa memperhatikan pertentangan aturan hukum. Sengketa akan diselesaikan sesuai hukum yang berlaku."
       },
       "changes": {
         "title": "Perubahan Ketentuan Ini",
@@ -1744,16 +1768,16 @@
       },
       "contact": {
         "title": "Informasi Kontak",
-        "content": "Jika Anda memiliki pertanyaan tentang Ketentuan ini, hubungi kami di [support@shipbase.ai](mailto:support@shipbase.ai)."
+        "content": "Jika Anda memiliki pertanyaan tentang Ketentuan ini, hubungi kami di stormrobin50@gmail.com."
       },
       "acknowledgment": {
-        "content": "Dengan menggunakan ShipBase, Anda mengakui telah membaca, memahami, dan setuju untuk terikat oleh Ketentuan Layanan ini. Terima kasih telah memilih ShipBase!"
+        "content": "Dengan menggunakan RTVox, Anda mengakui telah membaca, memahami, dan setuju untuk terikat oleh Ketentuan Layanan ini."
       }
     },
     "cookies": {
       "title": "Kebijakan Cookie",
-      "subtitle": "Cara kami menggunakan cookie",
-      "description": "Pahami bagaimana kami menggunakan cookie dan teknologi serupa di platform kami.",
+      "subtitle": "Cara RTVox menggunakan cookie",
+      "description": "Pelajari bagaimana RTVox menggunakan cookie dan teknologi serupa untuk menjaga layanan tetap andal dan meningkatkan pengalaman Anda.",
       "lastUpdated": "Terakhir diperbarui: 1 Januari 2024",
       "introduction": {
         "title": "Apa itu Cookie",
@@ -1854,24 +1878,24 @@
       "contact": {
         "title": "Hubungi Kami",
         "content": "Jika Anda memiliki pertanyaan tentang Kebijakan Cookie ini atau membutuhkan informasi lebih lanjut, hubungi kami di:",
-        "email": "Email: [support@shipbase.ai](mailto:support@shipbase.ai)"
+        "email": "stormrobin50@gmail.com"
       },
       "consent": {
-        "content": "Dengan terus menggunakan situs kami, Anda menyetujui penggunaan cookie sesuai Kebijakan Cookie ini."
+        "content": "Dengan terus menggunakan RTVox, Anda menyetujui penggunaan cookie sesuai Kebijakan Cookie ini."
       }
     },
     "login": {
       "title": "Masuk",
       "subtitle": "Selamat datang kembali",
-      "description": "Masuk ke akun Anda untuk melanjutkan perjalanan dengan ShipBase."
+      "description": "Masuk ke akun Anda untuk melanjutkan perjalanan dengan RTVox."
     },
     "signup": {
       "title": "Mulai",
       "subtitle": "Buat akun Anda",
-      "description": "Bergabung dengan ribuan developer yang membangun aplikasi hebat dengan ShipBase."
+      "description": "Bergabung dengan ribuan developer yang membangun aplikasi hebat dengan RTVox."
     },
     "profile": {
-      "title": "Profil Pengguna - ShipBase",
+      "title": "Profil Pengguna - RTVox",
       "subtitle": "Lihat dan kelola informasi pengguna Anda",
       "description": "Lihat dan kelola informasi akun Anda",
       "basicInfo": {
@@ -1900,24 +1924,24 @@
       "noNameSet": "Nama belum diatur"
     },
     "membership": {
-      "title": "Pusat Keanggotaan - ShipBase",
-      "subtitle": "Kelola langganan dan manfaat keanggotaan Anda",
-      "description": "Kelola paket langganan dan manfaat keanggotaan Anda",
+      "title": "Keanggotaan - RTVox",
+      "subtitle": "Kelola paket dan token Anda",
+      "description": "Lihat saldo token, status paket, dan riwayat penagihan",
       "currentPlan": {
         "title": "Paket Saat Ini",
-        "description": "Status langganan dan penggunaan Anda",
-        "freeVersion": "Versi Gratis",
-        "paidVersion": "Versi Berbayar"
+        "description": "Ringkasan paket dan penggunaan Anda",
+        "freeVersion": "Gratis",
+        "paidVersion": "Profesional"
       },
       "usage": {
-        "apiCalls": "Panggilan API",
-        "projectCount": "Jumlah Proyek",
-        "supportLevel": "Tingkat Dukungan",
-        "remainingThisMonth": "Tersisa bulan ini",
-        "maxLimit": "Batas maksimum",
-        "responseTime": "Waktu respons",
-        "priority": "Prioritas",
-        "standard": "Standar"
+        "apiCalls": "Saldo token",
+        "projectCount": "Total generasi",
+        "supportLevel": "Paket",
+        "remainingThisMonth": "Token tersedia",
+        "maxLimit": "Dari riwayat TTS Anda",
+        "responseTime": "Status penagihan",
+        "priority": "Profesional",
+        "standard": "Gratis"
       },
       "upgradePlan": {
         "title": "Tingkatkan Paket Anda",
@@ -1952,12 +1976,12 @@
           "name": "Gratis",
           "price": 0,
           "period": "selamanya",
-          "description": "Sempurna untuk pengguna individu dan proyek kecil",
+          "description": "Mulai dengan token dan suara standar",
           "features": [
-            "1.000 panggilan API per bulan",
-            "Hingga 3 proyek",
-            "Dukungan dasar",
-            "Pustaka template standar"
+            "Saldo token awal",
+            "Suara standar",
+            "Riwayat TTS dasar",
+            "Dukungan komunitas"
           ],
           "current": false
         },
@@ -1966,31 +1990,12 @@
           "name": "Profesional",
           "price": 29,
           "period": "per bulan",
-          "description": "Sempurna untuk tim kecil dan menengah",
+          "description": "Lebih banyak token dan fitur premium",
           "features": [
-            "50.000 panggilan API per bulan",
-            "Proyek tanpa batas",
-            "Dukungan prioritas",
-            "Pustaka template lanjutan",
-            "Analitik lanjutan",
-            "Kolaborasi tim"
-          ],
-          "current": false
-        },
-        {
-          "id": "enterprise",
-          "name": "Enterprise",
-          "price": 99,
-          "period": "per bulan",
-          "description": "Sempurna untuk perusahaan besar",
-          "features": [
-            "Panggilan API tanpa batas",
-            "Proyek tanpa batas",
-            "Dukungan khusus 24/7",
-            "Semua pustaka template",
-            "Analitik tingkat enterprise",
-            "Integrasi kustom",
-            "Jaminan SLA"
+            "Kuota token lebih tinggi",
+            "Suara premium",
+            "Riwayat TTS lebih panjang",
+            "Dukungan prioritas"
           ],
           "current": false
         }
@@ -2104,28 +2109,28 @@
     "dashboard": {
       "title": "Dasbor",
       "subtitle": "Gambaran",
-      "description": "Akses cepat ke informasi dan tindakan akun Anda",
+      "description": "Akses cepat ke token dan tindakan akun Anda",
       "welcomeMessage": "Selamat datang kembali!",
       "stats": {
-        "title": "Ringkasan Statistik",
-        "subtitle": "Data akun Anda",
-        "cards": [
+        "title": "Ringkasan akun",
+        "subtitle": "Token dan penggunaan",
+          "cards": [
+            {
+              "title": "Token terpakai",
+              "value": "—",
+              "change": "Token tersedia",
+              "trend": "neutral"
+            },
           {
-            "title": "Total Pesanan",
-            "value": "0",
-            "change": "0% dari bulan lalu",
+            "title": "Paket",
+            "value": "Gratis",
+            "change": "Profesional",
             "trend": "neutral"
           },
           {
-            "title": "Total Pendapatan",
-            "value": "$0",
-            "change": "0% dari bulan lalu",
-            "trend": "neutral"
-          },
-          {
-            "title": "Pesanan Tertunda",
-            "value": "0",
-            "change": "Lihat detail",
+            "title": "Generasi hari ini",
+            "value": "—",
+            "change": "Dari riwayat TTS Anda",
             "trend": "neutral"
           },
           {
@@ -2140,27 +2145,27 @@
         "title": "Aktivitas Terbaru",
         "subtitle": "Aktivitas akun Anda",
         "noActivity": "Tidak ada catatan aktivitas",
-        "activities": [
-          {
-            "action": "Akun dibuat",
-            "time": "Baru saja",
-            "icon": "UserPlus"
-          }
-        ]
+        "activities": []
       },
       "quickActions": {
         "title": "Tindakan Cepat",
         "subtitle": "Fitur umum",
         "actions": [
           {
-            "title": "Buat Pesanan",
-            "description": "Buat pesanan baru sekarang",
-            "icon": "ShoppingCart",
-            "href": "/pricing"
+            "title": "Buat suara",
+            "description": "Pergi ke teks-ke-suara",
+            "icon": "Activity",
+            "href": "/podcast-mvp"
           },
           {
-            "title": "Lihat Pesanan",
-            "description": "Kelola pesanan Anda",
+            "title": "Keanggotaan",
+            "description": "Kelola paket Anda",
+            "icon": "Crown",
+            "href": "/membership"
+          },
+          {
+            "title": "Pesanan",
+            "description": "Lihat pesanan Anda",
             "icon": "Package",
             "href": "/orders"
           },
@@ -2169,12 +2174,6 @@
             "description": "Edit profil Anda",
             "icon": "Settings",
             "href": "/profile"
-          },
-          {
-            "title": "Lihat Keanggotaan",
-            "description": "Upgrade paket Anda",
-            "icon": "Crown",
-            "href": "/membership"
           }
         ]
       }
@@ -2201,7 +2200,9 @@
         "title": "Daftar Blog",
         "subtitle": "Semua posting blog",
         "noBlogs": "Tidak ada posting blog",
-        "createNew": "Buat Posting Baru"
+        "createNew": "Buat Posting Baru",
+        "loading": "Memuat...",
+        "confirmDelete": "Yakin ingin menghapus postingan ini?"
       },
       "table": {
         "title": "Judul",
@@ -2219,10 +2220,20 @@
         "subtitle": "Edit posting blog (Admin saja)",
         "form": {
           "language": "Bahasa Blog",
+          "languageOptions": {
+            "zh": "Mandarin",
+            "en": "Inggris",
+            "ja": "Jepang"
+          },
           "title": "Judul",
+          "titlePlaceholder": "Masukkan judul",
           "slug": "Slug",
+          "slugPlaceholder": "blog-slug",
           "description": "Deskripsi",
+          "descriptionPlaceholder": "Masukkan deskripsi",
           "tags": "Tag",
+          "tagsPlaceholder": "tag1, tag2, tag3",
+          "content": "Konten",
           "status": "Status",
           "visibility": "Visibilitas",
           "featured": "Sorotan",
@@ -2233,9 +2244,11 @@
           "descriptionHelper": "Panjang yang disarankan 160 karakter"
         },
         "actions": {
+          "back": "Kembali",
           "cancel": "Batal",
           "update": "Perbarui Blog",
-          "create": "Buat Blog"
+          "create": "Buat Blog",
+          "saving": "Menyimpan..."
         },
         "status": {
           "draft": "Draf",

@@ -8,6 +8,14 @@ import { siteConfig } from "@/lib/site-config";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function isUndefinedColumnError(err: unknown, column: string): boolean {
+  if (!err || typeof err !== "object") return false;
+  const code = (err as { code?: unknown }).code;
+  const message = (err as { message?: unknown }).message;
+  if (code === "42703") return typeof message === "string" ? message.includes(column) : true;
+  return typeof message === "string" && message.includes(`column \"${column}\" does not exist`);
+}
+
 function safeFilenamePart(value: string): string {
   return value.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
 }
@@ -25,24 +33,42 @@ export async function GET(
 
   const { shareId } = await params;
 
-  const rows = await db
-    .select({
-      audio: ttsGenerations.audio,
-      mimeType: ttsGenerations.mimeType,
-      voice: ttsGenerations.voice,
-      generationId: ttsGenerations.id,
-    })
-    .from(ttsShares)
-    .innerJoin(ttsGenerations, eq(ttsShares.generationId, ttsGenerations.id))
-    .where(eq(ttsShares.id, shareId))
-    .limit(1);
+  let rows: Array<{ audio: Buffer; mimeType: string; voice: string; generationId: string; title?: string | null }> = [];
+  try {
+    rows = await db
+      .select({
+        audio: ttsGenerations.audio,
+        mimeType: ttsGenerations.mimeType,
+        voice: ttsGenerations.voice,
+        title: ttsGenerations.title,
+        generationId: ttsGenerations.id,
+      })
+      .from(ttsShares)
+      .innerJoin(ttsGenerations, eq(ttsShares.generationId, ttsGenerations.id))
+      .where(eq(ttsShares.id, shareId))
+      .limit(1);
+  } catch (err) {
+    if (!isUndefinedColumnError(err, "title")) throw err;
+    rows = await db
+      .select({
+        audio: ttsGenerations.audio,
+        mimeType: ttsGenerations.mimeType,
+        voice: ttsGenerations.voice,
+        generationId: ttsGenerations.id,
+      })
+      .from(ttsShares)
+      .innerJoin(ttsGenerations, eq(ttsShares.generationId, ttsGenerations.id))
+      .where(eq(ttsShares.id, shareId))
+      .limit(1);
+  }
 
   const found = rows[0];
   if (!found) {
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  const filename = `${siteConfig.downloadPrefix}-${safeFilenamePart(found.voice)}-${found.generationId}.mp3`;
+  const nameBase = safeFilenamePart(typeof found.title === "string" && found.title.trim() ? found.title : found.voice);
+  const filename = `${siteConfig.downloadPrefix}-${nameBase}-${found.generationId}.mp3`;
   return new Response(new Uint8Array(found.audio), {
     headers: {
       "Content-Type": found.mimeType || "audio/mpeg",

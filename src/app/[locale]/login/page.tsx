@@ -55,15 +55,15 @@ export async function generateMetadata({ params }: LocaleLoginPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Sign In - ShipBase",
-      description: "Sign in to your account to continue your journey with ShipBase.",
-    };;
+      title: "Sign In",
+      description: "Sign in to your account.",
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.login.title} - ShipBase`,
+    title: dictionary.pages.login.title,
     description: dictionary.pages.login.description,
-  };;
+  };
 }

@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { ArrowLeft, Save } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { AppDictionary } from "@/i18n";
+import { locales, type Locale } from "@/i18n";
 
 interface Blog {
   id: string;
@@ -30,7 +31,16 @@ interface BlogEditorProps {
 export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
   const { adminBlogs } = dictionary.pages;
   const router = useRouter();
+  const pathname = usePathname();
   const isNew = !blogId;
+
+  const adminBaseHref = (() => {
+    const segments = (pathname ?? "").split("/").filter(Boolean);
+    const maybeLocale = segments[0];
+    const localePrefix =
+      maybeLocale && locales.includes(maybeLocale as Locale) ? `/${maybeLocale}` : "";
+    return `${localePrefix}/admin/blogs`;
+  })();
 
   const [formData, setFormData] = useState<Blog>({
     id: "",
@@ -98,7 +108,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
 
       const data = await response.json();
       if (data.success) {
-        router.push("/admin/blogs");
+        router.push(adminBaseHref);
       } else {
         alert("Failed to save: " + data.error);
       }
@@ -125,10 +135,10 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
-            onClick={() => router.push("/admin/blogs")}
+            onClick={() => router.push(adminBaseHref)}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {adminBlogs.edit.actions.back}
           </Button>
           <div>
             <h1 className="text-3xl font-bold">
@@ -156,9 +166,9 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
                   onChange={(e) => handleInputChange("language", e.target.value)}
                   className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
                 >
-                  <option value="zh">Chinese</option>
-                  <option value="en">English</option>
-                  <option value="ja">Japanese</option>
+                  <option value="zh">{adminBlogs.edit.form.languageOptions.zh}</option>
+                  <option value="en">{adminBlogs.edit.form.languageOptions.en}</option>
+                  <option value="ja">{adminBlogs.edit.form.languageOptions.ja}</option>
                 </select>
               </CardContent>
             </Card>
@@ -179,7 +189,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
                     }
                   }}
                   className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
-                  placeholder="Enter blog title"
+                  placeholder={adminBlogs.edit.form.titlePlaceholder}
                   required
                 />
                 <p className="mt-2 text-sm text-neutral-500">
@@ -200,7 +210,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
                     value={formData.slug}
                     onChange={(e) => handleInputChange("slug", e.target.value)}
                     className="flex-1 rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
-                    placeholder="blog-slug"
+                    placeholder={adminBlogs.edit.form.slugPlaceholder}
                     required
                   />
                   <Button
@@ -232,7 +242,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
                   }
                   rows={4}
                   className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
-                  placeholder="Enter blog description"
+                  placeholder={adminBlogs.edit.form.descriptionPlaceholder}
                 />
                 <p className="mt-2 text-sm text-neutral-500">
                   {adminBlogs.edit.form.descriptionHelper}
@@ -251,7 +261,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
                   value={formData.tags?.join(", ") || ""}
                   onChange={(e) => handleTagsChange(e.target.value)}
                   className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
-                  placeholder="tag1, tag2, tag3"
+                  placeholder={adminBlogs.edit.form.tagsPlaceholder}
                 />
                 {formData.tags && formData.tags.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -268,7 +278,7 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
             {/* Content Editor */}
             <Card>
               <CardHeader>
-                <CardTitle>Content</CardTitle>
+                <CardTitle>{adminBlogs.edit.form.content}</CardTitle>
               </CardHeader>
               <CardContent>
                 <RichTextEditor
@@ -355,14 +365,14 @@ export function BlogEditor({ dictionary, blogId }: BlogEditorProps) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.push("/admin/blogs")}
+            onClick={() => router.push(adminBaseHref)}
           >
             {adminBlogs.edit.actions.cancel}
           </Button>
           <Button type="submit" disabled={saving}>
             <Save className="h-4 w-4 mr-2" />
             {saving
-              ? "Saving..."
+              ? adminBlogs.edit.actions.saving
               : isNew
                 ? adminBlogs.edit.actions.create
                 : adminBlogs.edit.actions.update}

@@ -1,8 +1,29 @@
 {
   "home": {
-    "badgeLabel": "2025🚀 Expédiez maintenant",
-    "heroTitle": "RTVox, donnez une voix à vos textes.",
-    "heroDescription": "RTVox est un studio de synthèse vocale avec des voix Google. Collez un script, choisissez une voix et générez un audio naturel en quelques secondes.",
+    "badgeLabel": "MAGICIEN DE LA VOIX",
+    "heroTitle": "Créez votre voix IA\nen quelques secondes",
+    "heroTagline": "Texte en voix — clonez et parlez en quelques secondes.",
+    "heroDescription": "Générez une voix naturelle à partir de texte en quelques secondes. Choisissez une voix, ajustez la vitesse et créez des voice-overs, des podcasts et du contenu à partir d’un script. (Le clonage vocal arrive bientôt.)",
+    "productMockupTitle": "Synthèse vocale",
+    "productMockupSubtitle": "Écoutez la différence. Notre IA capture chaque nuance, souffle et émotion.",
+    "textToSpeechSectionKicker": "Synthèse vocale",
+    "textToSpeechSectionTitle": "Synthèse vocale",
+    "textToSpeechSectionDescription": "Transformez n’importe quel texte en audio naturel en quelques secondes. Choisissez une voix, le bon ton, et générez des voice-overs propres pour vos vidéos, podcasts et scripts — sans enregistrer.",
+    "viewPricingPlansCta": "Voir les plans tarifaires",
+    "securitySectionKicker": "Sécurité",
+    "securitySectionTitle": "Sûr et privé",
+    "securitySectionDescription": "Votre texte reste le vôtre. Nous protégeons votre contenu grâce à un traitement sécurisé et des contrôles d’accès stricts, pour générer de la voix en toute confiance pour scripts, vidéos et podcasts — sans compromettre la confidentialité.",
+    "securitySectionImageAlt": "Sécurité",
+    "ttsMockupTextToSpeechTitle": "Synthèse vocale",
+    "ttsMockupSelectVoiceTitle": "Choisir une voix",
+    "ttsMockupCharTokenCount": "{current} / {max} caractères · {tokens} jetons",
+    "ttsMockupClearText": "Effacer le texte",
+    "ttsMockupGenerate": "Générer",
+    "ttsMockupPublic": "Public",
+    "ttsMockupVoicesCount": "{count} voix",
+    "ttsMockupLanguage": "Langue",
+    "ttsMockupEnableVoicePreviewAria": "Activer l’aperçu vocal",
+    "ttsMockupDisableVoicePreviewAria": "Désactiver l’aperçu vocal",
     "ctaPrimary": "Synthèse vocale",
     "ctaSecondary": "Lire la documentation",
     "watchDemo": "Regarder la démo",
@@ -57,7 +78,7 @@
     ],
     "voiceCloningDemoOriginalLabel": "ORIGINAL",
     "voiceCloningDemoCloneLabel": "CLONE",
-    "techStackTitle": "ShipBase est construit sur les épaules de géants",
+    "techStackTitle": "RTVox est construit sur les épaules de géants",
     "techStackItems": [
       {
         "name": "Next.js",
@@ -80,8 +101,8 @@
         "description": "Plateforme de déploiement"
       }
     ],
-    "featuresTitle": "Qu’est-ce que ShipBase",
-    "featuresSubtitle": "ShipBase est un boilerplate NextJS pour créer des startups SaaS IA. Livré avec de nombreux modèles et composants.",
+    "featuresTitle": "Qu’est-ce que RTVox",
+    "featuresSubtitle": "RTVox est un boilerplate NextJS pour créer des startups SaaS IA. Livré avec de nombreux modèles et composants.",
     "features": [
       {
         "title": "Modèles prêts à l’emploi",
@@ -96,7 +117,7 @@
         "description": "Déployez votre application SaaS IA en production en quelques heures, pas en jours."
       }
     ],
-    "benefitsTitle": "Pourquoi choisir ShipBase",
+    "benefitsTitle": "Pourquoi choisir RTVox",
     "benefitsSubtitle": "Tout ce dont vous avez besoin pour lancer votre startup IA : modèles prêts à l’emploi et support technique.",
     "benefits": [
       {
@@ -112,18 +133,18 @@
         "description": "Bénéficiez d’un support technique professionnel pour vous aider à démarrer vite."
       }
     ],
-    "launchStepsTitle": "Comment lancer avec ShipBase",
+    "launchStepsTitle": "Comment lancer avec RTVox",
     "launchStepsSubtitle": "Faites tourner votre startup SaaS IA en trois étapes simples :",
     "launchSteps": [
       {
         "step": "1",
-        "title": "Obtenir ShipBase",
-        "description": "Achetez ShipBase avec un paiement unique. Vérifiez votre e-mail pour le code et la documentation."
+        "title": "Obtenir RTVox",
+        "description": "Achetez RTVox avec un paiement unique. Vérifiez votre e-mail pour le code et la documentation."
       },
       {
         "step": "2",
         "title": "Démarrer votre projet",
-        "description": "Lisez la documentation et clonez le code de ShipBase. Commencez à construire votre SaaS IA."
+        "description": "Lisez la documentation et clonez le code de RTVox. Commencez à construire votre SaaS IA."
       },
       {
         "step": "3",
@@ -136,7 +157,7 @@
         "description": "Déployez votre projet en production en quelques étapes et commencez immédiatement à servir vos clients."
       }
     ],
-    "keyFeaturesTitle": "Fonctionnalités clés de ShipBase",
+    "keyFeaturesTitle": "Fonctionnalités clés de RTVox",
     "keyFeaturesSubtitle": "Tout ce qu’il faut pour lancer rapidement et efficacement votre startup SaaS IA.",
     "keyFeatures": [
       {
@@ -164,27 +185,27 @@
         "description": "Intégration IA préconfigurée avec système de crédits et vente d’API intégrés."
       }
     ],
-    "testimonialsTitle": "Ce que les utilisateurs pensent de ShipBase",
-    "testimonialsSubtitle": "Témoignages de développeurs et fondateurs ayant lancé leur startup IA avec ShipBase.",
+    "testimonialsTitle": "Ce que les utilisateurs pensent de RTVox",
+    "testimonialsSubtitle": "Témoignages de développeurs et fondateurs ayant lancé leur startup IA avec RTVox.",
     "testimonials": [
       {
-        "quote": "ShipBase a rendu le passage de l’idée au produit plus simple que jamais. Ses modèles complets, scripts et fondations d’infrastructure m’évitent de passer du temps sur le développement de base. Je le recommande vivement aux fondateurs qui veulent lancer rapidement leur SaaS.",
+        "quote": "RTVox a rendu le passage de l’idée au produit plus simple que jamais. Ses modèles complets, scripts et fondations d’infrastructure m’évitent de passer du temps sur le développement de base. Je le recommande vivement aux fondateurs qui veulent lancer rapidement leur SaaS.",
         "author": "Auteur de AITDK",
         "role": "Développeur indépendant"
       },
       {
-        "quote": "ShipBase a grandement simplifié la mise en place des paiements et toute la mécanique de commercialisation, ce qui nous a permis de nous concentrer sur les fonctionnalités qui comptent. Si vous voulez expédier et scaler votre SaaS IA rapidement, ShipBase est une évidence !",
+        "quote": "RTVox a grandement simplifié la mise en place des paiements et toute la mécanique de commercialisation, ce qui nous a permis de nous concentrer sur les fonctionnalités qui comptent. Si vous voulez expédier et scaler votre SaaS IA rapidement, RTVox est une évidence !",
         "author": "Scar",
         "role": "Ingénieur Front-end"
       },
       {
-        "quote": "J’ai utilisé ShipBase et lancé un nouveau site en 8 minutes, y compris connexion/paiement, incroyable !",
+        "quote": "J’ai utilisé RTVox et lancé un nouveau site en 8 minutes, y compris connexion/paiement, incroyable !",
         "author": "Lafe",
         "role": "Tech Lead"
       }
     ],
-    "productShowcaseTitle": "Startups SaaS IA construites avec ShipBase",
-    "productShowcaseSubtitle": "Découvrez de superbes applications SaaS IA réalisées avec ShipBase",
+    "productShowcaseTitle": "Startups SaaS IA construites avec RTVox",
+    "productShowcaseSubtitle": "Découvrez de superbes applications SaaS IA réalisées avec RTVox",
     "showcaseItems": [
       {
         "name": "Raphael AI",
@@ -223,7 +244,7 @@
         "category": "Plateforme sociale"
       }
     ],
-    "statsTitle": "Les gens adorent ShipBase",
+    "statsTitle": "Les gens adorent RTVox",
     "statsSubtitle": "pour sa facilité d’usage et sa rapidité d’expédition",
     "stats": [
       {
@@ -242,41 +263,41 @@
         "description": "Pour expédier"
       }
     ],
-    "faqTitle": "Questions fréquentes sur ShipBase",
+    "faqTitle": "Questions fréquentes sur RTVox",
     "faqSubtitle": "Une autre question ? Contactez-nous sur Discord ou par e-mail.",
     "faqs": [
       {
-        "question": "Qu’est-ce que ShipBase exactement et comment ça marche ?",
-        "answer": "ShipBase est un boilerplate NextJS complet, conçu spécifiquement pour créer des startups SaaS IA. Il fournit des modèles prêts à l’emploi, une mise en place d’infrastructure et des outils de déploiement qui vous aident à lancer votre activité en quelques heures plutôt qu’en plusieurs jours."
+        "question": "Qu’est-ce que RTVox exactement et comment ça marche ?",
+        "answer": "RTVox est un boilerplate NextJS complet, conçu spécifiquement pour créer des startups SaaS IA. Il fournit des modèles prêts à l’emploi, une mise en place d’infrastructure et des outils de déploiement qui vous aident à lancer votre activité en quelques heures plutôt qu’en plusieurs jours."
       },
       {
-        "question": "Ai-je besoin de compétences techniques avancées pour utiliser ShipBase ?",
-        "answer": "Des connaissances de base en programmation sont utiles, mais ShipBase est pensé pour les développeurs. Nos modèles et notre documentation facilitent la prise en main, même si vous n’êtes pas expert en IA ou en cloud."
+        "question": "Ai-je besoin de compétences techniques avancées pour utiliser RTVox ?",
+        "answer": "Des connaissances de base en programmation sont utiles, mais RTVox est pensé pour les développeurs. Nos modèles et notre documentation facilitent la prise en main, même si vous n’êtes pas expert en IA ou en cloud."
       },
       {
-        "question": "Quels types de SaaS IA puis-je créer avec ShipBase ?",
-        "answer": "ShipBase couvre un large éventail d’applications IA, de la génération de contenu aux outils d’analyse de données. Nos modèles couvrent des cas d’usage populaires comme les chatbots IA, les générateurs de contenu, les apps de traitement d’images, et plus encore."
+        "question": "Quels types de SaaS IA puis-je créer avec RTVox ?",
+        "answer": "RTVox couvre un large éventail d’applications IA, de la génération de contenu aux outils d’analyse de données. Nos modèles couvrent des cas d’usage populaires comme les chatbots IA, les générateurs de contenu, les apps de traitement d’images, et plus encore."
       },
       {
-        "question": "Combien de temps faut-il généralement pour lancer avec ShipBase ?",
-        "answer": "Avec ShipBase, vous pouvez disposer d’un prototype fonctionnel en quelques heures et d’une application prête pour la production également en quelques heures. Le déploiement en un clic et l’infrastructure préconfigurée réduisent fortement le cycle de développement traditionnel."
+        "question": "Combien de temps faut-il généralement pour lancer avec RTVox ?",
+        "answer": "Avec RTVox, vous pouvez disposer d’un prototype fonctionnel en quelques heures et d’une application prête pour la production également en quelques heures. Le déploiement en un clic et l’infrastructure préconfigurée réduisent fortement le cycle de développement traditionnel."
       },
       {
-        "question": "Que comprend l’infrastructure ShipBase ?",
-        "answer": "ShipBase fournit un stack complet comprenant authentification, base de données, intégration d’API, traitement des paiements et déploiement cloud scalable. Tout est préconfiguré selon les bonnes pratiques du secteur."
+        "question": "Que comprend l’infrastructure RTVox ?",
+        "answer": "RTVox fournit un stack complet comprenant authentification, base de données, intégration d’API, traitement des paiements et déploiement cloud scalable. Tout est préconfiguré selon les bonnes pratiques du secteur."
       },
       {
         "question": "Puis-je personnaliser les modèles pour correspondre à ma marque ?",
-        "answer": "Absolument ! Tous les modèles ShipBase sont entièrement personnalisables. Vous pouvez modifier le design, les fonctionnalités et le comportement pour coller à votre identité de marque et à vos besoins tout en conservant une base robuste."
+        "answer": "Absolument ! Tous les modèles RTVox sont entièrement personnalisables. Vous pouvez modifier le design, les fonctionnalités et le comportement pour coller à votre identité de marque et à vos besoins tout en conservant une base robuste."
       }
     ],
     "finalCtaTitle": "Expédiez votre premier SaaS IA",
-    "finalCtaSubtitle": "Commencez ici, expédiez avec ShipBase.",
-    "finalCtaButton": "Obtenir ShipBase",
+    "finalCtaSubtitle": "Commencez ici, expédiez avec RTVox.",
+    "finalCtaButton": "Obtenir RTVox",
     "finalCtaSecondary": "Lire la documentation"
   },
   "authPanel": {
-    "title": "Se connecter à ShipBase",
+    "title": "Se connecter à RTVox",
     "description": "Authentifiez-vous avec Google, GitHub ou un lien magique propulsé par Better Auth.",
     "signedInAs": "Connecté en tant que {name}",
     "sessionLabel": "ID de session : {id}",
@@ -318,6 +339,7 @@
     ]
   },
   "header": {
+    "product": "Produit",
     "features": "Fonctionnalités",
     "pricing": "Tarifs",
     "docs": "Docs",
@@ -358,7 +380,7 @@
     "features": {
       "title": "Fonctionnalités",
       "subtitle": "Des fonctionnalités puissantes pour accélérer votre développement",
-      "description": "Découvrez l’ensemble d’outils et de fonctionnalités qui font de ShipBase la plateforme idéale pour les applications SaaS modernes.",
+      "description": "Découvrez l’ensemble d’outils et de fonctionnalités qui font de RTVox la plateforme idéale pour les applications SaaS modernes.",
       "coreFeatures": {
         "title": "Fonctionnalités de base",
         "subtitle": "Une solution complète pensée pour les SaaS modernes, pour vous concentrer sur l’innovation produit plutôt que sur l’infrastructure",
@@ -496,8 +518,8 @@
         ]
       },
       "comparison": {
-        "title": "Pourquoi choisir ShipBase",
-        "subtitle": "Comparé aux méthodes traditionnelles, ShipBase vous fait gagner 90 % de temps de développement",
+        "title": "Pourquoi choisir RTVox",
+        "subtitle": "Comparé aux méthodes traditionnelles, RTVox vous fait gagner 90 % de temps de développement",
         "traditional": {
           "title": "Développement traditionnel",
           "items": [
@@ -519,7 +541,7 @@
           ]
         },
         "shipbase": {
-          "title": "Avec ShipBase",
+          "title": "Avec RTVox",
           "items": [
             {
               "text": "Configuration de base en 5 minutes"
@@ -541,8 +563,8 @@
       },
       "cta": {
         "title": "Prêt à créer votre SaaS IA ?",
-        "subtitle": "Obtenez ShipBase maintenant et lancez votre prochain projet en quelques minutes",
-        "primaryButton": "Obtenir ShipBase",
+        "subtitle": "Obtenez RTVox maintenant et lancez votre prochain projet en quelques minutes",
+        "primaryButton": "Obtenir RTVox",
         "secondaryButton": "Voir la documentation"
       }
     },
@@ -687,11 +709,11 @@
       "description": "Guides complets, références d’API et tutoriels pour créer des applications remarquables.",
       "quickStart": {
         "title": "Démarrage rapide",
-        "subtitle": "Démarrez avec ShipBase en quelques étapes pour construire votre SaaS IA",
+        "subtitle": "Démarrez avec RTVox en quelques étapes pour construire votre SaaS IA",
         "steps": [
           {
             "step": "1",
-            "title": "Installer ShipBase",
+            "title": "Installer RTVox",
             "description": "Cloner le dépôt et installer les dépendances",
             "code": "git clone [https://github.com/your-repo/shipbase\ncd](https://github.com/your-repo/shipbase\ncd) shipbase\npnpm install"
           },
@@ -721,7 +743,7 @@
         "sections": [
           {
             "title": "Démarrage rapide",
-            "description": "Prenez en main ShipBase en 5 minutes",
+            "description": "Prenez en main RTVox en 5 minutes",
             "icon": "Rocket",
             "links": [
               {
@@ -740,7 +762,7 @@
           },
           {
             "title": "Fonctionnalités principales",
-            "description": "Découvrez le cœur de ShipBase",
+            "description": "Découvrez le cœur de RTVox",
             "icon": "Code",
             "links": [
               {
@@ -866,7 +888,7 @@
     "integrations": {
       "title": "Intégrations",
       "subtitle": "Connectez vos outils préférés",
-      "description": "Intégrez ShipBase à votre flux de travail et aux services tiers en toute simplicité.",
+      "description": "Intégrez RTVox à votre flux de travail et aux services tiers en toute simplicité.",
       "categories": [
         {
           "name": "Authentification & Sécurité",
@@ -1171,19 +1193,19 @@
             "step": "3",
             "title": "Installer le paquet d’intégration",
             "description": "Installez le paquet correspondant et ses dépendances",
-            "code": "# Installer le paquet d’intégration\npnpm add @shipbase/integrations-stripe"
+            "code": "# Installer le paquet d’intégration\npnpm add @rtvox/integrations-stripe"
           },
           {
             "step": "4",
             "title": "Initialiser l’intégration",
             "description": "Initialisez le service d’intégration dans votre application",
-            "code": "# Initialiser l’intégration\nimport { StripeIntegration } from '@shipbase/integrations-stripe'\nconst stripe = new StripeIntegration()"
+            "code": "# Initialiser l’intégration\nimport { StripeIntegration } from '@rtvox/integrations-stripe'\nconst stripe = new StripeIntegration()"
           }
         ]
       },
       "cta": {
         "title": "Prêt à intégrer ?",
-        "subtitle": "Commencez dès maintenant à utiliser les puissantes intégrations de ShipBase",
+        "subtitle": "Commencez dès maintenant à utiliser les puissantes intégrations de RTVox",
         "primaryButton": "Voir la documentation",
         "secondaryButton": "Contacter le support"
       }
@@ -1198,7 +1220,7 @@
         "subtitle": "Articles d’aide les plus consultés",
         "articles": [
           {
-            "title": "Bien débuter avec ShipBase",
+            "title": "Bien débuter avec RTVox",
             "description": "Apprenez à configurer et déployer rapidement votre premier SaaS IA",
             "href": "#",
             "tags": [
@@ -1269,7 +1291,7 @@
           "articles": [
             {
               "title": "Installation et configuration",
-              "description": "Créer un projet ShipBase depuis zéro",
+              "description": "Créer un projet RTVox depuis zéro",
               "href": "#",
               "tags": [
                 "Installation",
@@ -1436,24 +1458,24 @@
         "subtitle": "Trouvez rapidement les réponses dont vous avez besoin",
         "faqs": [
           {
-            "question": "Quels services IA ShipBase prend-il en charge ?",
-            "answer": "ShipBase prend en charge les principaux services IA comme OpenAI, Anthropic, Google AI et offre une interface unifiée pour gérer différents fournisseurs."
+            "question": "Quels services IA RTVox prend-il en charge ?",
+            "answer": "RTVox prend en charge les principaux services IA comme OpenAI, Anthropic, Google AI et offre une interface unifiée pour gérer différents fournisseurs."
           },
           {
-            "question": "Comment personnaliser l’interface de ShipBase ?",
-            "answer": "ShipBase utilise Tailwind CSS et Shadcn/UI, ce qui facilite la personnalisation. Tous les composants sont modulables et prennent en charge le changement de thème."
+            "question": "Comment personnaliser l’interface de RTVox ?",
+            "answer": "RTVox utilise Tailwind CSS et Shadcn/UI, ce qui facilite la personnalisation. Tous les composants sont modulables et prennent en charge le changement de thème."
           },
           {
-            "question": "ShipBase prend-il en charge plusieurs langues ?",
-            "answer": "Oui, ShipBase dispose d’un support i18n intégré. Il prend actuellement en charge le chinois, l’anglais et le japonais, et vous pouvez ajouter d’autres langues facilement."
+            "question": "RTVox prend-il en charge plusieurs langues ?",
+            "answer": "Oui, RTVox dispose d’un support i18n intégré. Il prend actuellement en charge le chinois, l’anglais et le japonais, et vous pouvez ajouter d’autres langues facilement."
           },
           {
-            "question": "Comment mettre à niveau les versions de ShipBase ?",
-            "answer": "Mettez à jour ShipBase en récupérant le dernier code via Git. Nous recommandons de sauvegarder votre code personnalisé avant toute mise à niveau."
+            "question": "Comment mettre à niveau les versions de RTVox ?",
+            "answer": "Mettez à jour RTVox en récupérant le dernier code via Git. Nous recommandons de sauvegarder votre code personnalisé avant toute mise à niveau."
           },
           {
-            "question": "Qu’en est-il des performances de ShipBase ?",
-            "answer": "ShipBase est basé sur Next.js 14+ avec Server Components et prise en charge d’Edge Runtime, offrant d’excellentes performances."
+            "question": "Qu’en est-il des performances de RTVox ?",
+            "answer": "RTVox est basé sur Next.js 14+ avec Server Components et prise en charge d’Edge Runtime, offrant d’excellentes performances."
           },
           {
             "question": "Comment obtenir du support technique ?",
@@ -1470,116 +1492,116 @@
       }
     },
     "contact": {
-      "title": "Nous contacter",
-      "subtitle": "Nous sommes là pour vous",
-      "description": "Entrez en contact avec notre équipe pour du support, des partenariats ou des questions générales.",
+      "title": "Contacter RTVox",
+      "subtitle": "Parlez à notre équipe au sujet du Text-to-Speech",
+      "description": "Des questions sur l’API TTS de RTVox, les voix, les tarifs ou des partenariats ? Écrivez-nous et nous vous répondrons au plus vite.",
       "contactMethodsTitle": "Nous contacter",
-      "contactMethodsSubtitle": "Nous serions ravis d’échanger. Choisissez le mode de contact qui vous convient",
-      "teamTitle": "Contact direct de l’équipe",
-      "teamSubtitle": "Contactez l’équipe appropriée selon vos besoins",
-      "responseTimeTitle": "Délais de réponse",
-      "responseTimeSubtitle": "Nous nous engageons à répondre rapidement à vos demandes",
+      "contactMethodsSubtitle": "Choisissez le canal adapté à votre demande.",
+      "teamTitle": "Qui vous contacterez",
+      "teamSubtitle": "Nous redirigeons chaque message vers la bonne personne.",
+      "responseTimeTitle": "Délais de réponse habituels",
+      "responseTimeSubtitle": "Lun–ven (fuseaux US). La plupart des demandes reçoivent une réponse sous 1 à 2 jours ouvrés.",
       "contactMethods": [
         {
-          "icon": "Users",
-          "title": "Communauté Discord",
-          "description": "Rejoignez notre communauté pour échanger avec d’autres développeurs",
-          "action": "Rejoindre Discord",
-          "href": "#"
-        },
-        {
           "icon": "Zap",
-          "title": "Support e-mail",
-          "description": "Envoyez un e-mail à [support@shipbase.com](mailto:support@shipbase.com)",
-          "action": "Envoyer un e-mail",
-          "href": "mailto:support@shipbase.com"
-        },
-        {
-          "icon": "Shield",
-          "title": "Issues GitHub",
-          "description": "Signalez des problèmes ou suggestions sur GitHub",
-          "action": "Voir les issues",
-          "href": "#"
+          "title": "Support & questions techniques",
+          "description": "Utilisation de l’API, aide à l’intégration et dépannage.",
+          "action": "Écrire au support",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Support"
         },
         {
           "icon": "Rocket",
-          "title": "Partenariats Entreprise",
-          "description": "Support de niveau entreprise et développement sur mesure",
+          "title": "Ventes & tarifs",
+          "description": "Tarifs, remises volume et besoins enterprise.",
           "action": "Contacter les ventes",
-          "href": "mailto:sales@shipbase.com"
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Sales"
+        },
+        {
+          "icon": "Users",
+          "title": "Partenariats",
+          "description": "Créateurs, studios et partenariats produit.",
+          "action": "Proposer un partenariat",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Partnership"
+        },
+        {
+          "icon": "Shield",
+          "title": "Sécurité",
+          "description": "Signaler une vulnérabilité ou un incident de sécurité.",
+          "action": "Signaler la sécurité",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Security"
         }
       ],
       "team": [
         {
-          "name": "Support technique",
-          "email": "[support@shipbase.com](mailto:support@shipbase.com)",
-          "description": "Problèmes techniques et dépannage"
+          "name": "Support",
+          "email": "stormrobin50@gmail.com",
+          "description": "Aide à l’intégration et questions produit"
         },
         {
-          "name": "Équipe commerciale",
-          "email": "[sales@shipbase.com](mailto:sales@shipbase.com)",
-          "description": "Partenariats et services sur mesure"
+          "name": "Ventes",
+          "email": "stormrobin50@gmail.com",
+          "description": "Tarifs, enterprise et volume"
         },
         {
-          "name": "Retour produit",
-          "email": "[feedback@shipbase.com](mailto:feedback@shipbase.com)",
-          "description": "Suggestions et demandes de fonctionnalités"
+          "name": "Partenariats",
+          "email": "stormrobin50@gmail.com",
+          "description": "Propositions de partenariat et demandes média"
         }
       ],
       "responseTimes": [
         {
-          "time": "< 1 heure",
-          "title": "Support Discord",
-          "description": "Support communautaire avec réponse rapide"
+          "time": "Sous 1 jour ouvré",
+          "title": "E-mail",
+          "description": "Support, ventes et partenariats."
         },
         {
-          "time": "< 24 heures",
-          "title": "Support e-mail",
-          "description": "Équipe professionnelle avec réponses détaillées"
+          "time": "Sous 2 jours ouvrés",
+          "title": "Enterprise",
+          "description": "Besoins complexes et échanges sur des voix personnalisées."
         },
         {
-          "time": "< 48 heures",
-          "title": "Support Entreprise",
-          "description": "Solutions sur mesure et support dédié"
+          "time": "Sous 72 heures",
+          "title": "Sécurité",
+          "description": "Accusé de réception et tri des signalements de sécurité."
         }
       ]
     },
     "status": {
-      "title": "État du service",
-      "subtitle": "Statut système en temps réel",
-      "description": "Surveillez l’état actuel de tous les services et de l’infrastructure ShipBase.",
+      "title": "Statut",
+      "subtitle": "Santé actuelle du service",
+      "description": "Statut en direct de la plateforme RTVox et des API Text-to-Speech.",
       "overview": {
-        "title": "Vue d’ensemble de l’état",
-        "subtitle": "Surveillance en temps réel de tous les services ShipBase",
+        "title": "Vue d’ensemble du système",
+        "subtitle": "Surveillance en temps réel des services RTVox",
         "allSystemsOperational": "Tous les systèmes opérationnels",
         "lastUpdated": "Dernière mise à jour"
       },
       "services": {
-        "title": "État des services",
-        "subtitle": "Statut actuel de tous les services ShipBase",
+        "title": "Services",
+        "subtitle": "Statut actuel des services RTVox",
         "api": {
-          "name": "Services API",
-          "description": "Points de terminaison et services essentiels"
+          "name": "API TTS",
+          "description": "Génération de voix et métadonnées des voix"
         },
         "auth": {
-          "name": "Authentification",
-          "description": "Authentification et autorisation des utilisateurs"
+          "name": "Console & authentification",
+          "description": "Connexion et accès au compte"
         },
         "payments": {
-          "name": "Traitement des paiements",
-          "description": "Services de paiement Stripe"
+          "name": "Facturation",
+          "description": "Abonnements, factures et paiements"
         },
         "database": {
-          "name": "Base de données",
-          "description": "Services de base de données Supabase"
+          "name": "Stockage",
+          "description": "Données de projet et audio généré"
         },
         "cdn": {
           "name": "CDN",
-          "description": "Réseau de diffusion de contenu"
+          "description": "Diffusion audio et ressources statiques"
         },
         "monitoring": {
-          "name": "Système de monitoring",
-          "description": "Surveillance et alertes système"
+          "name": "Monitoring",
+          "description": "Métriques, alertes et détection d’incidents"
         },
         "statusOperational": "Opérationnel",
         "statusDegraded": "Performances dégradées",
@@ -1589,62 +1611,64 @@
         "none": "Aucun"
       },
       "subscribe": {
-        "title": "S’abonner aux mises à jour",
-        "subtitle": "Recevez des notifications de changement d’état par e-mail ou RSS",
-        "emailSubscribe": "S’abonner par e-mail",
-        "rssSubscribe": "S’abonner RSS",
-        "description": "Restez informé des changements d’état et des fenêtres de maintenance"
+        "title": "Recevoir les mises à jour",
+        "subtitle": "Notifications par e-mail ou contact support",
+        "emailSubscribe": "Mises à jour par e-mail",
+        "rssSubscribe": "Contacter le support",
+        "description": "Abonnez-vous par e-mail pour les notifications d’incident, ou contactez le support en cas d’urgence."
       }
     },
     "privacy": {
       "title": "Politique de confidentialité",
-      "subtitle": "Votre confidentialité compte",
-      "description": "Découvrez comment nous collectons, utilisons et protégeons vos informations personnelles.",
-      "lastUpdated": "Dernière mise à jour : 1 janvier 2024",
+      "subtitle": "Comment nous traitons vos données",
+      "description": "Découvrez comment RTVox collecte, utilise et protège les informations pour notre service de synthèse vocale.",
+      "lastUpdated": "Dernière mise à jour : 11 janvier 2026",
       "introduction": {
         "title": "Introduction",
-        "content": "Bienvenue sur ShipBase, le **boilerplate NextJS** conçu pour vous aider à créer des startups SaaS IA rapidement et efficacement. Chez ShipBase, votre confidentialité est primordiale ; cette politique explique comment nous collectons, utilisons et protégeons vos informations personnelles lorsque vous utilisez nos services."
+        "content": "Bienvenue sur RTVox, un service de synthèse vocale (TTS) alimenté par l’IA. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons les informations lorsque vous utilisez RTVox."
       },
       "informationCollection": {
         "title": "Collecte et utilisation des informations",
-        "subtitle": "Nous collectons les types de données suivants pour vous offrir une meilleure expérience avec ShipBase :",
+        "subtitle": "Nous collectons les types de données suivants pour exploiter RTVox et fournir la synthèse vocale :",
         "accountInfo": {
           "title": "Informations de compte",
-          "whatWeCollect": "Ce que nous collectons : votre nom, votre adresse e-mail et toute information fournie lors de la création d’un compte.",
-          "purpose": "Finalité : gérer votre compte et fournir une assistance client."
+          "whatWeCollect": "Votre adresse e-mail, votre nom (si fourni), les informations d’authentification et les préférences du compte.",
+          "purpose": "Pour créer et gérer votre compte, fournir une assistance et sécuriser l’accès à RTVox."
         },
         "usageDetails": {
-          "title": "Détails d’utilisation",
-          "whatWeCollect": "Ce que nous collectons : informations sur votre utilisation de ShipBase, y compris vos interactions, les fonctionnalités consultées et la fréquence d’utilisation.",
-          "purpose": "Finalité : analyser l’engagement et améliorer nos services."
+          "title": "Données d’utilisation de la synthèse vocale",
+          "whatWeCollect": "Texte soumis pour la synthèse, voix et réglages sélectionnés, nombre de caractères, horodatages et journaux d’erreur/diagnostic de base.",
+          "purpose": "Pour générer l’audio, afficher l’usage et les quotas, diagnostiquer les problèmes et améliorer RTVox."
         },
         "deviceInfo": {
           "title": "Informations sur l’appareil",
-          "whatWeCollect": "Ce que nous collectons : type d’appareil, système d’exploitation et navigateur utilisés pour accéder à ShipBase.",
-          "purpose": "Finalité : optimiser nos services pour différents appareils et assurer la compatibilité."
+          "whatWeCollect": "Identifiants et données techniques (type d’appareil, système d’exploitation, navigateur, adresse IP).",
+          "purpose": "Pour assurer fiabilité, sécurité et compatibilité sur différents appareils."
         },
         "cookies": {
           "title": "Cookies",
-          "whatWeCollect": "Ce que nous collectons : petits fichiers stockés sur votre appareil nous aidant à suivre vos préférences et à améliorer l’expérience.",
-          "purpose": "Finalité : renforcer les fonctionnalités et personnaliser votre expérience."
+          "whatWeCollect": "Petits fichiers sur votre appareil pour maintenir la session et mémoriser les préférences (par exemple la langue).",
+          "purpose": "Pour activer les fonctionnalités essentielles, améliorer l’expérience et personnaliser les réglages."
         },
         "paymentInfo": {
           "title": "Informations de paiement et de facturation",
-          "whatWeCollect": "Ce que nous collectons : informations relatives à vos moyens de paiement, comme le numéro de carte, l’adresse de facturation et tout détail nécessaire au traitement.",
-          "purpose": "Finalité : faciliter la facturation et le traitement des paiements."
+          "whatWeCollect": "Coordonnées de facturation et métadonnées de transaction. Les détails de paiement (ex. numéros complets de carte) sont traités par nos prestataires de paiement et ne sont pas stockés sur nos serveurs.",
+          "purpose": "Pour traiter les paiements, gérer les abonnements/crédits et aider à prévenir la fraude."
         }
       },
       "dataStorage": {
         "title": "Stockage et sécurité des données",
-        "content": "Nous prenons la sécurité de vos informations personnelles très au sérieux. Les données collectées sont stockées en toute sécurité et protégées par divers mécanismes (chiffrement, contrôles d’accès). Toutefois, aucun moyen de transmission ou de stockage électronique n’est totalement sûr et nous ne pouvons en garantir la sécurité absolue."
+        "content": "Nous prenons la sécurité des informations au sérieux et mettons en œuvre des mesures raisonnables (chiffrement en transit, contrôles d’accès, etc.). Si vous générez de l’audio, nous pouvons stocker l’audio généré et des métadonnées associées afin de permettre le téléchargement et l’historique de génération. La durée de conservation dépend de vos réglages, de votre formule et de nos obligations légales. Aucun mode de transmission ou de stockage n’est sûr à 100 %."
       },
       "informationSharing": {
         "title": "Partage et divulgation des informations",
         "content": "Nous ne vendons ni n’échangeons vos informations personnelles, sauf dans les cas suivants :",
         "circumstances": [
+          "Pour générer la voix : nous pouvons partager votre texte et vos paramètres de génération avec des fournisseurs de synthèse vocale tiers agissant comme prestataires.",
+          "Pour fournir le service : avec des fournisseurs d’infrastructure, de stockage et d’analytique qui nous aident à exploiter RTVox sous des garanties appropriées.",
+          "Pour traiter les paiements : avec des prestataires de paiement pour la facturation et la prévention de la fraude.",
           "Pour respecter des obligations légales ou répondre à des demandes des autorités publiques.",
-          "Pour protéger nos droits, nos biens et notre sécurité, ou ceux de nos utilisateurs ou d’autrui.",
-          "Pour fournir nos services via des partenaires de confiance nous aidant à exploiter notre site ou notre activité, sous accords de confidentialité."
+          "Pour protéger nos droits, nos biens et notre sécurité, ou ceux de nos utilisateurs ou d’autrui."
         ]
       },
       "policyChanges": {
@@ -1654,25 +1678,25 @@
       "contactUs": {
         "title": "Nous contacter",
         "content": "Pour toute question sur cette politique ou nos pratiques de données, contactez-nous :",
-        "copyrightOwner": "Titulaire du droit d’auteur : shipbase.ai",
-        "email": "E-mail : [support@shipbase.ai](mailto:support@shipbase.ai)"
+        "copyrightOwner": "Titulaire du droit d’auteur : rtxox.com",
+        "email": "E-mail : support@rtxox.com"
       },
       "consent": {
-        "content": "En utilisant ShipBase, vous consentez à notre politique de confidentialité et en acceptez les termes. Merci de votre confiance !"
+        "content": "En utilisant RTVox, vous acceptez cette politique de confidentialité et ses conditions. Merci de votre confiance."
       }
     },
     "terms": {
       "title": "Conditions d’utilisation",
-      "subtitle": "Nos termes et conditions",
-      "description": "Lisez nos conditions d’utilisation et comprenez vos droits et responsabilités.",
+      "subtitle": "Conditions d’utilisation de RTVox",
+      "description": "Ces conditions régissent votre accès et votre utilisation de RTVox et de nos services Text-to-Speech (TTS).",
       "lastUpdated": "Dernière mise à jour : 1 janvier 2024",
       "introduction": {
         "title": "Introduction et acceptation",
-        "content": "Bienvenue sur **ShipBase**, un boilerplate NextJS pour créer des startups SaaS IA rapidement et efficacement. En accédant ou en utilisant notre service, vous acceptez d’être lié par ces conditions. Si vous n’êtes pas d’accord, n’utilisez pas le service."
+        "content": "Bienvenue sur **RTVox**. Les présentes conditions (les « Conditions ») régissent votre accès et votre utilisation du site web, des applications et des API Text-to-Speech (« TTS ») de RTVox (ensemble, le « Service »). En accédant au Service ou en l’utilisant, vous acceptez ces Conditions. Si vous n’êtes pas d’accord, n’utilisez pas le Service."
       },
       "serviceUse": {
         "title": "Utilisation du service",
-        "content": "ShipBase fournit une plateforme complète pour créer et lancer des startups SaaS IA grâce à des modèles et une infrastructure préconstruits. Vous vous engagez à l’utiliser conformément aux lois applicables."
+        "content": "RTVox fournit des outils pour générer de la voix à partir de texte, gérer des projets et accéder aux fonctionnalités TTS via API. Vous vous engagez à utiliser le Service conformément aux lois applicables et vous êtes responsable du contenu que vous soumettez et de l’audio que vous générez ou diffusez."
       },
       "userAccounts": {
         "title": "Comptes utilisateur et inscription",
@@ -1680,42 +1704,42 @@
       },
       "intellectualProperty": {
         "title": "Contenu et droits de propriété intellectuelle",
-        "content": "Tout le contenu fourni via ShipBase (modèles, code, configuration d’infrastructure, documentation, etc.) est protégé par le droit d’auteur. Le titulaire du droit d’auteur de ShipBase est **shipbase.ai**.",
+        "content": "Le Service (y compris le logiciel, le site web, les API, le catalogue de voix et la documentation) est la propriété de RTVox ou de ses concédants et est protégé par les lois sur la propriété intellectuelle.",
         "points": [
-          "Vous reconnaissez ne pas être propriétaire de la technologie sous-jacente du service ShipBase et vous vous engagez à respecter les droits de shipbase.ai et des tiers.",
-          "Vous conservez la propriété de vos implémentations et personnalisations, mais la plateforme ShipBase et ses modèles restent la propriété de shipbase.ai."
+          "Vous conservez les droits que vous détenez sur le texte que vous soumettez. Sous réserve des présentes Conditions, vous pouvez utiliser l’audio que vous générez.",
+          "Vous ne devez pas utiliser le Service d’une manière portant atteinte aux droits de tiers (droit d’auteur, marques, vie privée, droit à l’image, etc.). Certaines voix ou fonctionnalités peuvent être soumises à des restrictions supplémentaires."
         ]
       },
       "prohibitedActivities": {
         "title": "Activités interdites",
         "content": "Vous vous engagez à ne pas :",
         "activities": [
-          "Accéder ou distribuer sans autorisation notre code et nos modèles propriétaires",
-          "Revendre ou redistribuer les modèles ShipBase sans autorisation",
-          "Perturber la sécurité ou les performances du service",
-          "Utiliser le service à des fins illégales ou non autorisées",
-          "Contourner toute fonctionnalité de sécurité"
+          "Utiliser le Service à des fins illégales, nuisibles, trompeuses ou abusives",
+          "Usurper une identité, commettre une fraude vocale, ou générer de l’audio destiné à tromper (y compris des deepfakes sans consentement)",
+          "Porter atteinte aux droits de propriété intellectuelle, à la vie privée ou au droit à l’image de tiers",
+          "Tenter de contourner les limites d’usage, contrôles de sécurité ou restrictions d’accès",
+          "Pratiquer l’ingénierie inverse, le scraping, ou perturber la stabilité ou les performances du Service"
         ]
       },
       "privacyData": {
         "title": "Confidentialité et collecte de données",
-        "content": "ShipBase collecte les types de données suivants :",
+        "content": "RTVox peut collecter les types de données suivants afin d’exploiter et d’améliorer le Service :",
         "dataTypes": [
           "Informations de compte : données fournies lors de la création d’un compte",
-          "Détails d’utilisation : données liées à votre activité",
-          "Informations sur l’appareil : informations sur l’appareil utilisé",
-          "Cookies : données améliorant votre expérience",
-          "Informations de paiement : données nécessaires au traitement des paiements"
+          "Données d’usage : métriques d’utilisation de l’API et des fonctionnalités",
+          "Données de contenu : texte soumis et audio généré (selon nécessité pour le Service)",
+          "Données d’appareil et journaux : informations sur l’appareil et logs d’accès",
+          "Données de facturation : informations nécessaires au traitement des paiements (le cas échéant)"
         ],
         "privacyPolicy": "Pour plus de détails, consultez notre Politique de confidentialité."
       },
       "pricingPayments": {
         "title": "Tarification et paiements",
         "points": [
-          "Tous les achats sont définitifs et non remboursables sauf exigence légale",
-          "Les prix peuvent évoluer avec notification aux utilisateurs",
-          "Vous acceptez de payer tous les frais liés à votre offre",
-          "Les conditions de paiement dépendent de votre méthode et de votre offre"
+          "Les offres et prix (y compris la facturation à l’usage) peuvent évoluer avec notification lorsque requis",
+          "Les frais ne sont pas remboursables sauf exigence légale ou indication contraire explicite",
+          "Vous êtes responsable de tous les frais liés à votre compte, y compris les taxes applicables",
+          "Le non-paiement peut entraîner la suspension ou la résiliation de l’accès au Service"
         ]
       },
       "termination": {
@@ -1728,15 +1752,15 @@
       },
       "liability": {
         "title": "Limitation de responsabilité",
-        "content": "Dans la limite permise par la loi, shipbase.ai n’est pas responsable des dommages directs, indirects, fortuits, spéciaux, consécutifs ou punitifs liés à l’utilisation ou l’impossibilité d’utiliser le service."
+        "content": "Dans la limite permise par la loi, RTVox n’est pas responsable des dommages indirects, fortuits, spéciaux, consécutifs ou punitifs liés à l’utilisation ou l’impossibilité d’utiliser le Service."
       },
       "indemnification": {
         "title": "Indemnisation",
-        "content": "Vous acceptez d’indemniser et de tenir indemnes shipbase.ai, ses affiliés et leurs dirigeants, directeurs, employés et agents de toute réclamation ou perte liée à votre utilisation du service ou à une violation des présentes."
+        "content": "Vous acceptez d’indemniser et de tenir indemnes RTVox, ses affiliés et leurs dirigeants, directeurs, employés et agents de toute réclamation ou perte liée à votre utilisation du Service ou à une violation des présentes."
       },
       "governingLaw": {
         "title": "Droit applicable et litiges",
-        "content": "Ces conditions sont régies par les lois de la juridiction où opère shipbase.ai, sans égard aux conflits de lois. Tout litige sera résolu par arbitrage contraignant conformément aux lois applicables."
+        "content": "Ces conditions sont régies par les lois de la juridiction où opère RTVox, sans égard aux conflits de lois. Tout litige sera résolu conformément aux lois applicables."
       },
       "changes": {
         "title": "Modifications des conditions",
@@ -1744,16 +1768,16 @@
       },
       "contact": {
         "title": "Contact",
-        "content": "Pour toute question concernant ces conditions, contactez-nous à [support@shipbase.ai](mailto:support@shipbase.ai)."
+        "content": "Pour toute question concernant ces conditions, contactez-nous à stormrobin50@gmail.com."
       },
       "acknowledgment": {
-        "content": "En utilisant ShipBase, vous reconnaissez avoir lu, compris et accepté ces Conditions d’utilisation. Merci de choisir ShipBase !"
+        "content": "En utilisant RTVox, vous reconnaissez avoir lu, compris et accepté ces Conditions d’utilisation."
       }
     },
     "cookies": {
       "title": "Politique relative aux cookies",
-      "subtitle": "Comment nous utilisons les cookies",
-      "description": "Comprenez comment nous utilisons les cookies et technologies similaires sur notre plateforme.",
+      "subtitle": "Comment RTVox utilise les cookies",
+      "description": "Découvrez comment RTVox utilise les cookies et technologies similaires pour fiabiliser le service et améliorer votre expérience.",
       "lastUpdated": "Dernière mise à jour : 1 janvier 2024",
       "introduction": {
         "title": "Que sont les cookies",
@@ -1854,24 +1878,24 @@
       "contact": {
         "title": "Nous contacter",
         "content": "Pour toute question concernant cette politique relative aux cookies :",
-        "email": "E-mail : [support@shipbase.ai](mailto:support@shipbase.ai)"
+        "email": "stormrobin50@gmail.com"
       },
       "consent": {
-        "content": "En continuant à utiliser notre site, vous consentez à l’utilisation de cookies conformément à cette politique."
+        "content": "En continuant à utiliser RTVox, vous consentez à l’utilisation de cookies conformément à cette politique."
       }
     },
     "login": {
       "title": "Connexion",
       "subtitle": "Heureux de vous revoir",
-      "description": "Connectez-vous pour poursuivre votre aventure avec ShipBase."
+      "description": "Connectez-vous pour poursuivre votre aventure avec RTVox."
     },
     "signup": {
       "title": "Commencer",
       "subtitle": "Créez votre compte",
-      "description": "Rejoignez des milliers de développeurs qui créent des applications incroyables avec ShipBase."
+      "description": "Rejoignez des milliers de développeurs qui créent des applications incroyables avec RTVox."
     },
     "profile": {
-      "title": "Profil utilisateur – ShipBase",
+      "title": "Profil utilisateur – RTVox",
       "subtitle": "Afficher et gérer vos informations",
       "description": "Affichez et gérez les informations de votre compte",
       "basicInfo": {
@@ -1900,24 +1924,24 @@
       "noNameSet": "Aucun nom défini"
     },
     "membership": {
-      "title": "Centre d’abonnement – ShipBase",
-      "subtitle": "Gérez votre abonnement et vos avantages",
-      "description": "Gérez votre formule et vos avantages",
+      "title": "Abonnement – RTVox",
+      "subtitle": "Gérez votre offre et vos jetons",
+      "description": "Consultez votre solde de jetons, votre offre et votre historique de facturation",
       "currentPlan": {
         "title": "Offre actuelle",
-        "description": "Votre statut d’abonnement et d’utilisation",
-        "freeVersion": "Version gratuite",
-        "paidVersion": "Version payante"
+        "description": "Résumé de votre offre et utilisation",
+        "freeVersion": "Gratuit",
+        "paidVersion": "Professionnel"
       },
       "usage": {
-        "apiCalls": "Appels API",
-        "projectCount": "Nombre de projets",
-        "supportLevel": "Niveau de support",
-        "remainingThisMonth": "Restant ce mois-ci",
-        "maxLimit": "Limite maximale",
-        "responseTime": "Temps de réponse",
-        "priority": "Prioritaire",
-        "standard": "Standard"
+        "apiCalls": "Solde de jetons",
+        "projectCount": "Générations totales",
+        "supportLevel": "Offre",
+        "remainingThisMonth": "Jetons disponibles",
+        "maxLimit": "Depuis votre historique TTS",
+        "responseTime": "Statut de facturation",
+        "priority": "Professionnel",
+        "standard": "Gratuit"
       },
       "upgradePlan": {
         "title": "Mettre à niveau votre offre",
@@ -1952,12 +1976,12 @@
           "name": "Gratuit",
           "price": 0,
           "period": "À vie",
-          "description": "Idéal pour les utilisateurs individuels et petits projets",
+          "description": "Commencez avec des jetons et des voix standard",
           "features": [
-            "1 000 appels API par mois",
-            "Jusqu’à 3 projets",
-            "Support de base",
-            "Bibliothèque de modèles standard"
+            "Solde de jetons de démarrage",
+            "Voix standard",
+            "Historique TTS basique",
+            "Support communautaire"
           ],
           "current": false
         },
@@ -1966,31 +1990,12 @@
           "name": "Professionnel",
           "price": 29,
           "period": "par mois",
-          "description": "Parfait pour les équipes petites et moyennes",
+          "description": "Plus de jetons et des fonctionnalités premium",
           "features": [
-            "50 000 appels API par mois",
-            "Projets illimités",
-            "Support prioritaire",
-            "Bibliothèque de modèles avancée",
-            "Analytique avancée",
-            "Collaboration d’équipe"
-          ],
-          "current": false
-        },
-        {
-          "id": "enterprise",
-          "name": "Entreprise",
-          "price": 99,
-          "period": "par mois",
-          "description": "Parfait pour les grandes entreprises",
-          "features": [
-            "Appels API illimités",
-            "Projets illimités",
-            "Support dédié 24/7",
-            "Toutes les bibliothèques de modèles",
-            "Analytique niveau entreprise",
-            "Intégrations personnalisées",
-            "Garantie SLA"
+            "Allocation de jetons plus élevée",
+            "Voix premium",
+            "Historique TTS étendu",
+            "Support prioritaire"
           ],
           "current": false
         }
@@ -2104,28 +2109,28 @@
     "dashboard": {
       "title": "Tableau de bord",
       "subtitle": "Aperçu",
-      "description": "Accès rapide à vos informations et actions",
+      "description": "Accès rapide à vos jetons et actions de compte",
       "welcomeMessage": "Heureux de vous revoir !",
       "stats": {
-        "title": "Aperçu des statistiques",
-        "subtitle": "Données de votre compte",
-        "cards": [
+        "title": "Aperçu du compte",
+        "subtitle": "Jetons et utilisation",
+          "cards": [
+            {
+              "title": "Jetons utilisés",
+              "value": "—",
+              "change": "Jetons disponibles",
+              "trend": "neutral"
+            },
           {
-            "title": "Commandes totales",
-            "value": "0",
-            "change": "0 % par rapport au mois dernier",
+            "title": "Offre",
+            "value": "Gratuit",
+            "change": "Professionnel",
             "trend": "neutral"
           },
           {
-            "title": "Revenu total",
-            "value": "$0",
-            "change": "0 % par rapport au mois dernier",
-            "trend": "neutral"
-          },
-          {
-            "title": "Commandes en attente",
-            "value": "0",
-            "change": "Voir les détails",
+            "title": "Générations aujourd’hui",
+            "value": "—",
+            "change": "Depuis votre historique TTS",
             "trend": "neutral"
           },
           {
@@ -2140,27 +2145,27 @@
         "title": "Activité récente",
         "subtitle": "Vos activités de compte",
         "noActivity": "Aucune activité",
-        "activities": [
-          {
-            "action": "Compte créé",
-            "time": "À l’instant",
-            "icon": "UserPlus"
-          }
-        ]
+        "activities": []
       },
       "quickActions": {
         "title": "Actions rapides",
         "subtitle": "Fonctionnalités courantes",
         "actions": [
           {
-            "title": "Créer une commande",
-            "description": "Créez une nouvelle commande maintenant",
-            "icon": "ShoppingCart",
-            "href": "/pricing"
+            "title": "Générer une voix",
+            "description": "Aller au texte en parole",
+            "icon": "Activity",
+            "href": "/podcast-mvp"
           },
           {
-            "title": "Voir les commandes",
-            "description": "Gérez vos commandes",
+            "title": "Abonnement",
+            "description": "Gérer votre offre",
+            "icon": "Crown",
+            "href": "/membership"
+          },
+          {
+            "title": "Commandes",
+            "description": "Voir vos commandes",
             "icon": "Package",
             "href": "/orders"
           },
@@ -2169,12 +2174,6 @@
             "description": "Modifiez votre profil",
             "icon": "Settings",
             "href": "/profile"
-          },
-          {
-            "title": "Voir l’abonnement",
-            "description": "Mettre à niveau votre offre",
-            "icon": "Crown",
-            "href": "/membership"
           }
         ]
       }
@@ -2201,7 +2200,9 @@
         "title": "Liste des articles",
         "subtitle": "Tous les articles",
         "noBlogs": "Aucun article trouvé",
-        "createNew": "Créer un nouvel article"
+        "createNew": "Créer un nouvel article",
+        "loading": "Chargement...",
+        "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet article ?"
       },
       "table": {
         "title": "Titre",
@@ -2219,10 +2220,20 @@
         "subtitle": "Modifier l’article (Admin uniquement)",
         "form": {
           "language": "Langue de l’article",
+          "languageOptions": {
+            "zh": "Chinois",
+            "en": "Anglais",
+            "ja": "Japonais"
+          },
           "title": "Titre",
+          "titlePlaceholder": "Saisissez le titre",
           "slug": "Slug",
+          "slugPlaceholder": "blog-slug",
           "description": "Description",
+          "descriptionPlaceholder": "Saisissez la description",
           "tags": "Tags",
+          "tagsPlaceholder": "tag1, tag2, tag3",
+          "content": "Contenu",
           "status": "Statut",
           "visibility": "Visibilité",
           "featured": "À la une",
@@ -2233,9 +2244,11 @@
           "descriptionHelper": "Longueur recommandée : 160 caractères"
         },
         "actions": {
+          "back": "Retour",
           "cancel": "Annuler",
           "update": "Mettre à jour l’article",
-          "create": "Créer l’article"
+          "create": "Créer l’article",
+          "saving": "Enregistrement..."
         },
         "status": {
           "draft": "Brouillon",

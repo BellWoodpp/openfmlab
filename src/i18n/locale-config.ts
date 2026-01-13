@@ -19,3 +19,10 @@ export function resolveIntlLocale(locale: string | Locale | undefined): string {
   }
   return intlLocaleMap.en;
 }
+
+// Some locales (e.g. Arabic) default to non-Latin digits which can look like garbled glyphs
+// depending on the active font fallback in the UI. For numeric UI counters, prefer Latin digits.
+export function resolveIntlNumberLocale(locale: string | Locale | undefined): string {
+  if (locale === "ar") return intlLocaleMap.en;
+  return resolveIntlLocale(locale);
+}

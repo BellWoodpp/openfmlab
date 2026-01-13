@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   if (!userId) {
     return NextResponse.json({
       ok: true,
-      data: { tokens: DEFAULT_TOKENS, isAuthenticated: false },
+      data: { tokens: 0, isAuthenticated: false },
     });
   }
 
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
       ok: true,
       data: { tokens, isAuthenticated: true },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         ok: true,
@@ -41,4 +41,3 @@ export async function GET(req: NextRequest) {
     );
   }
 }
-

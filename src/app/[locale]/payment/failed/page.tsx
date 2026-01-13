@@ -112,8 +112,12 @@ export async function generateMetadata({ params }: PaymentFailedPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Payment Failed - ShipBase",
+      title: "Payment Failed",
       description: "There was an issue processing your payment",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -121,7 +125,11 @@ export async function generateMetadata({ params }: PaymentFailedPageProps) {
   const { title, description } = paymentFailedDictionary;
   
   return {
-    title: `${title} - ShipBase`,
+    title,
     description,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }

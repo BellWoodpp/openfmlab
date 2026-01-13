@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocalePricingPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Pricing - RTVox",
+      title: "Pricing",
       description: "Simple, transparent pricing",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.pricing.title} - RTVox`,
+    title: dictionary.pages.pricing.title,
     description: dictionary.pages.pricing.subtitle,
-  };;
+  };
 }

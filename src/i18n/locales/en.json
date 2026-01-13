@@ -1,9 +1,30 @@
 {
   "home": {
-    "badgeLabel": "2025🚀 Ship Now",
-    "heroTitle": "RTVox, Speak More.",
-    "heroDescription": "RTVox is an AI text-to-speech studio powered by Google voices. Paste a script, pick a voice, and generate natural audio in seconds.",
+    "badgeLabel": "VOICE MAGICIAN",
+    "heroTitle": "Create your own AI\nvoice in seconds",
+    "heroTagline": "Text to Speech — clone and speak in seconds.",
+    "heroDescription": "Generate natural-sounding speech from text in seconds. Pick a voice, tweak speed, and create voiceovers, podcasts, and content from a script. (Voice cloning coming soon.)",
+    "productMockupTitle": "Text to Speech",
+    "productMockupSubtitle": "Listen to the difference. Our AI captures every nuance, breath, and emotion.",
+    "textToSpeechSectionKicker": "Text to Speech",
+    "textToSpeechSectionTitle": "Text to Speech",
+    "textToSpeechSectionDescription": "Turn any text into natural-sounding audio in seconds. Pick a voice, choose the right tone, and generate clean voiceovers for videos, podcasts, and scripts—without recording.",
     "ctaPrimary": "AI Text to Speech Now",
+    "viewPricingPlansCta": "View Pricing Plans",
+    "securitySectionKicker": "Security",
+    "securitySectionTitle": "Secure and Private",
+    "securitySectionDescription": "Your text stays yours. We protect your content with secure processing and strict access controls, so you can generate speech confidently for scripts, videos, and podcasts—without compromising privacy.",
+    "securitySectionImageAlt": "Security",
+    "ttsMockupTextToSpeechTitle": "Text to Speech",
+    "ttsMockupSelectVoiceTitle": "Select a Voice",
+    "ttsMockupCharTokenCount": "{current} / {max} characters · {tokens} tokens",
+    "ttsMockupClearText": "Clear Text",
+    "ttsMockupGenerate": "Generate",
+    "ttsMockupPublic": "Public",
+    "ttsMockupVoicesCount": "{count} voices",
+    "ttsMockupLanguage": "Language",
+    "ttsMockupEnableVoicePreviewAria": "Enable voice preview",
+    "ttsMockupDisableVoicePreviewAria": "Disable voice preview",
     "ctaSecondary": "Read Document",
     "watchDemo": "Watch Demo",
     "viewDetails": "View Details",
@@ -60,7 +81,7 @@
     ],
     "voiceCloningDemoOriginalLabel": "ORIGINAL",
     "voiceCloningDemoCloneLabel": "CLONE",
-    "techStackTitle": "ShipBase is built on the shoulders of giants",
+    "techStackTitle": "Built on a modern web stack",
     "techStackItems": [
       {
         "name": "Next.js",
@@ -83,36 +104,36 @@
         "description": "Deployment Platform"
       }
     ],
-    "featuresTitle": "What is ShipBase",
-    "featuresSubtitle": "ShipBase is a NextJS boilerplate for building AI SaaS startups. Built in a variety of templates and components.",
+    "featuresTitle": "What is RTVox",
+    "featuresSubtitle": "RTVox is an AI text-to-speech studio for creators. Generate natural-sounding speech in seconds.",
     "features": [
       {
-        "title": "Ready-to-use Templates",
-        "description": "Choose from dozens of production-ready AI SaaS templates to quickly start your project."
+        "title": "Natural Voices",
+        "description": "High-quality voices that sound real—great for voiceovers, podcasts, and narration."
       },
       {
-        "title": "Infrastructure Setup",
-        "description": "Get instant access to scalable infrastructure with best practices built-in."
+        "title": "Style Controls",
+        "description": "Adjust tone, speed, and volume to match your content and pacing."
       },
       {
-        "title": "Quick Deployment",
-        "description": "Deploy your AI SaaS application to production in hours, not days."
+        "title": "Export & Share",
+        "description": "Generate audio quickly, download files, or share via a link when needed."
       }
     ],
-    "benefitsTitle": "Why Choose ShipBase",
-    "benefitsSubtitle": "Get everything you need to launch your AI startup - from ready-to-use templates to technical support.",
+    "benefitsTitle": "Why Choose RTVox",
+    "benefitsSubtitle": "A fast workflow with predictable credits and reliable playback.",
     "benefits": [
       {
-        "title": "Complete Framework",
-        "description": "Built on Next.js with authentication, payments, and AI integration - everything works out of the box."
+        "title": "Creator-Ready",
+        "description": "Designed for real production work—ads, YouTube, e-learning, and audiobooks."
       },
       {
-        "title": "Rich Templates Library",
-        "description": "Choose from templates that fit your needs and start building quickly."
+        "title": "Transparent Credits",
+        "description": "See estimates before generating and track usage with a clear history."
       },
       {
-        "title": "Technical Guidance",
-        "description": "Get professional technical support to help you get started quickly."
+        "title": "Multi-Language Support",
+        "description": "Create audio across multiple languages with consistent quality."
       }
     ],
     "launchStepsTitle": "How to Create Audio with RTVox",
@@ -170,8 +191,8 @@
     "testimonialsTitle": "",
     "testimonialsSubtitle": "",
     "testimonials": [],
-    "productShowcaseTitle": "AI SaaS Startups built with ShipBase",
-    "productShowcaseSubtitle": "See amazing AI SaaS applications built with ShipBase",
+    "productShowcaseTitle": "AI SaaS Startups built with RTVox",
+    "productShowcaseSubtitle": "See amazing AI SaaS applications built with RTVox",
     "showcaseItems": [
       {
         "name": "Raphael AI",
@@ -210,7 +231,7 @@
         "category": "Social Platform"
       }
     ],
-    "statsTitle": "People Love ShipBase",
+    "statsTitle": "People Love RTVox",
     "statsSubtitle": "for it's easy to use and fast to ship",
     "stats": [
       {
@@ -263,7 +284,7 @@
     "finalCtaSecondary": "View Pricing"
   },
   "authPanel": {
-    "title": "Sign in to Shipbase",
+    "title": "Sign in to RTVox",
     "description": "Authenticate with Google, GitHub, or a Magic Link powered by Better Auth.",
     "signedInAs": "Signed in as {name}",
     "sessionLabel": "Session ID: {id}",
@@ -305,6 +326,7 @@
     ]
   },
   "header": {
+    "product": "Product",
     "features": "Features",
     "pricing": "Pricing",
     "docs": "Docs",
@@ -512,7 +534,7 @@
       "billingCycles": {
         "one-time": {
           "label": "One-time Payment",
-          "description": "Pay once, use forever"
+          "description": "Single payment (credits top-up)"
         },
         "monthly": {
           "label": "Monthly",
@@ -544,8 +566,8 @@
         },
         {
           "name": "Professional",
-          "price": "$49",
-          "period": "One-time payment",
+          "price": "$6",
+          "period": "per month",
           "description": "Unlock premium voice tiers for creators and teams",
           "features": [
             "Everything in Free",
@@ -792,7 +814,7 @@
     "integrations": {
       "title": "Integrations",
       "subtitle": "Connect with your favorite tools",
-      "description": "Seamlessly integrate ShipBase with your existing workflow and third-party services.",
+      "description": "Seamlessly integrate RTVox with your existing workflow and third-party services.",
       "categories": [
         {
           "name": "Authentication & Security",
@@ -1097,19 +1119,19 @@
             "step": "3",
             "title": "Install Integration Package",
             "description": "Install the corresponding integration package and dependencies",
-            "code": "# Install integration package\\npnpm add @shipbase/integrations-stripe"
+            "code": "# Install integration package\\npnpm add @rtvox/integrations-stripe"
           },
           {
             "step": "4",
             "title": "Initialize Integration",
             "description": "Initialize the integration service in your application",
-            "code": "# Initialize integration\\nimport { StripeIntegration } from '@shipbase/integrations-stripe'\\nconst stripe = new StripeIntegration()"
+            "code": "# Initialize integration\\nimport { StripeIntegration } from '@rtvox/integrations-stripe'\\nconst stripe = new StripeIntegration()"
           }
         ]
       },
       "cta": {
         "title": "Ready to Start Integrating?",
-        "subtitle": "Start using ShipBase's powerful integration features right away",
+        "subtitle": "Start using RTVox's powerful integration features right away",
         "primaryButton": "View Documentation",
         "secondaryButton": "Contact Support"
       }
@@ -1386,116 +1408,116 @@
       }
     },
     "contact": {
-      "title": "Contact Us",
-      "subtitle": "We're here to help",
-      "description": "Get in touch with our team for support, partnerships, or general inquiries.",
-      "contactMethodsTitle": "Contact Us",
-      "contactMethodsSubtitle": "We'd love to hear from you. Choose the contact method that works best for you",
-      "teamTitle": "Direct Team Contact",
-      "teamSubtitle": "Contact the appropriate team based on your needs",
-      "responseTimeTitle": "Response Times",
-      "responseTimeSubtitle": "We promise to respond quickly to your requests",
+      "title": "Contact RTVox",
+      "subtitle": "Talk to our team about Text-to-Speech",
+      "description": "Questions about the RTVox TTS API, voices, pricing, or partnerships? Email us and we’ll get back as quickly as possible.",
+      "contactMethodsTitle": "Ways to reach us",
+      "contactMethodsSubtitle": "Pick the channel that matches your request.",
+      "teamTitle": "Who you’ll reach",
+      "teamSubtitle": "We route every message to the right person.",
+      "responseTimeTitle": "Typical response times",
+      "responseTimeSubtitle": "Mon–Fri (US time zones). Most requests are answered within 1–2 business days.",
       "contactMethods": [
         {
-          "icon": "Users",
-          "title": "Discord Community",
-          "description": "Join our Discord community to connect with other developers",
-          "action": "Join Discord",
-          "href": "#"
-        },
-        {
           "icon": "Zap",
-          "title": "Email Support",
-          "description": "Send an email to support@shipbase.com",
-          "action": "Send Email",
-          "href": "mailto:support@shipbase.com"
-        },
-        {
-          "icon": "Shield",
-          "title": "GitHub Issues",
-          "description": "Report issues or suggestions on GitHub",
-          "action": "View Issues",
-          "href": "#"
+          "title": "Support & technical questions",
+          "description": "API usage, integration help, and troubleshooting.",
+          "action": "Email support",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Support"
         },
         {
           "icon": "Rocket",
-          "title": "Enterprise Partnership",
-          "description": "Enterprise-level support and custom development services",
-          "action": "Contact Sales",
-          "href": "mailto:sales@shipbase.com"
+          "title": "Sales & pricing",
+          "description": "Usage-based pricing, volume discounts, and enterprise needs.",
+          "action": "Contact sales",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Sales"
+        },
+        {
+          "icon": "Users",
+          "title": "Partnerships",
+          "description": "Creators, studios, and product partnerships.",
+          "action": "Reach out",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Partnership"
+        },
+        {
+          "icon": "Shield",
+          "title": "Security",
+          "description": "Report a vulnerability or a security concern.",
+          "action": "Report security",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Security"
         }
       ],
       "team": [
         {
-          "name": "Technical Support",
-          "email": "support@shipbase.com",
-          "description": "Technical issues and troubleshooting"
+          "name": "Support",
+          "email": "stormrobin50@gmail.com",
+          "description": "Integration help and product questions"
         },
         {
-          "name": "Sales Team",
-          "email": "sales@shipbase.com",
-          "description": "Business partnerships and custom services"
+          "name": "Sales",
+          "email": "stormrobin50@gmail.com",
+          "description": "Pricing, enterprise, and volume requests"
         },
         {
-          "name": "Product Feedback",
-          "email": "feedback@shipbase.com",
-          "description": "Product suggestions and feature requests"
+          "name": "Partnerships",
+          "email": "stormrobin50@gmail.com",
+          "description": "Partnership proposals and media inquiries"
         }
       ],
       "responseTimes": [
         {
-          "time": "< 1 hour",
-          "title": "Discord Support",
-          "description": "Community support with quick response"
+          "time": "Within 1 business day",
+          "title": "Email",
+          "description": "Support, sales, and partnership requests."
         },
         {
-          "time": "< 24 hours",
-          "title": "Email Support",
-          "description": "Professional team with detailed responses"
+          "time": "Within 2 business days",
+          "title": "Enterprise",
+          "description": "Complex requirements and custom voice discussions."
         },
         {
-          "time": "< 48 hours",
-          "title": "Enterprise Support",
-          "description": "Custom solutions and dedicated support"
+          "time": "Within 72 hours",
+          "title": "Security",
+          "description": "Acknowledgement and triage of security reports."
         }
       ]
     },
     "status": {
-      "title": "Service Status",
-      "subtitle": "Real-time system status",
-      "description": "Monitor the current status of all ShipBase services and infrastructure.",
+      "title": "Status",
+      "subtitle": "Current service health",
+      "description": "Live status for the RTVox platform and Text-to-Speech APIs.",
       "overview": {
-        "title": "Service Status Overview",
-        "subtitle": "Real-time monitoring of all ShipBase services",
+        "title": "System Overview",
+        "subtitle": "Real-time monitoring of RTVox services",
         "allSystemsOperational": "All Systems Operational",
         "lastUpdated": "Last updated"
       },
       "services": {
-        "title": "Service Status",
-        "subtitle": "Current status of all ShipBase services",
+        "title": "Services",
+        "subtitle": "Current status of RTVox services",
         "api": {
-          "name": "API Services",
-          "description": "Core API endpoints and services"
+          "name": "TTS API",
+          "description": "Text-to-Speech generation and voice metadata"
         },
         "auth": {
-          "name": "Authentication",
-          "description": "User authentication and authorization"
+          "name": "Console & Authentication",
+          "description": "Sign-in and account access"
         },
         "payments": {
-          "name": "Payment Processing",
-          "description": "Stripe payment processing services"
+          "name": "Billing",
+          "description": "Subscriptions, invoices, and payment processing"
         },
         "database": {
-          "name": "Database",
-          "description": "Supabase database services"
+          "name": "Storage",
+          "description": "Project data and generated audio storage"
         },
         "cdn": {
           "name": "CDN",
-          "description": "Content delivery network"
+          "description": "Audio delivery and static assets"
         },
         "monitoring": {
-          "name": "Monitoring System",
-          "description": "System monitoring and alerting"
+          "name": "Monitoring",
+          "description": "Metrics, alerting, and incident detection"
         },
         "statusOperational": "Operational",
         "statusDegraded": "Degraded Performance",
@@ -1505,62 +1527,64 @@
         "none": "None"
       },
       "subscribe": {
-        "title": "Subscribe to Status Updates",
-        "subtitle": "Get notified about service status changes via email or RSS",
-        "emailSubscribe": "Email Subscribe",
-        "rssSubscribe": "RSS Subscribe",
-        "description": "Stay informed about service status changes and maintenance windows"
+        "title": "Get status updates",
+        "subtitle": "Get notified by email or reach support",
+        "emailSubscribe": "Email updates",
+        "rssSubscribe": "Contact support",
+        "description": "Subscribe by email for incident notifications, or contact support for urgent issues."
       }
     },
     "privacy": {
       "title": "Privacy Policy",
-      "subtitle": "Your privacy matters",
-      "description": "Learn how we collect, use, and protect your personal information.",
-      "lastUpdated": "Last updated: January 1, 2024",
+      "subtitle": "How we handle your data",
+      "description": "Learn how RTVox collects, uses, and protects information for our text-to-speech service.",
+      "lastUpdated": "Last updated: January 11, 2026",
       "introduction": {
         "title": "Introduction",
-        "content": "Welcome to ShipBase, the **NextJS Boilerplate** designed to help you build AI SaaS startups quickly and efficiently. At ShipBase, your privacy is of utmost importance to us, and this privacy policy outlines how we collect, use, and protect your personal information when you use our services."
+        "content": "Welcome to RTVox, an AI text-to-speech (TTS) service. This Privacy Policy explains how we collect, use, and protect information when you use RTVox."
       },
       "informationCollection": {
         "title": "Information Collection and Use",
-        "subtitle": "We collect the following types of data to provide you with a better experience while using ShipBase:",
+        "subtitle": "We collect the following types of data to operate RTVox and provide text-to-speech:",
         "accountInfo": {
           "title": "Account Information",
-          "whatWeCollect": "What We Collect: This includes your name, email address, and any other information you provide when creating an account.",
-          "purpose": "Purpose: To manage your account and provide customer support."
+          "whatWeCollect": "Your email address, name (if provided), authentication details, and account preferences.",
+          "purpose": "To create and manage your account, provide customer support, and secure access to RTVox."
         },
         "usageDetails": {
-          "title": "Usage Details",
-          "whatWeCollect": "What We Collect: Information about how you use ShipBase, including your interactions, features accessed, and usage frequency.",
-          "purpose": "Purpose: To analyze user engagement and improve our services."
+          "title": "Text-to-Speech Usage Data",
+          "whatWeCollect": "Text you submit for synthesis, selected voices and settings, character counts, timestamps, and basic error/diagnostic logs.",
+          "purpose": "To generate audio, display usage and quotas, troubleshoot issues, and improve RTVox."
         },
         "deviceInfo": {
           "title": "Device Information",
-          "whatWeCollect": "What We Collect: Data regarding the devices you use to access ShipBase, such as device type, operating system, and browser type.",
-          "purpose": "Purpose: To optimize our services for different devices and ensure compatibility."
+          "whatWeCollect": "Device identifiers and technical data such as device type, operating system, browser type, and IP address.",
+          "purpose": "To keep RTVox reliable and secure, and to ensure compatibility across devices."
         },
         "cookies": {
           "title": "Cookies",
-          "whatWeCollect": "What We Collect: Small data files placed on your device that help us track user preferences and improve user experience.",
-          "purpose": "Purpose: To enhance the functionality of our services and personalize your experience."
+          "whatWeCollect": "Small data files stored on your device to keep you signed in and remember preferences (such as language).",
+          "purpose": "To enable core functionality, improve user experience, and personalize settings."
         },
         "paymentInfo": {
           "title": "Payment and Billing Information",
-          "whatWeCollect": "What We Collect: Information regarding your payment methods, such as credit card number, billing address, and any details required for transaction processing.",
-          "purpose": "Purpose: To facilitate billing and payment processing for our services."
+          "whatWeCollect": "Billing contact details and transaction metadata. Payment details (such as full card numbers) are processed by our payment providers and are not stored on our servers.",
+          "purpose": "To process payments, manage subscriptions/credits, and help prevent fraud."
         }
       },
       "dataStorage": {
         "title": "Data Storage and Security",
-        "content": "We take the security of your personal information seriously. The data we collect is stored securely on our servers, and we implement a variety of security measures including encryption and access controls to protect against unauthorized access, alteration, disclosure, or destruction of your personal information. However, please be aware that no method of transmission over the Internet, or method of electronic storage, is 100% secure, and we cannot guarantee its absolute security."
+        "content": "We take the security of your information seriously. We use reasonable administrative, technical, and physical safeguards such as encryption in transit and access controls. If you generate audio, we may store generated audio and related metadata to provide downloads and generation history. Retention depends on your settings, plan, and legal obligations. No method of transmission or storage is 100% secure, and we cannot guarantee absolute security."
       },
       "informationSharing": {
         "title": "Information Sharing and Disclosure",
         "content": "We do not sell, trade, or otherwise transfer your personal information to outside parties, except in the following circumstances:",
         "circumstances": [
+          "To generate speech: we may share your submitted text and generation settings with third-party text-to-speech providers acting as our service providers.",
+          "To provide the service: with infrastructure, storage, and analytics providers who help us operate RTVox under appropriate safeguards.",
+          "To process payments: with payment processors to handle billing and fraud prevention.",
           "To comply with legal obligations or respond to lawful requests from public authorities.",
-          "To protect our rights, property, or safety, or that of our users or others.",
-          "To provide services through trusted third-party partners who assist us in operating our website or conducting our business, subject to confidentiality agreements."
+          "To protect our rights, property, or safety, or that of our users or others."
         ]
       },
       "policyChanges": {
@@ -1570,25 +1594,25 @@
       "contactUs": {
         "title": "Contact Us",
         "content": "If you have any questions or concerns about this privacy policy or our data practices, please contact us at:",
-        "copyrightOwner": "Copyright Owner: shipbase.ai",
-        "email": "Email: support@shipbase.ai"
+        "copyrightOwner": "Copyright Owner: rtxox.com",
+        "email": "Email: support@rtxox.com"
       },
       "consent": {
-        "content": "By using ShipBase, you consent to our privacy policy and agree to its terms. Thank you for trusting us with your information!"
+        "content": "By using RTVox, you consent to this Privacy Policy and agree to its terms. Thank you for trusting us with your information."
       }
     },
     "terms": {
       "title": "Terms of Service",
-      "subtitle": "Our terms and conditions",
-      "description": "Read our terms of service and understand your rights and responsibilities.",
+      "subtitle": "Terms for using RTVox",
+      "description": "These Terms govern your access to and use of RTVox and our Text-to-Speech services.",
       "lastUpdated": "Last updated: January 1, 2024",
       "introduction": {
         "title": "Introduction and Acceptance of Terms",
-        "content": "Welcome to **ShipBase**, a NextJS boilerplate designed for building AI SaaS startups quickly and efficiently. By accessing or using our service, you agree to be bound by these Terms of Service. If you do not agree with any of these terms, please do not use our service."
+        "content": "Welcome to **RTVox**. These Terms of Service (\"Terms\") govern your access to and use of the RTVox website, applications, and Text-to-Speech (\"TTS\") APIs (collectively, the \"Service\"). By accessing or using the Service, you agree to these Terms. If you do not agree, do not use the Service."
       },
       "serviceUse": {
         "title": "Use of the Service",
-        "content": "ShipBase provides users with a comprehensive platform to build and launch AI SaaS startups using our pre-built templates and infrastructure. You agree to use the service in accordance with all applicable local, state, national, and international laws and regulations."
+        "content": "RTVox provides tools to generate speech from text, manage projects, and access TTS features via API. You agree to use the Service in compliance with applicable laws and regulations, and you are responsible for all content you submit (including text prompts) and any audio you generate or distribute."
       },
       "userAccounts": {
         "title": "User Accounts and Registration",
@@ -1596,42 +1620,42 @@
       },
       "intellectualProperty": {
         "title": "Content and Intellectual Property Rights",
-        "content": "All content provided through ShipBase, including but not limited to templates, code, infrastructure setup, and documentation, is protected under copyright law. The copyright owner of ShipBase is **shipbase.ai**.",
+        "content": "The Service (including our software, website, APIs, voice catalog, and documentation) is owned by RTVox or its licensors and is protected by intellectual property laws.",
         "points": [
-          "You acknowledge that you do not own the underlying technology or intellectual property that makes up the ShipBase service, and you agree to respect the intellectual property rights of shipbase.ai and any third parties.",
-          "While you retain ownership of your custom implementations and modifications, the core ShipBase platform and templates remain the property of shipbase.ai."
+          "You retain any rights you have in the text you submit to the Service. Subject to these Terms, you may use the audio output you generate.",
+          "You must not use the Service in a way that infringes the rights of others (including copyright, trademark, privacy, or publicity rights). Some voices or features may be subject to additional restrictions from third-party licensors."
         ]
       },
       "prohibitedActivities": {
         "title": "Prohibited Activities",
-        "content": "You agree not to engage in any of the following prohibited activities while using ShipBase:",
+        "content": "You agree not to engage in any of the following prohibited activities while using RTVox:",
         "activities": [
-          "Unauthorized access to or distribution of our proprietary code and templates",
-          "Reselling or redistributing ShipBase templates without authorization",
-          "Interfering with or disrupting the security or performance of the service",
-          "Using the service for any illegal or unauthorized purpose",
-          "Attempting to bypass any security features of the service"
+          "Using the Service for illegal, harmful, deceptive, or abusive purposes",
+          "Impersonation, voice fraud, or generating audio intended to mislead others (including scams or deepfakes without consent)",
+          "Violating intellectual property, privacy, or publicity rights of others",
+          "Attempting to bypass rate limits, security controls, or access restrictions",
+          "Reverse engineering, scraping, or interfering with the stability or performance of the Service"
         ]
       },
       "privacyData": {
         "title": "Privacy and Data Collection",
-        "content": "ShipBase collects the following types of data:",
+        "content": "RTVox may collect the following types of data to operate and improve the Service:",
         "dataTypes": [
-          "Account Information: Information you provide when creating an account",
-          "Usage Details: Data related to your activity on our service",
-          "Device Information: Information about the device you use to access our service",
-          "Cookies: Data that helps us enhance your experience with our service",
-          "Payment and Billing Information: Data necessary to process payments"
+          "Account information: details you provide when creating an account",
+          "Usage data: API usage metrics and feature interaction data",
+          "Content data: text you submit and audio you generate (as needed to provide the Service)",
+          "Device and log data: information about your device and access logs",
+          "Billing data: information required to process payments (if applicable)"
         ],
         "privacyPolicy": "For more details on data collection practices, please refer to our separate Privacy Policy."
       },
       "pricingPayments": {
         "title": "Pricing and Payments",
         "points": [
-          "All purchases are final and non-refundable unless otherwise required by law",
-          "Prices are subject to change with notice to users",
-          "You agree to pay all charges associated with your selected plan",
-          "Payment terms are based on your selected payment method and plan"
+          "Plans and pricing (including usage-based billing) may change from time to time with notice where required",
+          "All fees are non-refundable except where required by law or explicitly stated otherwise",
+          "You are responsible for all charges incurred under your account, including applicable taxes",
+          "Failure to pay may result in suspension or termination of access to the Service"
         ]
       },
       "termination": {
@@ -1644,15 +1668,15 @@
       },
       "liability": {
         "title": "Limitation of Liability",
-        "content": "To the fullest extent permitted by law, shipbase.ai shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from the use of or inability to use the service."
+        "content": "To the fullest extent permitted by law, RTVox will not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of (or inability to use) the Service."
       },
       "indemnification": {
         "title": "Indemnification",
-        "content": "You agree to indemnify and hold harmless shipbase.ai, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including attorneys' fees) arising from your use of the service or violation of these Terms."
+        "content": "You agree to indemnify and hold harmless RTVox and its affiliates, officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including attorneys' fees) arising from your use of the Service or violation of these Terms."
       },
       "governingLaw": {
         "title": "Governing Law and Dispute Resolution",
-        "content": "These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which shipbase.ai operates, without regard to its conflict of law provisions. Any disputes arising from these Terms or the service will be resolved through binding arbitration in accordance with applicable laws."
+        "content": "These Terms are governed by the laws of the jurisdiction in which RTVox operates, without regard to conflict of law principles. Any disputes will be resolved in accordance with applicable law."
       },
       "changes": {
         "title": "Changes to These Terms",
@@ -1660,16 +1684,16 @@
       },
       "contact": {
         "title": "Contact Information",
-        "content": "If you have any questions about these Terms, please contact us at support@shipbase.ai."
+        "content": "If you have any questions about these Terms, please contact us at stormrobin50@gmail.com."
       },
       "acknowledgment": {
-        "content": "By using ShipBase, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. Thank you for choosing ShipBase!"
+        "content": "By using RTVox, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service."
       }
     },
     "cookies": {
       "title": "Cookie Policy",
-      "subtitle": "How we use cookies",
-      "description": "Understand how we use cookies and similar technologies on our platform.",
+      "subtitle": "How RTVox uses cookies",
+      "description": "Learn how RTVox uses cookies and similar technologies to keep the service reliable and improve your experience.",
       "lastUpdated": "Last updated: January 1, 2024",
       "introduction": {
         "title": "What are Cookies",
@@ -1770,24 +1794,24 @@
       "contact": {
         "title": "Contact Us",
         "content": "If you have any questions about this Cookie Policy or need more information, please contact us at:",
-        "email": "Email: support@shipbase.ai"
+        "email": "stormrobin50@gmail.com"
       },
       "consent": {
-        "content": "By continuing to use our website, you consent to our use of cookies in accordance with this Cookie Policy."
+        "content": "By continuing to use RTVox, you consent to our use of cookies in accordance with this Cookie Policy."
       }
     },
     "login": {
       "title": "Sign In",
       "subtitle": "Welcome back",
-      "description": "Sign in to your account to continue your journey with ShipBase."
+      "description": "Sign in to your account to continue your journey with RTVox."
     },
     "signup": {
       "title": "Get Started",
       "subtitle": "Create your account",
-      "description": "Join thousands of developers building amazing applications with ShipBase."
+      "description": "Join thousands of developers building amazing applications with RTVox."
     },
     "profile": {
-      "title": "User Profile - ShipBase",
+      "title": "User Profile - RTVox",
       "subtitle": "View and manage your user information",
       "description": "View and manage your account information",
       "basicInfo": {
@@ -1816,24 +1840,24 @@
       "noNameSet": "No name set"
     },
     "membership": {
-      "title": "Membership Center - ShipBase",
-      "subtitle": "Manage your membership subscription and benefits",
-      "description": "Manage your subscription plan and membership benefits",
+      "title": "Membership Center - RTVox",
+      "subtitle": "Manage your plan and tokens",
+      "description": "View your token balance, plan status, and billing history",
       "currentPlan": {
         "title": "Current Plan",
-        "description": "Your current subscription status and usage",
-        "freeVersion": "Free Version",
-        "paidVersion": "Paid Version"
+        "description": "Your current plan and usage summary",
+        "freeVersion": "Free",
+        "paidVersion": "Professional"
       },
       "usage": {
-        "apiCalls": "API Calls",
-        "projectCount": "Project Count",
-        "supportLevel": "Support Level",
-        "remainingThisMonth": "Remaining this month",
-        "maxLimit": "Maximum limit",
-        "responseTime": "Response time",
-        "priority": "Priority",
-        "standard": "Standard"
+        "apiCalls": "Token Balance",
+        "projectCount": "Total Generations",
+        "supportLevel": "Plan",
+        "remainingThisMonth": "Available tokens",
+        "maxLimit": "From your TTS history",
+        "responseTime": "Billing status",
+        "priority": "Professional",
+        "standard": "Free"
       },
       "upgradePlan": {
         "title": "Upgrade Your Plan",
@@ -1868,12 +1892,12 @@
           "name": "Free",
           "price": 0,
           "period": "Forever",
-          "description": "Perfect for individual users and small projects",
+          "description": "Get started with tokens and standard voices",
           "features": [
-            "1,000 API calls per month",
-            "Up to 3 projects",
-            "Basic support",
-            "Standard template library"
+            "Starter token balance",
+            "Standard voices",
+            "Basic TTS history",
+            "Community support"
           ],
           "current": false
         },
@@ -1882,35 +1906,43 @@
           "name": "Professional",
           "price": 29,
           "period": "per month",
-          "description": "Perfect for small and medium teams",
+          "description": "More tokens and premium features for creators",
           "features": [
-            "50,000 API calls per month",
-            "Unlimited projects",
-            "Priority support",
-            "Advanced template library",
-            "Advanced analytics",
-            "Team collaboration"
-          ],
-          "current": false
-        },
-        {
-          "id": "enterprise",
-          "name": "Enterprise",
-          "price": 99,
-          "period": "per month",
-          "description": "Perfect for large enterprises",
-          "features": [
-            "Unlimited API calls",
-            "Unlimited projects",
-            "24/7 dedicated support",
-            "All template libraries",
-            "Enterprise-level analytics",
-            "Custom integrations",
-            "SLA guarantee"
+            "Higher token allowance",
+            "Premium voices",
+            "Extended TTS history",
+            "Priority support"
           ],
           "current": false
         }
       ]
+    },
+    "points": {
+      "title": "Credits Top-up - RTVox",
+      "subtitle": "Top up your credits for generation",
+      "description": "Buy credits packs and refill anytime",
+      "balance": {
+        "title": "Your Balance",
+        "description": "Credits available for text-to-speech generation",
+        "creditsLabel": "Credits"
+      },
+      "packs": {
+        "title": "Choose a pack",
+        "description": "Credits work with both Standard and premium voices",
+        "buy": "Buy",
+        "processing": "Redirecting..."
+      },
+      "actions": {
+        "backToMembership": "Back to Membership"
+      },
+      "status": {
+        "loadingBalance": "Loading balance...",
+        "pendingPaymentHint": "If your payment is still processing, refresh in a moment."
+      },
+      "errors": {
+        "dbRequired": "This feature requires a database connection.",
+        "generic": "Something went wrong. Please try again."
+      }
     },
     "orders": {
       "title": "Order Center",
@@ -2020,30 +2052,30 @@
     "dashboard": {
       "title": "Dashboard",
       "subtitle": "Overview",
-      "description": "Quick access to your account information and actions",
+      "description": "Quick access to your tokens and account actions",
       "welcomeMessage": "Welcome back!",
       "stats": {
-        "title": "Statistics Overview",
-        "subtitle": "Your account data",
-        "cards": [
+        "title": "Account Overview",
+        "subtitle": "Tokens and usage",
+      "cards": [
+        {
+          "title": "Tokens Used Today",
+          "value": "—",
+          "change": "Available tokens",
+          "trend": "neutral"
+        },
           {
-            "title": "Total Orders",
-            "value": "0",
-            "change": "0% from last month",
+            "title": "Plan",
+            "value": "Free",
+            "change": "Professional",
             "trend": "neutral"
-          },
-          {
-            "title": "Total Revenue",
-            "value": "$0",
-            "change": "0% from last month",
-            "trend": "neutral"
-          },
-          {
-            "title": "Pending Orders",
-            "value": "0",
-            "change": "View details",
-            "trend": "neutral"
-          },
+        },
+        {
+          "title": "Generations Today",
+          "value": "—",
+          "change": "From your TTS history",
+          "trend": "neutral"
+        },
           {
             "title": "Account Status",
             "value": "Active",
@@ -2056,27 +2088,27 @@
         "title": "Recent Activity",
         "subtitle": "Your account activity",
         "noActivity": "No activity records",
-        "activities": [
-          {
-            "action": "Account created",
-            "time": "Just now",
-            "icon": "UserPlus"
-          }
-        ]
+        "activities": []
       },
       "quickActions": {
         "title": "Quick Actions",
         "subtitle": "Common features",
         "actions": [
           {
-            "title": "Create Order",
-            "description": "Create a new order now",
-            "icon": "ShoppingCart",
-            "href": "/pricing"
+            "title": "Generate Voice",
+            "description": "Go to text-to-speech",
+            "icon": "Activity",
+            "href": "/podcast-mvp"
           },
           {
-            "title": "View Orders",
-            "description": "Manage your orders",
+            "title": "Membership",
+            "description": "Manage your plan",
+            "icon": "Crown",
+            "href": "/membership"
+          },
+          {
+            "title": "Orders",
+            "description": "View your orders",
             "icon": "Package",
             "href": "/orders"
           },
@@ -2085,12 +2117,6 @@
             "description": "Edit your profile",
             "icon": "Settings",
             "href": "/profile"
-          },
-          {
-            "title": "View Membership",
-            "description": "Upgrade your plan",
-            "icon": "Crown",
-            "href": "/membership"
           }
         ]
       }
@@ -2117,7 +2143,9 @@
         "title": "Blog List",
         "subtitle": "All blog posts",
         "noBlogs": "No blog posts found",
-        "createNew": "Create New Post"
+        "createNew": "Create New Post",
+        "loading": "Loading...",
+        "confirmDelete": "Are you sure you want to delete this post?"
       },
       "table": {
         "title": "Title",
@@ -2135,10 +2163,20 @@
         "subtitle": "Edit blog post (Admin only)",
         "form": {
           "language": "Blog Language",
+          "languageOptions": {
+            "zh": "Chinese",
+            "en": "English",
+            "ja": "Japanese"
+          },
           "title": "Title",
+          "titlePlaceholder": "Enter blog title",
           "slug": "Slug",
+          "slugPlaceholder": "blog-slug",
           "description": "Description",
+          "descriptionPlaceholder": "Enter blog description",
           "tags": "Tags",
+          "tagsPlaceholder": "tag1, tag2, tag3",
+          "content": "Content",
           "status": "Status",
           "visibility": "Visibility",
           "featured": "Featured",
@@ -2149,9 +2187,11 @@
           "descriptionHelper": "Recommended length 160 characters"
         },
         "actions": {
+          "back": "Back",
           "cancel": "Cancel",
           "update": "Update Blog",
-          "create": "Create Blog"
+          "create": "Create Blog",
+          "saving": "Saving..."
         },
         "status": {
           "draft": "Draft",

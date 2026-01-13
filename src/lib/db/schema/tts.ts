@@ -13,6 +13,7 @@ export const ttsGenerations = pgTable("tts_generations", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 
+  title: text("title"),
   input: text("input").notNull(),
   voice: text("voice").notNull(),
   tone: text("tone").notNull(),

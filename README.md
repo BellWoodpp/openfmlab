@@ -1,6 +1,6 @@
-# OpenFMVideo (ShipBase + Podcast MVP)
+# RTVox (Text-to-Speech + Podcast MVP)
 
-This repo is based on the ShipBase SaaS template, plus an added minimal “podcast generator” MVP for content creators.
+RTVox is a Next.js app for AI text-to-speech, plus a minimal “podcast generator” MVP for content creators.
 
 ## Podcast MVP
 
@@ -25,6 +25,13 @@ Optional:
 cp .env.example .env
 pnpm install
 pnpm dev
+```
+
+## Creem (payments) smoke test
+
+```bash
+pnpm creem:smoke -- --retrieve-only
+pnpm creem:smoke
 ```
 
 ## Notes

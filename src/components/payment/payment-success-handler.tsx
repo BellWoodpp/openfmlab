@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/i18n/types";
+import { defaultLocale } from "@/i18n/types";
 import type { PaymentSuccessDictionary } from "@/i18n/pages/payment";
-import { resolveIntlLocale } from "@/i18n/locale-config";
+import { resolveIntlLocale, resolveIntlNumberLocale } from "@/i18n/locale-config";
 
 interface PaymentSuccessHandlerProps {
   searchParams: {
@@ -23,9 +24,14 @@ interface Order {
   id: string;
   orderNumber: string;
   status: string;
+  productId?: string;
+  productType?: string;
   productName: string;
   amount: string;
   currency: string;
+  credits?: number | null;
+  planPeriod?: "monthly" | "yearly" | null;
+  membershipTokens?: number | null;
   paidAt: string | null;
   createdAt: string;
 }
@@ -38,7 +44,25 @@ export function PaymentSuccessHandler({
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [balanceLoading, setBalanceLoading] = useState(false);
+  const [balanceBefore, setBalanceBefore] = useState<number | null>(null);
+  const [balanceAfter, setBalanceAfter] = useState<number | null>(null);
   const { errors } = dictionary;
+  const pendingLabelByLocale: Partial<Record<Locale, string>> = {
+    en: "Pending",
+    zh: "处理中",
+    ja: "処理中",
+  };
+
+  const numberFormat = new Intl.NumberFormat(resolveIntlNumberLocale(locale));
+
+  function parseIntSafe(value: unknown): number | null {
+    if (typeof value === "number" && Number.isFinite(value)) return Math.floor(value);
+    if (typeof value !== "string") return null;
+    const n = Number(value);
+    if (!Number.isFinite(n)) return null;
+    return Math.floor(n);
+  }
 
   useEffect(() => {
     async function handlePaymentSuccess() {
@@ -73,6 +97,104 @@ export function PaymentSuccessHandler({
 
     handlePaymentSuccess();
   }, [searchParams, errors.generic, errors.network]);
+
+  useEffect(() => {
+    const isPointsTopup =
+      order?.productType === "one_time" && typeof order.productId === "string" && order.productId.startsWith("points:");
+    const isProfessionalSubscription = order?.productType === "subscription" && order?.productId === "professional";
+    if (!order || (!isPointsTopup && !isProfessionalSubscription)) return;
+
+    const currentOrder = order;
+    let cancelled = false;
+
+    async function loadBalances() {
+      setBalanceLoading(true);
+      try {
+        let before: number | null = null;
+        let packCredits: number | null = null;
+        let expectedAdd: number | null = null;
+
+        try {
+          if (isPointsTopup) {
+            const rawBefore = window.sessionStorage.getItem("points_tokens_before");
+            before = parseIntSafe(rawBefore);
+            const rawCredits = window.sessionStorage.getItem("points_pack_credits");
+            packCredits = parseIntSafe(rawCredits);
+          } else {
+            const rawBefore = window.sessionStorage.getItem("pro_tokens_before");
+            before = parseIntSafe(rawBefore);
+            const rawExpected = window.sessionStorage.getItem("pro_expected_add");
+            expectedAdd = parseIntSafe(rawExpected);
+          }
+        } catch {
+          // ignore
+        }
+
+        const creditsAdded = isPointsTopup
+          ? typeof currentOrder.credits === "number" && Number.isFinite(currentOrder.credits)
+            ? Math.floor(currentOrder.credits)
+            : packCredits
+          : typeof currentOrder.membershipTokens === "number" && Number.isFinite(currentOrder.membershipTokens)
+            ? Math.floor(currentOrder.membershipTokens)
+            : expectedAdd;
+
+        const expectedAfter = before !== null && creditsAdded !== null ? before + creditsAdded : null;
+
+        let after: number | null = null;
+        for (let i = 0; i < 20; i++) {
+          const resp = await fetch("/api/tokens", { cache: "no-store" });
+          const json = (await resp.json().catch(() => null)) as { data?: { tokens?: unknown } } | null;
+          const next = parseIntSafe(json?.data?.tokens);
+          if (typeof next === "number") {
+            after = next;
+            if (expectedAfter !== null) {
+              if (after >= expectedAfter) break;
+            } else {
+              break;
+            }
+          }
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+
+        if (before === null && after !== null && creditsAdded !== null) {
+          before = Math.max(0, after - creditsAdded);
+        }
+
+        if (!cancelled) {
+          setBalanceBefore(before);
+          setBalanceAfter(after);
+        }
+
+        try {
+          if (isPointsTopup) {
+            window.sessionStorage.removeItem("points_tokens_before");
+            window.sessionStorage.removeItem("points_pack_credits");
+          } else {
+            window.sessionStorage.removeItem("pro_tokens_before");
+            window.sessionStorage.removeItem("pro_expected_add");
+          }
+        } catch {
+          // ignore
+        }
+      } catch {
+        if (!cancelled) {
+          setBalanceBefore(null);
+          setBalanceAfter(null);
+        }
+      } finally {
+        if (!cancelled) setBalanceLoading(false);
+      }
+    }
+
+    loadBalances();
+    return () => {
+      cancelled = true;
+    };
+  }, [order]);
+
+  const useProductHref = locale === defaultLocale ? "/podcast-mvp" : `/${locale}/podcast-mvp`;
+  const ordersHref = locale === defaultLocale ? "/orders" : `/${locale}/orders`;
+  const supportHref = locale === defaultLocale ? "/contact" : `/${locale}/contact`;
 
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-950">
@@ -196,13 +318,78 @@ export function PaymentSuccessHandler({
                       {dictionary.order.status}
                       :
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-200">
-                      {dictionary.order.paidLabel}
-                    </span>
+                    {(() => {
+                      const status = order.status;
+                      const isPaid = status === "paid";
+                      const label =
+                        status === "pending"
+                          ? (pendingLabelByLocale[locale] ?? pendingLabelByLocale.en ?? "Pending")
+                          : isPaid
+                            ? dictionary.order.paidLabel
+                            : status;
+
+                      const classes = isPaid
+                        ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                        : status === "pending"
+                          ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
+                          : "bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200";
+
+                      return (
+                        <span
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${classes}`}
+                        >
+                          {label}
+                        </span>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
             )}
+
+            {dictionary.balanceChange &&
+              (order?.productType === "one_time" &&
+                typeof order.productId === "string" &&
+                order.productId.startsWith("points:") ||
+                (order?.productType === "subscription" && order?.productId === "professional")) &&
+              dictionary.balanceChange && (
+                <div>
+                  <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
+                    {dictionary.balanceChange.title}
+                  </h2>
+                  <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-6">
+                    {balanceLoading ? (
+                      <div className="space-y-3">
+                        <div className="h-8 w-56 animate-pulse rounded bg-neutral-200 dark:bg-neutral-700" />
+                        <div className="h-4 w-40 animate-pulse rounded bg-neutral-200 dark:bg-neutral-700" />
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between gap-6" dir="ltr">
+                        <div className="flex-1">
+                          <div className="text-xs text-neutral-600 dark:text-neutral-400">{dictionary.balanceChange.before}</div>
+                          <div className="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100 tabular-nums">
+                            {balanceBefore === null ? "—" : numberFormat.format(balanceBefore)}
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl text-neutral-400 dark:text-neutral-500">→</div>
+                          {balanceBefore !== null && balanceAfter !== null ? (
+                            <div className="mt-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 tabular-nums">
+                              +{numberFormat.format(Math.max(0, balanceAfter - balanceBefore))}
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="flex-1 text-right">
+                          <div className="text-xs text-neutral-600 dark:text-neutral-400">{dictionary.balanceChange.after}</div>
+                          <div className="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100 tabular-nums">
+                            {balanceAfter === null ? "—" : numberFormat.format(balanceAfter)}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
             {/* Payment Params (if order not loaded) */}
             {!order &&
@@ -306,19 +493,19 @@ export function PaymentSuccessHandler({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
             <Link
-              href="/dashboard"
+              href={useProductHref}
               className="block w-full rounded-lg bg-blue-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               {dictionary.actions.goToDashboard}
             </Link>
             <Link
-              href="/orders"
+              href={ordersHref}
               className="block w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-4 py-3 text-center text-sm font-semibold text-neutral-900 dark:text-neutral-100 shadow-sm hover:bg-neutral-50 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               {dictionary.actions.viewOrders}
             </Link>
             <Link
-              href="/contact"
+              href={supportHref}
               className="block w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-4 py-3 text-center text-sm font-semibold text-neutral-900 dark:text-neutral-100 shadow-sm hover:bg-neutral-50 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               {dictionary.actions.contactSupport}

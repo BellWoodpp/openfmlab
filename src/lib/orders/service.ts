@@ -1,9 +1,131 @@
 import { db } from "@/lib/db/client";
 import { orders, orderItems, type Order, type NewOrder, type OrderItem, type NewOrderItem, type OrderStatus } from "@/lib/db/schema/orders";
-import { eq, desc } from "drizzle-orm";
+import { users } from "@/lib/db/schema/users";
+import { and, desc, eq, ne, sql } from "drizzle-orm";
 import { randomUUID } from "crypto";
+import { membershipTokensForPeriod } from "@/lib/tokens/grants";
 
 export class OrderService {
+  private static isRecord(value: unknown): value is Record<string, unknown> {
+    return !!value && typeof value === "object" && !Array.isArray(value);
+  }
+
+  private static async fulfillPaidOrder(
+    tx: typeof db,
+    paidOrder: Order,
+    now: Date,
+  ): Promise<Order> {
+    const metadata = this.isRecord(paidOrder.metadata) ? (paidOrder.metadata as Record<string, unknown>) : {};
+    const fulfillment = this.isRecord(metadata.fulfillment) ? (metadata.fulfillment as Record<string, unknown>) : {};
+
+    // Points top-up fulfillment.
+    if (paidOrder.productType === "one_time" && paidOrder.productId.startsWith("points:")) {
+      if (this.isRecord(fulfillment.points_topup)) {
+        return paidOrder;
+      }
+
+      const creditsRaw = metadata.credits;
+      const credits = typeof creditsRaw === "number" ? creditsRaw : Number(creditsRaw);
+      if (!Number.isFinite(credits) || credits <= 0) {
+        console.warn("points top-up paid, but credits is invalid:", {
+          orderId: paidOrder.id,
+          creditsRaw,
+        });
+        return paidOrder;
+      }
+
+      const [userRow] = await tx
+        .update(users)
+        .set({
+          tokens: sql`${users.tokens} + ${Math.floor(credits)}`,
+          updatedAt: now,
+        })
+        .where(eq(users.id, paidOrder.userId))
+        .returning({ tokens: users.tokens });
+
+      const nextMetadata: Record<string, unknown> = {
+        ...metadata,
+        fulfillment: {
+          ...fulfillment,
+          points_topup: {
+            credits: Math.floor(credits),
+            creditedAt: now.toISOString(),
+            userTokensAfter: userRow?.tokens ?? null,
+          },
+        },
+      };
+
+      const [finalOrder] = await tx
+        .update(orders)
+        .set({ metadata: nextMetadata, updatedAt: now })
+        .where(eq(orders.id, paidOrder.id))
+        .returning();
+
+      return finalOrder ?? paidOrder;
+    }
+
+    // Membership token grant fulfillment (Professional subscription).
+    if (paidOrder.productType === "subscription" && paidOrder.productId === "professional") {
+      if (this.isRecord(fulfillment.membership_tokens)) {
+        return paidOrder;
+      }
+
+      const period = metadata.plan_period;
+      const grant = membershipTokensForPeriod(period);
+      if (!grant) {
+        return paidOrder;
+      }
+
+      const [userRow] = await tx
+        .update(users)
+        .set({
+          tokens: sql`${users.tokens} + ${grant}`,
+          updatedAt: now,
+        })
+        .where(eq(users.id, paidOrder.userId))
+        .returning({ tokens: users.tokens });
+
+      const nextMetadata: Record<string, unknown> = {
+        ...metadata,
+        fulfillment: {
+          ...fulfillment,
+          membership_tokens: {
+            tokens: grant,
+            plan_period: period ?? null,
+            grantedAt: now.toISOString(),
+            userTokensAfter: userRow?.tokens ?? null,
+          },
+        },
+      };
+
+      const [finalOrder] = await tx
+        .update(orders)
+        .set({ metadata: nextMetadata, updatedAt: now })
+        .where(eq(orders.id, paidOrder.id))
+        .returning();
+
+      return finalOrder ?? paidOrder;
+    }
+
+    return paidOrder;
+  }
+
+  static async mergeOrderMetadata(orderId: string, patch: Record<string, unknown>): Promise<Order | null> {
+    const [existing] = await db.select({ metadata: orders.metadata }).from(orders).where(eq(orders.id, orderId)).limit(1);
+    const current = this.isRecord(existing?.metadata) ? (existing!.metadata as Record<string, unknown>) : {};
+
+    const [order] = await db
+      .update(orders)
+      .set({
+        metadata: { ...current, ...patch },
+        updatedAt: new Date(),
+      })
+      .where(eq(orders.id, orderId))
+      .returning();
+
+    return order ?? null;
+  }
+
   /**
    * 创建新订单
    */
@@ -63,6 +185,46 @@ export class OrderService {
       cancelledAt?: Date;
     }
   ): Promise<Order | null> {
+    if (status === "paid") {
+      const now = new Date();
+
+      return await db.transaction(async (tx) => {
+        const updateData: Partial<NewOrder> = {
+          status,
+          updatedAt: now,
+        };
+
+        if (additionalData) {
+          if (additionalData.paymentRequestId) {
+            updateData.paymentRequestId = additionalData.paymentRequestId;
+          }
+          if (additionalData.paymentSessionId) {
+            updateData.paymentSessionId = additionalData.paymentSessionId;
+          }
+          updateData.paidAt = additionalData.paidAt ?? now;
+          if (additionalData.cancelledAt) {
+            updateData.cancelledAt = additionalData.cancelledAt;
+          }
+        } else {
+          updateData.paidAt = now;
+        }
+
+        const [paidOrder] = await tx
+          .update(orders)
+          .set(updateData)
+          .where(and(eq(orders.id, orderId), ne(orders.status, "paid")))
+          .returning();
+
+        const orderToFulfill =
+          paidOrder ?? (await tx.select().from(orders).where(eq(orders.id, orderId)).limit(1))[0] ?? null;
+
+        if (!orderToFulfill) return null;
+        if (orderToFulfill.status !== "paid") return orderToFulfill;
+
+        return await this.fulfillPaidOrder(tx as unknown as typeof db, orderToFulfill, now);
+      });
+    }
+
     const updateData: Partial<NewOrder> = {
       status,
       updatedAt: new Date(),
@@ -224,6 +386,53 @@ export class OrderService {
     return await this.updateOrderStatus(order.id, "paid", {
       paymentSessionId,
       paidAt: new Date(),
+    });
+  }
+
+  /**
+   * Webhook 专用：原子化标记 paid，并对 points 充值订单发放 credits。
+   *
+   * 注意：不要在“成功页重定向”这类不可信回调里调用它。
+   */
+  static async handlePaymentSuccessFromWebhook(
+    paymentRequestId: string,
+    paymentSessionId?: string
+  ): Promise<Order | null> {
+    const existing = await this.findOrderByPaymentRequestId(paymentRequestId);
+
+    if (!existing) {
+      console.error(`订单未找到: paymentRequestId=${paymentRequestId}`);
+      return null;
+    }
+
+    const now = new Date();
+
+    return await db.transaction(async (tx) => {
+      let orderToFulfill: Order | null = null;
+
+      if (existing.status !== "paid") {
+        const [paidOrder] = await tx
+          .update(orders)
+          .set({
+            status: "paid",
+            updatedAt: now,
+            paidAt: now,
+            ...(paymentSessionId ? { paymentSessionId } : {}),
+          })
+          .where(and(eq(orders.paymentRequestId, paymentRequestId), ne(orders.status, "paid")))
+          .returning();
+        orderToFulfill = paidOrder ?? null;
+      }
+
+      if (!orderToFulfill) {
+        const [row] = await tx.select().from(orders).where(eq(orders.paymentRequestId, paymentRequestId)).limit(1);
+        orderToFulfill = row ?? null;
+      }
+
+      if (!orderToFulfill) return null;
+      if (orderToFulfill.status !== "paid") return orderToFulfill;
+
+      return await this.fulfillPaidOrder(tx as unknown as typeof db, orderToFulfill, now);
     });
   }
 

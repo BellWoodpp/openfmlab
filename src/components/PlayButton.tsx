@@ -42,6 +42,7 @@ export default function PlayButton() {
   const playbackRate = appStore.useState((s) => s.playbackRate);
   const { locale } = useLocale();
   const [currentTokens, setCurrentTokens] = useState<number | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [audioLoading, setAudioLoading] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,6 +50,7 @@ export default function PlayButton() {
   const isBusyOrPlaying = audioLoading || isPlaying;
   const [insufficientOpen, setInsufficientOpen] = useState(false);
   const [insufficientInfo, setInsufficientInfo] = useState<{ tokens: number; required: number } | null>(null);
+  const [authRequiredOpen, setAuthRequiredOpen] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const requestAbortRef = useRef<AbortController | null>(null);
@@ -80,15 +82,125 @@ export default function PlayButton() {
     fetch("/api/tokens", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
-        const nextTokens = (json as { data?: { tokens?: unknown } } | null)?.data?.tokens;
+        const data = (json as { data?: { tokens?: unknown; isAuthenticated?: unknown } } | null)?.data;
+        const nextTokens = data?.tokens;
         if (typeof nextTokens === "number" && Number.isFinite(nextTokens)) {
           setCurrentTokens(nextTokens);
+        }
+        const authed = data?.isAuthenticated;
+        if (typeof authed === "boolean") {
+          setIsAuthenticated(authed);
         }
       })
       .catch(() => {});
 
     return () => window.removeEventListener("tokens:update", handleTokensUpdate as EventListener);
   }, []);
+
+  const authCopy = (() => {
+    const map: Partial<
+      Record<
+        string,
+        { title: string; description: string; cancel: string; signIn: string; signInHref: string }
+      >
+    > = {
+      en: {
+        title: "Sign in required",
+        description: "Please sign in to generate audio.",
+        cancel: "Cancel",
+        signIn: "Sign in",
+        signInHref: "/login",
+      },
+      zh: {
+        title: "需要登录",
+        description: "请先登录后再使用生成功能。",
+        cancel: "取消",
+        signIn: "去登录",
+        signInHref: "/zh/login",
+      },
+      ja: {
+        title: "ログインが必要です",
+        description: "生成機能を使うにはログインしてください。",
+        cancel: "キャンセル",
+        signIn: "ログイン",
+        signInHref: "/ja/login",
+      },
+      es: {
+        title: "Inicio de sesión requerido",
+        description: "Inicia sesión para generar audio.",
+        cancel: "Cancelar",
+        signIn: "Iniciar sesión",
+        signInHref: "/es/login",
+      },
+      ar: {
+        title: "تسجيل الدخول مطلوب",
+        description: "يرجى تسجيل الدخول لاستخدام ميزة التوليد.",
+        cancel: "إلغاء",
+        signIn: "تسجيل الدخول",
+        signInHref: "/ar/login",
+      },
+      id: {
+        title: "Perlu masuk",
+        description: "Silakan masuk untuk membuat audio.",
+        cancel: "Batal",
+        signIn: "Masuk",
+        signInHref: "/id/login",
+      },
+      pt: {
+        title: "Login necessário",
+        description: "Faça login para gerar áudio.",
+        cancel: "Cancelar",
+        signIn: "Entrar",
+        signInHref: "/pt/login",
+      },
+      fr: {
+        title: "Connexion requise",
+        description: "Connectez-vous pour générer l’audio.",
+        cancel: "Annuler",
+        signIn: "Se connecter",
+        signInHref: "/fr/login",
+      },
+      ru: {
+        title: "Требуется вход",
+        description: "Войдите, чтобы генерировать аудио.",
+        cancel: "Отмена",
+        signIn: "Войти",
+        signInHref: "/ru/login",
+      },
+      de: {
+        title: "Anmeldung erforderlich",
+        description: "Bitte melde dich an, um Audio zu generieren.",
+        cancel: "Abbrechen",
+        signIn: "Anmelden",
+        signInHref: "/de/login",
+      },
+    };
+
+    const fallback = map.en!;
+    const pick = map[locale] ?? fallback;
+    if (locale === "en") return pick;
+    // If we don't have a mapping for some locale variant, default to /{locale}/login.
+    return {
+      ...pick,
+      signInHref: pick.signInHref || `/${locale}/login`,
+    };
+  })();
+
+  const actionCopy = (() => {
+    const map: Partial<Record<string, { generate: string; stop: string }>> = {
+      en: { generate: "Generate", stop: "Stop" },
+      zh: { generate: "生成", stop: "停止" },
+      ja: { generate: "生成", stop: "停止" },
+      es: { generate: "Generar", stop: "Detener" },
+      ar: { generate: "توليد", stop: "إيقاف" },
+      id: { generate: "Buat", stop: "Berhenti" },
+      pt: { generate: "Gerar", stop: "Parar" },
+      fr: { generate: "Générer", stop: "Arrêter" },
+      ru: { generate: "Создать", stop: "Остановить" },
+      de: { generate: "Generieren", stop: "Stopp" },
+    };
+    return map[locale] ?? map.en!;
+  })();
 
   const generateRandomAmplitudes = () =>
     Array(5)
@@ -135,7 +247,8 @@ export default function PlayButton() {
   };
 
   const handleSubmit = async () => {
-    const { input, voice, tone, speakingRateMode, speakingRate, volumeGainDb } = appStore.getState();
+    const { input, voice, tone, speakingRateMode, speakingRate, volumeGainDb, customTitleEnabled, customTitle } =
+      appStore.getState();
     const requiredTokens = await getRequiredTokens(input, voice);
 
     if (!input.trim()) {
@@ -146,6 +259,11 @@ export default function PlayButton() {
     // toggle off if already playing
     if (audioRef.current || audioLoading) {
       resetPlayback();
+      return;
+    }
+
+    if (isAuthenticated === false) {
+      setAuthRequiredOpen(true);
       return;
     }
 
@@ -189,22 +307,21 @@ export default function PlayButton() {
           speakingRateMode,
           speakingRate,
           volumeGainDb,
+          ...(customTitleEnabled && customTitle.trim() ? { title: customTitle.trim() } : {}),
         }),
       });
       requestAbortRef.current = null;
       if (!res.ok) {
         if (res.status === 401) {
-          throw new Error("Please sign in to generate and save audio history.");
+          setAuthRequiredOpen(true);
+          setAudioLoading(false);
+          setStatusText(null);
+          return;
         }
         if (res.status === 402) {
           const details = (await res.json().catch(() => null)) as
             | { message?: string; tokens?: number; required?: number; tokensRemaining?: number }
             | null;
-          const message =
-            details?.message ||
-            (typeof details?.tokens === "number" && typeof details?.required === "number"
-              ? `Not enough tokens. Need ${details.required}, you have ${details.tokens}.`
-              : "Not enough tokens.");
           if (typeof details?.tokens === "number" && Number.isFinite(details.tokens)) {
             window.dispatchEvent(new CustomEvent("tokens:update", { detail: { tokens: details.tokens } }));
           }
@@ -235,6 +352,7 @@ export default function PlayButton() {
         id: string;
         audioUrl: string;
         createdAt?: string | null;
+        title?: string | null;
         tokensRemaining?: number | null;
       };
       const audioPath = data.audioUrl;
@@ -253,7 +371,7 @@ export default function PlayButton() {
         draft.latestAudioBlobUrl = audioUrl;
         const createdAt = data.createdAt ?? new Date().toISOString();
         draft.ttsHistory = [
-          { id: data.id, createdAt, voice, tone, audioUrl },
+          { id: data.id, createdAt, title: data.title ?? null, voice, tone, audioUrl },
           ...draft.ttsHistory.filter((it) => it.id !== data.id),
         ];
       });
@@ -356,10 +474,10 @@ export default function PlayButton() {
         ) : (
           <Play />
         )}
-        <span className="uppercase pr-3">
-          {isPlaying || audioLoading ? "Stop" : "Generate"}
-        </span>
-      </Button>
+	        <span className="uppercase pr-3">
+	          {isPlaying || audioLoading ? actionCopy.stop : actionCopy.generate}
+	        </span>
+	      </Button>
       {statusText ? <div className="text-[11px] text-muted-foreground">{statusText}</div> : null}
       <Dialog.Root open={insufficientOpen} onOpenChange={setInsufficientOpen}>
         <Dialog.Portal>
@@ -395,6 +513,35 @@ export default function PlayButton() {
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
               >
                 充值会员
+              </Link>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      <Dialog.Root open={authRequiredOpen} onOpenChange={setAuthRequiredOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-overlayShow z-50" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[92vw] max-w-[420px] translate-x-[-50%] translate-y-[-50%] rounded-[12px] bg-background p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[51] data-[state=open]:animate-contentShow">
+            <Dialog.Title className="text-foreground m-0 text-lg font-semibold">{authCopy.title}</Dialog.Title>
+            <Dialog.Description className="text-foreground/70 mt-3 text-sm leading-relaxed">
+              {authCopy.description}
+            </Dialog.Description>
+
+            <div className="mt-6 flex items-center justify-end gap-2">
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-muted/20 px-4 text-sm font-medium text-foreground transition hover:bg-muted/30"
+                >
+                  {authCopy.cancel}
+                </button>
+              </Dialog.Close>
+              <Link
+                href={authCopy.signInHref}
+                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+              >
+                {authCopy.signIn}
               </Link>
             </div>
           </Dialog.Content>

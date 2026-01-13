@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useLocale } from "@/hooks";
 import { Calendar, ArrowRight, Search } from "lucide-react";
@@ -207,8 +208,30 @@ export function BlogsPage({ dictionary, initialBlogs = [] }: BlogsPageProps) {
       <section className="pb-20">
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
           {loading ? (
-            <div className="text-center py-20">
-              <p className="text-neutral-600 dark:text-neutral-400">Loading...</p>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Card
+                  key={index}
+                  className="group overflow-hidden border-2 transition-all dark:border-neutral-800"
+                >
+                  <div className={`h-48 bg-gradient-to-br ${getGradientClass(index)} relative`}>
+                    <div className="absolute bottom-4 left-4">
+                      <Skeleton className="h-4 w-28" />
+                    </div>
+                  </div>
+                  <CardContent className="p-6">
+                    <Skeleton className="h-6 w-5/6" />
+                    <Skeleton className="mt-3 h-4 w-full" />
+                    <Skeleton className="mt-2 h-4 w-4/5" />
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                      <Skeleton className="h-6 w-14 rounded-full" />
+                    </div>
+                    <Skeleton className="mt-6 h-10 w-32 rounded-full" />
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           ) : blogPosts.length === 0 ? (
             <div className="text-center py-20">

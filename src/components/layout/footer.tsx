@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {FooterDictionary, type Locale, locales} from "@/i18n/types";
 import {Button} from "@/components/ui/button";
 
@@ -44,12 +45,20 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">R</span>
-              </div>
-              <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-                RTVox
-              </span>
+              <Image
+                src="/photo/RTVox.webp"
+                alt="RTVox"
+                width={1052}
+                height={266}
+                className="h-8 w-auto dark:hidden"
+              />
+              <Image
+                src="/photo/RTVox-black.webp"
+                alt="RTVox"
+                width={1052}
+                height={266}
+                className="hidden h-8 w-auto dark:block"
+              />
             </div>
             <p className="text-sm text-neutral-600 dark:text-neutral-300 max-w-xs">
               {dictionary.description}

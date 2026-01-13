@@ -5,13 +5,29 @@ import { appStore } from "@/lib/store";
 import { Share } from "./ui/Icons";
 import { Button } from "./ui/button";
 import ShareDialog from "./ShareDialog";
+import { useLocale } from "@/hooks";
 
 export const ShareButton = ({ generationId }: { generationId?: string | null }) => {
+  const { locale } = useLocale();
   const { copied, trigger } = useCopiedDelay();
   const [open, setOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const latestAudioId = appStore.useState((s) => s.latestAudioId);
   const resolvedGenerationId = generationId ?? latestAudioId;
+  const label = (
+    {
+      en: "Share",
+      zh: "分享",
+      ja: "共有",
+      es: "Compartir",
+      ar: "مشاركة",
+      id: "Bagikan",
+      pt: "Compartilhar",
+      fr: "Partager",
+      ru: "Поделиться",
+      de: "Teilen",
+    } as const
+  )[locale] ?? "Share";
   const handleShare = async () => {
     const id = resolvedGenerationId;
     if (!id) {
@@ -57,7 +73,7 @@ export const ShareButton = ({ generationId }: { generationId?: string | null }) 
       >
         <span className="flex gap-2 items-center justify-center">
           <Share />
-          <span className="uppercase hidden md:inline pr-3">Share</span>
+          <span className="uppercase hidden md:inline pr-3">{label}</span>
         </span>
       </Button>
       <ShareDialog shareUrl={shareUrl} open={open} onOpenChange={setOpen} />

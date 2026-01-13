@@ -35,8 +35,11 @@ export default async function EditBlogPage({ params }: EditBlogPageProps) {
 export async function generateMetadata({ params }: EditBlogPageProps) {
   const resolvedParams = await params;
   return {
-    title: `编辑博客 ${resolvedParams.id} - ShipBase`,
+    title: `编辑博客 ${resolvedParams.id}`,
     description: "编辑博客文章",
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
-

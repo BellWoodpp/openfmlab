@@ -33,6 +33,11 @@ export interface PaymentSuccessDictionary {
     viewOrders: string;
     contactSupport: string;
   };
+  balanceChange?: {
+    title: string;
+    before: string;
+    after: string;
+  };
   features: {
     title: string;
     items: string[];
@@ -87,9 +92,14 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "Product ID",
     },
     actions: {
-      goToDashboard: "Go to Dashboard",
+      goToDashboard: "Use product now",
       viewOrders: "View Orders",
       contactSupport: "Contact Support",
+    },
+    balanceChange: {
+      title: "Token balance",
+      before: "Before",
+      after: "Now",
     },
     features: {
       title: "What you can do next:",
@@ -131,9 +141,14 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "产品ID",
     },
     actions: {
-      goToDashboard: "前往控制台",
+      goToDashboard: "立即使用产品",
       viewOrders: "查看订单",
       contactSupport: "联系支持",
+    },
+    balanceChange: {
+      title: "积分余额",
+      before: "原来余额",
+      after: "现在余额",
     },
     features: {
       title: "接下来您可以：",
@@ -176,9 +191,14 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "商品ID",
     },
     actions: {
-      goToDashboard: "ダッシュボードへ",
+      goToDashboard: "今すぐ使う",
       viewOrders: "注文を確認",
       contactSupport: "サポートに連絡",
+    },
+    balanceChange: {
+      title: "トークン残高",
+      before: "変更前",
+      after: "現在",
     },
     features: {
       title: "次にできること：",
@@ -221,7 +241,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "ID de producto",
     },
     actions: {
-      goToDashboard: "Ir al panel",
+      goToDashboard: "Usar ahora",
       viewOrders: "Ver pedidos",
       contactSupport: "Contactar soporte",
     },
@@ -266,7 +286,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "معرّف المنتج",
     },
     actions: {
-      goToDashboard: "الذهاب إلى لوحة التحكم",
+      goToDashboard: "استخدم المنتج الآن",
       viewOrders: "عرض الطلبات",
       contactSupport: "الاتصال بالدعم",
     },
@@ -311,7 +331,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "ID produk",
     },
     actions: {
-      goToDashboard: "Ke dashboard",
+      goToDashboard: "Gunakan sekarang",
       viewOrders: "Lihat pesanan",
       contactSupport: "Hubungi dukungan",
     },
@@ -356,7 +376,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "ID do produto",
     },
     actions: {
-      goToDashboard: "Ir para o painel",
+      goToDashboard: "Usar agora",
       viewOrders: "Ver pedidos",
       contactSupport: "Contatar suporte",
     },
@@ -401,7 +421,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "ID produit",
     },
     actions: {
-      goToDashboard: "Aller au tableau de bord",
+      goToDashboard: "Utiliser maintenant",
       viewOrders: "Voir les commandes",
       contactSupport: "Contacter le support",
     },
@@ -446,7 +466,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "ID продукта",
     },
     actions: {
-      goToDashboard: "Перейти в панель",
+      goToDashboard: "Начать пользоваться",
       viewOrders: "Просмотреть заказы",
       contactSupport: "Связаться с поддержкой",
     },
@@ -491,7 +511,7 @@ const paymentSuccessCopy: Record<Locale, PaymentSuccessDictionary> = {
       productId: "Produkt-ID",
     },
     actions: {
-      goToDashboard: "Zum Dashboard",
+      goToDashboard: "Jetzt nutzen",
       viewOrders: "Bestellungen ansehen",
       contactSupport: "Support kontaktieren",
     },

@@ -1,6 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OrderService } from "@/lib/orders/service";
 import { auth } from "@/lib/auth/server";
+import { newCreemClient } from "@/lib/payments/creem";
+import { membershipTokensForPeriod } from "@/lib/tokens/grants";
+
+export const runtime = "nodejs";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
+function extractCredits(metadata: unknown): number | null {
+  if (!isRecord(metadata)) return null;
+  const raw = metadata.credits;
+  const credits = typeof raw === "number" ? raw : Number(raw);
+  if (!Number.isFinite(credits) || credits <= 0) return null;
+  return Math.floor(credits);
+}
+
+function extractPlanPeriod(metadata: unknown): "monthly" | "yearly" | null {
+  if (!isRecord(metadata)) return null;
+  const p = metadata.plan_period;
+  return p === "monthly" || p === "yearly" ? p : null;
+}
+
+function extractMembershipGrant(metadata: unknown): number | null {
+  if (!isRecord(metadata)) return null;
+  const fulfillment = metadata.fulfillment;
+  if (isRecord(fulfillment) && isRecord(fulfillment.membership_tokens)) {
+    const raw = (fulfillment.membership_tokens as Record<string, unknown>).tokens;
+    const n = typeof raw === "number" ? raw : Number(raw);
+    if (Number.isFinite(n) && n > 0) return Math.floor(n);
+  }
+
+  const planPeriod = extractPlanPeriod(metadata);
+  const grant = membershipTokensForPeriod(planPeriod);
+  return grant ?? null;
+}
 
 /**
  * 处理支付成功回调
@@ -40,6 +76,13 @@ export async function POST(request: NextRequest) {
     const session = await auth.api.getSession({ headers: request.headers });
     const userId = session?.user?.id;
 
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: "未登录，请先登录后再查看订单" },
+        { status: 401 },
+      );
+    }
+
     // 查找订单
     const order = await OrderService.findOrderByPaymentRequestId(request_id);
 
@@ -51,8 +94,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 验证订单属于当前用户（如果是已登录用户）
-    if (userId && order.userId !== userId) {
+    // 验证订单属于当前用户
+    if (order.userId !== userId) {
       console.error("订单不属于当前用户:", {
         orderUserId: order.userId,
         currentUserId: userId,
@@ -63,48 +106,76 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 如果订单还未支付，更新订单状态，payment:支付
-    let updatedOrder = order;
-    // paid:已支付
-    if (order.status !== "paid") {
-      const nextOrder = await OrderService.handlePaymentSuccess(
-        request_id,
-        checkout_id
-      );
+    let finalOrder = order;
 
-      if (!nextOrder) {
+    if (finalOrder.status !== "paid") {
+      if (!checkout_id) {
         return NextResponse.json(
-          { success: false, error: "订单状态更新失败" },
-          { status: 500 }
+          { success: false, error: "支付尚未确认（缺少 checkout_id），请稍后刷新或等待 Webhook" },
+          { status: 409 },
         );
       }
 
-      updatedOrder = nextOrder;
+      // 使用 Creem API 验证 checkout 状态（避免仅凭前端回跳参数就将订单标记为 paid）。
+      const client = newCreemClient();
+      const checkout = await client.creem().retrieveCheckout({
+        xApiKey: client.apiKey(),
+        checkoutId: checkout_id,
+      });
 
-      console.log("订单状态已更新为已支付:", {
-        orderId: updatedOrder.id,
-        orderNumber: updatedOrder.orderNumber,
-        status: updatedOrder.status,
-      });
-    } else {
-      console.log("订单已经是已支付状态:", {
-        orderId: order.id,
-        orderNumber: order.orderNumber,
-      });
+      if (checkout.requestId && checkout.requestId !== request_id) {
+        return NextResponse.json(
+          { success: false, error: "checkout_id 与 request_id 不匹配" },
+          { status: 400 },
+        );
+      }
+
+      const checkoutStatus = String(checkout.status || "").toLowerCase();
+      const isCompleted = checkoutStatus === "completed" || checkoutStatus === "paid" || checkoutStatus === "success";
+      if (!isCompleted) {
+        return NextResponse.json(
+          { success: false, error: `支付尚未完成（checkout.status=${checkout.status}）` },
+          { status: 409 },
+        );
+      }
+
+      const subscriptionId =
+        typeof checkout.subscription === "string"
+          ? checkout.subscription
+          : checkout.subscription && typeof checkout.subscription === "object" && "id" in checkout.subscription
+            ? String((checkout.subscription as { id?: unknown }).id ?? "")
+            : "";
+
+      const updated = await OrderService.handlePaymentSuccessFromWebhook(request_id, checkout_id);
+      if (!updated) {
+        return NextResponse.json(
+          { success: false, error: "订单状态更新失败" },
+          { status: 500 },
+        );
+      }
+      finalOrder = updated;
+
+      if (subscriptionId && finalOrder.productType === "subscription") {
+        await OrderService.mergeOrderMetadata(finalOrder.id, { subscription_id: subscriptionId });
+      }
     }
 
-    // 返回订单信息
     return NextResponse.json({
       success: true,
       order: {
-        id: updatedOrder.id,
-        orderNumber: updatedOrder.orderNumber,
-        status: updatedOrder.status,
-        productName: updatedOrder.productName,
-        amount: updatedOrder.amount,
-        currency: updatedOrder.currency,
-        paidAt: updatedOrder.paidAt,
-        createdAt: updatedOrder.createdAt,
+        id: finalOrder.id,
+        orderNumber: finalOrder.orderNumber,
+        status: finalOrder.status,
+        productId: finalOrder.productId,
+        productType: finalOrder.productType,
+        productName: finalOrder.productName,
+        amount: finalOrder.amount,
+        currency: finalOrder.currency,
+        credits: extractCredits(finalOrder.metadata),
+        planPeriod: extractPlanPeriod(finalOrder.metadata),
+        membershipTokens: extractMembershipGrant(finalOrder.metadata),
+        paidAt: finalOrder.paidAt,
+        createdAt: finalOrder.createdAt,
       },
     });
   } catch (error) {
@@ -124,16 +195,17 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const requestId = searchParams.get("request_id");
-
+  const checkoutId = searchParams.get("checkout_id");
+  
   if (!requestId) {
     return NextResponse.json(
       { success: false, error: "缺少 request_id 参数" },
       { status: 400 }
     );
   }
-
-  const order = await OrderService.findOrderByPaymentRequestId(requestId);
-
+  
+  let order = await OrderService.findOrderByPaymentRequestId(requestId);
+  
   if (!order) {
     return NextResponse.json(
       { success: false, error: "订单未找到" },
@@ -141,15 +213,50 @@ export async function GET(request: NextRequest) {
     );
   }
 
+	  if (order.status !== "paid" && checkoutId) {
+	    const client = newCreemClient();
+	    const checkout = await client.creem().retrieveCheckout({
+	      xApiKey: client.apiKey(),
+	      checkoutId,
+	    });
+
+	    const checkoutStatus = String(checkout.status || "").toLowerCase();
+	    const isCompleted = checkoutStatus === "completed" || checkoutStatus === "paid" || checkoutStatus === "success";
+	    if (isCompleted) {
+	      const subscriptionId =
+	        typeof checkout.subscription === "string"
+	          ? checkout.subscription
+	          : checkout.subscription && typeof checkout.subscription === "object" && "id" in checkout.subscription
+	            ? String((checkout.subscription as { id?: unknown }).id ?? "")
+	            : "";
+
+	      const isPointsTopup = order.productType === "one_time" && order.productId.startsWith("points:");
+	      const updated = isPointsTopup
+	        ? await OrderService.handlePaymentSuccessFromWebhook(requestId, checkoutId)
+	        : await OrderService.handlePaymentSuccess(requestId, checkoutId);
+	      if (updated) {
+	        order = updated;
+	        if (subscriptionId && order.productType === "subscription") {
+	          await OrderService.mergeOrderMetadata(order.id, { subscription_id: subscriptionId });
+	        }
+	      }
+	    }
+	  }
+  
   return NextResponse.json({
     success: true,
     order: {
       id: order.id,
       orderNumber: order.orderNumber,
       status: order.status,
+      productId: order.productId,
+      productType: order.productType,
       productName: order.productName,
       amount: order.amount,
       currency: order.currency,
+      credits: extractCredits(order.metadata),
+      planPeriod: extractPlanPeriod(order.metadata),
+      membershipTokens: extractMembershipGrant(order.metadata),
       paidAt: order.paidAt,
       createdAt: order.createdAt,
     },

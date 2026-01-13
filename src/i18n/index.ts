@@ -16,19 +16,19 @@ import {
   type PartialAppDictionary,
 } from "@/i18n/types";
 
-const fallbackDictionary = enDictionary as AppDictionary;
+const fallbackDictionary = enDictionary as unknown as AppDictionary;
 
 const dictionaries: Partial<Record<Locale, PartialAppDictionary>> = {
-  en: enDictionary as AppDictionary,
-  zh: zhDictionary as AppDictionary,
-  ja: jaDictionary as AppDictionary,
-  es: esDictionary as AppDictionary,
-  ar: arDictionary as AppDictionary,
-  id: idDictionary as AppDictionary,
-  pt: ptDictionary as AppDictionary,
-  fr: frDictionary as AppDictionary,
-  ru: ruDictionary as AppDictionary,
-  de: deDictionary as AppDictionary,
+  en: enDictionary as PartialAppDictionary,
+  zh: zhDictionary as PartialAppDictionary,
+  ja: jaDictionary as PartialAppDictionary,
+  es: esDictionary as PartialAppDictionary,
+  ar: arDictionary as PartialAppDictionary,
+  id: idDictionary as PartialAppDictionary,
+  pt: ptDictionary as PartialAppDictionary,
+  fr: frDictionary as PartialAppDictionary,
+  ru: ruDictionary as PartialAppDictionary,
+  de: deDictionary as PartialAppDictionary,
 };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {

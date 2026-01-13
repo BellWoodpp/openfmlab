@@ -6,6 +6,7 @@
   z-index: 20;
   border-top: 1px solid transparent;
   background: rgba(0, 0, 0, 0.7);
+  background: color-mix(in srgb, var(--background) 70%, transparent);
   backdrop-filter: blur(2rem);
   -webkit-backdrop-filter: blur(2rem);
   font-size: 1.125rem;

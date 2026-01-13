@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header, FooterWrapper } from "@/components/layout";
+import { siteConfig } from "@/lib/site-config";
+import { defaultLocale } from "@/i18n/types";
 
 // 声明常量geistSans
 const geistSans = Geist({
@@ -22,8 +24,35 @@ const geistMono = Geist_Mono({
 
 // 暴露常量metadata
 export const metadata: Metadata = {
-  title: "ShipBase - Enable secure sign-in methods for Shipbase",
-  description: "Integrate Google and GitHub OAuth plus Magic Link email sign-in through Better Auth. Sessions stay on the server and automatically sync via HTTP-only cookies.",
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: {
+    default: `${siteConfig.brandName} — AI Text-to-Speech`,
+    template: `%s — ${siteConfig.brandName}`,
+  },
+  description: siteConfig.defaultDescription,
+  icons: {
+    icon: [
+      { url: "/photo/text-to-speech.ico", type: "image/x-icon" },
+    ],
+    apple: [
+      { url: "/photo/text-to-speech.png", type: "image/png" },
+    ],
+    shortcut: [
+      { url: "/photo/text-to-speech.ico", type: "image/x-icon" },
+    ],
+  },
+  openGraph: {
+    type: "website",
+    url: siteConfig.siteUrl,
+    siteName: siteConfig.brandName,
+    title: siteConfig.brandName,
+    description: siteConfig.defaultDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.brandName,
+    description: siteConfig.defaultDescription,
+  },
 };
 
 // 暴露默认函数RootLayout
@@ -34,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     // suppressHydrationWarning：抑制水和警告
-    <html lang="en" suppressHydrationWarning>
+    <html lang={defaultLocale} suppressHydrationWarning>
       <head>
         {/* 1. dangerouslySetInnerHTML：危险，设置内部HTML：加了它，脚本才能在 React 水和之前抢先执行 → 从第一帧开始就是正确的黑/白 → 丝滑无闪！
             2. const theme = localStorage.getItem('theme'); 先去 localStorage 看看你上次选的是啥主题

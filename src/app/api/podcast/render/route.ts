@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { rateLimitOrThrow } from "@/lib/rate-limit";
 import { encodePcmWav, parseWav, silencePcmBytes, type WavPcm } from "@/lib/wav";
 import { getTtsMeta, getTtsProvider, synthesizeTts } from "@/lib/tts";
+import { siteConfig } from "@/lib/site-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -181,8 +182,9 @@ export async function POST(req: NextRequest) {
     pcmData: combinedPcm,
   });
 
-  const title = normalizeString(requestBody.title) || "openfm-episode";
-  const filename = `${sanitizeFilename(title) || "openfm-episode"}.wav`;
+  const fallbackTitle = `${siteConfig.downloadPrefix}-episode`;
+  const title = normalizeString(requestBody.title) || fallbackTitle;
+  const filename = `${sanitizeFilename(title) || fallbackTitle}.wav`;
 
   const responseBody = new Uint8Array(output);
 

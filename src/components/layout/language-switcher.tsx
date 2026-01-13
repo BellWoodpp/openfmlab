@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { locales, defaultLocale, type Locale } from "@/i18n";
 import { Languages } from "lucide-react";
@@ -19,8 +20,20 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ currentLocale, triggerId }: LanguageSwitcherProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [pendingCookieLocale, setPendingCookieLocale] = useState<Locale | null>(null);
+
+  useEffect(() => {
+    if (!pendingCookieLocale) return;
+    try {
+      document.cookie = `rtvox_locale=${encodeURIComponent(pendingCookieLocale)}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    } catch {
+      // ignore
+    }
+  }, [pendingCookieLocale]);
 
   const handleLanguageChange = (locale: Locale) => {
+    setPendingCookieLocale(locale);
+
     // 构建新的路径
     let newPath = pathname;
     

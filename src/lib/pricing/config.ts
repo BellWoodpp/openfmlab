@@ -37,7 +37,7 @@ export interface PricingConfig {
 
 // 价格配置
 export const pricingConfig: PricingConfig = {
-  currency: 'CNY',
+  currency: 'USD',
   billingCycles: {
     'one-time': {
       label: '一次性付费',
@@ -73,17 +73,17 @@ export const pricingConfig: PricingConfig = {
       pricing: {
         'one-time': {
           price: 0,
-          currency: 'CNY',
+          currency: 'USD',
           period: '永久免费'
         },
         'monthly': {
           price: 0,
-          currency: 'CNY',
+          currency: 'USD',
           period: '永久免费'
         },
         'yearly': {
           price: 0,
-          currency: 'CNY',
+          currency: 'USD',
           period: '永久免费'
         }
       }
@@ -108,19 +108,19 @@ export const pricingConfig: PricingConfig = {
       pricing: {
         'one-time': {
           price: 299,
-          currency: 'CNY',
+          currency: 'USD',
           period: '一次性付费'
         },
         'monthly': {
-          price: 39,
-          currency: 'CNY',
+          price: 6,
+          currency: 'USD',
           period: '每月'
         },
         'yearly': {
-          price: 374,
-          currency: 'CNY',
+          price: 58,
+          currency: 'USD',
           period: '每年',
-          originalPrice: 468,
+          originalPrice: 72,
           discount: 20
         }
       }
@@ -145,17 +145,17 @@ export const pricingConfig: PricingConfig = {
       pricing: {
         'one-time': {
           price: 999,
-          currency: 'CNY',
+          currency: 'USD',
           period: '一次性付费'
         },
         'monthly': {
           price: 129,
-          currency: 'CNY',
+          currency: 'USD',
           period: '每月'
         },
         'yearly': {
           price: 1238,
-          currency: 'CNY',
+          currency: 'USD',
           period: '每年',
           originalPrice: 1548,
           discount: 20
@@ -190,9 +190,8 @@ export function calculateYearlySavings(monthlyPrice: number): number {
 }
 
 // 格式化价格显示
-export function formatPrice(price: number, currency: string = 'CNY'): string {
+export function formatPrice(price: number, currency: string = 'USD'): string {
   const symbols: Record<string, string> = {
-    'CNY': '¥',
     'USD': '$',
     'EUR': '€',
     'GBP': '£'

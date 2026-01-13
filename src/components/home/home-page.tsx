@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, CheckCircle, Users, Zap, Shield, Rocket, ChevronDown, ChevronLeft, ChevronRight, Mic, Play, Sparkles, Languages, Activity, Clock, Lock, Headphones, Megaphone, Globe, GraduationCap, MessageSquareText } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Zap, Shield, Rocket, ChevronDown, ChevronLeft, ChevronRight, Mic, Play, Sparkles, Clock, Lock, Headphones, Megaphone, Globe, GraduationCap, MessageSquareText } from "lucide-react";
 import type { AppDictionary } from "@/i18n";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -20,6 +19,8 @@ export function HomePage({ dictionary }: HomePageProps) {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [isSamplePlaying, setIsSamplePlaying] = useState<"original" | "clone" | null>(null);
   const sampleWaveHeights = [6, 10, 7, 12, 8, 14, 9, 16, 10, 13, 7, 15, 9, 12, 8, 14, 10, 16, 9, 13, 7, 15, 8, 14, 9, 12, 8, 10];
+  const [heroTitleLine1, ...heroTitleRest] = home.heroTitle.split("\n");
+  const heroTitleLine2 = heroTitleRest.join(" ").trim();
 
   const sampleSets = home.sampleVoicesSets?.length
     ? home.sampleVoicesSets
@@ -38,13 +39,12 @@ export function HomePage({ dictionary }: HomePageProps) {
 
   useEffect(() => {
     return () => {
-      if (carouselRafRef.current) window.cancelAnimationFrame(carouselRafRef.current);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const rafId = carouselRafRef.current;
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, []);
 
-  const activeIndex = hasCarousel ? (carouselIndex - 1 + sampleSets.length) % sampleSets.length : 0;
-  const prevPreview = sampleSets[(activeIndex - 1 + sampleSets.length) % sampleSets.length];
-  const nextPreview = sampleSets[(activeIndex + 1) % sampleSets.length];
   const canSlidePrev = hasCarousel && !isCarouselAnimating && !isCarouselJumping;
   const canSlideNext = hasCarousel && !isCarouselAnimating && !isCarouselJumping;
 
@@ -140,24 +140,31 @@ export function HomePage({ dictionary }: HomePageProps) {
                 className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/50 dark:border-white/10 dark:bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-neutral-600 dark:text-neutral-300 backdrop-blur-sm"
               >
                 <Sparkles className="h-3 w-3 text-amber-500 dark:text-yellow-500" />
-                VOICE STUDIO
+                {home.badgeLabel}
               </Badge>
             </div>
 
             <h1 className="mx-auto max-w-5xl text-6xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-7xl lg:text-8xl leading-[0.95] mb-2">
-              <span className="block">Create your own AI</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-b from-neutral-800 to-neutral-500 dark:from-white dark:to-white/60">voice in seconds</span>
+              <span className="block">{heroTitleLine1}</span>
+              {heroTitleLine2 ? (
+                <span className="block text-transparent bg-clip-text bg-gradient-to-b from-neutral-800 to-neutral-500 dark:from-white dark:to-white/60">
+                  {heroTitleLine2}
+                </span>
+              ) : null}
             </h1>
 
-	            <div className="mt-2 text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
-	              <span className="glitch relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 text-balance" data-text="Text to Speed — clone and speak in seconds.">
-	                Text to Speed — clone and speak in seconds.
-	              </span>
-	            </div>
+		            <div className="mt-2 text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
+		              <span
+                    className="glitch relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 text-balance"
+                    data-text={home.heroTagline}
+                  >
+		                {home.heroTagline}
+		              </span>
+		            </div>
 
-	            <p className="mx-auto mt-8 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 sm:text-xl font-light leading-relaxed">
-	              Generate natural-sounding speech from text in seconds. Pick a voice, tweak speed, and create voiceovers, podcasts, and content from a script. (Voice cloning coming soon.)
-	            </p>
+		            <p className="mx-auto mt-8 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 sm:text-xl font-light leading-relaxed">
+		              {home.heroDescription}
+		            </p>
 
             <div className="mt-12 flex flex-col items-center justify-center">
                 <Button
@@ -199,17 +206,17 @@ export function HomePage({ dictionary }: HomePageProps) {
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-6 tracking-tight">
-              Text to Speech
+              {home.productMockupTitle}
             </h2>
             <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-              Listen to the difference. Our AI captures every nuance, breath, and emotion.
+              {home.productMockupSubtitle}
             </p>
           </div>
           <div className="relative mx-auto max-w-6xl">
             <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.10),transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.18),transparent_60%)]" />
             <div className="rounded-[2.25rem] border border-neutral-200 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
               <div className="p-6 sm:p-8">
-                <TtsUiMockup />
+                <TtsUiMockup strings={home} />
               </div>
             </div>
           </div>
@@ -467,31 +474,29 @@ export function HomePage({ dictionary }: HomePageProps) {
       ) : null}
 
       {/* Fast Processing Section (3.png Style) */}
-      <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
-        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-20 items-center">
-           {/* Left: Image Card */}
-           <div className="relative">
-              <div className="aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 overflow-hidden relative shadow-2xl">
-                  {/* Background Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-purple-500/20 blur-[100px] rounded-full" />
-                  
-                  {/* Main Image Mockup */}
-                  <div className="absolute inset-0 flex items-end justify-center">
-                      <div className="relative w-3/4 h-[90%]">
-                         <Image 
-                            src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2671&auto=format&fit=crop" 
-                            alt="Fast Processing" 
-                            fill 
-                            unoptimized
-                            className="object-cover rounded-t-3xl shadow-lg"
-                         />
-                      </div>
-                  </div>
+	      <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
+	        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-20 items-center">
+	           {/* Left: Image Card */}
+	           <div className="relative">
+	              <div className="aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 overflow-hidden relative shadow-2xl">
+	                  {/* Background Glow */}
+	                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-purple-500/20 blur-[100px] rounded-full" />
+	                  
+		                  {/* Main Image Mockup */}
+		                  <div className="absolute inset-0">
+		                      <Image
+		                        src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2671&auto=format&fit=crop"
+		                        alt="Fast Processing"
+		                        fill
+		                        unoptimized
+		                        className="object-cover object-center opacity-95 scale-[1.15]"
+		                      />
+		                  </div>
 
-                  {/* Floating Widgets */}
-                  <div className="absolute right-8 top-1/2 -translate-y-1/2 space-y-4">
-                      {/* Timer Widget */}
-                      <div className="bg-white dark:bg-[#1a1d24] p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce hover:scale-105 transition-transform" style={{ animationDuration: '3s' }}>
+	                  {/* Floating Widgets */}
+	                  <div className="absolute right-8 top-1/2 -translate-y-1/2 space-y-4">
+	                      {/* Timer Widget */}
+	                      <div className="bg-white dark:bg-[#1a1d24] p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce hover:scale-105 transition-transform" style={{ animationDuration: '3s' }}>
                           <div className="relative h-12 w-12 flex items-center justify-center">
                               <svg className="absolute inset-0 w-full h-full -rotate-90">
                                   <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" fill="none" className="text-gray-100 dark:text-gray-700" />
@@ -521,20 +526,20 @@ export function HomePage({ dictionary }: HomePageProps) {
            <div>
               <div className="inline-flex items-center gap-2 mb-6">
                   <Zap className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Text to Speech</span>
+                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">{home.textToSpeechSectionKicker}</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                  Text to Speech
+                  {home.textToSpeechSectionTitle}
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                  Turn any text into natural-sounding audio in seconds. Pick a voice, choose the right tone, and generate clean voiceovers for videos, podcasts, and scripts—without recording.
+                  {home.textToSpeechSectionDescription}
               </p>
               <div className="flex flex-wrap gap-4">
                   <Button asChild className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
-                      <Link href="/podcast-mvp">AI Text to Speech Now</Link>
+                      <Link href="/podcast-mvp">{home.ctaPrimary}</Link>
                   </Button>
                   <Button asChild variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
-                      <Link href="/pricing">View Pricing Plans</Link>
+                      <Link href="/pricing">{home.viewPricingPlansCta}</Link>
                   </Button>
               </div>
            </div>
@@ -548,20 +553,20 @@ export function HomePage({ dictionary }: HomePageProps) {
            <div className="order-2 lg:order-1">
               <div className="inline-flex items-center gap-2 mb-6">
                   <Lock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Security</span>
+                  <span className="text-sm font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">{home.securitySectionKicker}</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                  Secure and Private
+                  {home.securitySectionTitle}
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                  Your text stays yours. We protect your content with secure processing and strict access controls, so you can generate speech confidently for scripts, videos, and podcasts—without compromising privacy.
+                  {home.securitySectionDescription}
               </p>
               <div className="flex flex-wrap gap-4">
                   <Button asChild className="h-12 rounded-full px-8 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
-                      <Link href="/podcast-mvp">AI Text to Speech Now</Link>
+                      <Link href="/podcast-mvp">{home.ctaPrimary}</Link>
                   </Button>
                   <Button asChild variant="outline" className="h-12 rounded-full px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
-                      <Link href="/pricing">View Pricing Plans</Link>
+                      <Link href="/pricing">{home.viewPricingPlansCta}</Link>
                   </Button>
               </div>
            </div>
@@ -585,7 +590,7 @@ export function HomePage({ dictionary }: HomePageProps) {
                           {/* Use a placeholder image that looks like a silhouette if available, or just a dark shape */}
                           <Image 
                              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80" 
-                             alt="Security" 
+                             alt={home.securitySectionImageAlt} 
                              fill 
                              unoptimized
                              className="object-cover mix-blend-multiply opacity-50 grayscale contrast-125"

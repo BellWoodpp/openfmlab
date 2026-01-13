@@ -1,25 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(html.dark *));
+
 :root {
+  --background: #ffffff;
+  --foreground: #0b0b0f;
+  --primary: #a855f7;
+  --primary-foreground: #ffffff;
+  
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  
+  --accent: #f3f4f6;
+  --accent-foreground: #0b0b0f;
+  
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #a855f7;
+  
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --page-max-width: 1300px;
+
+  --screen: #f5f5f7;
+  --shadow-textarea: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px inset;
+}
+
+html.dark {
   --background: #000000;
   --foreground: #ffffff;
   --primary: #a855f7;
   --primary-foreground: #ffffff;
-  
+
   --muted: #222222;
   --muted-foreground: #a1a1aa;
-  
+
   --accent: #222222;
   --accent-foreground: #ffffff;
-  
+
   --border: #333333;
   --input: #333333;
   --ring: #a855f7;
-  
+
   --destructive: #7f1d1d;
   --destructive-foreground: #ffffff;
-  
-  --page-max-width: 1300px;
+
+  --screen: #111111;
+  --shadow-textarea: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 @theme inline {
@@ -41,9 +69,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
-  --color-screen: #111111;
-  --color-black-10: rgba(255, 255, 255, 0.1);
-  --color-black-50: rgba(255, 255, 255, 0.5);
+  --color-screen: var(--screen);
 }
 
 @theme static {
@@ -55,8 +81,6 @@
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
   --radius-4xl: 2rem;
-
-  --shadow-textarea: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 html {

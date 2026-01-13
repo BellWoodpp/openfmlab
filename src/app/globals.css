@@ -5,7 +5,7 @@
 
 /* 定义一个 Tailwind 的自定义 variant：dark:
 让 dark: 作用于 .dark class 下的所有元素 */
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(html.dark *));
 
 /* 正式进入主题系统，这里非常关键。
 将 CSS 变量（--background）映射给 Tailwind 的“color.XXX” 或 “radius.XXX”
@@ -106,7 +106,7 @@ Tailwind 会把 bg-background 解析成：background-color: var(--background)
 当 HTML 上出现 .dark class：
 <html class="dark">
 就会覆盖颜色，让网页变成 Dark Mode。 */
-.dark {
+html.dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);

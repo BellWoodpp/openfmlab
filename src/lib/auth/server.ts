@@ -4,6 +4,7 @@ import { magicLink } from "better-auth/plugins/magic-link";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db/client";
 import { randomBytes } from "crypto";
+import { siteConfig } from "@/lib/site-config";
 
 const appBaseURL =
   process.env.BETTER_AUTH_URL ??
@@ -56,7 +57,7 @@ if (!secretFromEnv) {
 }
 
 export const auth = betterAuth({
-  appName: "Shipbase",
+  appName: siteConfig.brandName,
   baseURL: appBaseURL,
   basePath: "/api/auth",
   secret,

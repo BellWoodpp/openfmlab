@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleCookiesPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Cookie Policy - ShipBase",
+      title: "Cookie Policy",
       description: "How we use cookies",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.cookies.title} - ShipBase`,
+    title: dictionary.pages.cookies.title,
     description: dictionary.pages.cookies.subtitle,
-  };;
+  };
 }

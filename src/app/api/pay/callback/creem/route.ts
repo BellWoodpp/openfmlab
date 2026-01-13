@@ -1,25 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-// crypto 是 Node.js 内置的核心模块（不需要安装）
-// createHmac 是专门用来生成 HMAC-SHA256 签名 的函数（目前 99% 的支付平台都用这个算法）
-// 作用：把“支付平台发来的数据” + “我们自己的秘钥” 混合计算出一个“指纹”（签名）
-// 然后跟支付平台发来的签名对比：
-// 一样 → 是真的通知，可以发货、改订单状态
-// 不一样 → 假的！直接丢掉，防止黑客伪造支付成功
-// 生活比喻：就像快递员送货时要你签收 + 核对身份证。
-import { createHmac } from "crypto";
-// 这是一个你项目自己写的“订单服务层”
-// 里面通常有这些方法：TypeScriptfulfillOrder(orderId)        // 发货、送虚拟商品、开通会员
-// updateOrderStatus(orderId, "paid")
-// sendThankYouEmail(orderId)
-// 一旦签名验证通过，就会调用这些方法真正“完成订单”
+import { createHmac, timingSafeEqual } from "crypto";
+import { eq } from "drizzle-orm";
 import { OrderService } from "@/lib/orders/service";
+import { db } from "@/lib/db/client";
+import { orders } from "@/lib/db/schema/orders";
+import { newCreemClient } from "@/lib/payments/creem";
+import { syncCreemProfessionalSubscriptionTransactionsForOrder } from "@/lib/payments/creem/subscription-sync";
 
-// Creem 事件类型定义
-// interface:类型结构定义，接口
-interface CreemEvent {
-  eventType: string;
-  data: unknown;
-}
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 interface CreemCustomer {
   email?: string;
@@ -30,7 +19,10 @@ interface CreemProduct {
 }
 
 interface CreemCheckoutData {
-  requestId: string;
+  id?: string;
+  checkoutId?: string;
+  requestId?: string;
+  request_id?: string;
   customer?: CreemCustomer;
   product?: CreemProduct;
   amount?: number;
@@ -40,47 +32,113 @@ interface CreemCheckoutData {
 }
 
 interface CreemSubscriptionData {
-  subscriptionId: string;
+  subscriptionId?: string;
+  subscription_id?: string;
+  id?: string;
   customer?: CreemCustomer;
   product?: CreemProduct;
   metadata?: Record<string, unknown>;
   reason?: string;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeSignatureHeader(value: string): string {
+  return value.trim().replace(/^sha256=/i, "");
+}
+
+function timingSafeStringEquals(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(Buffer.from(a), Buffer.from(b));
+}
+
+function verifyCreemWebhookSignature({
+  payload,
+  signature,
+  webhookSecret,
+}: {
+  payload: string;
+  signature: string;
+  webhookSecret: string;
+}): boolean {
+  const received = normalizeSignatureHeader(signature);
+  const hmac = createHmac("sha256", webhookSecret);
+  hmac.update(payload);
+
+  const expectedHex = hmac.digest("hex");
+  if (timingSafeStringEquals(received, expectedHex)) return true;
+
+  const hmac2 = createHmac("sha256", webhookSecret);
+  hmac2.update(payload);
+  const expectedBase64 = hmac2.digest("base64");
+  return timingSafeStringEquals(received, expectedBase64);
+}
+
+function normalizeCreemWebhookEvent(input: unknown): { eventType: string; data: unknown } | null {
+  if (!isRecord(input)) return null;
+  const eventType = input.eventType ?? input.event_type;
+  const data = input.data ?? input.payload ?? input.object;
+  if (typeof eventType !== "string" || !eventType.trim()) return null;
+  return { eventType: eventType.trim(), data };
+}
+
+function normalizeRequestId(data: CreemCheckoutData): string | null {
+  const requestId = data.requestId ?? data.request_id;
+  if (typeof requestId === "string" && requestId.trim()) return requestId.trim();
+  return null;
+}
+
+function normalizeCheckoutId(data: CreemCheckoutData): string | null {
+  const checkoutId = data.id ?? data.checkoutId ?? (data as unknown as { checkout_id?: unknown }).checkout_id;
+  if (typeof checkoutId === "string" && checkoutId.trim()) return checkoutId.trim();
+  return null;
+}
+
+function normalizeSubscriptionId(data: CreemSubscriptionData): string | null {
+  const id = data.subscriptionId ?? data.subscription_id ?? data.id;
+  if (typeof id === "string" && id.trim()) return id.trim();
+  return null;
+}
+
 // Creem 支付回调处理
 export async function POST(request: NextRequest) {
   try {
-    // 获取请求体的原始文本，signature:签名，payload:有效载荷
     const payload = await request.text();
-    // ||：OR的逻辑运算符
-    const signature = request.headers.get('creem-signature') || request.headers.get('x-creem-signature');
-
-    console.log('Creem callback received:', {
-      hasSignature: !!signature,
-      payloadLength: payload.length,
-      headers: Object.fromEntries(request.headers.entries())
-    });
+    const signature =
+      request.headers.get("creem-signature") ??
+      request.headers.get("x-creem-signature");
 
     // 验证签名（如果配置了 webhook secret）
     const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
-    // &&：AND逻辑运算符
-    if (webhookSecret && signature) {
-      const hmac = createHmac('sha256', webhookSecret);
-      hmac.update(payload);
-      const computedSignature = hmac.digest('hex');
-      
-      if (computedSignature !== signature) {
-        console.error('Signature verification failed:', {
-          expected: computedSignature,
-          received: signature
-        });
-        return NextResponse.json({ error: '签名验证失败' }, { status: 400 });
+    if (webhookSecret) {
+      if (!signature) {
+        return NextResponse.json({ error: "missing signature" }, { status: 400 });
+      }
+
+      const ok = verifyCreemWebhookSignature({
+        payload,
+        signature,
+        webhookSecret,
+      });
+      if (!ok) {
+        return NextResponse.json({ error: "invalid signature" }, { status: 400 });
       }
     }
 
     // 解析事件数据
-    const event = JSON.parse(payload);
-    console.log('Creem event:', event);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(payload);
+    } catch {
+      return NextResponse.json({ error: "invalid JSON" }, { status: 400 });
+    }
+
+    const event = normalizeCreemWebhookEvent(parsed);
+    if (!event) {
+      return NextResponse.json({ error: "invalid event payload" }, { status: 400 });
+    }
 
     // 根据事件类型处理
     const result = await handleCreemEvent(event);
@@ -96,44 +154,38 @@ export async function POST(request: NextRequest) {
 }
 
 // 处理 Creem 事件
-async function handleCreemEvent(event: CreemEvent) {
+async function handleCreemEvent(event: { eventType: string; data: unknown }) {
   const { eventType, data } = event;
-  
-  console.log(`处理 Creem 事件: ${eventType}`, data);
 
-  // switch 是 JavaScript / TypeScript 里的一种流程控制语句，中文叫 “开关语句” 或 “多分支选择语句”
   switch (eventType) {
-    // case:当变量等于这个值的时候
-    case 'checkout.completed':
-//       as 是 TypeScript 独有的语法，叫 类型断言（type assertion）
-// 意思是：“我（程序员）保证 data 一定是一个 CreemCheckoutData 类型，你 TypeScript 别报错了，相信我！”
+    case "checkout.completed":
       return await handleCheckoutCompleted(data as CreemCheckoutData);
-    
-    case 'checkout.failed':
+
+    case "checkout.failed":
       return await handleCheckoutFailed(data as CreemCheckoutData);
-    
-    case 'subscription.active':
+
+    case "subscription.active":
       return await handleSubscriptionActive(data as CreemSubscriptionData);
-    
-    case 'subscription.cancelled':
+
+    case "subscription.updated":
+    case "subscription.renewed":
+      return await handleSubscriptionActive(data as CreemSubscriptionData);
+
+    case "subscription.cancelled":
+    case "subscription.canceled":
       return await handleSubscriptionCancelled(data as CreemSubscriptionData);
-    
-    case 'subscription.expired':
+
+    case "subscription.expired":
       return await handleSubscriptionExpired(data as CreemSubscriptionData);
     
     default:
-      console.log(`未处理的事件类型：${eventType}`);
       return { status: 'ignored', eventType };
   }
 }
 
 // 处理一次性支付完成
 async function handleCheckoutCompleted(data: CreemCheckoutData) {
-  console.log('处理一次性支付完成事件:', data);
-  
-  // product:产品，amount:数量，currency:货币，
   const { 
-    requestId, 
     customer, 
     product, 
     amount, 
@@ -141,20 +193,70 @@ async function handleCheckoutCompleted(data: CreemCheckoutData) {
     metadata 
   } = data;
 
+  const requestId = normalizeRequestId(data);
+  if (!requestId) {
+    return {
+      status: "error",
+      action: "checkout_completed",
+      message: "missing requestId",
+    };
+  }
+
+  const checkoutId = normalizeCheckoutId(data);
+
   // 更新订单状态为已支付
-  const order = await OrderService.handlePaymentSuccess(requestId);
+  const order = await OrderService.handlePaymentSuccessFromWebhook(requestId, checkoutId ?? undefined);
   
   if (!order) {
-    console.error('支付成功但订单未找到:', {
-      requestId,
-      customerEmail: customer?.email,
-    });
     return {
       status: 'error',
       action: 'checkout_completed',
       requestId,
       message: '订单未找到',
     };
+  }
+
+  try {
+    await OrderService.mergeOrderMetadata(order.id, {
+      ...(checkoutId ? { creem_checkout_id: checkoutId } : {}),
+      ...(typeof product?.id === "string" && product.id.trim() ? { creem_product_id: product.id.trim() } : {}),
+      ...(typeof amount === "number" ? { creem_amount_cents: amount } : {}),
+      ...(typeof currency === "string" && currency.trim() ? { creem_currency: currency.trim() } : {}),
+    });
+  } catch (err) {
+    console.warn("[creem] failed to merge checkout metadata", err);
+  }
+
+  // Best-effort: for subscription checkouts, persist subscriptionId onto the order
+  // so later upgrades (monthly -> yearly) can be done reliably even if subscription.active metadata is incomplete.
+  try {
+    const checkoutLookupId = checkoutId ?? order.paymentSessionId;
+    if (order.productType === "subscription" && order.paymentProvider === "creem" && checkoutLookupId) {
+      const client = newCreemClient();
+      const checkout = await client.creem().retrieveCheckout({
+        xApiKey: client.apiKey(),
+        checkoutId: checkoutLookupId,
+      });
+
+      const subscriptionId =
+        typeof checkout.subscription === "string"
+          ? checkout.subscription
+          : checkout.subscription && typeof checkout.subscription === "object" && "id" in checkout.subscription
+            ? String((checkout.subscription as { id?: unknown }).id ?? "")
+            : "";
+
+      if (subscriptionId) {
+        await OrderService.mergeOrderMetadata(order.id, { subscription_id: subscriptionId });
+      }
+    }
+  } catch (err) {
+    console.warn("[creem] failed to sync subscription_id on checkout.completed", err);
+  }
+
+  try {
+    await syncCreemProfessionalSubscriptionTransactionsForOrder({ userId: order.userId, order });
+  } catch (err) {
+    console.warn("[creem] failed to sync subscription transactions", err);
   }
 
   // 记录支付成功日志
@@ -176,29 +278,34 @@ async function handleCheckoutCompleted(data: CreemCheckoutData) {
     orderNumber: order.orderNumber,
     requestId,
     message: '支付成功处理完成',
-    redirectUrl: metadata?.locale ? `/${metadata.locale}/payment/success` : '/payment/success'
+    redirectUrl:
+      typeof metadata?.locale === "string" && metadata.locale.trim()
+        ? `/${metadata.locale.trim()}/payment/success`
+        : "/payment/success",
   };
 }
 
 // 处理支付失败
 async function handleCheckoutFailed(data: CreemCheckoutData) {
-  console.log('处理支付失败事件:', data);
-  
   const { 
-    requestId, 
     customer, 
     product, 
     reason 
   } = data;
 
+  const requestId = normalizeRequestId(data);
+  if (!requestId) {
+    return {
+      status: "error",
+      action: "checkout_failed",
+      message: "missing requestId",
+    };
+  }
+
   // 更新订单状态为失败
   const order = await OrderService.handlePaymentFailed(requestId);
   
   if (!order) {
-    console.error('支付失败但订单未找到:', {
-      requestId,
-      customerEmail: customer?.email,
-    });
     return {
       status: 'error',
       action: 'checkout_failed',
@@ -229,23 +336,35 @@ async function handleCheckoutFailed(data: CreemCheckoutData) {
 
 // 处理订阅激活，Subscription:订阅
 async function handleSubscriptionActive(data: CreemSubscriptionData) {
-  console.log('处理订阅激活事件:', data);
-  
   const { 
-    subscriptionId, 
-    customer, 
     product, 
     metadata 
   } = data;
 
-  // 对于订阅激活，我们可能需要查找相关的订单
-  // 这里可以根据订阅ID或其他标识符来更新订单状态
-  console.log('订阅激活:', {
-    subscriptionId,
-    customerEmail: customer?.email,
-    productId: product?.id,
-    metadata
-  });
+  const subscriptionId = normalizeSubscriptionId(data);
+  if (!subscriptionId) {
+    return {
+      status: "error",
+      action: "subscription_active",
+      message: "missing subscriptionId",
+    };
+  }
+
+  const orderId =
+    metadata && typeof metadata === "object" && "order_id" in metadata ? (metadata as { order_id?: unknown }).order_id : null;
+  const trimmedOrderId = typeof orderId === "string" ? orderId.trim() : "";
+  if (trimmedOrderId) {
+    await OrderService.mergeOrderMetadata(trimmedOrderId, {
+      subscription_id: subscriptionId,
+      subscription_status: "active",
+      ...(typeof product?.id === "string" && product.id.trim() ? { creem_product_id: product.id.trim() } : {}),
+    });
+
+    const [order] = await db.select().from(orders).where(eq(orders.id, trimmedOrderId)).limit(1);
+    if (order) {
+      await syncCreemProfessionalSubscriptionTransactionsForOrder({ userId: order.userId, order });
+    }
+  }
 
   return {
     status: 'success',
@@ -257,22 +376,19 @@ async function handleSubscriptionActive(data: CreemSubscriptionData) {
 
 // 处理订阅取消
 async function handleSubscriptionCancelled(data: CreemSubscriptionData) {
-  console.log('处理订阅取消事件:', data);
-  
-  const { 
-    subscriptionId, 
-    customer, 
-    reason 
-  } = data;
+  const subscriptionId = normalizeSubscriptionId(data);
+  const { reason, metadata } = data;
 
-  // TODO: 这里可以添加订阅取消逻辑
-  // 例如：更新用户订阅状态、发送取消确认邮件等
-  
-  console.log('订阅取消:', {
-    subscriptionId,
-    customerEmail: customer?.email,
-    reason
-  });
+  const orderId =
+    metadata && typeof metadata === "object" && "order_id" in metadata ? (metadata as { order_id?: unknown }).order_id : null;
+  if (typeof orderId === "string" && orderId.trim()) {
+    await OrderService.mergeOrderMetadata(orderId.trim(), {
+      subscription_id: subscriptionId ?? undefined,
+      subscription_status: "cancelled",
+      subscription_cancelled_reason: typeof reason === "string" ? reason : undefined,
+      subscription_cancelled_at: new Date().toISOString(),
+    });
+  }
 
   return {
     status: 'cancelled',
@@ -284,20 +400,18 @@ async function handleSubscriptionCancelled(data: CreemSubscriptionData) {
 
 // 处理订阅过期
 async function handleSubscriptionExpired(data: CreemSubscriptionData) {
-  console.log('处理订阅过期事件:', data);
-  
-  const { 
-    subscriptionId, 
-    customer 
-  } = data;
+  const subscriptionId = normalizeSubscriptionId(data);
+  const { metadata } = data;
 
-  // TODO: 这里可以添加订阅过期逻辑
-  // 例如：更新用户订阅状态、发送续费提醒等
-  
-  console.log('订阅过期:', {
-    subscriptionId,
-    customerEmail: customer?.email
-  });
+  const orderId =
+    metadata && typeof metadata === "object" && "order_id" in metadata ? (metadata as { order_id?: unknown }).order_id : null;
+  if (typeof orderId === "string" && orderId.trim()) {
+    await OrderService.mergeOrderMetadata(orderId.trim(), {
+      subscription_id: subscriptionId ?? undefined,
+      subscription_status: "expired",
+      subscription_expired_at: new Date().toISOString(),
+    });
+  }
 
   return {
     status: 'expired',

@@ -1,8 +1,29 @@
 {
   "home": {
-    "badgeLabel": "2025🚀 今すぐリリース",
-    "heroTitle": "RTVoxで、もっと話そう。",
-    "heroDescription": "RTVoxはGoogleの音声モデルを活用したAIテキスト読み上げツールです。数秒で自然な音声を生成できます。",
+    "badgeLabel": "ボイスマジシャン",
+    "heroTitle": "数秒で作る\nあなただけのAI音声",
+    "heroTagline": "テキスト読み上げ — 数秒でクローンして話せる。",
+    "heroDescription": "テキストから自然な音声を数秒で生成。声を選び、速度を調整して、ナレーション、ポッドキャスト、台本からの音声コンテンツを作れます。（音声クローンは近日公開。）",
+    "productMockupTitle": "テキスト読み上げ",
+    "productMockupSubtitle": "違いを聴いてください。私たちのAIはニュアンス、息づかい、感情まで捉えます。",
+    "textToSpeechSectionKicker": "テキスト読み上げ",
+    "textToSpeechSectionTitle": "テキスト読み上げ",
+    "textToSpeechSectionDescription": "どんなテキストでも数秒で自然な音声に。声を選び、適切なトーンを設定して、動画・ポッドキャスト・台本向けのクリアなナレーションを録音なしで生成できます。",
+    "viewPricingPlansCta": "料金プランを見る",
+    "securitySectionKicker": "セキュリティ",
+    "securitySectionTitle": "安全・プライベート",
+    "securitySectionDescription": "あなたのテキストはあなたのもの。安全な処理と厳格なアクセス制御で内容を保護し、台本・動画・ポッドキャスト向けの音声生成をプライバシーを損なわずに行えます。",
+    "securitySectionImageAlt": "セキュリティ",
+    "ttsMockupTextToSpeechTitle": "テキスト読み上げ",
+    "ttsMockupSelectVoiceTitle": "音声を選択",
+    "ttsMockupCharTokenCount": "{current} / {max} 文字 · {tokens} トークン",
+    "ttsMockupClearText": "テキストをクリア",
+    "ttsMockupGenerate": "生成",
+    "ttsMockupPublic": "公開",
+    "ttsMockupVoicesCount": "{count} ボイス",
+    "ttsMockupLanguage": "言語",
+    "ttsMockupEnableVoicePreviewAria": "音声プレビューを有効にする",
+    "ttsMockupDisableVoicePreviewAria": "音声プレビューを無効にする",
     "ctaPrimary": "今すぐテキスト読み上げ",
     "ctaSecondary": "ドキュメントを読む",
     "watchDemo": "デモを見る",
@@ -57,7 +78,7 @@
     ],
     "voiceCloningDemoOriginalLabel": "オリジナル",
     "voiceCloningDemoCloneLabel": "クローン",
-    "techStackTitle": "ShipBaseは巨人の肩の上に構築されています",
+    "techStackTitle": "RTVoxは巨人の肩の上に構築されています",
     "techStackItems": [
       {
         "name": "Next.js",
@@ -80,8 +101,8 @@
         "description": "デプロイメントプラットフォーム"
       }
     ],
-    "featuresTitle": "ShipBaseとは",
-    "featuresSubtitle": "ShipBaseはAI SaaSスタートアップを構築するためのNextJSボイラープレートです。様々なテンプレートとコンポーネントで構築されています。",
+    "featuresTitle": "RTVoxとは",
+    "featuresSubtitle": "RTVoxはクリエイター向けのAIテキスト読み上げスタジオです。数秒で自然な音声を生成できます。",
     "features": [
       {
         "title": "即座に使用可能なテンプレート",
@@ -96,7 +117,7 @@
         "description": "数日ではなく数時間でAI SaaSアプリケーションを本番環境にデプロイ。"
       }
     ],
-    "benefitsTitle": "なぜShipBaseを選ぶのか",
+    "benefitsTitle": "なぜRTVoxを選ぶのか",
     "benefitsSubtitle": "AIスタートアップを立ち上げるために必要なすべてを取得 - 即座に使用可能なテンプレートから技術サポートまで。",
     "benefits": [
       {
@@ -112,18 +133,18 @@
         "description": "素早く始められるよう支援する専門技術サポートを取得。"
       }
     ],
-    "launchStepsTitle": "ShipBaseでリリースする方法",
+    "launchStepsTitle": "RTVoxでリリースする方法",
     "launchStepsSubtitle": "3つの簡単なステップでAI SaaSスタートアップを稼働させる：",
     "launchSteps": [
       {
         "step": "1",
-        "title": "ShipBaseを取得",
-        "description": "一回の支払いでShipBaseを購入。コードとドキュメントのメールを確認。"
+        "title": "RTVoxを取得",
+        "description": "一回の支払いでRTVoxを購入。コードとドキュメントのメールを確認。"
       },
       {
         "step": "2",
         "title": "プロジェクトを開始",
-        "description": "ドキュメントを読み、ShipBaseのコードをクローン。AI SaaSスタートアップの構築を開始。"
+        "description": "ドキュメントを読み、RTVoxのコードをクローン。AI SaaSスタートアップの構築を開始。"
       },
       {
         "step": "3",
@@ -136,7 +157,7 @@
         "description": "数ステップでプロジェクトを本番環境にデプロイし、すぐに顧客にサービスを提供。"
       }
     ],
-    "keyFeaturesTitle": "ShipBaseの主要機能",
+    "keyFeaturesTitle": "RTVoxの主要機能",
     "keyFeaturesSubtitle": "AI SaaSスタートアップを素早く効率的に立ち上げるために必要なすべて。",
     "keyFeatures": [
       {
@@ -164,27 +185,27 @@
         "description": "組み込みクレジットシステムとAPI販売を持つ事前設定されたAI統合。"
       }
     ],
-    "testimonialsTitle": "ユーザーがShipBaseについて言うこと",
-    "testimonialsSubtitle": "ShipBaseでAIスタートアップを立ち上げた開発者と創設者の声を聞いてください。",
+    "testimonialsTitle": "ユーザーがRTVoxについて言うこと",
+    "testimonialsSubtitle": "RTVoxでAIスタートアップを立ち上げた開発者と創設者の声を聞いてください。",
     "testimonials": [
       {
-        "quote": "ShipBaseはアイデアから製品への旅をこれまで以上にシンプルにしました。包括的なテンプレート、スクリプト、基盤インフラストラクチャにより、基本的な開発に時間を費やす必要がほとんどありません。SaaSビジネスを素早く立ち上げたい創設者に強くお勧めします。",
+        "quote": "RTVoxはアイデアから製品への旅をこれまで以上にシンプルにしました。包括的なテンプレート、スクリプト、基盤インフラストラクチャにより、基本的な開発に時間を費やす必要がほとんどありません。SaaSビジネスを素早く立ち上げたい創設者に強くお勧めします。",
         "author": "AITDKの作者",
         "role": "独立開発者"
       },
       {
-        "quote": "ShipBaseは支払いの設定と商業化のすべての細部を処理することを非常に簡単にし、重要な機能の構築に集中できました。AI SaaSを素早くリリース・スケールしたい場合は、ShipBaseは迷いのない選択です！",
+        "quote": "RTVoxは支払いの設定と商業化のすべての細部を処理することを非常に簡単にし、重要な機能の構築に集中できました。AI SaaSを素早くリリース・スケールしたい場合は、RTVoxは迷いのない選択です！",
         "author": "Scar",
         "role": "フロントエンドエンジニア"
       },
       {
-        "quote": "ShipBaseを使用して8分で新しいウェブサイトを立ち上げました。ログイン/支払いを含めて、素晴らしいです！",
+        "quote": "RTVoxを使用して8分で新しいウェブサイトを立ち上げました。ログイン/支払いを含めて、素晴らしいです！",
         "author": "Lafe",
         "role": "テックリード"
       }
     ],
-    "productShowcaseTitle": "ShipBaseで構築されたAI SaaSスタートアップ",
-    "productShowcaseSubtitle": "ShipBaseで構築された素晴らしいAI SaaSアプリケーションをご覧ください",
+    "productShowcaseTitle": "RTVoxで構築されたAI SaaSスタートアップ",
+    "productShowcaseSubtitle": "RTVoxで構築された素晴らしいAI SaaSアプリケーションをご覧ください",
     "showcaseItems": [
       {
         "name": "Raphael AI",
@@ -223,60 +244,60 @@
         "category": "ソーシャルプラットフォーム"
       }
     ],
-    "statsTitle": "人々はShipBaseを愛しています",
-    "statsSubtitle": "使いやすく、素早くリリースできるからです",
+    "statsTitle": "人々はRTVoxを愛しています",
+    "statsSubtitle": "自然な音声と素早いワークフローがあるからです",
     "stats": [
       {
         "number": "250+",
-        "label": "顧客",
-        "description": "私たちを信頼"
+        "label": "ユーザー",
+        "description": "信頼されています"
       },
       {
         "number": "30+",
-        "label": "コンポーネント",
-        "description": "組み込み済み"
+        "label": "音声",
+        "description": "選べます"
       },
       {
         "number": "5",
-        "label": "分",
-        "description": "素早くリリース"
+        "label": "秒",
+        "description": "すぐに生成"
       }
     ],
-    "faqTitle": "ShipBaseに関するよくある質問",
-    "faqSubtitle": "他に質問がありますか？Discordでお問い合わせいただくか、メールでご連絡ください。",
+    "faqTitle": "RTVoxに関するよくある質問",
+    "faqSubtitle": "他に質問がありますか？support@rtvox.com までメールしてください。",
     "faqs": [
       {
-        "question": "ShipBaseとは何で、どのように動作するのですか？",
-        "answer": "ShipBaseは、AI SaaSスタートアップの構築に特化して設計された包括的なNextJSボイラープレートです。即座に使用できるテンプレート、インフラストラクチャセットアップ、デプロイメントツールを提供し、数日ではなく数時間でAIビジネスを立ち上げるのに役立ちます。"
+        "question": "RTVoxとは？どのように動作しますか？",
+        "answer": "RTVoxはテキストを自然な音声に変換します。音声を選び、スクリプトを貼り付け、スタイルを調整して、音声を生成・ダウンロードできます。"
       },
       {
-        "question": "ShipBaseを使用するには高度な技術スキルが必要ですか？",
-        "answer": "基本的なプログラミング知識は役立ちますが、ShipBaseは開発者フレンドリーに設計されています。AIやクラウドインフラストラクチャの専門家でなくても、テンプレートとドキュメントにより簡単に始められます。"
+        "question": "どの言語と音声に対応していますか？",
+        "answer": "英語・中国語・日本語など複数言語に対応し、高品質な音声を提供します。利用可能な音声は言語とプロバイダーにより異なります。"
       },
       {
-        "question": "ShipBaseでどのようなタイプのAI SaaSを構築できますか？",
-        "answer": "ShipBaseは、コンテンツ生成からデータ分析ツールまで、幅広いAIアプリケーションをサポートしています。AIチャットボット、コンテンツジェネレーター、画像処理アプリなどの人気のあるユースケースをカバーしています。"
+        "question": "クレジットはどのように計算されますか？",
+        "answer": "クレジットは文字数と選択した音声に基づいて見積もられます。生成前に見積もりを確認でき、生成後に残高が更新されます。"
       },
       {
-        "question": "ShipBaseでリリースするのに通常どのくらい時間がかかりますか？",
-        "answer": "ShipBaseを使用すると、数時間で動作するプロトタイプを、数時間で本番準備完了のアプリケーションを持つことができます。ワンクリックデプロイメントと事前設定されたインフラストラクチャにより、従来の数ヶ月の開発サイクルを大幅に短縮します。"
+        "question": "どの音声形式でエクスポートできますか？",
+        "answer": "MP3 または WAV でエクスポートできます（音声/プロバイダーや環境によって異なります）。ダウンロードでローカルに保存できます。"
       },
       {
-        "question": "ShipBaseインフラストラクチャには何が含まれていますか？",
-        "answer": "ShipBaseは、認証、データベースセットアップ、API統合、支払い処理、スケーラブルなクラウドデプロイメントを含む完全なインフラストラクチャスタックを提供します。すべてが業界のベストプラクティスに従って事前設定されています。"
+        "question": "入力したテキストは安全ですか？",
+        "answer": "テキストは音声生成のために処理され、共有しない限り公開されません。機密情報の入力は避けてください。"
       },
       {
-        "question": "テンプレートをブランドに合わせてカスタマイズできますか？",
-        "answer": "もちろんです！すべてのShipBaseテンプレートは完全にカスタマイズ可能です。強力な基盤インフラストラクチャを維持しながら、ブランドアイデンティティと特定のビジネス要件に合わせてデザイン、機能、機能を変更できます。"
+        "question": "1回の生成に文字数制限はありますか？",
+        "answer": "はい。生成を高速かつ安定させるため、1回のリクエストには文字数制限があります。長文は分割して生成してください。"
       }
     ],
-    "finalCtaTitle": "最初のAI SaaSスタートアップをリリース",
-    "finalCtaSubtitle": "ここから始めて、ShipBaseでリリース。",
-    "finalCtaButton": "ShipBaseを取得",
-    "finalCtaSecondary": "ドキュメントを読む"
+    "finalCtaTitle": "RTVoxで最初の音声を生成",
+    "finalCtaSubtitle": "ここから始めて、数秒でテキストを自然な音声に変換。",
+    "finalCtaButton": "テキスト読み上げを試す",
+    "finalCtaSecondary": "料金を見る"
   },
   "authPanel": {
-    "title": "Shipbase にサインイン",
+    "title": "RTVox にサインイン",
     "description": "Better Auth が提供する Google、GitHub、または Magic Link で認証。",
     "signedInAs": "{name} としてサインイン中",
     "sessionLabel": "セッション ID: {id}",
@@ -318,6 +339,7 @@
     ]
   },
   "header": {
+    "product": "製品",
     "features": "機能",
     "pricing": "料金",
     "docs": "ドキュメント",
@@ -525,7 +547,7 @@
       "billingCycles": {
         "one-time": {
           "label": "一回払い",
-          "description": "一度支払い、永久利用"
+          "description": "単発の支払い（クレジットチャージ用）"
         },
         "monthly": {
           "label": "月額",
@@ -539,7 +561,7 @@
       "plans": [
         {
           "name": "無料版",
-          "price": "¥0",
+          "price": "$0",
           "period": "永久無料",
           "description": "Standard音声と基本機能でRTVoxをお試し",
           "features": [
@@ -557,8 +579,8 @@
         },
         {
           "name": "プロフェッショナル",
-          "price": "¥7200",
-          "period": "一回払い",
+          "price": "$6",
+          "period": "月額",
           "description": "プレミアム音声ティアを解放し、高品質な読み上げに",
           "features": [
             "無料版のすべて",
@@ -809,7 +831,7 @@
     "integrations": {
       "title": "統合",
       "subtitle": "お気に入りのツールと接続",
-      "description": "ShipBaseを既存のワークフローとサードパーティサービスとシームレスに統合。",
+      "description": "RTVoxを既存のワークフローとサードパーティサービスとシームレスに統合。",
       "categories": [
         {
           "name": "認証とセキュリティ",
@@ -1114,19 +1136,19 @@
             "step": "3",
             "title": "統合パッケージをインストール",
             "description": "対応する統合パッケージと依存関係をインストール",
-            "code": "# 統合パッケージをインストール\\npnpm add @shipbase/integrations-stripe"
+            "code": "# 統合パッケージをインストール\\npnpm add @rtvox/integrations-stripe"
           },
           {
             "step": "4",
             "title": "統合を初期化",
             "description": "アプリケーションで統合サービスを初期化",
-            "code": "# 統合を初期化\\nimport { StripeIntegration } from '@shipbase/integrations-stripe'\\nconst stripe = new StripeIntegration()"
+            "code": "# 統合を初期化\\nimport { StripeIntegration } from '@rtvox/integrations-stripe'\\nconst stripe = new StripeIntegration()"
           }
         ]
       },
       "cta": {
         "title": "統合を始める準備はできましたか？",
-        "subtitle": "ShipBaseの強力な統合機能を今すぐ使用開始",
+        "subtitle": "RTVoxの強力な統合機能を今すぐ使用開始",
         "primaryButton": "ドキュメントを表示",
         "secondaryButton": "サポートに連絡"
       }
@@ -1393,116 +1415,116 @@
       }
     },
     "contact": {
-      "title": "お問い合わせ",
-      "subtitle": "お手伝いします",
-      "description": "サポート、パートナーシップ、一般的なお問い合わせについて私たちのチームにお問い合わせください。",
-      "contactMethodsTitle": "お問い合わせ",
-      "contactMethodsSubtitle": "お客様からのお声をお聞かせください。最適な連絡方法をお選びください",
-      "teamTitle": "直接チーム連絡",
-      "teamSubtitle": "ニーズに応じて適切なチームに連絡",
-      "responseTimeTitle": "応答時間",
-      "responseTimeSubtitle": "お客様のリクエストに迅速に対応することをお約束します",
+      "title": "RTVox にお問い合わせ",
+      "subtitle": "Text-to-Speech についてご相談ください",
+      "description": "RTVox の TTS API、音声、料金、提携についてのご相談はメールでご連絡ください。できるだけ早く返信します。",
+      "contactMethodsTitle": "連絡方法",
+      "contactMethodsSubtitle": "内容に合った窓口をお選びください。",
+      "teamTitle": "担当窓口",
+      "teamSubtitle": "お問い合わせ内容に応じて担当へおつなぎします。",
+      "responseTimeTitle": "回答目安",
+      "responseTimeSubtitle": "平日（米国時間）。通常 1〜2 営業日以内に返信します。",
       "contactMethods": [
         {
-          "icon": "Users",
-          "title": "Discord コミュニティ",
-          "description": "他の開発者とつながるDiscordコミュニティに参加",
-          "action": "Discordに参加",
-          "href": "#"
-        },
-        {
           "icon": "Zap",
-          "title": "メールサポート",
-          "description": "support@shipbase.com にメールを送信",
-          "action": "メール送信",
-          "href": "mailto:support@shipbase.com"
-        },
-        {
-          "icon": "Shield",
-          "title": "GitHub Issues",
-          "description": "GitHubで問題を報告または提案",
-          "action": "Issuesを表示",
-          "href": "#"
+          "title": "サポート・技術相談",
+          "description": "API 利用、統合サポート、トラブルシューティング。",
+          "action": "サポートにメール",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Support"
         },
         {
           "icon": "Rocket",
-          "title": "エンタープライズパートナーシップ",
-          "description": "エンタープライズレベルのサポートとカスタム開発サービス",
+          "title": "営業・料金",
+          "description": "料金、ボリュームディスカウント、エンタープライズ要件。",
           "action": "営業に連絡",
-          "href": "mailto:sales@shipbase.com"
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Sales"
+        },
+        {
+          "icon": "Users",
+          "title": "提携・メディア",
+          "description": "クリエイター、スタジオ、プロダクト提携。",
+          "action": "提携の相談",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Partnership"
+        },
+        {
+          "icon": "Shield",
+          "title": "セキュリティ",
+          "description": "脆弱性またはセキュリティ上の懸念の報告。",
+          "action": "セキュリティ報告",
+          "href": "mailto:stormrobin50@gmail.com?subject=RTVox%20Security"
         }
       ],
       "team": [
         {
-          "name": "技術サポート",
-          "email": "support@shipbase.com",
-          "description": "技術的な問題とトラブルシューティング"
+          "name": "サポート",
+          "email": "stormrobin50@gmail.com",
+          "description": "統合サポートとプロダクト相談"
         },
         {
-          "name": "営業チーム",
-          "email": "sales@shipbase.com",
-          "description": "ビジネスパートナーシップとカスタムサービス"
+          "name": "営業",
+          "email": "stormrobin50@gmail.com",
+          "description": "料金、エンタープライズ、ボリューム要件"
         },
         {
-          "name": "製品フィードバック",
-          "email": "feedback@shipbase.com",
-          "description": "製品提案と機能リクエスト"
+          "name": "提携",
+          "email": "stormrobin50@gmail.com",
+          "description": "提携提案とメディア問い合わせ"
         }
       ],
       "responseTimes": [
         {
-          "time": "< 1時間",
-          "title": "Discord サポート",
-          "description": "コミュニティサポートで迅速な対応"
+          "time": "1 営業日以内",
+          "title": "メール",
+          "description": "サポート、営業、提携のご相談。"
         },
         {
-          "time": "< 24時間",
-          "title": "メールサポート",
-          "description": "専門チームによる詳細な回答"
+          "time": "2 営業日以内",
+          "title": "エンタープライズ",
+          "description": "複雑な要件やカスタム音声のご相談。"
         },
         {
-          "time": "< 48時間",
-          "title": "エンタープライズサポート",
-          "description": "カスタムソリューションと専用サポート"
+          "time": "72 時間以内",
+          "title": "セキュリティ",
+          "description": "セキュリティ報告の確認と一次対応。"
         }
       ]
     },
     "status": {
-      "title": "サービス状況",
-      "subtitle": "リアルタイムシステム状況",
-      "description": "すべてのShipBaseサービスとインフラストラクチャの現在の状況を監視。",
+      "title": "ステータス",
+      "subtitle": "現在のサービス稼働状況",
+      "description": "RTVox プラットフォームおよび Text-to-Speech（TTS）API の稼働状況を確認できます。",
       "overview": {
-        "title": "サービス状況概要",
-        "subtitle": "すべてのShipBaseサービスのリアルタイム監視",
+        "title": "システム概要",
+        "subtitle": "RTVox サービスのリアルタイム監視",
         "allSystemsOperational": "すべてのシステムが正常動作中",
         "lastUpdated": "最終更新"
       },
       "services": {
-        "title": "サービス状況",
-        "subtitle": "すべてのShipBaseサービスの現在の状況",
+        "title": "サービス",
+        "subtitle": "RTVox サービスの現在の状況",
         "api": {
-          "name": "APIサービス",
-          "description": "コアAPIエンドポイントとサービス"
+          "name": "TTS API",
+          "description": "音声生成とボイスのメタデータ"
         },
         "auth": {
-          "name": "認証",
-          "description": "ユーザー認証と認可"
+          "name": "コンソール & 認証",
+          "description": "サインインとアカウントアクセス"
         },
         "payments": {
-          "name": "決済処理",
-          "description": "Stripe決済処理サービス"
+          "name": "請求",
+          "description": "サブスクリプション、請求書、決済処理"
         },
         "database": {
-          "name": "データベース",
-          "description": "Supabaseデータベースサービス"
+          "name": "ストレージ",
+          "description": "プロジェクトデータと生成音声の保存"
         },
         "cdn": {
           "name": "CDN",
-          "description": "コンテンツ配信ネットワーク"
+          "description": "音声配信と静的アセット"
         },
         "monitoring": {
-          "name": "監視システム",
-          "description": "システム監視とアラート"
+          "name": "監視",
+          "description": "メトリクス、アラート、障害検知"
         },
         "statusOperational": "正常動作",
         "statusDegraded": "パフォーマンス低下",
@@ -1512,62 +1534,64 @@
         "none": "なし"
       },
       "subscribe": {
-        "title": "ステータス更新の購読",
-        "subtitle": "メールまたはRSSでサービス状況の変更通知を受け取る",
-        "emailSubscribe": "メール購読",
-        "rssSubscribe": "RSS購読",
-        "description": "サービス状況の変更とメンテナンスウィンドウについて情報を得る"
+        "title": "ステータス更新を受け取る",
+        "subtitle": "メール通知またはサポートへ連絡",
+        "emailSubscribe": "メールで通知",
+        "rssSubscribe": "サポートに連絡",
+        "description": "障害やメンテナンス情報をメールで通知します。緊急の場合はサポートへご連絡ください。"
       }
     },
     "privacy": {
       "title": "プライバシーポリシー",
-      "subtitle": "あなたのプライバシーが重要",
-      "description": "私たちが個人情報をどのように収集、使用、保護するかを学んでください。",
-      "lastUpdated": "最終更新：2024年1月1日",
+      "subtitle": "データの取り扱いについて",
+      "description": "RTVox がテキスト読み上げ（TTS）サービスのために情報を収集・利用・保護する方法を説明します。",
+      "lastUpdated": "最終更新：2026年1月11日",
       "introduction": {
         "title": "はじめに",
-        "content": "ShipBaseへようこそ。これは、AI SaaSスタートアップを迅速かつ効率的に構築するのに役立つように設計された**NextJSボイラープレート**です。ShipBaseでは、あなたのプライバシーは私たちにとって最も重要であり、このプライバシーポリシーは、あなたが私たちのサービスを使用する際に、私たちがどのようにあなたの個人情報を収集、使用、保護するかを概説しています。"
+        "content": "RTVox は AI を利用したテキスト読み上げ（TTS）サービスです。本プライバシーポリシーでは、RTVox の利用時に情報をどのように収集・利用・保護するかを説明します。"
       },
       "informationCollection": {
         "title": "情報の収集と使用",
-        "subtitle": "ShipBaseを使用する際により良い体験を提供するために、以下のタイプのデータを収集します：",
+        "subtitle": "RTVox を運営し、テキスト読み上げを提供するために、以下の種類のデータを収集します：",
         "accountInfo": {
           "title": "アカウント情報",
-          "whatWeCollect": "収集する内容：これには、あなたの名前、メールアドレス、アカウント作成時に提供するその他の情報が含まれます。",
-          "purpose": "目的：あなたのアカウントを管理し、カスタマーサポートを提供するため。"
+          "whatWeCollect": "メールアドレス、氏名（任意）、認証情報、アカウント設定。",
+          "purpose": "アカウント管理、サポート提供、アクセスの安全確保のため。"
         },
         "usageDetails": {
           "title": "使用詳細",
-          "whatWeCollect": "収集する内容：ShipBaseの使用方法に関する情報、あなたの相互作用、アクセスした機能、使用頻度が含まれます。",
-          "purpose": "目的：ユーザーエンゲージメントを分析し、サービスを改善するため。"
+          "whatWeCollect": "音声合成のために送信したテキスト、選択した音声・設定、文字数、タイムスタンプ、基本的なエラー/診断ログ。",
+          "purpose": "音声生成、利用状況の表示、トラブルシューティング、RTVox の改善のため。"
         },
         "deviceInfo": {
           "title": "デバイス情報",
-          "whatWeCollect": "収集する内容：ShipBaseにアクセスするために使用するデバイスに関するデータ、デバイスタイプ、オペレーティングシステム、ブラウザタイプなど。",
-          "purpose": "目的：異なるデバイス用にサービスを最適化し、互換性を確保するため。"
+          "whatWeCollect": "デバイス種別、OS、ブラウザ、IP アドレスなどの技術情報。",
+          "purpose": "安定性・安全性の確保と、デバイス間の互換性のため。"
         },
         "cookies": {
           "title": "Cookie",
-          "whatWeCollect": "収集する内容：あなたのデバイスに配置される小さなデータファイルで、ユーザーの好みを追跡し、ユーザー体験を向上させるのに役立ちます。",
-          "purpose": "目的：サービスの機能を強化し、あなたの体験をパーソナライズするため。"
+          "whatWeCollect": "ログイン状態を維持し、設定（例：言語）を保存するための小さなファイル。",
+          "purpose": "基本機能の提供、体験改善、設定のパーソナライズのため。"
         },
         "paymentInfo": {
           "title": "支払いと請求情報",
-          "whatWeCollect": "収集する内容：クレジットカード番号、請求先住所、取引処理に必要な詳細など、支払い方法に関する情報。",
-          "purpose": "目的：サービスの請求と支払い処理を促進するため。"
+          "whatWeCollect": "請求先連絡先と取引メタデータ。決済情報（例：カード番号全桁）は決済事業者が処理し、当社サーバーには保存しません。",
+          "purpose": "決済処理、サブスクリプション/クレジット管理、不正防止のため。"
         }
       },
       "dataStorage": {
         "title": "データの保存とセキュリティ",
-        "content": "私たちはあなたの個人情報のセキュリティを真剣に受け止めています。収集したデータはサーバーに安全に保存され、暗号化やアクセス制御など、さまざまなセキュリティ対策を実装して、あなたの個人情報を不正アクセス、変更、開示、破壊から保護しています。ただし、インターネット経由での送信や電子保存の方法は100%安全ではないことにご注意ください。私たちはその絶対的なセキュリティを保証することはできません。"
+        "content": "当社は情報の安全性を重視し、通信の暗号化やアクセス制御など、合理的な対策を講じています。音声を生成した場合、ダウンロードや履歴提供のために生成音声と関連メタデータを保存することがあります。保存期間は設定、プラン、法的要件により異なります。送信や保存の方法が 100% 安全であることは保証できません。"
       },
       "informationSharing": {
         "title": "情報の共有と開示",
         "content": "以下の場合を除き、あなたの個人情報を外部の第三者に販売、取引、またはその他の方法で譲渡することはありません：",
         "circumstances": [
+          "音声生成のため：第三者の TTS プロバイダー（当社のサービス提供者）にテキストと生成設定を共有する場合があります。",
+          "サービス提供のため：RTVox の運用に必要なインフラ/ストレージ/分析事業者と、適切な保護措置の下で共有する場合があります。",
+          "決済処理のため：請求と不正防止のために決済事業者と共有する場合があります。",
           "法的義務の遵守または公的機関からの合法的な要求への対応。",
-          "私たちの権利、財産、または安全、または私たちのユーザーや他の人の権利、財産、または安全を保護するため。",
-          "機密保持契約に従って、ウェブサイトの運営やビジネスの遂行を支援する信頼できる第三者パートナーを通じてサービスを提供するため。"
+          "当社またはユーザーの権利、財産、安全を保護するため。"
         ]
       },
       "policyChanges": {
@@ -1577,25 +1601,25 @@
       "contactUs": {
         "title": "お問い合わせ",
         "content": "このプライバシーポリシーや私たちのデータ慣行についてご質問や懸念がある場合は、以下までお問い合わせください：",
-        "copyrightOwner": "著作権者：shipbase.ai",
-        "email": "メール：support@shipbase.ai"
+        "copyrightOwner": "著作権者：rtxox.com",
+        "email": "メール：support@rtxox.com"
       },
       "consent": {
-        "content": "ShipBaseを使用することで、あなたは私たちのプライバシーポリシーに同意し、その条項に同意したことになります。あなたの情報を信頼していただき、ありがとうございます！"
+        "content": "RTVox を利用することで、本プライバシーポリシーに同意したものとみなされます。ご信頼いただきありがとうございます。"
       }
     },
     "terms": {
       "title": "利用規約",
-      "subtitle": "私たちの利用規約",
-      "description": "利用規約を読み、あなたの権利と責任を理解してください。",
+      "subtitle": "RTVox 利用規約",
+      "description": "本規約は、RTVox および Text-to-Speech（TTS）サービスの利用条件を定めるものです。",
       "lastUpdated": "最終更新：2024年1月1日",
       "introduction": {
         "title": "はじめにと利用規約の受諾",
-        "content": "**ShipBase**へようこそ。これは、AI SaaSスタートアップを迅速かつ効率的に構築するために設計されたNextJSボイラープレートです。私たちのサービスにアクセスまたは使用することで、これらの利用規約に拘束されることに同意したことになります。これらの条項のいずれかに同意しない場合は、サービスを使用しないでください。"
+        "content": "**RTVox** へようこそ。本利用規約（「本規約」）は、RTVox のウェブサイト、アプリケーション、および Text-to-Speech（「TTS」）API（総称して「本サービス」）の利用に適用されます。本サービスにアクセスまたは利用することで、本規約に同意したものとみなされます。同意しない場合は、本サービスを利用しないでください。"
       },
       "serviceUse": {
         "title": "サービスの使用",
-        "content": "ShipBaseは、ユーザーが事前構築されたテンプレートとインフラストラクチャを使用してAI SaaSスタートアップを構築し、立ち上げるための包括的なプラットフォームを提供します。あなたは、適用されるすべての地方、州、国家、および国際的な法律および規制に従ってサービスを使用することに同意します。"
+        "content": "RTVox は、テキストから音声を生成する機能、プロジェクト管理、および API 経由での TTS 機能を提供します。あなたは適用法令を遵守して本サービスを利用し、送信するコンテンツ（テキストを含む）および生成・配布する音声について責任を負います。"
       },
       "userAccounts": {
         "title": "ユーザーアカウントと登録",
@@ -1603,42 +1627,42 @@
       },
       "intellectualProperty": {
         "title": "コンテンツと知的財産権",
-        "content": "ShipBaseを通じて提供されるすべてのコンテンツ（テンプレート、コード、インフラストラクチャセットアップ、ドキュメントを含むがこれらに限定されない）は、著作権法によって保護されています。ShipBaseの著作権者は**shipbase.ai**です。",
+        "content": "本サービス（ソフトウェア、ウェブサイト、API、ボイスカタログ、ドキュメント等を含む）は、RTVox またはそのライセンサーに帰属し、知的財産法により保護されています。",
         "points": [
-          "あなたは、ShipBaseサービスを構成する基盤技術または知的財産を所有していないことを認め、shipbase.aiおよび第三者の知的財産権を尊重することに同意します。",
-          "カスタム実装と修正の所有権を保持しながら、ShipBaseコアプラットフォームとテンプレートはshipbase.aiの財産のままです。"
+          "あなたは、送信するテキストに関する権利を保持します。本規約に従う限り、生成した音声出力を利用できます。",
+          "第三者の権利（著作権、商標、プライバシー、パブリシティ権等）を侵害する方法で本サービスを利用してはなりません。ボイスや機能には第三者ライセンサーの追加制限が適用される場合があります。"
         ]
       },
       "prohibitedActivities": {
         "title": "禁止活動",
-        "content": "ShipBaseを使用する際に以下の禁止活動のいずれにも従事しないことに同意します：",
+        "content": "RTVox の利用にあたり、以下の禁止行為を行わないことに同意します：",
         "activities": [
-          "私たちの独自コードとテンプレートへの不正アクセスまたは配布",
-          "ShipBaseテンプレートの無許可再販または再配布",
-          "サービスのセキュリティまたはパフォーマンスの妨害または破壊",
-          "違法または無許可の目的でのサービスの使用",
-          "サービスのセキュリティ機能のバイパスを試行"
+          "違法・有害・欺罔・悪用目的での利用",
+          "なりすまし、音声詐欺、同意なしのディープフェイク等（他者を誤認させる目的の音声生成）",
+          "第三者の知的財産権、プライバシー権、パブリシティ権の侵害",
+          "レート制限やセキュリティ制御、アクセス制限の回避の試み",
+          "リバースエンジニアリング、スクレイピング、サービスの安定性・性能を損なう行為"
         ]
       },
       "privacyData": {
         "title": "プライバシーとデータ収集",
-        "content": "ShipBaseは以下のタイプのデータを収集します：",
+        "content": "RTVox は、本サービスの提供および改善のために以下のデータを収集する場合があります：",
         "dataTypes": [
-          "アカウント情報：アカウント作成時に提供する情報",
-          "使用詳細：サービスでの活動に関連するデータ",
-          "デバイス情報：サービスにアクセスするために使用するデバイスに関する情報",
-          "Cookie：サービスの体験を向上させるのに役立つデータ",
-          "支払いと請求情報：支払い処理に必要なデータ"
+          "アカウント情報：登録時に提供する情報",
+          "利用データ：API 利用状況や機能の利用状況",
+          "コンテンツデータ：本サービス提供に必要なテキスト入力および生成音声",
+          "デバイス・ログデータ：端末情報およびアクセスログ",
+          "請求情報：支払い処理に必要な情報（該当する場合）"
         ],
         "privacyPolicy": "データ収集慣行の詳細については、別途プライバシーポリシーをご参照ください。"
       },
       "pricingPayments": {
         "title": "価格と支払い",
         "points": [
-          "法律で別途要求されない限り、すべての購入は最終的で返金不可です",
-          "価格はユーザーへの通知後に変更される場合があります",
-          "選択したプランに関連するすべての料金を支払うことに同意します",
-          "支払い条件は選択した支払い方法とプランに基づきます"
+          "プランと料金（従量課金を含む）は、必要に応じて通知のうえ変更される場合があります",
+          "法令上必要な場合または明示的に定める場合を除き、料金は返金されません",
+          "適用される税金を含め、アカウントに発生するすべての料金の支払いに責任を負います",
+          "支払い不履行により、本サービスへのアクセスが停止または終了される場合があります"
         ]
       },
       "termination": {
@@ -1651,15 +1675,15 @@
       },
       "liability": {
         "title": "責任の制限",
-        "content": "法律で許可される最大限の範囲で、shipbase.aiはサービスの使用または使用不能から生じる直接的、間接的、偶発的、特別、結果的、または懲罰的損害について責任を負いません。"
+        "content": "法令で認められる最大限の範囲で、RTVox は本サービスの利用（または利用不能）に起因する間接的、偶発的、特別、結果的、または懲罰的損害について責任を負いません。"
       },
       "indemnification": {
         "title": "補償",
-        "content": "あなたは、サービスの使用またはこれらの条項の違反から生じる請求、損害、損失、負債、費用（弁護士費用を含む）からshipbase.ai、その関連会社、およびそれぞれの役員、取締役、従業員、代理人を補償し、無害に保つことに同意します。"
+        "content": "あなたは、本サービスの利用または本規約違反に起因する請求、損害、損失、負債、費用（弁護士費用を含む）から、RTVox およびその関係者を補償し、免責することに同意します。"
       },
       "governingLaw": {
         "title": "準拠法と紛争解決",
-        "content": "これらの条項は、shipbase.aiが運営する管轄区域の法律に従い、その法律の抵触条項を考慮せずに解釈されるものとします。これらの条項またはサービスから生じる紛争は、適用される法律に従って拘束力のある仲裁によって解決されます。"
+        "content": "本規約は RTVox が運営する法域の法律に準拠し（抵触法の原則を除く）、紛争は適用法令に従って解決されます。"
       },
       "changes": {
         "title": "これらの条項の変更",
@@ -1667,16 +1691,16 @@
       },
       "contact": {
         "title": "連絡先情報",
-        "content": "これらの条項についてご質問がある場合は、support@shipbase.aiまでお問い合わせください。"
+        "content": "本規約に関するお問い合わせは、stormrobin50@gmail.com までご連絡ください。"
       },
       "acknowledgment": {
-        "content": "ShipBaseを使用することで、あなたはこれらの利用規約を読み、理解し、それに拘束されることに同意したことを認めます。ShipBaseを選択していただき、ありがとうございます！"
+        "content": "RTVox を利用することで、あなたは本規約を読み、理解し、同意したことを確認します。"
       }
     },
     "cookies": {
       "title": "Cookie ポリシー",
-      "subtitle": "Cookieの使用方法",
-      "description": "私たちがプラットフォームでCookieや類似技術をどのように使用するかを理解してください。",
+      "subtitle": "RTVox の Cookie 利用について",
+      "description": "RTVox がサービスの信頼性向上と体験改善のために Cookie と類似技術をどのように使用するかをご確認ください。",
       "lastUpdated": "最終更新：2024年1月1日",
       "introduction": {
         "title": "Cookieとは",
@@ -1777,24 +1801,24 @@
       "contact": {
         "title": "お問い合わせ",
         "content": "このCookieポリシーについてご質問がある場合や、より詳しい情報が必要な場合は、以下までお問い合わせください：",
-        "email": "メール：support@shipbase.ai"
+        "email": "stormrobin50@gmail.com"
       },
       "consent": {
-        "content": "ウェブサイトの使用を続けることで、このCookieポリシーに従ったCookieの使用に同意したことになります。"
+        "content": "RTVox の利用を続けることで、このCookieポリシーに従ったCookieの使用に同意したことになります。"
       }
     },
     "login": {
       "title": "サインイン",
       "subtitle": "おかえりなさい",
-      "description": "ShipBaseでの旅を続けるためにアカウントにサインインしてください。"
+      "description": "RTVoxでの旅を続けるためにアカウントにサインインしてください。"
     },
     "signup": {
       "title": "始める",
       "subtitle": "アカウントを作成",
-      "description": "ShipBaseで素晴らしいアプリケーションを構築している何千もの開発者に参加してください。"
+      "description": "RTVoxで素晴らしいアプリケーションを構築している何千もの開発者に参加してください。"
     },
     "profile": {
-      "title": "ユーザープロフィール - ShipBase",
+      "title": "ユーザープロフィール - RTVox",
       "subtitle": "ユーザー情報の表示と管理",
       "description": "アカウント情報の表示と管理",
       "basicInfo": {
@@ -1823,24 +1847,24 @@
       "noNameSet": "名前未設定"
     },
     "membership": {
-      "title": "メンバーシップセンター - ShipBase",
-      "subtitle": "メンバーシップサブスクリプションと特典の管理",
-      "description": "サブスクリプションプランとメンバーシップ特典の管理",
+      "title": "メンバーシップ - RTVox",
+      "subtitle": "プランとトークンを管理",
+      "description": "トークン残高、プラン状況、請求履歴を確認できます",
       "currentPlan": {
         "title": "現在のプラン",
-        "description": "現在のサブスクリプションステータスと使用状況",
-        "freeVersion": "無料版",
-        "paidVersion": "有料版"
+        "description": "現在のプランと利用状況の概要",
+        "freeVersion": "無料",
+        "paidVersion": "プロフェッショナル"
       },
       "usage": {
-        "apiCalls": "API呼び出し",
-        "projectCount": "プロジェクト数",
-        "supportLevel": "サポートレベル",
-        "remainingThisMonth": "今月の残り",
-        "maxLimit": "最大制限",
-        "responseTime": "応答時間",
-        "priority": "優先",
-        "standard": "標準"
+        "apiCalls": "トークン残高",
+        "projectCount": "総生成数",
+        "supportLevel": "プラン",
+        "remainingThisMonth": "利用可能なトークン",
+        "maxLimit": "TTS履歴から",
+        "responseTime": "請求状況",
+        "priority": "プロフェッショナル",
+        "standard": "無料"
       },
       "upgradePlan": {
         "title": "プランをアップグレード",
@@ -1872,15 +1896,15 @@
       "plans": [
         {
           "id": "free",
-          "name": "無料版",
+          "name": "無料",
           "price": 0,
           "period": "永久",
-          "description": "個人ユーザーと小規模プロジェクトに最適",
+          "description": "トークンと標準音声で手軽に開始",
           "features": [
-            "月1,000回のAPI呼び出し",
-            "最大3プロジェクト",
-            "基本サポート",
-            "標準テンプレートライブラリ"
+            "スターターのトークン残高",
+            "標準音声",
+            "基本的なTTS履歴",
+            "コミュニティサポート"
           ],
           "current": false
         },
@@ -1889,35 +1913,43 @@
           "name": "プロフェッショナル",
           "price": 29,
           "period": "月額",
-          "description": "中小チームに最適",
+          "description": "より多くのトークンとプレミアム機能",
           "features": [
-            "月50,000回のAPI呼び出し",
-            "無制限プロジェクト",
-            "優先サポート",
-            "高度なテンプレートライブラリ",
-            "高度な分析",
-            "チーム協力"
-          ],
-          "current": false
-        },
-        {
-          "id": "enterprise",
-          "name": "エンタープライズ",
-          "price": 99,
-          "period": "月額",
-          "description": "大企業に最適",
-          "features": [
-            "無制限API呼び出し",
-            "無制限プロジェクト",
-            "24/7専用サポート",
-            "すべてのテンプレートライブラリ",
-            "エンタープライズレベルの分析",
-            "カスタム統合",
-            "SLA保証"
+            "より高いトークン枠",
+            "プレミアム音声",
+            "拡張されたTTS履歴",
+            "優先サポート"
           ],
           "current": false
         }
       ]
+    },
+    "points": {
+      "title": "クレジットチャージ - RTVox",
+      "subtitle": "生成用クレジットを追加",
+      "description": "クレジットパックを購入して、いつでも補充できます",
+      "balance": {
+        "title": "残高",
+        "description": "テキスト読み上げ生成に使えるクレジット",
+        "creditsLabel": "クレジット"
+      },
+      "packs": {
+        "title": "パックを選択",
+        "description": "クレジットは標準/プレミアム音声の生成に利用できます",
+        "buy": "購入",
+        "processing": "リダイレクト中..."
+      },
+      "actions": {
+        "backToMembership": "会員センターに戻る"
+      },
+      "status": {
+        "loadingBalance": "残高を読み込み中...",
+        "pendingPaymentHint": "決済処理中の場合は、しばらくしてから更新してください。"
+      },
+      "errors": {
+        "dbRequired": "この機能にはデータベース接続が必要です。",
+        "generic": "エラーが発生しました。もう一度お試しください。"
+      }
     },
     "orders": {
       "title": "注文センター",
@@ -2027,33 +2059,33 @@
     "dashboard": {
       "title": "ダッシュボード",
       "subtitle": "概要",
-      "description": "アカウント情報と操作へのクイックアクセス",
+      "description": "トークンとアカウント操作へのクイックアクセス",
       "welcomeMessage": "おかえりなさい！",
       "stats": {
-        "title": "統計概要",
-        "subtitle": "アカウントデータ",
-        "cards": [
+        "title": "アカウント概要",
+        "subtitle": "トークンと使用状況",
+          "cards": [
+            {
+              "title": "使用済みトークン",
+              "value": "—",
+              "change": "利用可能なトークン",
+              "trend": "neutral"
+            },
           {
-            "title": "総注文数",
-            "value": "0",
-            "change": "先月から0%",
+            "title": "プラン",
+            "value": "無料",
+            "change": "プロフェッショナル",
             "trend": "neutral"
           },
           {
-            "title": "総収益",
-            "value": "¥0",
-            "change": "先月から0%",
-            "trend": "neutral"
-          },
-          {
-            "title": "保留中の注文",
-            "value": "0",
-            "change": "詳細を見る",
+            "title": "今日の生成数",
+            "value": "—",
+            "change": "TTS履歴から",
             "trend": "neutral"
           },
           {
             "title": "アカウントステータス",
-            "value": "アクティブ",
+            "value": "正常",
             "change": "正常動作",
             "trend": "up"
           }
@@ -2063,27 +2095,27 @@
         "title": "最近のアクティビティ",
         "subtitle": "アカウントのアクティビティ",
         "noActivity": "アクティビティ記録なし",
-        "activities": [
-          {
-            "action": "アカウント作成済み",
-            "time": "たった今",
-            "icon": "UserPlus"
-          }
-        ]
+        "activities": []
       },
       "quickActions": {
         "title": "クイックアクション",
         "subtitle": "よく使う機能",
         "actions": [
           {
-            "title": "注文を作成",
-            "description": "新しい注文を今すぐ作成",
-            "icon": "ShoppingCart",
-            "href": "/pricing"
+            "title": "音声を生成",
+            "description": "テキスト読み上げへ",
+            "icon": "Activity",
+            "href": "/podcast-mvp"
           },
           {
-            "title": "注文を表示",
-            "description": "注文を管理",
+            "title": "メンバーシップ",
+            "description": "プランを管理",
+            "icon": "Crown",
+            "href": "/membership"
+          },
+          {
+            "title": "注文",
+            "description": "注文を確認",
             "icon": "Package",
             "href": "/orders"
           },
@@ -2092,12 +2124,6 @@
             "description": "プロフィールを編集",
             "icon": "Settings",
             "href": "/profile"
-          },
-          {
-            "title": "メンバーシップを表示",
-            "description": "プランをアップグレード",
-            "icon": "Crown",
-            "href": "/membership"
           }
         ]
       }
@@ -2124,7 +2150,9 @@
         "title": "ブログリスト",
         "subtitle": "すべてのブログ投稿",
         "noBlogs": "ブログ投稿が見つかりません",
-        "createNew": "新しい投稿を作成"
+        "createNew": "新しい投稿を作成",
+        "loading": "読み込み中...",
+        "confirmDelete": "この投稿を削除してもよろしいですか？"
       },
       "table": {
         "title": "タイトル",
@@ -2142,10 +2170,20 @@
         "subtitle": "ブログ投稿を編集（管理者のみ）",
         "form": {
           "language": "ブログ言語",
+          "languageOptions": {
+            "zh": "中国語",
+            "en": "英語",
+            "ja": "日本語"
+          },
           "title": "タイトル",
+          "titlePlaceholder": "タイトルを入力",
           "slug": "スラッグ",
+          "slugPlaceholder": "blog-slug",
           "description": "説明",
+          "descriptionPlaceholder": "説明を入力",
           "tags": "タグ",
+          "tagsPlaceholder": "タグ1, タグ2, タグ3",
+          "content": "本文",
           "status": "ステータス",
           "visibility": "可視性",
           "featured": "おすすめ",
@@ -2156,9 +2194,11 @@
           "descriptionHelper": "推奨長さは160文字"
         },
         "actions": {
+          "back": "戻る",
           "cancel": "キャンセル",
           "update": "ブログを更新",
-          "create": "ブログを作成"
+          "create": "ブログを作成",
+          "saving": "保存中..."
         },
         "status": {
           "draft": "下書き",

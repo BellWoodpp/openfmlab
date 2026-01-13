@@ -101,7 +101,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
 
   if (!process.env.DATABASE_URL) {
     return {
-      title: "Blog - ShipBase",
+      title: "Blog",
       description: "Blogs are disabled (missing DATABASE_URL).",
     };
   }
@@ -119,12 +119,12 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
 
   if (blogData.length === 0) {
     return {
-      title: "博客未找到 - ShipBase",
+      title: "Blog Not Found",
     };
   }
 
   return {
-    title: `${blogData[0].title} - ShipBase`,
+    title: blogData[0].title,
     description: blogData[0].description || "",
   };
 }

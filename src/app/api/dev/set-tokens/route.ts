@@ -24,7 +24,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "no auth, please sign-in" }, { status: 401 });
   }
 
-  const tokens = intParam(req.nextUrl.searchParams.get("tokens"), 3, 0, 1_000_000_000);
+  // Keep within JS safe integer range when schema uses bigint(mode:number).
+  const tokens = intParam(req.nextUrl.searchParams.get("tokens"), 3, 0, 9_000_000_000_000_000);
 
   const [row] = await db
     .update(users)
@@ -34,4 +35,3 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ ok: true, data: { tokens: row?.tokens ?? tokens } });
 }
-

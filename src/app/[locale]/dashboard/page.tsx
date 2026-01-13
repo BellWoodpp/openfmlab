@@ -12,6 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return {
     title: dictionary.pages.dashboard.title,
     description: dictionary.pages.dashboard.description,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 
@@ -28,6 +32,11 @@ export default async function DashboardPageRoute({ params }: { params: Promise<{
   const user = session.user;
   const dictionary = getDictionary(resolvedParams.locale);
 
-  return <DashboardPage dictionary={dictionary.pages.dashboard} userName={user.name || undefined} />;
+  return (
+    <DashboardPage
+      dictionary={dictionary.pages.dashboard}
+      locale={resolvedParams.locale}
+      userName={user.name || undefined}
+    />
+  );
 }
-

@@ -15,20 +15,20 @@ import { locales, defaultLocale } from '@/i18n/types';
 import { getBaseUrl } from "@/lib/utils";
 
 // 所有静态页面的路径
-//   '',            // 首页          → https://shipbase.com/
-//   'features',    // 功能特性页    → https://shipbase.com/features
-//   'pricing',     // 价格页面      → https://shipbase.com/pricing
-//   'docs',        // 文档页面      → https://shipbase.com/docs
-//   'integrations',// 集成页面      → https://shipbase.com/integrations
-//   'help',        // 帮助中心      → https://shipbase.com/help
-//   'contact',     // 联系我们      → https://shipbase.com/contact
-//   'status',      // 系统状态页    → https://shipbase.com/status
-//   'privacy',     // 隐私政策      → https://shipbase.com/privacy
-//   'terms',       // 服务条款      → https://shipbase.com/terms
-//   'cookies',     // Cookie 政策   → https://shipbase.com/cookies
-//   'login',       // 登录页        → https://shipbase.com/login
-//   'signup',      // 注册页        → https://shipbase.com/signup
-//   'blogs',       // 博客列表页    → https://shipbase.com/blogs
+//   '',            // 首页          → https://rtvox.com/
+//   'features',    // 功能特性页    → https://rtvox.com/features
+//   'pricing',     // 价格页面      → https://rtvox.com/pricing
+//   'docs',        // 文档页面      → https://rtvox.com/docs
+//   'integrations',// 集成页面      → https://rtvox.com/integrations
+//   'help',        // 帮助中心      → https://rtvox.com/help
+//   'contact',     // 联系我们      → https://rtvox.com/contact
+//   'status',      // 系统状态页    → https://rtvox.com/status
+//   'privacy',     // 隐私政策      → https://rtvox.com/privacy
+//   'terms',       // 服务条款      → https://rtvox.com/terms
+//   'cookies',     // Cookie 政策   → https://rtvox.com/cookies
+//   'login',       // 登录页        → https://rtvox.com/login
+//   'signup',      // 注册页        → https://rtvox.com/signup
+//   'blogs',       // 博客列表页    → https://rtvox.com/blogs
 const staticPages = [
   '',
   'features',
@@ -47,7 +47,7 @@ const staticPages = [
 ];
 
 // 生成语言的 URL（英语不带 /en 前缀）
-// 输入三个参数：baseUrl：比如 https://shipbase.com; locale：当前语言代码，比如 'en'、'zh'、'ja'; path：页面路径，比如 ''（首页）、'pricing'、'blog/123'
+// 输入三个参数：baseUrl：比如 https://rtvox.com; locale：当前语言代码，比如 'en'、'zh'、'ja'; path：页面路径，比如 ''（首页）、'pricing'、'blog/123'
 function getLocaleUrl(baseUrl: string, locale: string, path: string): string {
 
   if (locale === 'en') {
@@ -55,8 +55,8 @@ function getLocaleUrl(baseUrl: string, locale: string, path: string): string {
     return path === '' ? `${baseUrl}/` : `${baseUrl}/${path}`;
   }
 // 如果是其他语言（比如 zh、ja）：
-// 首页 → https://shipbase.com/zh、https://shipbase.com/ja
-// 其他页面 → https://shipbase.com/zh/pricing、https://shipbase.com/ja/blog/123
+// 首页 → https://rtvox.com/zh、https://rtvox.com/ja
+// 其他页面 → https://rtvox.com/zh/pricing、https://rtvox.com/ja/blog/123
   return path === '' ? `${baseUrl}/${locale}` : `${baseUrl}/${locale}/${path}`;
 }
 

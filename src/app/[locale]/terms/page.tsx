@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleTermsPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Terms of Service - ShipBase",
+      title: "Terms of Service",
       description: "Our terms and conditions",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.terms.title} - ShipBase`,
+    title: dictionary.pages.terms.title,
     description: dictionary.pages.terms.subtitle,
-  };;
+  };
 }

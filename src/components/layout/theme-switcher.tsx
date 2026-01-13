@@ -27,12 +27,10 @@ export function ThemeSwitcher({ dictionary, triggerId }: ThemeSwitcherProps) {
       if (savedTheme && ["light", "dark", "system"].includes(savedTheme)) {
         // This avoids hydration mismatches: the server always renders "system",
         // and we sync from localStorage only after mount.
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setTheme(savedTheme);
+        Promise.resolve().then(() => setTheme(savedTheme));
       } else {
         // Default to dark unless the user explicitly chose light.
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setTheme("dark");
+        Promise.resolve().then(() => setTheme("dark"));
       }
     } catch (error) {
       console.error("Error reading theme from localStorage:", error);

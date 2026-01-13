@@ -8,12 +8,18 @@ export interface PricingCopy {
   };
   card: {
     popular: string;
+    veryPopular: string;
     getStarted: string;
+    currentPlan: string;
+    owned: string;
+    switchToMonthly: string;
+    switchToYearly: string;
     buyNow: string;
     contactSales: string;
     included: string;
     limitations: string;
     save: string;
+    loading: string;
     processing: string;
   };
   billingToggle: {
@@ -31,12 +37,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Popular",
-      getStarted: "Currently using",
+      veryPopular: "Very Popular",
+      getStarted: "Get Started",
+      currentPlan: "Your current plan",
+      owned: "Included",
+      switchToMonthly: "Switch to monthly",
+      switchToYearly: "Switch to yearly",
       buyNow: "Buy Now",
       contactSales: "Contact Sales",
       included: "Included Features",
       limitations: "Limitations",
       save: "Save",
+      loading: "Loading...",
       processing: "Processing...",
     },
     billingToggle: {
@@ -51,12 +63,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "推荐",
+      veryPopular: "超热门",
       getStarted: "开始使用",
+      currentPlan: "您当前的套餐",
+      owned: "已拥有",
+      switchToMonthly: "切换为月付",
+      switchToYearly: "升级为年付",
       buyNow: "立即购买",
       contactSales: "联系销售",
       included: "包含功能",
       limitations: "限制说明",
       save: "节省",
+      loading: "载入中...",
       processing: "处理中...",
     },
     billingToggle: {
@@ -72,12 +90,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "人気",
+      veryPopular: "超人気",
       getStarted: "始める",
+      currentPlan: "現在のプラン",
+      owned: "利用可能",
+      switchToMonthly: "月額に切り替え",
+      switchToYearly: "年額に切り替え",
       buyNow: "今すぐ購入",
       contactSales: "営業に連絡",
       included: "含まれる機能",
       limitations: "制限事項",
       save: "節約",
+      loading: "読み込み中...",
       processing: "処理中...",
     },
     billingToggle: {
@@ -93,12 +117,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Popular",
-      getStarted: "Comenzar",
+      veryPopular: "Muy popular",
+      getStarted: "Empezar",
+      currentPlan: "Tu plan actual",
+      owned: "Incluido",
+      switchToMonthly: "Cambiar a mensual",
+      switchToYearly: "Cambiar a anual",
       buyNow: "Comprar ahora",
       contactSales: "Contactar a ventas",
       included: "Funciones incluidas",
       limitations: "Limitaciones",
       save: "Ahorra",
+      loading: "Cargando...",
       processing: "Procesando...",
     },
     billingToggle: {
@@ -114,12 +144,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "الأكثر شيوعًا",
+      veryPopular: "شائع جدًا",
       getStarted: "ابدأ الآن",
+      currentPlan: "خطتك الحالية",
+      owned: "مضمن",
+      switchToMonthly: "التبديل إلى شهري",
+      switchToYearly: "التبديل إلى سنوي",
       buyNow: "اشتر الآن",
       contactSales: "تواصل مع المبيعات",
       included: "الميزات المتضمنة",
       limitations: "القيود",
       save: "وفر",
+      loading: "جارٍ التحميل...",
       processing: "جاري المعالجة...",
     },
     billingToggle: {
@@ -135,12 +171,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Populer",
+      veryPopular: "Sangat populer",
       getStarted: "Mulai sekarang",
+      currentPlan: "Paket Anda saat ini",
+      owned: "Termasuk",
+      switchToMonthly: "Ganti ke bulanan",
+      switchToYearly: "Ganti ke tahunan",
       buyNow: "Beli sekarang",
       contactSales: "Hubungi sales",
       included: "Fitur yang disertakan",
       limitations: "Batasan",
       save: "Hemat",
+      loading: "Memuat...",
       processing: "Memproses...",
     },
     billingToggle: {
@@ -156,12 +198,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Popular",
+      veryPopular: "Muito popular",
       getStarted: "Começar agora",
+      currentPlan: "Seu plano atual",
+      owned: "Incluído",
+      switchToMonthly: "Mudar para mensal",
+      switchToYearly: "Mudar para anual",
       buyNow: "Comprar agora",
       contactSales: "Fale com vendas",
       included: "Recursos incluídos",
       limitations: "Limitações",
       save: "Economize",
+      loading: "Carregando...",
       processing: "Processando...",
     },
     billingToggle: {
@@ -177,12 +225,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Populaire",
+      veryPopular: "Très populaire",
       getStarted: "Commencer",
+      currentPlan: "Votre offre actuelle",
+      owned: "Inclus",
+      switchToMonthly: "Passer au mensuel",
+      switchToYearly: "Passer à l’annuel",
       buyNow: "Acheter maintenant",
       contactSales: "Contacter les ventes",
       included: "Fonctionnalités incluses",
       limitations: "Limitations",
       save: "Économisez",
+      loading: "Chargement...",
       processing: "Traitement...",
     },
     billingToggle: {
@@ -198,12 +252,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Популярный",
+      veryPopular: "Очень популярный",
       getStarted: "Начать",
+      currentPlan: "Ваш текущий тариф",
+      owned: "Включено",
+      switchToMonthly: "Перейти на ежемесячный",
+      switchToYearly: "Перейти на ежегодный",
       buyNow: "Купить сейчас",
       contactSales: "Связаться с отделом продаж",
       included: "Включенные функции",
       limitations: "Ограничения",
       save: "Экономия",
+      loading: "Загрузка...",
       processing: "Обработка...",
     },
     billingToggle: {
@@ -219,12 +279,18 @@ const pricingCopy: Record<Locale, PricingCopy> = {
     },
     card: {
       popular: "Beliebt",
+      veryPopular: "Sehr beliebt",
       getStarted: "Jetzt starten",
+      currentPlan: "Dein aktueller Plan",
+      owned: "Enthalten",
+      switchToMonthly: "Zu monatlich wechseln",
+      switchToYearly: "Zu jährlich wechseln",
       buyNow: "Jetzt kaufen",
       contactSales: "Vertrieb kontaktieren",
       included: "Enthaltene Funktionen",
       limitations: "Einschränkungen",
       save: "Sparen",
+      loading: "Lädt...",
       processing: "Wird verarbeitet...",
     },
     billingToggle: {

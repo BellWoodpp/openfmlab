@@ -28,8 +28,11 @@ export default async function NewBlogPage() {
 
 export async function generateMetadata() {
   return {
-    title: "创建博客 - ShipBase",
+    title: "创建博客",
     description: "创建新的博客文章",
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
-

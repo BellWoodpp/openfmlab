@@ -5,8 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { AppDictionary } from "@/i18n";
+import { locales, type Locale } from "@/i18n";
 import { format } from "date-fns";
 
 interface Blog {
@@ -31,6 +32,16 @@ interface BlogsListProps {
 export function BlogsList({ dictionary }: BlogsListProps) {
   const { adminBlogs } = dictionary.pages;
   const router = useRouter();
+  const pathname = usePathname();
+
+  const adminBaseHref = (() => {
+    const segments = (pathname ?? "").split("/").filter(Boolean);
+    const maybeLocale = segments[0];
+    const localePrefix =
+      maybeLocale && locales.includes(maybeLocale as Locale) ? `/${maybeLocale}` : "";
+    return `${localePrefix}/admin/blogs`;
+  })();
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -54,7 +65,7 @@ export function BlogsList({ dictionary }: BlogsListProps) {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this blog?")) {
+    if (!confirm(adminBlogs.list.confirmDelete)) {
       return;
     }
 
@@ -113,7 +124,7 @@ export function BlogsList({ dictionary }: BlogsListProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <p className="text-neutral-600 dark:text-neutral-400">Loading...</p>
+        <p className="text-neutral-600 dark:text-neutral-400">{adminBlogs.list.loading}</p>
       </div>
     );
   }
@@ -129,7 +140,7 @@ export function BlogsList({ dictionary }: BlogsListProps) {
           </p>
         </div>
         <Button
-          onClick={() => router.push("/admin/blogs/new")}
+          onClick={() => router.push(`${adminBaseHref}/new`)}
           className="gap-2"
         >
           <Plus className="h-4 w-4" />
@@ -145,7 +156,7 @@ export function BlogsList({ dictionary }: BlogsListProps) {
               {adminBlogs.list.noBlogs}
             </p>
             <Button
-              onClick={() => router.push("/admin/blogs/new")}
+              onClick={() => router.push(`${adminBaseHref}/new`)}
               className="mt-4"
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -214,7 +225,7 @@ export function BlogsList({ dictionary }: BlogsListProps) {
                             variant="ghost"
                             size="sm"
                             onClick={() =>
-                              router.push(`/admin/blogs/${blog.id}/edit`)
+                              router.push(`${adminBaseHref}/${blog.id}/edit`)
                             }
                           >
                             <Edit className="h-4 w-4" />

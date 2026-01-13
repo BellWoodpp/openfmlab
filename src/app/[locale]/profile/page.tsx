@@ -6,28 +6,34 @@ import { Badge } from "@/components/ui/badge";
 import { User, Mail, Calendar, Shield } from "lucide-react";
 import { getDictionary } from "@/i18n";
 import { type Locale } from "@/i18n/types";
-import Image from "next/image";
+import { UserAvatar } from "@/components/user/user-avatar";
 
-export async function generateMetadata({ params }: { params: { locale: Locale } }): Promise<Metadata> {
-  const dictionary = getDictionary(params.locale);
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const dictionary = getDictionary(resolvedParams.locale);
   
   return {
     title: dictionary.pages.profile.title,
     description: dictionary.pages.profile.description,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 
-export default async function ProfilePage({ params }: { params: { locale: Locale } }) {
+export default async function ProfilePage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const resolvedParams = await params;
   const session = await auth.api.getSession({
     headers: await import("next/headers").then((mod) => mod.headers()),
   });
 
   if (!session?.user) {
-    redirect("/login");
+    redirect(`/${resolvedParams.locale}/login`);
   }
 
   const user = session.user;
-  const dictionary = getDictionary(params.locale);
+  const dictionary = getDictionary(resolvedParams.locale);
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
@@ -55,26 +61,13 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                  {user.image ? (
-                    <Image
-                      src={user.image}
-                      alt={user.name || user.email || "User"}
-                      width={48}
-                      height={48}
-                      className="h-12 w-12 rounded-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-white font-semibold text-lg">
-                      {(user.name || user.email || "U")
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                        .toUpperCase()
-                        .slice(0, 2)}
-                    </span>
-                  )}
-                </div>
+                <UserAvatar
+                  src={user.image}
+                  name={user.name}
+                  email={user.email}
+                  size={48}
+                  className="h-12 w-12"
+                />
                 <div>
                   <p className="font-medium text-neutral-900 dark:text-neutral-100">
                     {user.name || dictionary.pages.profile.noNameSet}
@@ -104,7 +97,7 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
                 </span>
               </div>
               <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                {user.createdAt ? new Date(user.createdAt).toLocaleDateString(params.locale === 'zh' ? 'zh-CN' : params.locale === 'ja' ? 'ja-JP' : 'en-US') : dictionary.pages.profile.basicInfo.unknown}
+                {user.createdAt ? new Date(user.createdAt).toLocaleDateString(resolvedParams.locale === 'zh' ? 'zh-CN' : resolvedParams.locale === 'ja' ? 'ja-JP' : 'en-US') : dictionary.pages.profile.basicInfo.unknown}
               </p>
             </CardContent>
           </Card>
@@ -149,16 +142,6 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        {/* 操作按钮 */}
-        <div className="mt-8 flex gap-4">
-          <button className="inline-flex items-center justify-center rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
-            {dictionary.pages.profile.actions.editProfile}
-          </button>
-          <button className="inline-flex items-center justify-center rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-800 shadow-sm transition hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800">
-            {dictionary.pages.profile.actions.changePassword}
-          </button>
         </div>
       </div>
     </div>

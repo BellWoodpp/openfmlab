@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { appStore } from "@/lib/store";
 import { defaultLocale, locales, type Locale } from "@/i18n";
@@ -58,6 +60,442 @@ const STATIC_PUBLIC_VOICES: VoicesResponse["voices"] = [
 
 const STATIC_LANGUAGE_OPTIONS = ["en-US", "zh-CN", "ja-JP"];
 
+type VoiceTierHelpCopy = {
+  summary: string;
+  separator: string;
+  standard: string;
+  wavenet: string;
+  neural2: string;
+  chirp3Hd: string;
+  studio: string;
+  all: string;
+  pricingNote: string;
+};
+
+const VOICE_TIER_HELP_COPY: Record<Locale, VoiceTierHelpCopy> = {
+  en: {
+    summary: "Pricing & tier notes",
+    separator: ": ",
+    standard: "Most basic / cheapest (baseline 1x; after the free tier, billed at the lowest unit price).",
+    wavenet: "WaveNet voices (about 4x standard).",
+    neural2:
+      "Next-gen neural voices (often better quality and often pricier; budget at ~4x standard by default).",
+    chirp3Hd: "Higher-quality Chirp3‑HD voices (about 7.5x standard).",
+    studio: "Studio voices (about 40x standard).",
+    all: "Show all voices available for the current language (including higher-priced tiers).",
+    pricingNote:
+      "Prices are based on Google Cloud Text-to-Speech official pricing (per 1M chars beyond free tier, in HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  zh: {
+    summary: "查看价格/档位说明",
+    separator: "：",
+    standard: "最基础/最便宜（基准 1x；超出免费额度后按最低单价计费）",
+    wavenet: "WaveNet 系列（约 4x standard）",
+    neural2: "新一代神经网络声音系列（通常质量更好、也通常更贵；默认按约 4x standard 预算）",
+    chirp3Hd: "更高质量的 Chirp3‑HD 系列（约 7.5x standard）",
+    studio: "Studio 系列（约 40x standard）",
+    all: "显示当前语言下所有可用声音（包含更贵的 tier）",
+    pricingNote:
+      "价格基于 Google Cloud Text-to-Speech 官方价目表（按超出免费额度后的每 100 万字符，HKD 口径；standard≈31.1、wavenet≈124.4→4x、chirp3‑hd≈233.2→7.5x、studio≈1243.9→40x）。",
+  },
+  ja: {
+    summary: "価格/ティアの説明",
+    separator: "：",
+    standard: "最も基本/最安（基準 1x；無料枠を超えると最安単価で課金）",
+    wavenet: "WaveNet 系（standard の約 4x）",
+    neural2: "新世代のニューラル音声（通常は品質が良く、価格も高めになりがち；既定では standard の約 4x として見積もり）",
+    chirp3Hd: "高品質な Chirp3‑HD 系（standard の約 7.5x）",
+    studio: "Studio 系（standard の約 40x）",
+    all: "現在の言語で利用可能な全ての音声を表示（より高価な tier も含む）",
+    pricingNote:
+      "価格は Google Cloud Text-to-Speech 公式の料金表に基づきます（無料枠超過後の 100 万文字あたり、HKD；standard≈31.1、wavenet≈124.4→4x、chirp3‑hd≈233.2→7.5x、studio≈1243.9→40x）。",
+  },
+  es: {
+    summary: "Notas de precios/niveles",
+    separator: ": ",
+    standard:
+      "Lo más básico / más barato (base 1x; después del nivel gratuito se cobra al precio unitario más bajo).",
+    wavenet: "Voces WaveNet (≈4x standard).",
+    neural2:
+      "Voces Neural2 de nueva generación (normalmente mejor calidad y también más caras; por defecto se estima ≈4x standard).",
+    chirp3Hd: "Voces Chirp3‑HD de mayor calidad (≈7.5x standard).",
+    studio: "Voces Studio (≈40x standard).",
+    all: "Muestra todas las voces disponibles para el idioma actual (incluye niveles más caros).",
+    pricingNote:
+      "Precios basados en la lista oficial de Google Cloud Text-to-Speech (por 1M de caracteres tras agotar el nivel gratuito, en HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  ar: {
+    summary: "ملاحظات التسعير/الفئات",
+    separator: ": ",
+    standard: "الأكثر أساسية/الأرخص (الأساس 1x؛ بعد تجاوز الحصة المجانية يتم الحساب بأقل سعر للوحدة).",
+    wavenet: "أصوات WaveNet (حوالي 4x standard).",
+    neural2:
+      "أصوات Neural2 (جيل أحدث؛ غالبًا جودة أفضل وغالبًا أغلى؛ افتراضيًا تُقدّر بحوالي 4x standard).",
+    chirp3Hd: "أصوات Chirp3‑HD بجودة أعلى (حوالي 7.5x standard).",
+    studio: "أصوات Studio (حوالي 40x standard).",
+    all: "عرض جميع الأصوات المتاحة للغة الحالية (بما في ذلك الفئات الأعلى سعرًا).",
+    pricingNote:
+      "الأسعار مبنية على قائمة أسعار Google Cloud Text-to-Speech الرسمية (لكل مليون حرف بعد الحصة المجانية، وبعملة HKD؛ standard≈31.1، wavenet≈124.4→4x، chirp3‑hd≈233.2→7.5x، studio≈1243.9→40x).",
+  },
+  id: {
+    summary: "Catatan harga/tier",
+    separator: ": ",
+    standard: "Paling dasar / paling murah (patokan 1x; setelah kuota gratis habis, ditagih dengan harga satuan terendah).",
+    wavenet: "Suara WaveNet (≈4x standard).",
+    neural2: "Suara Neural2 generasi baru (biasanya kualitas lebih baik dan biasanya lebih mahal; default diasumsikan ≈4x standard).",
+    chirp3Hd: "Suara Chirp3‑HD kualitas lebih tinggi (≈7.5x standard).",
+    studio: "Suara Studio (≈40x standard).",
+    all: "Tampilkan semua suara yang tersedia untuk bahasa saat ini (termasuk tier yang lebih mahal).",
+    pricingNote:
+      "Harga berdasarkan daftar resmi Google Cloud Text-to-Speech (per 1 juta karakter setelah melewati kuota gratis, dalam HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  pt: {
+    summary: "Notas de preço/nível",
+    separator: ": ",
+    standard: "Mais básico / mais barato (base 1x; após a franquia gratuita, cobrado pelo menor preço unitário).",
+    wavenet: "Vozes WaveNet (≈4x standard).",
+    neural2:
+      "Vozes Neural2 de nova geração (geralmente melhor qualidade e também mais caras; por padrão orçado em ≈4x standard).",
+    chirp3Hd: "Vozes Chirp3‑HD de maior qualidade (≈7.5x standard).",
+    studio: "Vozes Studio (≈40x standard).",
+    all: "Mostra todas as vozes disponíveis para o idioma atual (inclui tiers mais caros).",
+    pricingNote:
+      "Preços baseados na tabela oficial do Google Cloud Text-to-Speech (por 1M de caracteres após exceder a franquia gratuita, em HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  fr: {
+    summary: "Notes sur les prix/niveaux",
+    separator: " : ",
+    standard: "Le plus basique / le moins cher (base 1x ; au-delà du quota gratuit, facturé au prix unitaire le plus bas).",
+    wavenet: "Voix WaveNet (≈4x standard).",
+    neural2:
+      "Voix Neural2 nouvelle génération (souvent meilleure qualité et souvent plus chère ; estimée par défaut à ≈4x standard).",
+    chirp3Hd: "Voix Chirp3‑HD de meilleure qualité (≈7.5x standard).",
+    studio: "Voix Studio (≈40x standard).",
+    all: "Affiche toutes les voix disponibles pour la langue actuelle (y compris des niveaux plus chers).",
+    pricingNote:
+      "Prix basés sur la grille officielle Google Cloud Text-to-Speech (par 1M de caractères au-delà du quota gratuit, en HKD ; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  ru: {
+    summary: "Примечания по цене/тиру",
+    separator: ": ",
+    standard: "Самый базовый/дешёвый (база 1x; после исчерпания бесплатного лимита тарифицируется по минимальной цене).",
+    wavenet: "Голоса WaveNet (≈4x standard).",
+    neural2:
+      "Голоса Neural2 нового поколения (обычно лучше качество и обычно дороже; по умолчанию считаем ≈4x standard).",
+    chirp3Hd: "Более качественные голоса Chirp3‑HD (≈7.5x standard).",
+    studio: "Голоса Studio (≈40x standard).",
+    all: "Показать все голоса для текущего языка (включая более дорогие tiers).",
+    pricingNote:
+      "Цены основаны на официальном прайс-листе Google Cloud Text-to-Speech (за 1 млн символов сверх бесплатного лимита, в HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+  de: {
+    summary: "Preis-/Tier-Hinweise",
+    separator: ": ",
+    standard:
+      "Am einfachsten / am günstigsten (Basis 1x; nach dem Freikontingent zum niedrigsten Stückpreis abgerechnet).",
+    wavenet: "WaveNet-Stimmen (≈4x standard).",
+    neural2:
+      "Neural2 (neue Generation; oft bessere Qualität und oft teurer; standardmäßig ≈4x standard kalkuliert).",
+    chirp3Hd: "Chirp3‑HD in höherer Qualität (≈7.5x standard).",
+    studio: "Studio-Stimmen (≈40x standard).",
+    all: "Zeigt alle verfügbaren Stimmen für die aktuelle Sprache (inkl. teurerer Tiers).",
+    pricingNote:
+      "Preise basieren auf der offiziellen Google Cloud Text-to-Speech-Preisliste (pro 1 Mio. Zeichen nach dem Freikontingent, in HKD; standard≈31.1, wavenet≈124.4→4x, chirp3‑hd≈233.2→7.5x, studio≈1243.9→40x).",
+  },
+};
+
+const VOICE_PICKER_LABEL_COPY = {
+  en: {
+    language: "Language",
+    currentVoice: "Current voice:",
+    clonedSuffix: "(cloned)",
+    tier: "Tier:",
+    resolved: "Resolved:",
+    foundVoicesInTier: "Found {count} voices in {tier}.",
+    pickCategoryHint: "Pick a category above to load voices.",
+    tiersLabel: "Tiers:",
+    previewPrefix: "Preview:",
+    selectCategoryToShowVoices: "Select a category (tier) above to show voices.",
+    noVoicesFound: "No voices found.",
+    noVoicesFoundForTierInLang: "No voices found for {tier} in {lang}.",
+  },
+  zh: {
+    language: "语言",
+    currentVoice: "当前音色：",
+    clonedSuffix: "（克隆）",
+    tier: "档位：",
+    resolved: "解析为：",
+    foundVoicesInTier: "已找到 {count} 个音色（{tier}）。",
+    pickCategoryHint: "请先选择上方档位以加载音色列表。",
+    tiersLabel: "档位统计：",
+    previewPrefix: "预览：",
+    selectCategoryToShowVoices: "请先选择上方档位（tier）以显示音色列表。",
+    noVoicesFound: "未找到音色。",
+    noVoicesFoundForTierInLang: "在 {lang} 下未找到 {tier} 档位音色。",
+  },
+  ja: {
+    language: "言語",
+    currentVoice: "現在の音声：",
+    clonedSuffix: "（クローン）",
+    tier: "ティア：",
+    resolved: "解決後：",
+    foundVoicesInTier: "{tier} で {count} 件の音声が見つかりました。",
+    pickCategoryHint: "上のカテゴリを選択して音声を読み込んでください。",
+    tiersLabel: "ティア：",
+    previewPrefix: "プレビュー：",
+    selectCategoryToShowVoices: "上のカテゴリ（ティア）を選択して音声を表示してください。",
+    noVoicesFound: "音声が見つかりません。",
+    noVoicesFoundForTierInLang: "{lang} で {tier} の音声が見つかりません。",
+  },
+  es: {
+    language: "Idioma",
+    currentVoice: "Voz actual:",
+    clonedSuffix: "(clonada)",
+    tier: "Nivel:",
+    resolved: "Resuelto:",
+    foundVoicesInTier: "Se encontraron {count} voces en {tier}.",
+    pickCategoryHint: "Elige una categoría arriba para cargar voces.",
+    tiersLabel: "Niveles:",
+    previewPrefix: "Vista previa:",
+    selectCategoryToShowVoices: "Selecciona una categoría (nivel) arriba para ver voces.",
+    noVoicesFound: "No se encontraron voces.",
+    noVoicesFoundForTierInLang: "No se encontraron voces de {tier} en {lang}.",
+  },
+  ar: {
+    language: "اللغة",
+    currentVoice: "الصوت الحالي:",
+    clonedSuffix: "(مستنسخ)",
+    tier: "المستوى:",
+    resolved: "تم التحويل إلى:",
+    foundVoicesInTier: "تم العثور على {count} صوتًا في {tier}.",
+    pickCategoryHint: "اختر فئة بالأعلى لتحميل الأصوات.",
+    tiersLabel: "المستويات:",
+    previewPrefix: "معاينة:",
+    selectCategoryToShowVoices: "اختر فئة (مستوى) بالأعلى لعرض الأصوات.",
+    noVoicesFound: "لم يتم العثور على أصوات.",
+    noVoicesFoundForTierInLang: "لم يتم العثور على أصوات لـ {tier} ضمن {lang}.",
+  },
+  id: {
+    language: "Bahasa",
+    currentVoice: "Suara saat ini:",
+    clonedSuffix: "(kloning)",
+    tier: "Tier:",
+    resolved: "Terekspos:",
+    foundVoicesInTier: "Ditemukan {count} suara di {tier}.",
+    pickCategoryHint: "Pilih kategori di atas untuk memuat suara.",
+    tiersLabel: "Tier:",
+    previewPrefix: "Pratinjau:",
+    selectCategoryToShowVoices: "Pilih kategori (tier) di atas untuk menampilkan suara.",
+    noVoicesFound: "Tidak ada suara yang ditemukan.",
+    noVoicesFoundForTierInLang: "Tidak ada suara untuk {tier} di {lang}.",
+  },
+  pt: {
+    language: "Idioma",
+    currentVoice: "Voz atual:",
+    clonedSuffix: "(clonada)",
+    tier: "Nível:",
+    resolved: "Resolvido:",
+    foundVoicesInTier: "Encontradas {count} vozes em {tier}.",
+    pickCategoryHint: "Escolha uma categoria acima para carregar vozes.",
+    tiersLabel: "Níveis:",
+    previewPrefix: "Prévia:",
+    selectCategoryToShowVoices: "Selecione uma categoria (nível) acima para ver vozes.",
+    noVoicesFound: "Nenhuma voz encontrada.",
+    noVoicesFoundForTierInLang: "Nenhuma voz encontrada para {tier} em {lang}.",
+  },
+  fr: {
+    language: "Langue",
+    currentVoice: "Voix actuelle :",
+    clonedSuffix: "(clonée)",
+    tier: "Niveau :",
+    resolved: "Résolu :",
+    foundVoicesInTier: "{count} voix trouvées dans {tier}.",
+    pickCategoryHint: "Choisissez une catégorie ci-dessus pour charger les voix.",
+    tiersLabel: "Niveaux :",
+    previewPrefix: "Aperçu :",
+    selectCategoryToShowVoices: "Sélectionnez une catégorie (niveau) ci-dessus pour afficher les voix.",
+    noVoicesFound: "Aucune voix trouvée.",
+    noVoicesFoundForTierInLang: "Aucune voix trouvée pour {tier} dans {lang}.",
+  },
+  ru: {
+    language: "Язык",
+    currentVoice: "Текущий голос:",
+    clonedSuffix: "(клон)",
+    tier: "Тир:",
+    resolved: "Разрешено:",
+    foundVoicesInTier: "Найдено {count} голосов в {tier}.",
+    pickCategoryHint: "Выберите категорию выше, чтобы загрузить голоса.",
+    tiersLabel: "Тиры:",
+    previewPrefix: "Предпросмотр:",
+    selectCategoryToShowVoices: "Выберите категорию (тир) выше, чтобы показать голоса.",
+    noVoicesFound: "Голоса не найдены.",
+    noVoicesFoundForTierInLang: "Не найдено голосов для {tier} в {lang}.",
+  },
+  de: {
+    language: "Sprache",
+    currentVoice: "Aktuelle Stimme:",
+    clonedSuffix: "(geklont)",
+    tier: "Tier:",
+    resolved: "Aufgelöst:",
+    foundVoicesInTier: "{count} Stimmen in {tier} gefunden.",
+    pickCategoryHint: "Wähle oben eine Kategorie, um Stimmen zu laden.",
+    tiersLabel: "Tiers:",
+    previewPrefix: "Vorschau:",
+    selectCategoryToShowVoices: "Wähle oben eine Kategorie (Tier), um Stimmen anzuzeigen.",
+    noVoicesFound: "Keine Stimmen gefunden.",
+    noVoicesFoundForTierInLang: "Keine Stimmen für {tier} in {lang} gefunden.",
+  },
+} as const satisfies Record<
+  Locale,
+  {
+    language: string;
+    currentVoice: string;
+    clonedSuffix: string;
+    tier: string;
+    resolved: string;
+    foundVoicesInTier: string;
+    pickCategoryHint: string;
+    tiersLabel: string;
+    previewPrefix: string;
+    selectCategoryToShowVoices: string;
+    noVoicesFound: string;
+    noVoicesFoundForTierInLang: string;
+  }
+>;
+
+function formatTemplate(template: string, vars: Record<string, string | number>): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => {
+    const value = vars[key];
+    return value === undefined ? match : String(value);
+  });
+}
+
+const VOICE_PICKER_UI_COPY: Record<
+  Locale,
+  {
+    search: string;
+    voiceCategories: string;
+    publicVoices: string;
+    privateVoices: string;
+    loading: string;
+    currentVoice: string;
+    tier: string;
+    resolved: string;
+    cloned: string;
+  }
+> = {
+  en: {
+    search: "Search",
+    voiceCategories: "Voice categories",
+    publicVoices: "Public voices",
+    privateVoices: "Private voices",
+    loading: "Loading…",
+    currentVoice: "Current voice",
+    tier: "Tier",
+    resolved: "Resolved",
+    cloned: "cloned",
+  },
+  zh: {
+    search: "搜索",
+    voiceCategories: "声音分类",
+    publicVoices: "公开声音",
+    privateVoices: "私有声音",
+    loading: "加载中…",
+    currentVoice: "当前音色",
+    tier: "档位",
+    resolved: "已解析",
+    cloned: "克隆",
+  },
+  ja: {
+    search: "検索",
+    voiceCategories: "音声カテゴリ",
+    publicVoices: "公開音声",
+    privateVoices: "プライベート音声",
+    loading: "読み込み中…",
+    currentVoice: "現在の音声",
+    tier: "ティア",
+    resolved: "解決後",
+    cloned: "クローン",
+  },
+  es: {
+    search: "Buscar",
+    voiceCategories: "Categorías de voz",
+    publicVoices: "Voces públicas",
+    privateVoices: "Voces privadas",
+    loading: "Cargando…",
+    currentVoice: "Voz actual",
+    tier: "Nivel",
+    resolved: "Resuelto",
+    cloned: "clonada",
+  },
+  ar: {
+    search: "بحث",
+    voiceCategories: "فئات الصوت",
+    publicVoices: "أصوات عامة",
+    privateVoices: "أصوات خاصة",
+    loading: "جارٍ التحميل…",
+    currentVoice: "الصوت الحالي",
+    tier: "الفئة",
+    resolved: "المُحوّل",
+    cloned: "مستنسخ",
+  },
+  id: {
+    search: "Cari",
+    voiceCategories: "Kategori suara",
+    publicVoices: "Suara publik",
+    privateVoices: "Suara privat",
+    loading: "Memuat…",
+    currentVoice: "Suara saat ini",
+    tier: "Tier",
+    resolved: "Terselesaikan",
+    cloned: "kloning",
+  },
+  pt: {
+    search: "Pesquisar",
+    voiceCategories: "Categorias de voz",
+    publicVoices: "Vozes públicas",
+    privateVoices: "Vozes privadas",
+    loading: "Carregando…",
+    currentVoice: "Voz atual",
+    tier: "Nível",
+    resolved: "Resolvido",
+    cloned: "clonada",
+  },
+  fr: {
+    search: "Rechercher",
+    voiceCategories: "Catégories de voix",
+    publicVoices: "Voix publiques",
+    privateVoices: "Voix privées",
+    loading: "Chargement…",
+    currentVoice: "Voix actuelle",
+    tier: "Niveau",
+    resolved: "Résolu",
+    cloned: "clonée",
+  },
+  ru: {
+    search: "Поиск",
+    voiceCategories: "Категории голосов",
+    publicVoices: "Публичные голоса",
+    privateVoices: "Приватные голоса",
+    loading: "Загрузка…",
+    currentVoice: "Текущий голос",
+    tier: "Тир",
+    resolved: "Разрешено",
+    cloned: "клон",
+  },
+  de: {
+    search: "Suchen",
+    voiceCategories: "Sprachkategorien",
+    publicVoices: "Öffentliche Stimmen",
+    privateVoices: "Private Stimmen",
+    loading: "Wird geladen…",
+    currentVoice: "Aktuelle Stimme",
+    tier: "Stufe",
+    resolved: "Aufgelöst",
+    cloned: "geklont",
+  },
+};
+
 function PremiumCrownIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -107,18 +545,6 @@ function voiceDisplayName(voiceName: string): string {
   return withoutLang.replace(/-/g, " ");
 }
 
-function languageDisplayName(lang: string): string {
-  const code = lang.split("-")[0] || lang;
-  try {
-    const dn = new Intl.DisplayNames(["en"], { type: "language" });
-    const name = dn.of(code);
-    if (typeof name === "string" && name.trim()) return name;
-  } catch {
-    // ignore
-  }
-  return lang;
-}
-
 function voiceAvatarSeed(voiceName: string): string {
   const trimmed = voiceName.trim();
   if (!trimmed) return "voice";
@@ -142,23 +568,8 @@ function voiceAvatarSeed(voiceName: string): string {
   return trimmed.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "voice";
 }
 
-const CHIRP3_HD_LABEL = "Chirp3‑HD";
-
-function avatarFolderForVoiceName(voiceName: string): "English" | "Chinese" | "Japanese" {
-  const trimmed = voiceName.trim();
-  const lang = trimmed.split("-")[0]?.toLowerCase();
-  if (lang === "zh" || lang === "cmn" || lang === "yue") return "Chinese";
-  if (lang === "ja") return "Japanese";
-  return "English";
-}
-
 function VoiceAvatar({ voiceName, selected }: { voiceName: string; selected: boolean }) {
   const seed = voiceAvatarSeed(voiceName);
-  const displayName = voiceDisplayName(voiceName);
-  const avatarName = voiceName.includes("Chirp3-HD") ? CHIRP3_HD_LABEL : displayName;
-  const folder = avatarFolderForVoiceName(voiceName);
-  const fileSrc = `/avator/${folder}/${encodeURIComponent(avatarName)}.png`;
-  const legacyFileSrc = `/avator/${encodeURIComponent(avatarName)}.png`;
   const fallbackSrc = voiceAvatarDataUri(seed, { variant: siteConfig.voiceAvatarVariant });
 
   return (
@@ -168,22 +579,13 @@ function VoiceAvatar({ voiceName, selected }: { voiceName: string; selected: boo
         selected ? "ring-primary/40" : "ring-border/50 group-hover:ring-primary/30",
       ].join(" ")}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={fileSrc}
+        src={fallbackSrc}
         alt={voiceDisplayName(voiceName)}
         className="h-14 w-14 rounded-full object-cover"
         onError={(e) => {
-          if (e.currentTarget.dataset.fallbackApplied === "2") {
-            e.currentTarget.src = "/avatar-placeholder.svg";
-            return;
-          }
-          if (e.currentTarget.dataset.fallbackApplied === "1") {
-            e.currentTarget.dataset.fallbackApplied = "2";
-            e.currentTarget.src = fallbackSrc;
-            return;
-          }
-          e.currentTarget.dataset.fallbackApplied = "1";
-          e.currentTarget.src = legacyFileSrc;
+          e.currentTarget.src = "/avatar-placeholder.svg";
         }}
       />
       {selected ? (
@@ -195,37 +597,68 @@ function VoiceAvatar({ voiceName, selected }: { voiceName: string; selected: boo
   );
 }
 
-function languageOptionLabel(tag: string, uiLocale: string): string {
-  const [rawLang, rawRegion] = tag.split("-");
-  const lang = rawLang || tag;
-  const region = rawRegion && /^[A-Z]{2}$/.test(rawRegion) ? rawRegion : undefined;
-
-  const specialLang: Record<string, string> = {
-    cmn: uiLocale.startsWith("zh") ? "中文" : "Chinese",
-    yue: uiLocale.startsWith("zh") ? "粤语" : "Cantonese",
+function languageOptionLabel(tag: string): string {
+  const specialEndonym: Record<string, { displayLocale: string; label: string }> = {
+    // Google sometimes returns ISO 639-3 subtags for some Chinese variants.
+    cmn: { displayLocale: "zh", label: "普通话" },
+    yue: { displayLocale: "zh-Hant", label: "粵語" },
   };
 
-  let langName = specialLang[lang];
+  const parseTag = (): { language: string; region?: string; displayLocale: string } => {
+    type IntlLocaleLike = { language?: string; region?: string; script?: string };
+    type IntlLocaleCtor = new (tag: string) => IntlLocaleLike;
+    const LocaleCtor = (Intl as unknown as { Locale?: IntlLocaleCtor }).Locale;
+
+    if (LocaleCtor) {
+      try {
+        const parsed = new LocaleCtor(tag);
+        const language = (parsed?.language as string) || tag;
+        const region = (parsed?.region as string | undefined) || undefined;
+        const script = (parsed?.script as string | undefined) || undefined;
+        const displayLocale = [language, script, region].filter(Boolean).join("-") || tag;
+        return { language, region, displayLocale };
+      } catch {
+        // ignore
+      }
+    }
+
+    const parts = tag.split("-").filter(Boolean);
+    const language = parts[0] || tag;
+    const regionCandidate = parts.find((p) => /^[A-Z]{2}$/.test(p) || /^[0-9]{3}$/.test(p));
+    const region = regionCandidate && regionCandidate !== language ? regionCandidate : undefined;
+    const displayLocale = region ? `${language}-${region}` : language;
+    return { language, region, displayLocale };
+  };
+
+  const { language, region, displayLocale } = parseTag();
+  const override = specialEndonym[language];
+  const localeForNames = override?.displayLocale ?? displayLocale;
+
+  const fullWidthParens = localeForNames.startsWith("zh") || localeForNames.startsWith("ja");
+  const openParen = fullWidthParens ? "（" : " (";
+  const closeParen = fullWidthParens ? "）" : ")";
+
+  let langName = override?.label;
   if (!langName) {
     try {
-      const dnLang = new Intl.DisplayNames([uiLocale], { type: "language" });
-      langName = dnLang.of(lang) ?? lang;
+      const dnLang = new Intl.DisplayNames([localeForNames], { type: "language" });
+      langName = dnLang.of(language) ?? language;
     } catch {
-      langName = lang;
+      langName = language;
     }
   }
 
   if (!region) return `${langName} · ${tag}`;
 
   try {
-    const dnRegion = new Intl.DisplayNames([uiLocale], { type: "region" });
+    const dnRegion = new Intl.DisplayNames([localeForNames], { type: "region" });
     const regionName = dnRegion.of(region);
-    if (regionName) return `${langName}（${regionName}） · ${tag}`;
+    if (regionName) return `${langName}${openParen}${regionName}${closeParen} · ${tag}`;
   } catch {
     // ignore
   }
 
-  return `${langName} (${region}) · ${tag}`;
+  return `${langName}${openParen}${region}${closeParen} · ${tag}`;
 }
 
 function useDebounced<T>(value: T, delayMs: number): T {
@@ -281,11 +714,15 @@ export default function GoogleVoicePicker() {
   const isVoiceCloningUiEnabled = process.env.NEXT_PUBLIC_VOICE_CLONING_ENABLED === "1";
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useMemo(() => localeFromPathname(pathname || ""), [pathname]);
+  const tierHelp = VOICE_TIER_HELP_COPY[locale];
+  const labels = VOICE_PICKER_LABEL_COPY[locale];
+  const languageUiLabel = labels.language;
+  const uiCopy = VOICE_PICKER_UI_COPY[locale];
 
   const currentVoice = appStore.useState((s) => s.voice);
   const [enabled, setEnabled] = useState<boolean | null>(null);
   const [selectedMeta, setSelectedMeta] = useState<MetaResponse | null>(null);
-  const uiLocale = useMemo(() => (typeof navigator === "undefined" ? "en" : navigator.language || "en"), []);
   const [isPaidMember, setIsPaidMember] = useState<boolean | null>(null);
 
   const [clones, setClones] = useState<
@@ -315,6 +752,11 @@ export default function GoogleVoicePicker() {
   const [voices, setVoices] = useState<VoicesResponse["voices"]>([]);
   const [languages, setLanguages] = useState<LanguagesResponse | null>(null);
   const [manualVoiceByLang, setManualVoiceByLang] = useState<Record<string, string>>({});
+  const manualVoiceByLangRef = useRef<Record<string, string>>({});
+
+  useEffect(() => {
+    manualVoiceByLangRef.current = manualVoiceByLang;
+  }, [manualVoiceByLang]);
 
   useEffect(() => {
     let cancelled = false;
@@ -384,15 +826,13 @@ export default function GoogleVoicePicker() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVoiceCloningUiEnabled]);
 
   useEffect(() => {
     if (enabled !== true) return;
     const inferred = voiceLanguageFromName(appStore.getState().voice);
     if (inferred && lang === "en-US") setLang(inferred);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled]);
+  }, [enabled, lang]);
 
   useEffect(() => {
     // Changing the language should not keep an old search filter, otherwise auto-pick becomes confusing.
@@ -451,6 +891,14 @@ export default function GoogleVoicePicker() {
     return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
   }, [voices]);
 
+  function setVoice(voiceName: string) {
+    appStore.setState((draft) => {
+      draft.voice = voiceName;
+      draft.latestAudioUrl = null;
+      draft.latestAudioBlobUrl = null;
+    });
+  }
+
   useEffect(() => {
     if (enabled !== true) return;
     if (voiceSource !== "public") return;
@@ -480,7 +928,7 @@ export default function GoogleVoicePicker() {
         setVoices(list);
 
         const current = appStore.getState().voice;
-        const manual = manualVoiceByLang[resolvedLang];
+        const manual = manualVoiceByLangRef.current[resolvedLang];
         const hasVoice = (name: string) => list.some((v) => v.name === name);
 
         // If the user has a manual pick for this language, prefer it.
@@ -505,14 +953,6 @@ export default function GoogleVoicePicker() {
 
     return () => controller.abort();
   }, [enabled, resolvedLang, debouncedQuery, voiceSource, publicTier]);
-
-  const setVoice = (voiceName: string) => {
-    appStore.setState((draft) => {
-      draft.voice = voiceName;
-      draft.latestAudioUrl = null;
-      draft.latestAudioBlobUrl = null;
-    });
-  };
 
   const currentClone = useMemo(() => {
     const prefix = "clone:";
@@ -546,7 +986,7 @@ export default function GoogleVoicePicker() {
           aria-pressed={voiceSource === "public"}
           disabled={!hasPublicVoices}
         >
-          Public voices
+          {uiCopy.publicVoices}
         </button>
         <button
           type="button"
@@ -559,20 +999,20 @@ export default function GoogleVoicePicker() {
           ].join(" ")}
           aria-pressed={voiceSource === "private"}
         >
-          Private voices
+          {uiCopy.privateVoices}
         </button>
       </div>
 
-      {voiceSource === "public" && enabled === null && clones.length === 0 && !clonesError ? (
-        <div className="flex flex-col gap-3 shrink-0">
-          <div className="flex flex-col gap-2">
-            <div className="text-xs text-muted-foreground">Language</div>
-            <Skeleton className="h-9 w-full rounded-xl" />
-            <div className="text-xs text-muted-foreground">Search</div>
-            <Skeleton className="h-9 w-full rounded-xl" />
-          </div>
-          <Skeleton className="h-9 w-full rounded-xl" />
-          <div className="mt-3 flex-1 min-h-0 max-h-[500px] overflow-y-auto rounded-xl border border-border bg-muted/20 shadow-inner">
+	      {voiceSource === "public" && enabled === null && clones.length === 0 && !clonesError ? (
+	        <div className="flex flex-col gap-3 shrink-0">
+	          <div className="flex flex-col gap-2">
+	            <div className="text-xs text-muted-foreground">{languageUiLabel}</div>
+	            <Skeleton className="h-9 w-full rounded-xl" />
+	            <div className="text-xs text-muted-foreground">{uiCopy.search}</div>
+	            <Skeleton className="h-9 w-full rounded-xl" />
+	          </div>
+	          <Skeleton className="h-9 w-full rounded-xl" />
+	          <div className="mt-3 flex-1 min-h-0 max-h-[500px] overflow-y-auto rounded-xl border border-border bg-muted/20 shadow-inner">
             <div className="p-3 grid grid-cols-3 gap-2">
               {Array.from({ length: 12 }).map((_, idx) => (
                 <div
@@ -592,8 +1032,8 @@ export default function GoogleVoicePicker() {
         clonesLoading && clones.length === 0 && !clonesError ? (
           <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3 mb-3 shrink-0">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-xs text-muted-foreground">Private voices</div>
-              <div className="text-[11px] text-muted-foreground">Loading…</div>
+              <div className="text-xs text-muted-foreground">{uiCopy.privateVoices}</div>
+              <div className="text-[11px] text-muted-foreground">{uiCopy.loading}</div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               {Array.from({ length: 6 }).map((_, idx) => (
@@ -610,7 +1050,7 @@ export default function GoogleVoicePicker() {
         ) : clones.length > 0 ? (
           <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3 mb-3 shrink-0">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-xs text-muted-foreground">Private voices</div>
+              <div className="text-xs text-muted-foreground">{uiCopy.privateVoices}</div>
               <div className="text-[11px] text-muted-foreground">
                 {clones.length}
               </div>
@@ -645,7 +1085,7 @@ export default function GoogleVoicePicker() {
           </div>
         ) : clonesError ? (
           <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3 mb-3 shrink-0">
-            <div className="text-xs text-muted-foreground">Private voices</div>
+            <div className="text-xs text-muted-foreground">{uiCopy.privateVoices}</div>
             <div className="mt-1 text-xs text-red-600 whitespace-pre-wrap">{clonesError}</div>
           </div>
         ) : null
@@ -656,7 +1096,7 @@ export default function GoogleVoicePicker() {
           <div className="flex flex-col gap-3 shrink-0">
             <div className="flex flex-col gap-2">
               <label className="text-xs text-muted-foreground">
-                Language{languages?.count ? ` (${languages.count})` : ""}
+                {languageUiLabel}{languages?.count ? ` (${languages.count})` : ""}
                 <select
                   value={lang}
                   onChange={(e) => setLang(e.target.value)}
@@ -664,30 +1104,30 @@ export default function GoogleVoicePicker() {
                 >
                   {(languages?.languages?.length ? languages.languages : [lang]).map((code) => (
                     <option key={code} value={code}>
-                      {languageOptionLabel(code, uiLocale)}
+                      {languageOptionLabel(code)}
                     </option>
                   ))}
                 </select>
               </label>
-              <div className="flex flex-row gap-2">
-                <label className="text-xs text-muted-foreground flex-1">
-                  Search
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
-                    placeholder="wavenet / studio / chirp"
+	              <div className="flex flex-row gap-2">
+	                <label className="text-xs text-muted-foreground flex-1">
+	                  {uiCopy.search}
+	                  <input
+	                    value={query}
+	                    onChange={(e) => setQuery(e.target.value)}
+	                    className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+	                    placeholder="wavenet / studio / chirp"
                   />
                 </label>
               </div>
-            </div>
+	            </div>
 
-            <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3">
-              <div className="text-xs font-medium text-foreground/80">Voice categories</div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {[
-                  { id: "standard", label: "standard", premium: false },
-                  { id: "wavenet", label: "wavenet", premium: true },
+	            <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3">
+	              <div className="text-xs font-medium text-foreground/80">{uiCopy.voiceCategories}</div>
+	              <div className="mt-2 flex flex-wrap gap-2">
+	                {[
+	                  { id: "standard", label: "standard", premium: false },
+	                  { id: "wavenet", label: "wavenet", premium: true },
                   { id: "neural2", label: "Neural2", premium: true },
                   { id: "chirp3-hd", label: "Chirp3-HD", premium: true },
                   { id: "studio", label: "studio", premium: true },
@@ -725,30 +1165,42 @@ export default function GoogleVoicePicker() {
               </div>
               <details className="mt-2">
                 <summary className="cursor-pointer select-none text-xs text-muted-foreground hover:text-foreground">
-                  查看价格/档位说明
+                  {tierHelp.summary}
                 </summary>
                 <div className="mt-2 text-[11px] leading-4 text-muted-foreground">
                   <ul className="space-y-1">
                     <li>
-                      <span className="font-mono text-foreground/80">standard</span>：最基础/最便宜（基准 1x；超出免费额度后按最低单价计费）
+                      <span className="font-mono text-foreground/80">standard</span>
+                      {tierHelp.separator}
+                      {tierHelp.standard}
                     </li>
                     <li>
-                      <span className="font-mono text-foreground/80">wavenet</span>：WaveNet 系列（约 4x standard）
+                      <span className="font-mono text-foreground/80">wavenet</span>
+                      {tierHelp.separator}
+                      {tierHelp.wavenet}
                     </li>
                     <li>
-                      <span className="font-mono text-foreground/80">Neural2</span>：新一代神经网络声音系列（通常质量更好、也通常更贵；默认按约 4x standard 预算）
+                      <span className="font-mono text-foreground/80">Neural2</span>
+                      {tierHelp.separator}
+                      {tierHelp.neural2}
                     </li>
                     <li>
-                      <span className="font-mono text-foreground/80">Chirp3-HD</span>：更高质量的 Chirp3‑HD 系列（约 7.5x standard）
+                      <span className="font-mono text-foreground/80">Chirp3-HD</span>
+                      {tierHelp.separator}
+                      {tierHelp.chirp3Hd}
                     </li>
                     <li>
-                      <span className="font-mono text-foreground/80">studio</span>：Studio 系列（约 40x standard）
+                      <span className="font-mono text-foreground/80">studio</span>
+                      {tierHelp.separator}
+                      {tierHelp.studio}
                     </li>
                     <li>
-                      <span className="font-mono text-foreground/80">All</span>：显示当前语言下所有可用声音（包含更贵的 tier）
+                      <span className="font-mono text-foreground/80">All</span>
+                      {tierHelp.separator}
+                      {tierHelp.all}
                     </li>
                     <li className="pt-1">
-                      价格基于 Google Cloud Text-to-Speech 官方价目表（按超出免费额度后的每 100 万字符，HKD 口径；standard≈31.1、wavenet≈124.4→4x、chirp3‑hd≈233.2→7.5x、studio≈1243.9→40x）。
+                      {tierHelp.pricingNote}
                     </li>
                   </ul>
                 </div>
@@ -781,7 +1233,7 @@ export default function GoogleVoicePicker() {
 
             <div className="flex flex-col gap-2">
               <label className="text-xs text-muted-foreground">
-                Language
+                {languageUiLabel}
                 <select
                   value={lang}
                   onChange={(e) => setLang(e.target.value)}
@@ -789,30 +1241,30 @@ export default function GoogleVoicePicker() {
                 >
                   {STATIC_LANGUAGE_OPTIONS.map((code) => (
                     <option key={code} value={code}>
-                      {languageOptionLabel(code, uiLocale)}
+                      {languageOptionLabel(code)}
                     </option>
                   ))}
                 </select>
               </label>
-              <div className="flex flex-row gap-2">
-                <label className="text-xs text-muted-foreground flex-1">
-                  Search
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
-                    placeholder="wavenet / studio / chirp"
+	              <div className="flex flex-row gap-2">
+	                <label className="text-xs text-muted-foreground flex-1">
+	                  {uiCopy.search}
+	                  <input
+	                    value={query}
+	                    onChange={(e) => setQuery(e.target.value)}
+	                    className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+	                    placeholder="wavenet / studio / chirp"
                   />
                 </label>
               </div>
-            </div>
+	            </div>
 
-            <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3">
-              <div className="text-xs font-medium text-foreground/80">Voice categories</div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {[
-                  { id: "standard", label: "standard", premium: false },
-                  { id: "wavenet", label: "wavenet", premium: true },
+	            <div className="rounded-xl border border-border bg-muted/20 shadow-inner p-3">
+	              <div className="text-xs font-medium text-foreground/80">{uiCopy.voiceCategories}</div>
+	              <div className="mt-2 flex flex-wrap gap-2">
+	                {[
+	                  { id: "standard", label: "standard", premium: false },
+	                  { id: "wavenet", label: "wavenet", premium: true },
                   { id: "neural2", label: "Neural2", premium: true },
                   { id: "chirp3-hd", label: "Chirp3-HD", premium: true },
                   { id: "studio", label: "studio", premium: true },
@@ -847,20 +1299,20 @@ export default function GoogleVoicePicker() {
       ) : null}
 
       <div className="mt-2 text-xs text-muted-foreground shrink-0">
-        Current voice:{" "}
+        {labels.currentVoice}{" "}
         <span className="font-mono text-foreground">
-          {currentClone ? `${currentClone.name} (cloned)` : currentVoice}
+          {currentClone ? `${currentClone.name} ${labels.clonedSuffix}` : currentVoice}
         </span>
         {selectedMeta?.billingTier ? (
           <>
             {" "}
-            · Tier: <span className="font-mono text-foreground">{selectedMeta.billingTier}</span>
+            · {labels.tier} <span className="font-mono text-foreground">{selectedMeta.billingTier}</span>
           </>
         ) : null}
         {selectedMeta?.voiceName && selectedMeta.voiceName !== currentVoice ? (
           <>
             {" "}
-            · Resolved: <span className="font-mono text-foreground">{selectedMeta.voiceName}</span>
+            · {labels.resolved} <span className="font-mono text-foreground">{selectedMeta.voiceName}</span>
           </>
       ) : null}
       </div>
@@ -869,23 +1321,17 @@ export default function GoogleVoicePicker() {
           <div className="mt-1 text-xs text-muted-foreground shrink-0">
             {publicTier ? (
               <>
-                Found <span className="font-mono text-foreground">{limitedVoices.length}</span> voices{" "}
-                {publicTier === "all" ? (
-                  <>
-                    in <span className="font-mono text-foreground">All</span>.{" "}
-                  </>
-                ) : (
-                  <>
-                    in <span className="font-mono text-foreground">{publicTier}</span>.{" "}
-                  </>
-                )}
+                {formatTemplate(labels.foundVoicesInTier, {
+                  count: limitedVoices.length,
+                  tier: publicTier === "all" ? "All" : publicTier,
+                })}{" "}
               </>
             ) : (
-              <>Pick a category above to load voices.{" "}</>
+              <>{labels.pickCategoryHint}{" "}</>
             )}
             {tierCounts.length > 0 && (
               <>
-                Tiers:{" "}
+                {labels.tiersLabel}{" "}
                 {tierCounts
                   .slice(0, 6)
                   .map(([tier, count]) => `${tier} ${count}`)
@@ -897,7 +1343,7 @@ export default function GoogleVoicePicker() {
 
           <div className="mt-3 flex-1 min-h-0 max-h-[500px] overflow-y-auto rounded-xl border border-border bg-muted/20 shadow-inner">
             {!publicTier ? (
-              <div className="p-6 text-sm text-muted-foreground text-center">Select a category (tier) above to show voices.</div>
+              <div className="p-6 text-sm text-muted-foreground text-center">{labels.selectCategoryToShowVoices}</div>
             ) : loading ? (
               <div className="p-3 grid grid-cols-3 gap-2">
                 {Array.from({ length: 12 }).map((_, idx) => (
@@ -913,11 +1359,10 @@ export default function GoogleVoicePicker() {
             ) : error ? (
               <div className="p-4 text-sm text-red-600 whitespace-pre-wrap">{error}</div>
             ) : voices.length === 0 ? (
-              <div className="p-4 text-sm text-muted-foreground text-center">No voices found.</div>
+              <div className="p-4 text-sm text-muted-foreground text-center">{labels.noVoicesFound}</div>
             ) : limitedVoices.length === 0 ? (
               <div className="p-4 text-sm text-muted-foreground text-center">
-                No voices found for <span className="font-mono text-foreground">{publicTier}</span> in{" "}
-                <span className="font-mono text-foreground">{resolvedLang}</span>.
+                {formatTemplate(labels.noVoicesFoundForTierInLang, { tier: publicTier, lang: resolvedLang })}
               </div>
             ) : (
               <div className="p-3 grid grid-cols-3 gap-2">
@@ -962,27 +1407,22 @@ export default function GoogleVoicePicker() {
           <div className="mt-1 text-xs text-muted-foreground shrink-0">
             {publicTier ? (
               <>
-                Preview: <span className="font-mono text-foreground">{limitedStaticVoices.length}</span> voices{" "}
-                {publicTier === "all" ? (
-                  <>
-                    in <span className="font-mono text-foreground">All</span>.{" "}
-                  </>
-                ) : (
-                  <>
-                    in <span className="font-mono text-foreground">{publicTier}</span>.{" "}
-                  </>
-                )}
+                {labels.previewPrefix}{" "}
+                {formatTemplate(labels.foundVoicesInTier, {
+                  count: limitedStaticVoices.length,
+                  tier: publicTier === "all" ? "All" : publicTier,
+                })}{" "}
               </>
             ) : (
-              <>Pick a category above to show voices.{" "}</>
+              <>{labels.pickCategoryHint}{" "}</>
             )}
           </div>
 
           <div className="mt-3 flex-1 min-h-0 max-h-[500px] overflow-y-auto rounded-xl border border-border bg-muted/20 shadow-inner">
             {!publicTier ? (
-              <div className="p-6 text-sm text-muted-foreground text-center">Select a category (tier) above to show voices.</div>
+              <div className="p-6 text-sm text-muted-foreground text-center">{labels.selectCategoryToShowVoices}</div>
             ) : limitedStaticVoices.length === 0 ? (
-              <div className="p-4 text-sm text-muted-foreground text-center">No voices found.</div>
+              <div className="p-4 text-sm text-muted-foreground text-center">{labels.noVoicesFound}</div>
             ) : (
               <div className="p-3 grid grid-cols-3 gap-2">
                 {limitedStaticVoices.map((v) => {

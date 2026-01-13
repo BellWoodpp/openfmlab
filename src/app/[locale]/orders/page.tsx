@@ -14,8 +14,12 @@ export async function generateMetadata({
   
   if (!normalizedLocale) {
     return {
-      title: "Orders - ShipBase",
+      title: "Orders",
       description: "View your orders",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
   
@@ -24,6 +28,10 @@ export async function generateMetadata({
   return {
     title: dict.pages.orders.title,
     description: dict.pages.orders.subtitle,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 
@@ -42,5 +50,5 @@ export default async function OrdersPageRoute({
   
   const dict = await getDictionary(normalizedLocale);
   
-  return <OrdersPage dict={dict.pages.orders} />;
+  return <OrdersPage dict={dict.pages.orders} locale={normalizedLocale} />;
 }

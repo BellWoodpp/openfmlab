@@ -72,6 +72,14 @@ function normalizeString(value: unknown): string {
   return value.trim();
 }
 
+function isUndefinedColumnError(err: unknown, column: string): boolean {
+  if (!err || typeof err !== "object") return false;
+  const code = (err as { code?: unknown }).code;
+  const message = (err as { message?: unknown }).message;
+  if (code === "42703") return typeof message === "string" ? message.includes(column) : true;
+  return typeof message === "string" && message.includes(`column "${column}" does not exist`);
+}
+
 function normalizeTone(
   value: string,
 ): "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised" {
@@ -162,6 +170,8 @@ export async function POST(req: NextRequest) {
 
   const input = normalizeString((body as { input?: unknown })?.input);
   const voiceRaw = normalizeString((body as { voice?: unknown })?.voice);
+  const titleRaw = normalizeString((body as { title?: unknown })?.title);
+  const title = titleRaw && titleRaw.length <= 80 ? titleRaw : "";
   const tone = normalizeTone(String((body as { tone?: unknown })?.tone ?? ""));
   const speakingRateMode = normalizeString((body as { speakingRateMode?: unknown })?.speakingRateMode) === "custom" ? "custom" : "auto";
   const speakingRateRaw = (body as { speakingRate?: unknown })?.speakingRate;
@@ -171,6 +181,7 @@ export async function POST(req: NextRequest) {
 
   if (!input) return NextResponse.json({ error: "Missing input" }, { status: 400 });
   if (!voiceRaw) return NextResponse.json({ error: "Missing voice" }, { status: 400 });
+  if (titleRaw && !title) return NextResponse.json({ error: "Title too long" }, { status: 400 });
   if (input.length > 5000) return NextResponse.json({ error: "Input too long" }, { status: 400 });
   if (voiceRaw.length > 256) return NextResponse.json({ error: "Voice too long" }, { status: 400 });
 
@@ -337,19 +348,44 @@ export async function POST(req: NextRequest) {
         elevenLabs: { apiKey },
       });
 
-      const [inserted] = await db.insert(ttsGenerations).values({
-        id,
-        userId,
-        input,
-        voice: voiceRaw,
-        tone,
-        speakingRateMode,
-        speakingRate,
-        volumeGainDb,
-        format,
-        mimeType: "audio/mpeg",
-        audio: Buffer.from(audioBytes),
-      }).returning({ createdAt: ttsGenerations.createdAt });
+      let inserted: { createdAt: Date } | undefined;
+      try {
+        [inserted] = await db
+          .insert(ttsGenerations)
+          .values({
+            id,
+            userId,
+            ...(title ? { title } : {}),
+            input,
+            voice: voiceRaw,
+            tone,
+            speakingRateMode,
+            speakingRate,
+            volumeGainDb,
+            format,
+            mimeType: "audio/mpeg",
+            audio: Buffer.from(audioBytes),
+          })
+          .returning({ createdAt: ttsGenerations.createdAt });
+      } catch (err) {
+        if (!title || !isUndefinedColumnError(err, "title")) throw err;
+        [inserted] = await db
+          .insert(ttsGenerations)
+          .values({
+            id,
+            userId,
+            input,
+            voice: voiceRaw,
+            tone,
+            speakingRateMode,
+            speakingRate,
+            volumeGainDb,
+            format,
+            mimeType: "audio/mpeg",
+            audio: Buffer.from(audioBytes),
+          })
+          .returning({ createdAt: ttsGenerations.createdAt });
+      }
 
       await applyRetention(userId);
 
@@ -372,6 +408,7 @@ export async function POST(req: NextRequest) {
         id,
         audioUrl: `/api/tts/audio/${id}`,
         createdAt: inserted?.createdAt ? inserted.createdAt.toISOString() : null,
+        title: title || null,
         tokensUsed,
         tokensRemaining,
       });
@@ -421,19 +458,44 @@ export async function POST(req: NextRequest) {
       google: googleVoiceSelection ? { voiceSelection: googleVoiceSelection } : undefined,
     });
 
-    const [inserted] = await db.insert(ttsGenerations).values({
-      id,
-      userId,
-      input,
-      voice: voiceRaw,
-      tone,
-      speakingRateMode,
-      speakingRate,
-      volumeGainDb,
-      format,
-      mimeType: "audio/mpeg",
-      audio: Buffer.from(audioBytes),
-    }).returning({ createdAt: ttsGenerations.createdAt });
+    let inserted: { createdAt: Date } | undefined;
+    try {
+      [inserted] = await db
+        .insert(ttsGenerations)
+        .values({
+          id,
+          userId,
+          ...(title ? { title } : {}),
+          input,
+          voice: voiceRaw,
+          tone,
+          speakingRateMode,
+          speakingRate,
+          volumeGainDb,
+          format,
+          mimeType: "audio/mpeg",
+          audio: Buffer.from(audioBytes),
+        })
+        .returning({ createdAt: ttsGenerations.createdAt });
+    } catch (err) {
+      if (!title || !isUndefinedColumnError(err, "title")) throw err;
+      [inserted] = await db
+        .insert(ttsGenerations)
+        .values({
+          id,
+          userId,
+          input,
+          voice: voiceRaw,
+          tone,
+          speakingRateMode,
+          speakingRate,
+          volumeGainDb,
+          format,
+          mimeType: "audio/mpeg",
+          audio: Buffer.from(audioBytes),
+        })
+        .returning({ createdAt: ttsGenerations.createdAt });
+    }
 
     await applyRetention(userId);
 
@@ -505,6 +567,7 @@ export async function POST(req: NextRequest) {
       id,
       audioUrl: `/api/tts/audio/${id}`,
       createdAt: inserted?.createdAt ? inserted.createdAt.toISOString() : null,
+      title: title || null,
       tokensUsed,
       tokensRemaining,
       cost,

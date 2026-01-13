@@ -30,8 +30,11 @@ export default async function AdminBlogsPage() {
 
 export async function generateMetadata() {
   return {
-    title: "博客管理 - ShipBase",
+    title: "博客管理",
     description: "管理博客文章",
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
-

@@ -8,6 +8,14 @@ import { ttsGenerations } from "@/lib/db/schema/tts";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function isUndefinedColumnError(err: unknown, column: string): boolean {
+  if (!err || typeof err !== "object") return false;
+  const code = (err as { code?: unknown }).code;
+  const message = (err as { message?: unknown }).message;
+  if (code === "42703") return typeof message === "string" ? message.includes(column) : true;
+  return typeof message === "string" && message.includes(`column \"${column}\" does not exist`);
+}
+
 function envInt(name: string, fallback: number): number {
   const raw = process.env[name];
   if (!raw) return fallback;
@@ -89,21 +97,52 @@ export async function GET(req: NextRequest) {
   const limit = intParam(searchParams.get("limit"), 20, 1, 100);
   const offset = intParam(searchParams.get("offset"), 0, 0, 10_000);
 
-  const rows = await db
-    .select({
-      id: ttsGenerations.id,
-      createdAt: ttsGenerations.createdAt,
-      input: ttsGenerations.input,
-      voice: ttsGenerations.voice,
-      tone: ttsGenerations.tone,
-      format: ttsGenerations.format,
-      mimeType: ttsGenerations.mimeType,
-    })
-    .from(ttsGenerations)
-    .where(eq(ttsGenerations.userId, userId))
-    .orderBy(desc(ttsGenerations.createdAt))
-    .limit(limit)
-    .offset(offset);
+  let rows: Array<{
+    id: string;
+    createdAt: Date;
+    input: string;
+    voice: string;
+    tone: string;
+    format: string;
+    mimeType: string;
+    title?: string | null;
+  }> = [];
+
+  try {
+    rows = await db
+      .select({
+        id: ttsGenerations.id,
+        createdAt: ttsGenerations.createdAt,
+        title: ttsGenerations.title,
+        input: ttsGenerations.input,
+        voice: ttsGenerations.voice,
+        tone: ttsGenerations.tone,
+        format: ttsGenerations.format,
+        mimeType: ttsGenerations.mimeType,
+      })
+      .from(ttsGenerations)
+      .where(eq(ttsGenerations.userId, userId))
+      .orderBy(desc(ttsGenerations.createdAt))
+      .limit(limit)
+      .offset(offset);
+  } catch (err) {
+    if (!isUndefinedColumnError(err, "title")) throw err;
+    rows = await db
+      .select({
+        id: ttsGenerations.id,
+        createdAt: ttsGenerations.createdAt,
+        input: ttsGenerations.input,
+        voice: ttsGenerations.voice,
+        tone: ttsGenerations.tone,
+        format: ttsGenerations.format,
+        mimeType: ttsGenerations.mimeType,
+      })
+      .from(ttsGenerations)
+      .where(eq(ttsGenerations.userId, userId))
+      .orderBy(desc(ttsGenerations.createdAt))
+      .limit(limit)
+      .offset(offset);
+  }
 
   const usage = await getUsage(userId);
 

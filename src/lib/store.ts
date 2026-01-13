@@ -9,6 +9,8 @@ export interface AppState {
   playbackRate: number;
   volumeGainDb: number;
   input: string;
+  customTitleEnabled: boolean;
+  customTitle: string;
   codeView: string;
   latestAudioId: string | null;
   latestAudioUrl: string | null;
@@ -16,6 +18,7 @@ export interface AppState {
   ttsHistory: Array<{
     id: string;
     createdAt: string;
+    title?: string | null;
     voice: string;
     tone: AppState["tone"];
     audioUrl: string;
@@ -32,6 +35,8 @@ const INITIAL_STATE: AppState = {
   playbackRate: 1,
   volumeGainDb: 0,
   input: "",
+  customTitleEnabled: false,
+  customTitle: "",
   codeView: "py",
   latestAudioId: null,
   latestAudioUrl: null,

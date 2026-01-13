@@ -8,8 +8,15 @@ export function FooterWrapper() {
   const pathname = usePathname();
   const { locale, dictionary } = useLocale();
 
-  const lastSegment = pathname.split("/").filter(Boolean).at(-1);
-  if (lastSegment === "podcast-mvp") {
+  const segments = (pathname ?? "").split("/").filter(Boolean);
+  const lastSegment = segments.at(-1);
+
+  const HIDE_FOOTER_SEGMENTS = new Set(["podcast-mvp", "dashboard", "profile", "membership", "orders", "points"]);
+
+  const isAdminRoute = segments.includes("admin");
+  const shouldHideFooter = (lastSegment && HIDE_FOOTER_SEGMENTS.has(lastSegment)) || segments.some((s) => HIDE_FOOTER_SEGMENTS.has(s)) || isAdminRoute;
+
+  if (shouldHideFooter) {
     return null;
   }
 

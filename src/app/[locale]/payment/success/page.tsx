@@ -51,8 +51,12 @@ export async function generateMetadata({ params }: PaymentSuccessPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Payment Successful - ShipBase",
+      title: "Payment Successful",
       description: "Your payment has been successfully processed",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -60,7 +64,11 @@ export async function generateMetadata({ params }: PaymentSuccessPageProps) {
   const { title, description } = paymentSuccessDictionary;
   
   return {
-    title: `${title} - ShipBase`,
+    title,
     description,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }

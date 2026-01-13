@@ -55,15 +55,15 @@ export async function generateMetadata({ params }: LocaleSignupPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Get Started - ShipBase",
-      description: "Join thousands of developers building amazing applications with ShipBase.",
-    };;
+      title: "Get Started",
+      description: "Create an account to get started.",
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.signup.title} - ShipBase`,
+    title: dictionary.pages.signup.title,
     description: dictionary.pages.signup.description,
-  };;
+  };
 }

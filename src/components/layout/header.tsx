@@ -2,28 +2,39 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeSwitcher } from "./theme-switcher";
 import { UserMenu } from "./user-menu";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Github, CircleDollarSign } from "lucide-react";
+import { Menu, X, Github, Coins, Loader2 } from "lucide-react";
 import { useLocale } from "@/hooks";
 import { authClient } from "@/lib/auth/client";
+import { resolveIntlNumberLocale } from "@/i18n/locale-config";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { locale, dictionary } = useLocale();
   const session = authClient.useSession();
+  const isSessionPending = session.isPending;
   const isAuthenticated = Boolean(session.data?.user);
-  const defaultTokens = 500;
-  const [tokens, setTokens] = useState(defaultTokens);
+  const [tokens, setTokens] = useState(0);
+  const [tokensLoading, setTokensLoading] = useState(false);
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com";
 
   useEffect(() => {
+    if (isSessionPending) return;
     const controller = new AbortController();
 
     async function loadTokens() {
       try {
+        if (!isAuthenticated) {
+          setTokens(0);
+          setTokensLoading(false);
+          return;
+        }
+
+        setTokensLoading(true);
         const resp = await fetch("/api/tokens", {
           signal: controller.signal,
           cache: "no-store",
@@ -37,19 +48,22 @@ export function Header() {
         }
       } catch {
         // ignore
+      } finally {
+        setTokensLoading(false);
       }
     }
 
     loadTokens();
 
     return () => controller.abort();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isSessionPending]);
 
   useEffect(() => {
     function handleTokensUpdate(event: Event) {
       const nextTokens = (event as CustomEvent<{ tokens?: unknown }>).detail?.tokens;
       if (typeof nextTokens === "number" && Number.isFinite(nextTokens)) {
         setTokens(nextTokens);
+        setTokensLoading(false);
       }
     }
 
@@ -57,23 +71,47 @@ export function Header() {
     return () => window.removeEventListener("tokens:update", handleTokensUpdate as EventListener);
   }, []);
 
+  const tokenCountNode = isSessionPending || (isAuthenticated && tokensLoading) ? (
+    <Loader2 className="h-4 w-4 animate-spin" aria-label="Loading tokens" />
+  ) : (
+    <span className="text-xs font-semibold tabular-nums" dir="ltr">
+      {new Intl.NumberFormat(resolveIntlNumberLocale(locale)).format(tokens)}
+    </span>
+  );
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80">
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="flex items-center flex-1">
           <Link href={locale === 'en' ? '/' : `/${locale}/`} className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">R</span>
-            </div>
-            <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-              RTVox
-            </span>
+            <Image
+              src="/photo/RTVox.webp"
+              alt="RTVox"
+              width={1052}
+              height={266}
+              priority
+              className="h-8 w-auto dark:hidden"
+            />
+            <Image
+              src="/photo/RTVox-black.webp"
+              alt="RTVox"
+              width={1052}
+              height={266}
+              priority
+              className="hidden h-8 w-auto dark:block"
+            />
           </Link>
         </div>
 
         {/* 功能特征，价格方案，blog， 文档 */}
         <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
+          <Link
+            href={locale === 'en' ? '/podcast-mvp' : `/${locale}/podcast-mvp`}
+            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+          >
+            {dictionary.header.product}
+          </Link>
           <Link
             href={locale === 'en' ? '/features' : `/${locale}/features`}
             className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
@@ -107,8 +145,8 @@ export function Header() {
 	            aria-label="Tokens"
 	            title="Tokens"
 	          >
-	            <CircleDollarSign className="h-5 w-5" />
-	            <span className="text-xs font-semibold tabular-nums">{tokens}</span>
+	            <Coins className="h-5 w-5 text-amber-500 dark:text-amber-400" />
+	            {tokenCountNode}
 	          </div>
 	          <a
 	            href={githubUrl}
@@ -124,18 +162,11 @@ export function Header() {
 	          {isAuthenticated ? (
             <UserMenu dictionary={dictionary.header} locale={locale} triggerId="header-user-menu-desktop" />
           ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link href={locale === 'en' ? '/login' : `/${locale}/login`}>
-                  {dictionary.header.login}
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href={locale === 'en' ? '/signup' : `/${locale}/signup`}>
-                  {dictionary.header.signup}
-                </Link>
-              </Button>
-            </>
+            <Button asChild>
+              <Link href={locale === 'en' ? '/signup' : `/${locale}/signup`}>
+                {dictionary.header.signup}
+              </Link>
+            </Button>
           )}
         </div>
 
@@ -155,6 +186,13 @@ export function Header() {
       {isMenuOpen && (
         <div className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
           <div className="px-4 py-6 space-y-4">
+            <Link
+              href={locale === 'en' ? '/podcast-mvp' : `/${locale}/podcast-mvp`}
+              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {dictionary.header.product}
+            </Link>
             <Link
               href={locale === 'en' ? '/features' : `/${locale}/features`}
               className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
@@ -192,8 +230,8 @@ export function Header() {
 	                  aria-label="Tokens"
 	                  title="Tokens"
 	                >
-	                  <CircleDollarSign className="h-5 w-5" />
-	                  <span className="text-xs font-semibold tabular-nums">{tokens}</span>
+	                  <Coins className="h-5 w-5 text-amber-500 dark:text-amber-400" />
+	                  {tokenCountNode}
 	                </div>
 	                <a
 	                  href={githubUrl}
@@ -227,24 +265,14 @@ export function Header() {
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-2">
-                  <Button variant="ghost" asChild className="flex-1">
-                    <Link
-                      href={locale === 'en' ? '/login' : `/${locale}/login`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {dictionary.header.login}
-                    </Link>
-                  </Button>
-                  <Button asChild className="flex-1">
-                    <Link
-                      href={locale === 'en' ? '/signup' : `/${locale}/signup`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {dictionary.header.signup}
-                    </Link>
-                  </Button>
-                </div>
+                <Button asChild className="w-full">
+                  <Link
+                    href={locale === 'en' ? '/signup' : `/${locale}/signup`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {dictionary.header.signup}
+                  </Link>
+                </Button>
               )}
             </div>
           </div>

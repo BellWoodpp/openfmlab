@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { auth } from "@/lib/auth/server";
-import { checkUserPaidMembership } from "@/lib/membership";
+import { getUserMembershipDetails } from "@/lib/membership";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,13 +12,13 @@ export async function GET(req: NextRequest) {
   if (!userId) {
     return NextResponse.json({
       ok: true,
-      data: { isPaid: false, reason: "unauth" as const },
+      data: { isPaid: false, period: null, hasPaidHistory: false, reason: "unauth" as const },
     });
   }
 
-  const status = await checkUserPaidMembership(userId);
+  const status = await getUserMembershipDetails(userId);
   return NextResponse.json({
     ok: true,
-    data: { isPaid: status.isPaid, reason: status.reason },
+    data: { isPaid: status.isPaid, period: status.period, hasPaidHistory: status.hasPaidHistory, reason: status.reason },
   });
 }

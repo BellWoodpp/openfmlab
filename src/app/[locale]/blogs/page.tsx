@@ -100,7 +100,7 @@ export async function generateMetadata({ params }: LocaleBlogsPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Blog - ShipBase",
+      title: "Blog",
       description: "Explore our latest articles",
     };
   }
@@ -108,7 +108,7 @@ export async function generateMetadata({ params }: LocaleBlogsPageProps) {
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.blogs.title} - ShipBase`,
+    title: dictionary.pages.blogs.title,
     description: dictionary.pages.blogs.subtitle,
   };
 }

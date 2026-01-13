@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
 import { zhCN, enUS, ja } from "date-fns/locale";
@@ -19,7 +20,8 @@ import {
   RefreshCw
 } from "lucide-react";
 import type { Order } from "@/lib/db/schema/orders";
-import { resolveIntlLocale } from "@/i18n/locale-config";
+import { resolveIntlNumberLocale } from "@/i18n/locale-config";
+import { cn } from "@/lib/utils";
 
 interface BillingHistoryProps {
   dict: {
@@ -80,7 +82,7 @@ export function BillingHistory({ dict, locale }: BillingHistoryProps) {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "paid":
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-amber-500 dark:text-amber-400" />;
       case "pending":
         return <Clock className="h-4 w-4 text-yellow-500" />;
       case "failed":
@@ -148,7 +150,7 @@ export function BillingHistory({ dict, locale }: BillingHistoryProps) {
   // 格式化金额
   const formatAmount = (amount: string, currency: string) => {
     const numAmount = parseFloat(amount);
-    const resolvedLocale = resolveIntlLocale(locale);
+    const resolvedLocale = resolveIntlNumberLocale(locale);
     return new Intl.NumberFormat(resolvedLocale, {
       style: "currency",
       currency: currency || "USD",
@@ -163,9 +165,22 @@ export function BillingHistory({ dict, locale }: BillingHistoryProps) {
           <CardDescription>{dict.description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center py-8">
-            <Clock className="h-6 w-6 animate-spin mr-2" />
-            <span className="text-muted-foreground">Loading...</span>
+          <div className="space-y-3 py-2">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between gap-4 rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
+              >
+                <div className="flex items-center gap-4 flex-1">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="flex-1">
+                    <Skeleton className="h-4 w-48" />
+                    <Skeleton className="mt-2 h-3 w-64" />
+                  </div>
+                </div>
+                <Skeleton className="h-5 w-24" />
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -232,7 +247,14 @@ export function BillingHistory({ dict, locale }: BillingHistoryProps) {
                       <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
                         {order.productName}
                       </h4>
-                      <Badge variant={getStatusBadgeVariant(order.status)} className="flex items-center gap-1">
+                      <Badge
+                        variant={getStatusBadgeVariant(order.status)}
+                        className={cn(
+                          "flex items-center gap-1",
+                          order.status === "paid" &&
+                            "bg-cyan-500 text-white hover:bg-cyan-600 dark:bg-cyan-400 dark:text-neutral-950 dark:hover:bg-cyan-300",
+                        )}
+                      >
                         {getStatusIcon(order.status)}
                         {getStatusText(order.status)}
                       </Badge>

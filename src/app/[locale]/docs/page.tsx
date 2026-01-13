@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleDocsPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Documentation - RTVox",
+      title: "Documentation",
       description: "Everything you need to get started",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.docs.title} - RTVox`,
+    title: dictionary.pages.docs.title,
     description: dictionary.pages.docs.subtitle,
-  };;
+  };
 }

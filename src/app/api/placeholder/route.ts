@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { siteConfig } from '@/lib/site-config';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const width = searchParams.get('width') || '400';
   const height = searchParams.get('height') || '300';
-  const text = searchParams.get('text') || 'ShipBase';
+  const text = searchParams.get('text') || siteConfig.brandName;
   
   // 生成一个简单的 SVG 占位符
   const svg = `

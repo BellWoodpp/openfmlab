@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 
 import { authClient } from "@/lib/auth/client";
 import { RichTextContent } from "@/components/i18n/rich-text";
@@ -17,11 +17,6 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
   const [pendingProvider, setPendingProvider] = useState<OAuthProvider | null>(
     null,
   );
-  const [magicEmail, setMagicEmail] = useState("");
-  const [magicStatus, setMagicStatus] = useState<
-    "idle" | "sending" | "sent" | "error"
-  >("idle");
-  const [magicMessage, setMagicMessage] = useState<string | null>(null);
 
   const isAuthenticated = Boolean(session.data?.user);
 
@@ -39,41 +34,6 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
       .finally(() => {
         setPendingProvider(null);
       });
-  };
-
-  const handleMagicLink = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!magicEmail) {
-      setMagicMessage(dictionary.messages.emptyEmail);
-      setMagicStatus("error");
-      return;
-    }
-
-    setMagicStatus("sending");
-    setMagicMessage(null);
-
-    try {
-      const response = await authClient.signIn.magicLink({
-        email: magicEmail,
-        callbackURL:
-          typeof window !== "undefined" ? window.location.origin : undefined,
-      });
-
-      if (response?.error) {
-        setMagicMessage(
-          response.error.message ?? dictionary.messages.responseError,
-        );
-        setMagicStatus("error");
-      } else {
-        setMagicStatus("sent");
-        setMagicMessage(dictionary.messages.success);
-        setMagicEmail("");
-      }
-    } catch (error) {
-      console.error("[Better Auth] Magic link request failed", error);
-      setMagicStatus("error");
-      setMagicMessage(dictionary.messages.requestError);
-    }
   };
 
   const handleSignOut = async () => {
@@ -145,40 +105,6 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
               </button>
             </div>
 
-            <div className="space-y-3 border-t border-neutral-200 pt-4 dark:border-neutral-800">
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-                {dictionary.magicLinkHeading}
-              </p>
-              <form className="space-y-3" onSubmit={handleMagicLink}>
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  {dictionary.emailLabel}
-                  <input
-                    type="email"
-                    value={magicEmail}
-                    onChange={(event) => setMagicEmail(event.target.value)}
-                    placeholder={dictionary.emailPlaceholder}
-                    className="mt-1 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 shadow-sm focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500/20 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-100/10"
-                    required
-                  />
-                </label>
-                <button
-                  type="submit"
-                  disabled={magicStatus === "sending"}
-                  className="inline-flex w-full items-center justify-center rounded-md bg-neutral-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
-                >
-                  {magicStatus === "sending"
-                    ? dictionary.magicLinkButton.loading
-                    : dictionary.magicLinkButton.default}
-                </button>
-              </form>
-              {magicMessage ? (
-                <p
-                  className={`text-sm ${magicStatus === "error" ? "text-red-600 dark:text-red-400" : "text-neutral-600 dark:text-neutral-300"}`}
-                >
-                  {magicMessage}
-                </p>
-              ) : null}
-            </div>
           </>
         )}
       </div>

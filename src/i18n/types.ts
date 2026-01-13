@@ -77,7 +77,28 @@ export interface Testimonial {
 export interface HomeDictionary {
   badgeLabel: string;
   heroTitle: string;
+  heroTagline: string;
   heroDescription: string;
+  productMockupTitle: string;
+  productMockupSubtitle: string;
+  textToSpeechSectionKicker: string;
+  textToSpeechSectionTitle: string;
+  textToSpeechSectionDescription: string;
+  viewPricingPlansCta: string;
+  securitySectionKicker: string;
+  securitySectionTitle: string;
+  securitySectionDescription: string;
+  securitySectionImageAlt: string;
+  ttsMockupTextToSpeechTitle: string;
+  ttsMockupSelectVoiceTitle: string;
+  ttsMockupCharTokenCount: string;
+  ttsMockupClearText: string;
+  ttsMockupGenerate: string;
+  ttsMockupPublic: string;
+  ttsMockupVoicesCount: string;
+  ttsMockupLanguage: string;
+  ttsMockupEnableVoicePreviewAria: string;
+  ttsMockupDisableVoicePreviewAria: string;
   ctaPrimary: string;
   ctaSecondary: string;
   watchDemo: string;
@@ -194,6 +215,7 @@ export interface AuthPanelDictionary {
 }
 
 export interface HeaderDictionary {
+  product: string;
   features: string;
   pricing: string;
   docs: string;
@@ -873,6 +895,31 @@ export interface MembershipPageDictionary extends PageDictionary {
   plans: MembershipPlan[];
 }
 
+export interface PointsPageDictionary extends PageDictionary {
+  balance: {
+    title: string;
+    description: string;
+    creditsLabel: string;
+  };
+  packs: {
+    title: string;
+    description: string;
+    buy: string;
+    processing: string;
+  };
+  actions: {
+    backToMembership: string;
+  };
+  status: {
+    loadingBalance: string;
+    pendingPaymentHint: string;
+  };
+  errors: {
+    dbRequired: string;
+    generic: string;
+  };
+}
+
 export interface OrderDetailsDictionary {
   title: string;
   subtitle: string;
@@ -990,10 +1037,20 @@ export interface AdminBlogEditDictionary {
   subtitle: string;
   form: {
     language: string;
+    languageOptions: {
+      zh: string;
+      en: string;
+      ja: string;
+    };
     title: string;
+    titlePlaceholder: string;
     slug: string;
+    slugPlaceholder: string;
     description: string;
+    descriptionPlaceholder: string;
     tags: string;
+    tagsPlaceholder: string;
+    content: string;
     status: string;
     visibility: string;
     featured: string;
@@ -1004,9 +1061,11 @@ export interface AdminBlogEditDictionary {
     descriptionHelper: string;
   };
   actions: {
+    back: string;
     cancel: string;
     update: string;
     create: string;
+    saving: string;
   };
   status: {
     draft: string;
@@ -1025,6 +1084,8 @@ export interface AdminBlogsDictionary extends PageDictionary {
     subtitle: string;
     noBlogs: string;
     createNew: string;
+    loading: string;
+    confirmDelete: string;
   };
   table: {
     title: string;
@@ -1055,6 +1116,7 @@ export interface PagesDictionary {
   signup: PageDictionary;
   profile: ProfilePageDictionary;
   membership: MembershipPageDictionary;
+  points: PointsPageDictionary;
   orders: OrdersPageDictionary;
   dashboard: DashboardPageDictionary;
   blogs: BlogsPageDictionary;

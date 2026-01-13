@@ -8,6 +8,7 @@ import { Block } from "@/components/ui/Block";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
 import { voiceAvatarDataUri } from "@/lib/voice-avatar";
+import type { HomeDictionary } from "@/i18n/types";
 
 type Voice = { id: string; name: string; label: string };
 
@@ -72,7 +73,25 @@ const STATIC_VOICES: Record<string, Voice[]> = {
   ],
 };
 
-export function TtsUiMockup({ className }: { className?: string }) {
+type TtsUiMockupStrings = Pick<
+  HomeDictionary,
+  | "ttsMockupTextToSpeechTitle"
+  | "ttsMockupSelectVoiceTitle"
+  | "ttsMockupCharTokenCount"
+  | "ttsMockupClearText"
+  | "ttsMockupGenerate"
+  | "ttsMockupPublic"
+  | "ttsMockupVoicesCount"
+  | "ttsMockupLanguage"
+  | "ttsMockupEnableVoicePreviewAria"
+  | "ttsMockupDisableVoicePreviewAria"
+>;
+
+function formatTemplate(template: string, values: Record<string, string | number>) {
+  return template.replaceAll(/\{(\w+)\}/g, (_, key: string) => String(values[key] ?? `{${key}}`));
+}
+
+export function TtsUiMockup({ className, strings }: { className?: string; strings: TtsUiMockupStrings }) {
   const [input, setInput] = useState(getIntroText("en"));
   const [audioPreviewEnabled, setAudioPreviewEnabled] = useState(true);
   const previewSessionRef = useRef(0);
@@ -216,11 +235,11 @@ export function TtsUiMockup({ className }: { className?: string }) {
     >
       <div className="flex flex-col md:flex-row gap-6">
         <div className="lg:flex-[2_1_0%] flex flex-col min-w-0">
-          <Block title="Text to speech">
+          <Block title={strings.ttsMockupTextToSpeechTitle}>
             <div className="mb-4 flex flex-wrap items-center justify-end gap-3">
               <div className="flex items-center gap-3">
                 <div className="inline-flex h-9 items-center rounded-full border border-border bg-muted/20 px-4 text-sm text-muted-foreground">
-                  {input.length} / 5000 characters · {estimatedTokens} tokens
+                  {formatTemplate(strings.ttsMockupCharTokenCount, { current: input.length, max: 5000, tokens: estimatedTokens })}
                 </div>
                 <button
                   type="button"
@@ -233,7 +252,7 @@ export function TtsUiMockup({ className }: { className?: string }) {
                   )}
                 >
                   <X className="h-4 w-4" />
-                  Clear Text
+                  {strings.ttsMockupClearText}
                 </button>
               </div>
             </div>
@@ -253,18 +272,18 @@ export function TtsUiMockup({ className }: { className?: string }) {
                 asChild
                 className="h-11 rounded-full bg-purple-600 px-8 text-white hover:bg-purple-700"
               >
-                <Link href="/podcast-mvp">GENERATE</Link>
+                <Link href="/podcast-mvp">{strings.ttsMockupGenerate}</Link>
               </Button>
             </div>
           </Block>
         </div>
 
         <div className="lg:flex-[1_1_0%] flex flex-col min-w-0">
-          <Block title="Select a voice">
+          <Block title={strings.ttsMockupSelectVoiceTitle}>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="inline-flex rounded-full border border-border bg-muted/10 px-3 py-1 text-xs text-muted-foreground">
-                  Public
+                  {strings.ttsMockupPublic}
                 </div>
                 <div className="flex items-center gap-3">
                   <button
@@ -277,16 +296,22 @@ export function TtsUiMockup({ className }: { className?: string }) {
                       "inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted/10 text-muted-foreground transition-colors",
                       audioPreviewEnabled ? "hover:text-foreground" : "opacity-70 hover:opacity-100",
                     )}
-                    aria-label={audioPreviewEnabled ? "Disable voice preview" : "Enable voice preview"}
+                    aria-label={
+                      audioPreviewEnabled
+                        ? strings.ttsMockupDisableVoicePreviewAria
+                        : strings.ttsMockupEnableVoicePreviewAria
+                    }
                   >
                     {audioPreviewEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                   </button>
-                  <span className="text-xs text-muted-foreground">{voicesForLang.length} voices</span>
+                  <span className="text-xs text-muted-foreground">
+                    {formatTemplate(strings.ttsMockupVoicesCount, { count: voicesForLang.length })}
+                  </span>
                 </div>
               </div>
 
               <label className="text-xs text-muted-foreground flex flex-col gap-1.5">
-                Language
+                {strings.ttsMockupLanguage}
                 <select
                   value={voiceLang}
                   onChange={(e) => {
@@ -341,6 +366,7 @@ export function TtsUiMockup({ className }: { className?: string }) {
                         >
                           <div className="h-full w-full p-3 flex flex-col items-center text-center">
                             <div className={clsx("relative mt-1 mb-3 h-16 w-16 rounded-full grid place-items-center", avatarBgClass)}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={avatarSrc}
                                 alt={voice.name.slice(0, 1).toUpperCase()}

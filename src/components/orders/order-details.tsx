@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { 
   CalendarDays, 
@@ -20,6 +21,8 @@ import {
 import { format } from "date-fns";
 import { zhCN, enUS, ja } from "date-fns/locale";
 import type { Order, OrderItem } from "@/lib/db/schema/orders";
+import { RefundPanel } from "@/components/orders/refund-panel";
+import { getRefundCopy } from "@/components/orders/refund-i18n";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
@@ -27,6 +30,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 interface OrderDetailsProps {
   orderId: string;
+  locale: string;
   dict: {
     title: string;
     subtitle: string;
@@ -84,15 +88,16 @@ interface OrderDetailsProps {
   onBack: () => void;
 }
 
-export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
+export function OrderDetails({ orderId, locale, dict, onBack }: OrderDetailsProps) {
   const [order, setOrder] = useState<Order | null>(null);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [showRefundPanel, setShowRefundPanel] = useState(false);
 
   // 获取订单详情
-  const fetchOrderDetails = useCallback(async () => {
+  const fetchOrderDetails = useCallback(async (refresh = false) => {
     try {
       setLoading(true);
       setError(null);
@@ -102,7 +107,7 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ orderId }),
+        body: JSON.stringify({ orderId, refresh }),
       });
 
       const data = await response.json();
@@ -125,7 +130,7 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
   const refreshOrderStatus = async () => {
     try {
       setRefreshing(true);
-      await fetchOrderDetails();
+      await fetchOrderDetails(true);
     } catch (err) {
       console.error("刷新订单状态失败:", err);
     }
@@ -135,7 +140,7 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "paid":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-amber-500 dark:text-amber-400" />;
       case "pending":
         return <Clock className="h-5 w-5 text-yellow-500" />;
       case "failed":
@@ -212,9 +217,63 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-center py-12">
-          <RefreshCw className="h-6 w-6 animate-spin mr-2" />
-          {dict.loading}
+        <div className="mb-8">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="mt-3 h-4 w-96 max-w-full" />
+        </div>
+
+        <div className="grid gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-8 w-28 rounded-full" />
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Skeleton className="h-4 w-56" />
+                <Skeleton className="h-4 w-56" />
+                <Skeleton className="h-4 w-56" />
+                <Skeleton className="h-4 w-56" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <Skeleton className="h-6 w-40" />
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Skeleton className="h-4 w-60" />
+                <Skeleton className="h-4 w-72" />
+                <Skeleton className="h-4 w-52" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Skeleton className="h-6 w-40" />
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Skeleton className="h-4 w-60" />
+                <Skeleton className="h-4 w-72" />
+                <Skeleton className="h-4 w-52" />
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-6 w-44" />
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="flex items-center justify-between gap-4">
+                  <Skeleton className="h-4 w-64" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -225,7 +284,7 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
           <p className="text-destructive mb-4">{dict.error}</p>
-          <Button onClick={fetchOrderDetails}>
+          <Button onClick={() => fetchOrderDetails()}>
             {dict.retry}
           </Button>
         </div>
@@ -242,6 +301,12 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
       </div>
     );
   }
+
+  const refundCopy = getRefundCopy(locale);
+  const isRefundableProduct = order.productId === "professional" || order.productId.startsWith("points:");
+  const hasRefundRequest =
+    isRecord(order.metadata) && isRecord(order.metadata.refund_request) && Boolean(order.metadata.refund_request.requested_at);
+  const canRequestRefund = order.status === "paid" && isRefundableProduct && !hasRefundRequest;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -264,8 +329,36 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
             <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
             {dict.actions.refreshStatus}
           </Button>
+          <Button
+            variant="outline"
+            disabled={!canRequestRefund}
+            onClick={() => setShowRefundPanel((v) => !v)}
+            title={
+              hasRefundRequest
+                ? refundCopy.tooltips.alreadyRequested
+                : !isRefundableProduct
+                  ? refundCopy.tooltips.notRefundable
+                  : order.status !== "paid"
+                    ? refundCopy.tooltips.notPaid
+                    : undefined
+            }
+          >
+            {hasRefundRequest ? refundCopy.button.refundRequested : refundCopy.button.requestRefund}
+          </Button>
         </div>
       </div>
+
+      {showRefundPanel && canRequestRefund ? (
+        <RefundPanel
+          orderId={order.id}
+          locale={locale}
+          className="mt-6 mb-8"
+          onSubmitted={() => {
+            setShowRefundPanel(false);
+            fetchOrderDetails();
+          }}
+        />
+      ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 订单基本信息 */}
@@ -280,7 +373,14 @@ export function OrderDetails({ orderId, dict, onBack }: OrderDetailsProps) {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">{dict.orderInfo.status}:</span>
-                <Badge variant={getStatusBadgeVariant(order.status)}>
+                <Badge
+                  variant={getStatusBadgeVariant(order.status)}
+                  className={
+                    order.status === "paid"
+                      ? "bg-cyan-500 text-white hover:bg-cyan-600 dark:bg-cyan-400 dark:text-neutral-950 dark:hover:bg-cyan-300"
+                      : undefined
+                  }
+                >
                   {getStatusText(order.status)}
                 </Badge>
               </div>

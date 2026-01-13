@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Download } from "./ui/Icons";
 import { Button } from "./ui/button";
 import { appStore } from "@/lib/store";

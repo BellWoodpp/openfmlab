@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleStatusPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Service Status - ShipBase",
+      title: "Service Status",
       description: "Real-time system status",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.status.title} - ShipBase`,
+    title: dictionary.pages.status.title,
     description: dictionary.pages.status.subtitle,
-  };;
+  };
 }

@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleContactPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Contact Us - ShipBase",
+      title: "Contact",
       description: "We're here to help",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.contact.title} - ShipBase`,
+    title: dictionary.pages.contact.title,
     description: dictionary.pages.contact.subtitle,
-  };;
+  };
 }

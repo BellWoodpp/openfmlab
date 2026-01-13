@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { HomePage } from "@/components/home/home-page";
 import { getDictionary, locales } from "@/i18n";
+import { siteConfig } from "@/lib/site-config";
 
 interface LocalePageProps {
   params: Promise<{
@@ -36,15 +37,16 @@ export async function generateMetadata({ params }: LocalePageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "RTVox - AI Text to Speech",
+      title: { absolute: `${siteConfig.brandName} — AI Text to Speech` },
       description: "Generate natural-sounding speech from text in seconds.",
     };
   }
 
   const dictionary = getDictionary(normalizedLocale);
+  const heroTitle = dictionary.home.heroTitle.replace(/\s*\n\s*/g, " ").trim();
   
   return {
-    title: `RTVox - ${dictionary.home.heroTitle}`,
+    title: { absolute: `${siteConfig.brandName} — ${heroTitle}` },
     description: dictionary.home.heroDescription,
   };
 }

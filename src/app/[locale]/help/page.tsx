@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleHelpPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Help Center - RTVox",
+      title: "Help Center",
       description: "Get the support you need",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.help.title} - RTVox`,
+    title: dictionary.pages.help.title,
     description: dictionary.pages.help.subtitle,
-  };;
+  };
 }

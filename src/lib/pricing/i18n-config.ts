@@ -1,6 +1,6 @@
 /**
  * 国际化价格配置文件
- * 支持一次性付费、按月付费、按年付费
+ * 支持订阅（月付/年付）与单次支付（积分充值）
  */
 
 import { type Locale } from "@/i18n/types";
@@ -16,15 +16,18 @@ export interface PricingPlan {
   features: string[];
   limitations?: string[];
   popular?: boolean;
-  pricing: {
-    [K in PricingPeriod]: {
-      price: number;
-      currency: string;
-      period: string;
-      originalPrice?: number; // 用于显示折扣
-      discount?: number; // 折扣百分比
-    };
-  };
+  pricing: Partial<
+    Record<
+      PricingPeriod,
+      {
+        price: number;
+        currency: string;
+        period: string;
+        originalPrice?: number; // 用于显示折扣
+        discount?: number; // 折扣百分比
+      }
+    >
+  >;
 }
 
 export interface PricingConfig {
@@ -42,11 +45,11 @@ export interface PricingConfig {
 // 国际化价格配置
 export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
   zh: {
-    currency: 'CNY',
+    currency: 'USD',
     billingCycles: {
       'one-time': {
-        label: '一次性付费',
-        description: '永久使用，无需续费'
+        label: '单次支付',
+        description: '一次性支付（用于积分充值）'
       },
       'monthly': {
         label: '按月付费',
@@ -76,17 +79,17 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
         pricing: {
           'one-time': {
             price: 0,
-            currency: 'CNY',
+            currency: 'USD',
             period: '永久免费'
           },
           'monthly': {
             price: 0,
-            currency: 'CNY',
+            currency: 'USD',
             period: '永久免费'
           },
           'yearly': {
             price: 0,
-            currency: 'CNY',
+            currency: 'USD',
             period: '永久免费'
           }
         }
@@ -98,28 +101,58 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
         features: [
           '包含免费版全部功能',
           '解锁高级音色：WaveNet / Neural2 / Chirp3-HD / Studio',
+          '[[pro_tokens]] [[coins]]',
+          '专属会员样式（徽章/身份标识） [[crown]]',
           '可商用使用',
           '优先支持（邮件）'
         ],
         limitations: [],
         popular: true,
         pricing: {
-          'one-time': {
-            price: 299,
-            currency: 'CNY',
-            period: '一次性付费'
-          },
           'monthly': {
-            price: 39,
-            currency: 'CNY',
+            price: 6,
+            currency: 'USD',
             period: '每月'
           },
           'yearly': {
-            price: 374,
-            currency: 'CNY',
+            price: 58,
+            currency: 'USD',
             period: '每年',
-            originalPrice: 468,
+            originalPrice: 72,
             discount: 20
+          }
+        }
+      },
+      {
+        id: 'points',
+        name: '积分加油站',
+        description: '购买 Token（积分）用于语音生成，按量扣减，用完再充',
+        features: [
+          '每 $3 增加 100,000 Tokens [[coins]]',
+          '多档位 Token（积分）包可选',
+          '适用于 Standard / 高级音色生成',
+          '可与会员叠加使用',
+          '查看余额与消耗明细'
+        ],
+        limitations: [
+          '不包含高级音色解锁（高级音色需会员）'
+        ],
+        popular: false,
+        pricing: {
+          'one-time': {
+            price: 3,
+            currency: 'USD',
+            period: '起'
+          },
+          'monthly': {
+            price: 3,
+            currency: 'USD',
+            period: '起'
+          },
+          'yearly': {
+            price: 3,
+            currency: 'USD',
+            period: '起'
           }
         }
       },
@@ -130,7 +163,7 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
     billingCycles: {
       'one-time': {
         label: 'One-time Payment',
-        description: 'Pay once, use forever'
+        description: 'Single payment (credits top-up)'
       },
       'monthly': {
         label: 'Monthly',
@@ -182,17 +215,14 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
         features: [
           'Everything in Free',
           'Premium tiers: WaveNet / Neural2 / Chirp3-HD / Studio',
+          '[[pro_tokens]] [[coins]]',
+          'Exclusive member style [[crown]]',
           'Commercial use',
           'Priority email support'
         ],
         limitations: [],
         popular: true,
         pricing: {
-          'one-time': {
-            price: 49,
-            currency: 'USD',
-            period: 'One-time payment'
-          },
           'monthly': {
             price: 6,
             currency: 'USD',
@@ -206,15 +236,48 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
             discount: 20
           }
         }
-      }
+      },
+      {
+        id: 'points',
+        name: 'Credits Station',
+        description: 'Top up credits for speech generation. Pay as you go and refill anytime.',
+        features: [
+          'Every $3 adds 100,000 Tokens [[coins]]',
+          'Multiple credit packs available',
+          'Works with Standard & premium voices',
+          'Can be used together with membership',
+          'Track balance and usage history'
+        ],
+        limitations: [
+          'Does not unlock premium voice tiers (membership required)'
+        ],
+        popular: false,
+        pricing: {
+          'one-time': {
+            price: 3,
+            currency: 'USD',
+            period: '+'
+          },
+          'monthly': {
+            price: 3,
+            currency: 'USD',
+            period: '+'
+          },
+          'yearly': {
+            price: 3,
+            currency: 'USD',
+            period: '+'
+          }
+        }
+      },
     ]
   },
   ja: {
-    currency: 'JPY',
+    currency: 'USD',
     billingCycles: {
       'one-time': {
         label: '一回払い',
-        description: '一度支払えば永久に利用可能'
+        description: '単発の支払い（クレジットチャージ用）'
       },
       'monthly': {
         label: '月払い',
@@ -244,17 +307,17 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
         pricing: {
           'one-time': {
             price: 0,
-            currency: 'JPY',
+            currency: 'USD',
             period: '永久無料'
           },
           'monthly': {
             price: 0,
-            currency: 'JPY',
+            currency: 'USD',
             period: '永久無料'
           },
           'yearly': {
             price: 0,
-            currency: 'JPY',
+            currency: 'USD',
             period: '永久無料'
           }
         }
@@ -266,31 +329,61 @@ export const pricingConfigs: Partial<Record<Locale, PricingConfig>> = {
         features: [
           '無料版のすべて',
           'プレミアム音声：WaveNet / Neural2 / Chirp3-HD / Studio',
+          '毎月 200,000 トークン付与 [[coins]]',
+          '会員限定スタイル（バッジ/表示） [[crown]]',
           '商用利用',
           '優先サポート（メール）'
         ],
         limitations: [],
         popular: true,
         pricing: {
-          'one-time': {
-            price: 7200,
-            currency: 'JPY',
-            period: '一回払い'
-          },
           'monthly': {
-            price: 900,
-            currency: 'JPY',
+            price: 6,
+            currency: 'USD',
             period: '月額'
           },
           'yearly': {
-            price: 8640,
-            currency: 'JPY',
+            price: 58,
+            currency: 'USD',
             period: '年額',
-            originalPrice: 10800,
+            originalPrice: 72,
             discount: 20
           }
         }
-      }
+      },
+      {
+        id: 'points',
+        name: 'ポイント補給所',
+        description: '音声生成に使えるクレジットをチャージ。使った分だけ消費し、いつでも追加できます。',
+        features: [
+          '$3 ごとに 100,000 トークン追加 [[coins]]',
+          '複数のクレジットパックを用意',
+          '標準/プレミアム音声の生成に対応',
+          '会員プランと併用可能',
+          '残高と利用履歴を確認'
+        ],
+        limitations: [
+          'プレミアム音声ティアの解放は含まれません（会員が必要）'
+        ],
+        popular: false,
+        pricing: {
+          'one-time': {
+            price: 3,
+            currency: 'USD',
+            period: '〜'
+          },
+          'monthly': {
+            price: 3,
+            currency: 'USD',
+            period: '〜'
+          },
+          'yearly': {
+            price: 3,
+            currency: 'USD',
+            period: '〜'
+          }
+        }
+      },
     ]
   }
 };
@@ -332,11 +425,9 @@ export function calculateYearlySavings(monthlyPrice: number): number {
 // 格式化价格显示
 export function formatPrice(price: number, currency: string): string {
   const symbols: Record<string, string> = {
-    'CNY': '¥',
     'USD': '$',
     'EUR': '€',
     'GBP': '£',
-    'JPY': '¥'
   };
   
   const symbol = symbols[currency] || currency;

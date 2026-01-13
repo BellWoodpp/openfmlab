@@ -138,7 +138,6 @@ export default function VoiceCloningPanel({
   const maxClones = list?.maxClones ?? 3;
   const remaining = Math.max(0, maxClones - clones.length);
 
-  const defaultClone = useMemo(() => clones.find((c) => c.isDefault) ?? null, [clones]);
   const activeHelpId = pinnedHelpId ?? hoverHelpId;
 
   const COMMON_LANGUAGE_CODES = useMemo(
@@ -258,7 +257,6 @@ export default function VoiceCloningPanel({
 
   useEffect(() => {
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

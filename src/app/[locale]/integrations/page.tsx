@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocaleIntegrationsPageProps) 
   
   if (!normalizedLocale) {
     return {
-      title: "Integrations - ShipBase",
+      title: "Integrations",
       description: "Connect with your favorite tools",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.integrations.title} - ShipBase`,
+    title: dictionary.pages.integrations.title,
     description: dictionary.pages.integrations.subtitle,
-  };;
+  };
 }

@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: LocalePrivacyPageProps) {
   
   if (!normalizedLocale) {
     return {
-      title: "Privacy Policy - ShipBase",
+      title: "Privacy Policy",
       description: "Your privacy matters",
-    };;
+    };
   }
 
   const dictionary = getDictionary(normalizedLocale);
   
   return {
-    title: `${dictionary.pages.privacy.title} - ShipBase`,
+    title: dictionary.pages.privacy.title,
     description: dictionary.pages.privacy.subtitle,
-  };;
+  };
 }
