@@ -199,10 +199,10 @@ export function HomePage({ dictionary }: HomePageProps) {
 	            </div>
 	          </div>
 	        </div>
-	      </section>
+      </section>
 
       {/* Product UI Mockup */}
-      <section className="px-6 pt-24 pb-24 bg-white dark:bg-black transition-colors duration-300">
+      <section className="cv-auto px-6 pt-24 pb-24 bg-white dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-6 tracking-tight">
@@ -225,7 +225,7 @@ export function HomePage({ dictionary }: HomePageProps) {
 
       {/* Sample Voices Section */}
       {isVoiceCloningUiEnabled ? (
-      <section className="py-24 px-6 bg-white dark:bg-neutral-950 relative overflow-hidden transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-white dark:bg-neutral-950 relative overflow-hidden transition-colors duration-300">
          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.1),transparent_70%)]" />
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
@@ -401,7 +401,7 @@ export function HomePage({ dictionary }: HomePageProps) {
 
       {/* Voice Cloning Info Section */}
       {isVoiceCloningUiEnabled ? (
-      <section className="py-24 px-6 relative bg-white dark:bg-black transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 relative bg-white dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-600 dark:bg-blue-500/10 dark:border-blue-500/20 dark:text-blue-400 mb-6">
@@ -474,7 +474,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       ) : null}
 
       {/* Fast Processing Section (3.png Style) */}
-	      <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
+	      <section className="cv-auto py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
 	        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-20 items-center">
 	           {/* Left: Image Card */}
 	           <div className="relative">
@@ -547,7 +547,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       </section>
 
       {/* Security Section (4.png Style) */}
-      <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-white dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-20 items-center">
            {/* Left: Text Content */}
            <div className="order-2 lg:order-1">
@@ -617,7 +617,7 @@ export function HomePage({ dictionary }: HomePageProps) {
 
       {/* Use Cases Section (5.png & 6.png Style) */}
       {isVoiceCloningUiEnabled ? (
-      <section className="py-24 px-6 bg-white dark:bg-black transition-colors duration-300 border-t border-neutral-200 dark:border-white/5">
+      <section className="cv-auto py-24 px-6 bg-white dark:bg-black transition-colors duration-300 border-t border-neutral-200 dark:border-white/5">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-20">
             <span className="text-sm font-bold text-purple-600 dark:text-purple-400 tracking-widest uppercase mb-4 block">Everything You Need</span>
@@ -684,7 +684,7 @@ export function HomePage({ dictionary }: HomePageProps) {
 
 
       {/* Launch Steps */}
-      <section className="py-24 px-6 bg-white dark:bg-neutral-950 transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-white dark:bg-neutral-950 transition-colors duration-300">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-6">
@@ -719,7 +719,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       </section>
 
       {/* Key Features List */}
-      <section className="py-24 px-6 bg-neutral-50 dark:bg-black transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-neutral-50 dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
@@ -749,7 +749,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 px-6 bg-neutral-50 dark:bg-black transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-neutral-50 dark:bg-black transition-colors duration-300">
         <div className="mx-auto max-w-3xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
@@ -794,7 +794,7 @@ export function HomePage({ dictionary }: HomePageProps) {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 px-6 bg-white dark:bg-neutral-950 transition-colors duration-300">
+      <section className="cv-auto py-24 px-6 bg-white dark:bg-neutral-950 transition-colors duration-300">
         <div className="mx-auto max-w-5xl">
           <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-900 dark:to-purple-900 px-6 py-20 text-center">
              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>

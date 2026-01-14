@@ -330,6 +330,8 @@ color: var(--foreground);*/
 
 .animate-orb-float {
   animation: orb-float 10s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .animate-orb-shape {
@@ -338,6 +340,8 @@ color: var(--foreground);*/
 
 .animate-orb-fluid {
   animation: orb-spin 40s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .glitch {
@@ -360,6 +364,8 @@ color: var(--foreground);*/
     0 0 24px rgba(168, 85, 247, 0.22),
     0 0 48px rgba(59, 130, 246, 0.1);
   animation: glitch-bars 1.8s infinite linear;
+  will-change: transform, background-position, opacity;
+  transform: translateZ(0);
 }
 
 .glitch::before,
@@ -374,6 +380,8 @@ color: var(--foreground);*/
   pointer-events: none;
   opacity: 0.9;
   mix-blend-mode: screen;
+  will-change: transform, clip-path, opacity;
+  transform: translateZ(0);
 }
 
 .glitch::before {
@@ -392,6 +400,22 @@ color: var(--foreground);*/
   animation:
     glitch-shift-b 1.7s infinite steps(2, end),
     glitch-flicker 3.1s infinite steps(1, end);
+}
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-orb-float,
+  .animate-orb-fluid,
+  .animate-orb-shape,
+  .glitch,
+  .glitch::before,
+  .glitch::after {
+    animation: none !important;
+  }
 }
 
 .sample-play-icon {
