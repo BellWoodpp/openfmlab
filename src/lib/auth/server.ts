@@ -6,10 +6,8 @@ import { db } from "@/lib/db/client";
 import { randomBytes } from "crypto";
 import { siteConfig } from "@/lib/site-config";
 
-const appBaseURL =
-  process.env.BETTER_AUTH_URL ??
-  process.env.NEXT_PUBLIC_APP_URL ??
-  "http://localhost:3000";
+const explicitBaseURL = process.env.BETTER_AUTH_URL?.trim();
+const baseURL = explicitBaseURL && explicitBaseURL.length > 0 ? explicitBaseURL : undefined;
 
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -58,9 +56,13 @@ if (!secretFromEnv) {
 
 export const auth = betterAuth({
   appName: siteConfig.brandName,
-  baseURL: appBaseURL,
   basePath: "/api/auth",
+  ...(baseURL ? { baseURL } : {}),
   secret,
+  advanced: {
+    // Use x-forwarded-host/proto when behind Vercel/Cloudflare so origin checks don't see http://...
+    trustedProxyHeaders: true,
+  },
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
