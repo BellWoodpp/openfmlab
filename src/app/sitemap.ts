@@ -72,25 +72,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   //const currentDate = new Date(); → 拿到构建那一刻的时间，给所有静态页面打上“最近更新时间”
   const currentDate = new Date();
   
-  // 生成静态页面 sitemap 条目（每个页面只输出 1 条，包含 alternates.languages）
+  // 生成静态页面 sitemap 条目（为每个语言都输出独立 URL，方便爬虫直接收录每种语言版本）
   // staticPageEntries 是一个空数组，用于存放 sitemap 的每一条页面信息（条目）。它的类型是：MetadataRoute.Sitemap
   const staticPageEntries: MetadataRoute.Sitemap = [];
 
-  for (const page of staticPages) {
-    const alternates: Record<string, string> = {};
-    for (const loc of locales) {
-      alternates[loc] = getLocaleUrl(baseUrl, loc, page);
-    }
+  for (const locale of locales) {
+    for (const page of staticPages) {
+      const alternates: Record<string, string> = {};
+      for (const loc of locales) {
+        alternates[loc] = getLocaleUrl(baseUrl, loc, page);
+      }
 
-    staticPageEntries.push({
-      url: getLocaleUrl(baseUrl, defaultLocale, page),
-      lastModified: currentDate,
-      changeFrequency: page === '' ? 'daily' : 'weekly',
-      priority: page === '' ? 1.0 : 0.8,
-      alternates: {
-        languages: alternates,
-      },
-    });
+      staticPageEntries.push({
+        url: getLocaleUrl(baseUrl, locale, page),
+        lastModified: currentDate,
+        changeFrequency: page === '' ? 'daily' : 'weekly',
+        priority: page === '' ? 1.0 : 0.8,
+        alternates: {
+          languages: alternates,
+        },
+      });
+    }
   }
 
   // If DB isn't configured, skip dynamic blog entries.
@@ -154,15 +156,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 // 搜索引擎优先级（0–1）。
 // alternates.languages
 // 给搜索引擎提供多语言版本，帮助 SEO。
-      blogEntries.push({
-        url: blogUrls[blog.language] || blogUrls[defaultLocale],
-        lastModified: publishedDate,
-        changeFrequency: 'monthly',
-        priority: 0.7,
-        alternates: {
-          languages: blogUrls,
-        },
-      });
+      for (const locale of locales) {
+        blogEntries.push({
+          url: blogUrls[locale] || blogUrls[defaultLocale],
+          lastModified: publishedDate,
+          changeFrequency: 'monthly',
+          priority: 0.7,
+          alternates: {
+            languages: blogUrls,
+          },
+        });
+      }
     }
   } catch (error) {
     console.error('Error fetching blogs for sitemap:', error);
