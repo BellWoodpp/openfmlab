@@ -47,11 +47,20 @@ export const metadata: Metadata = {
     siteName: siteConfig.brandName,
     title: siteConfig.brandName,
     description: siteConfig.defaultDescription,
+    images: [
+      {
+        url: "/api/og",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.brandName} — ${siteConfig.defaultDescription}`,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: siteConfig.brandName,
     description: siteConfig.defaultDescription,
+    images: ["/api/og"],
   },
 };
 

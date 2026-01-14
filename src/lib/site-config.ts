@@ -7,6 +7,7 @@ export const siteConfig = {
   siteUrl: `https://${domain}`,
   supportEmail: "stormrobin50@gmail.com",
   downloadPrefix,
-  defaultDescription: "AI Voice Cloning and Text-to-Speech",
+  defaultDescription:
+    "AI voice cloning and text-to-speech for podcasts, videos, and apps—natural voices, multilingual support, and fast audio generation.",
   voiceAvatarVariant: "orb3d",
 } as const;
