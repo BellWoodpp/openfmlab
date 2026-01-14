@@ -12,7 +12,9 @@ RTVox is a Next.js app for AI text-to-speech, plus a minimal “podcast generato
 
 - TTS 选其一：
   - OpenAI：`TTS_PROVIDER=openai` + `OPENAI_API_KEY`
-  - Google Cloud TTS：`TTS_PROVIDER=google` + `GOOGLE_APPLICATION_CREDENTIALS=/abs/path/to/service-account.json`
+  - Google Cloud TTS：`TTS_PROVIDER=google` +
+    - 本地：`GOOGLE_APPLICATION_CREDENTIALS=/abs/path/to/service-account.json`
+    - Vercel：`GOOGLE_SERVICE_ACCOUNT_JSON`（把 service account JSON 全量粘贴到环境变量；应用会写入 `/tmp` 并自动设置 `GOOGLE_APPLICATION_CREDENTIALS`）
 
 Optional:
 - `OPENAI_MODEL_TEXT` (default `gpt-4o-mini`)

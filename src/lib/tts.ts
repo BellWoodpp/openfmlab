@@ -1,4 +1,5 @@
 import { TextToSpeechClient, protos } from "@google-cloud/text-to-speech";
+import { ensureGoogleApplicationCredentials } from "@/lib/google/credentials";
 
 export type TtsProvider = "openai" | "google" | "elevenlabs";
 export type TtsFormat = "mp3" | "wav";
@@ -139,7 +140,10 @@ const GOOGLE_VOICE_MAP: Record<string, { languageCode: string; name: string }> =
 
 let googleClient: TextToSpeechClient | undefined;
 function getGoogleClient(): TextToSpeechClient {
-  if (!googleClient) googleClient = new TextToSpeechClient();
+  if (!googleClient) {
+    ensureGoogleApplicationCredentials();
+    googleClient = new TextToSpeechClient();
+  }
   return googleClient;
 }
 

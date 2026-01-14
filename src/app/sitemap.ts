@@ -26,9 +26,8 @@ import { getBaseUrl } from "@/lib/utils";
 //   'privacy',     // 隐私政策      → https://rtvox.com/privacy
 //   'terms',       // 服务条款      → https://rtvox.com/terms
 //   'cookies',     // Cookie 政策   → https://rtvox.com/cookies
-//   'login',       // 登录页        → https://rtvox.com/login
-//   'signup',      // 注册页        → https://rtvox.com/signup
 //   'blogs',       // 博客列表页    → https://rtvox.com/blogs
+//   'podcast-mvp', // 产品主功能页  → https://rtvox.com/podcast-mvp
 const staticPages = [
   '',
   'features',
@@ -41,16 +40,15 @@ const staticPages = [
   'privacy',
   'terms',
   'cookies',
-  'login',
-  'signup',
   'blogs',
+  'podcast-mvp',
 ];
 
-// 生成语言的 URL（英语不带 /en 前缀）
+// 生成语言的 URL（默认语言不带 /{locale} 前缀）
 // 输入三个参数：baseUrl：比如 https://rtvox.com; locale：当前语言代码，比如 'en'、'zh'、'ja'; path：页面路径，比如 ''（首页）、'pricing'、'blog/123'
 function getLocaleUrl(baseUrl: string, locale: string, path: string): string {
 
-  if (locale === 'en') {
+  if (locale === defaultLocale) {
     // 三元运算符
     return path === '' ? `${baseUrl}/` : `${baseUrl}/${path}`;
   }
@@ -74,33 +72,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   //const currentDate = new Date(); → 拿到构建那一刻的时间，给所有静态页面打上“最近更新时间”
   const currentDate = new Date();
   
-  // 生成所有语言的静态页面 sitemap 条目
-  // staticPageEntries 是一个 空数组，用于存放 sitemap 的每一条页面信息（条目）。它的类型是：MetadataRoute.Sitemap
+  // 生成静态页面 sitemap 条目（每个页面只输出 1 条，包含 alternates.languages）
+  // staticPageEntries 是一个空数组，用于存放 sitemap 的每一条页面信息（条目）。它的类型是：MetadataRoute.Sitemap
   const staticPageEntries: MetadataRoute.Sitemap = [];
-//   第一层循环：遍历所有语言 for (const locale of locales) {
-  for (const locale of locales) {
-    //     第二层循环：遍历所有静态页面  for (const page of staticPages) {
-    for (const page of staticPages) {
-//   生成当前页面的 URL const url = getLocaleUrl(baseUrl, locale, page);
-      const url = getLocaleUrl(baseUrl, locale, page);
-      
-      // 生成所有语言版本的 URL
-      // 生成该页面的所有语言版本（alternates）
-      const alternates: Record<string, string> = {};
-      for (const loc of locales) {
-        alternates[loc] = getLocaleUrl(baseUrl, loc, page);
-      }
-      // 把最终条目 push 到数组里
-      staticPageEntries.push({
-        url,
-        lastModified: currentDate,
-        changeFrequency: page === '' ? 'daily' : 'weekly',
-        priority: page === '' ? 1.0 : 0.8,
-        alternates: {
-          languages: alternates,
-        },
-      });
+
+  for (const page of staticPages) {
+    const alternates: Record<string, string> = {};
+    for (const loc of locales) {
+      alternates[loc] = getLocaleUrl(baseUrl, loc, page);
     }
+
+    staticPageEntries.push({
+      url: getLocaleUrl(baseUrl, defaultLocale, page),
+      lastModified: currentDate,
+      changeFrequency: page === '' ? 'daily' : 'weekly',
+      priority: page === '' ? 1.0 : 0.8,
+      alternates: {
+        languages: alternates,
+      },
+    });
   }
 
   // If DB isn't configured, skip dynamic blog entries.
@@ -152,11 +142,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 // jp	https://example.com/jp/blogs/my-first-post
       const blogUrls: Record<string, string> = {};
       for (const locale of locales) {
-        if (locale === 'en') {
-          blogUrls[locale] = `${baseUrl}/blogs/${blog.slug}`;
-        } else {
-          blogUrls[locale] = `${baseUrl}/${locale}/blogs/${blog.slug}`;
-        }
+        blogUrls[locale] = getLocaleUrl(baseUrl, locale, `blogs/${blog.slug}`);
       }
       
       // 生成 sitemap 条目

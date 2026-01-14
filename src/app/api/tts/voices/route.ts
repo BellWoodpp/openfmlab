@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { inferGoogleBillingTier } from "@/lib/tts";
+import { ensureGoogleApplicationCredentials } from "@/lib/google/credentials";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,6 +55,7 @@ export async function GET(req: NextRequest) {
 
   const now = Date.now();
   if (!cachedAllVoices || now - cachedAllVoices.ts > CACHE_MS) {
+    ensureGoogleApplicationCredentials();
     const client = new TextToSpeechClient();
     const [res] = await client.listVoices({});
     cachedAllVoices = {
