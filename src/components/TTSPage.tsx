@@ -1468,8 +1468,8 @@ const TTSBoard = () => {
                   >
                     <Switch.Thumb
                       className={clsx(
-                        "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow transition-transform",
-                        customTitleEnabled ? "translate-x-4" : "translate-x-1",
+                        "pointer-events-none inline-block h-4 w-4 transform rounded-full shadow transition-transform",
+                        customTitleEnabled ? "translate-x-4 bg-background" : "translate-x-1 bg-foreground",
                       )}
                     />
                   </Switch.Root>
@@ -1736,8 +1736,8 @@ const TTSBoard = () => {
 			                    >
 			                      <Switch.Thumb
 			                        className={clsx(
-			                          "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow transition-transform",
-			                          customTitleEnabled ? "translate-x-4" : "translate-x-1",
+			                          "pointer-events-none inline-block h-4 w-4 transform rounded-full shadow transition-transform",
+			                          customTitleEnabled ? "translate-x-4 bg-background" : "translate-x-1 bg-foreground",
 			                        )}
 			                      />
 			                    </Switch.Root>

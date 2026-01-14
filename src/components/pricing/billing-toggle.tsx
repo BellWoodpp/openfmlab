@@ -24,7 +24,7 @@ export function BillingToggle({
 
   return (
     <div className={cn("flex items-center justify-center", className)}>
-      <div className="flex items-center space-x-1 rounded-lg bg-muted p-1">
+      <div className="flex items-center space-x-1 rounded-lg bg-muted p-1 overflow-visible">
         {periods.map((p) => {
           const cycle = pricingConfig.billingCycles[p];
           const isActive = period === p;
@@ -90,7 +90,7 @@ export function BillingToggle({
                 <span>{cycle.label}</span>
               </span>
               {p === 'yearly' && (
-                <span className="ml-1 rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-900 dark:bg-purple-900/40 dark:text-purple-100">
+                <span className="pointer-events-none absolute -top-2 -right-2 rounded-full border border-purple-200/60 bg-purple-100 px-2 py-0.5 text-[10px] font-semibold leading-none text-purple-900 shadow-sm dark:border-purple-500/30 dark:bg-purple-900/40 dark:text-purple-100">
                   {discountLabel}
                 </span>
               )}

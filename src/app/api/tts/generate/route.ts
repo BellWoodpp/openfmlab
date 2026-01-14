@@ -14,6 +14,7 @@ import { estimateHkdCostForRequest, getGoogleTtsPricingForTier, monthKey } from 
 import { estimateTokensForRequest } from "@/lib/tts-tokens";
 import { checkUserPaidMembership } from "@/lib/membership";
 import { isVoiceCloningEnabled } from "@/lib/voice-cloning-enabled";
+import { isR2Configured, r2DeleteObjects, r2PutObject } from "@/lib/storage/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -114,37 +115,235 @@ const POLICY = {
 
 async function applyRetention(userId: string): Promise<void> {
   const cutoff = new Date(Date.now() - POLICY.maxDays * 24 * 60 * 60 * 1000);
-  await db
-    .delete(ttsGenerations)
-    .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)));
+
+  const deletedOldKeys: string[] = [];
+  try {
+    const rows = await db
+      .delete(ttsGenerations)
+      .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)))
+      .returning({ audioKey: ttsGenerations.audioKey });
+    for (const r of rows) {
+      if (typeof r.audioKey === "string" && r.audioKey.trim()) deletedOldKeys.push(r.audioKey.trim());
+    }
+  } catch (err) {
+    if (!isUndefinedColumnError(err, "audio_key")) throw err;
+    await db
+      .delete(ttsGenerations)
+      .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)));
+  }
+
+  if (deletedOldKeys.length && isR2Configured()) {
+    try {
+      await r2DeleteObjects(deletedOldKeys);
+    } catch {
+      // ignore
+    }
+  }
 
   while (true) {
-    const overflow = await db
-      .select({ id: ttsGenerations.id })
-      .from(ttsGenerations)
-      .where(eq(ttsGenerations.userId, userId))
-      .orderBy(desc(ttsGenerations.createdAt))
-      .offset(POLICY.maxItems)
-      .limit(200);
+    const overflow = await (async () => {
+      try {
+        return await db
+          .select({ id: ttsGenerations.id, audioKey: ttsGenerations.audioKey })
+          .from(ttsGenerations)
+          .where(eq(ttsGenerations.userId, userId))
+          .orderBy(desc(ttsGenerations.createdAt))
+          .offset(POLICY.maxItems)
+          .limit(200);
+      } catch (err) {
+        if (!isUndefinedColumnError(err, "audio_key")) throw err;
+        return await db
+          .select({ id: ttsGenerations.id })
+          .from(ttsGenerations)
+          .where(eq(ttsGenerations.userId, userId))
+          .orderBy(desc(ttsGenerations.createdAt))
+          .offset(POLICY.maxItems)
+          .limit(200);
+      }
+    })();
 
     if (overflow.length === 0) break;
     await db.delete(ttsGenerations).where(inArray(ttsGenerations.id, overflow.map((r) => r.id)));
+
+    const keys = overflow
+      .map((r) => (r as { audioKey?: unknown }).audioKey)
+      .filter((v): v is string => typeof v === "string" && v.trim())
+      .map((v) => v.trim());
+    if (keys.length && isR2Configured()) {
+      try {
+        await r2DeleteObjects(keys);
+      } catch {
+        // ignore
+      }
+    }
   }
 }
 
 async function getUsage(userId: string): Promise<{ totalItems: number; totalBytes: number }> {
-  const [row] = await db
-    .select({
-      totalItems: sql<number>`count(*)::int`,
-      totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
-    })
-    .from(ttsGenerations)
-    .where(eq(ttsGenerations.userId, userId));
+  const [row] = await (async () => {
+    try {
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(coalesce(${ttsGenerations.audioSize}, octet_length(${ttsGenerations.audio}))), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    } catch (err) {
+      if (!isUndefinedColumnError(err, "audio_size")) throw err;
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    }
+  })();
 
   return {
     totalItems: row?.totalItems ?? 0,
     totalBytes: Number(row?.totalBytes ?? 0),
   };
+}
+
+function extFromMimeType(mimeType: string): string {
+  const t = (mimeType || "").toLowerCase();
+  if (t.includes("wav")) return "wav";
+  if (t.includes("ogg")) return "ogg";
+  if (t.includes("webm")) return "webm";
+  if (t.includes("mpeg") || t.includes("mp3")) return "mp3";
+  return "bin";
+}
+
+async function persistTtsGeneration(opts: {
+  id: string;
+  userId: string;
+  title: string | null;
+  input: string;
+  voice: string;
+  tone: string;
+  speakingRateMode: string;
+  speakingRate: number | null | undefined;
+  volumeGainDb: number;
+  format: string;
+  mimeType: string;
+  audioBytes: Uint8Array;
+}): Promise<{ createdAt: Date | null; audioKey: string | null }> {
+  const audioSize = opts.audioBytes.length;
+  const audioDb = Buffer.from(opts.audioBytes);
+
+  const candidateTitle = typeof opts.title === "string" && opts.title.trim() ? opts.title.trim() : "";
+  const wantsTitle = Boolean(candidateTitle);
+
+  const r2Key = isR2Configured() ? `tts/${opts.userId}/${opts.id}.${extFromMimeType(opts.mimeType)}` : null;
+  let uploadedToR2 = false;
+  if (r2Key) {
+    try {
+      await r2PutObject({
+        key: r2Key,
+        body: new Uint8Array(audioDb),
+        contentType: opts.mimeType || "application/octet-stream",
+      });
+      uploadedToR2 = true;
+    } catch (err) {
+      console.warn("[r2] upload failed; falling back to DB storage:", err);
+      uploadedToR2 = false;
+    }
+  }
+
+  const base = {
+    id: opts.id,
+    userId: opts.userId,
+    input: opts.input,
+    voice: opts.voice,
+    tone: opts.tone,
+    speakingRateMode: opts.speakingRateMode,
+    speakingRate: opts.speakingRate ?? null,
+    volumeGainDb: opts.volumeGainDb,
+    format: opts.format,
+    mimeType: opts.mimeType,
+  };
+
+  const candidates: Array<{
+    withTitle: boolean;
+    withR2Columns: boolean;
+    persistAudioKey: string | null;
+    values: Record<string, unknown>;
+  }> = [];
+
+  const pushCandidate = (p: { withTitle: boolean; withR2Columns: boolean; persistAudioKey: string | null }) => {
+    candidates.push({
+      ...p,
+      values: {
+        ...base,
+        ...(p.withTitle ? { title: candidateTitle } : {}),
+        ...(p.withR2Columns
+          ? {
+              ...(p.persistAudioKey ? { audioKey: p.persistAudioKey } : {}),
+              audioSize,
+            }
+          : {}),
+        ...(p.persistAudioKey ? { audio: null } : { audio: audioDb }),
+      },
+    });
+  };
+
+  // Prefer R2: store key + size, keep DB audio empty.
+  if (uploadedToR2 && r2Key) {
+    if (wantsTitle) pushCandidate({ withTitle: true, withR2Columns: true, persistAudioKey: r2Key });
+    pushCandidate({ withTitle: false, withR2Columns: true, persistAudioKey: r2Key });
+  }
+
+  // Fallback: DB audio (still write audioSize if column exists).
+  if (wantsTitle) pushCandidate({ withTitle: true, withR2Columns: true, persistAudioKey: null });
+  pushCandidate({ withTitle: false, withR2Columns: true, persistAudioKey: null });
+  if (wantsTitle) pushCandidate({ withTitle: true, withR2Columns: false, persistAudioKey: null });
+  pushCandidate({ withTitle: false, withR2Columns: false, persistAudioKey: null });
+
+  const isRetryable = (err: unknown): boolean => {
+    const code = (err as { code?: unknown })?.code;
+    if (code === "42703" || code === "23502") return true; // undefined column / not-null violation
+    if (isUndefinedColumnError(err, "title")) return true;
+    if (isUndefinedColumnError(err, "audio_key") || isUndefinedColumnError(err, "audio_size")) return true;
+    return false;
+  };
+
+  let lastErr: unknown = null;
+  for (const c of candidates) {
+    try {
+      const [inserted] = await db
+        .insert(ttsGenerations)
+        .values(c.values as never)
+        .returning({ createdAt: ttsGenerations.createdAt });
+
+      // If we uploaded to R2 but couldn't persist the key in DB, clean up the orphan.
+      if (uploadedToR2 && r2Key && !c.persistAudioKey && isR2Configured()) {
+        try {
+          await r2DeleteObjects([r2Key]);
+        } catch {
+          // ignore
+        }
+      }
+
+      return { createdAt: inserted?.createdAt ?? null, audioKey: c.persistAudioKey };
+    } catch (err) {
+      lastErr = err;
+      if (isRetryable(err)) continue;
+      throw err;
+    }
+  }
+
+  // If we got here, all candidates failed. Best-effort cleanup if we uploaded.
+  if (uploadedToR2 && r2Key && isR2Configured()) {
+    try {
+      await r2DeleteObjects([r2Key]);
+    } catch {
+      // ignore
+    }
+  }
+
+  throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));
 }
 
 export async function POST(req: NextRequest) {

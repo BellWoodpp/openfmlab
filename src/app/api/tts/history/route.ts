@@ -6,6 +6,7 @@ import { db } from "@/lib/db/client";
 import { ttsGenerations } from "@/lib/db/schema/tts";
 import { inferGoogleBillingTier, type TtsBillingTier, type TtsProvider } from "@/lib/tts";
 import { estimateTokensForRequest } from "@/lib/tts-tokens";
+import { isR2Configured, r2DeleteObjects } from "@/lib/storage/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,38 +49,99 @@ function guessProviderAndTierFromVoiceInput(voiceInput: string): { provider: Tts
 
 async function applyRetention(userId: string): Promise<{ deletedOld: number; deletedOverflow: number }> {
   const cutoff = new Date(Date.now() - POLICY.maxDays * 24 * 60 * 60 * 1000);
-  const deletedOldRows = await db
-    .delete(ttsGenerations)
-    .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)))
-    .returning({ id: ttsGenerations.id });
+  const deletedOldKeys: string[] = [];
+  const deletedOldRows = await (async () => {
+    try {
+      const rows = await db
+        .delete(ttsGenerations)
+        .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)))
+        .returning({ id: ttsGenerations.id, audioKey: ttsGenerations.audioKey });
+      for (const r of rows) {
+        if (typeof r.audioKey === "string" && r.audioKey.trim()) deletedOldKeys.push(r.audioKey.trim());
+      }
+      return rows;
+    } catch (err) {
+      if (!isUndefinedColumnError(err, "audio_key")) throw err;
+      return await db
+        .delete(ttsGenerations)
+        .where(and(eq(ttsGenerations.userId, userId), lt(ttsGenerations.createdAt, cutoff)))
+        .returning({ id: ttsGenerations.id });
+    }
+  })();
+
+  if (deletedOldKeys.length && isR2Configured()) {
+    try {
+      await r2DeleteObjects(deletedOldKeys);
+    } catch {
+      // ignore (best-effort cleanup)
+    }
+  }
 
   let deletedOverflow = 0;
   while (true) {
-    const overflow = await db
-      .select({ id: ttsGenerations.id })
-      .from(ttsGenerations)
-      .where(eq(ttsGenerations.userId, userId))
-      .orderBy(desc(ttsGenerations.createdAt))
-      .offset(POLICY.maxItems)
-      .limit(200);
+    const overflow = await (async () => {
+      try {
+        return await db
+          .select({ id: ttsGenerations.id, audioKey: ttsGenerations.audioKey })
+          .from(ttsGenerations)
+          .where(eq(ttsGenerations.userId, userId))
+          .orderBy(desc(ttsGenerations.createdAt))
+          .offset(POLICY.maxItems)
+          .limit(200);
+      } catch (err) {
+        if (!isUndefinedColumnError(err, "audio_key")) throw err;
+        return await db
+          .select({ id: ttsGenerations.id })
+          .from(ttsGenerations)
+          .where(eq(ttsGenerations.userId, userId))
+          .orderBy(desc(ttsGenerations.createdAt))
+          .offset(POLICY.maxItems)
+          .limit(200);
+      }
+    })();
 
     if (overflow.length === 0) break;
 
     await db.delete(ttsGenerations).where(inArray(ttsGenerations.id, overflow.map((r) => r.id)));
     deletedOverflow += overflow.length;
+
+    const keys = overflow
+      .map((r) => (r as { audioKey?: unknown }).audioKey)
+      .filter((v): v is string => typeof v === "string" && v.trim())
+      .map((v) => v.trim());
+    if (keys.length && isR2Configured()) {
+      try {
+        await r2DeleteObjects(keys);
+      } catch {
+        // ignore (best-effort cleanup)
+      }
+    }
   }
 
   return { deletedOld: deletedOldRows.length, deletedOverflow };
 }
 
 async function getUsage(userId: string): Promise<{ totalItems: number; totalBytes: number }> {
-  const [row] = await db
-    .select({
-      totalItems: sql<number>`count(*)::int`,
-      totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
-    })
-    .from(ttsGenerations)
-    .where(eq(ttsGenerations.userId, userId));
+  const [row] = await (async () => {
+    try {
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(coalesce(${ttsGenerations.audioSize}, octet_length(${ttsGenerations.audio}))), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    } catch (err) {
+      if (!isUndefinedColumnError(err, "audio_size")) throw err;
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    }
+  })();
 
   return {
     totalItems: row?.totalItems ?? 0,
@@ -205,11 +267,57 @@ export async function DELETE(req: NextRequest) {
   const id = typeof idRaw === "string" ? idRaw.trim() : "";
 
   if (all) {
+    const keys = await (async () => {
+      try {
+        const rows = await db
+          .select({ audioKey: ttsGenerations.audioKey })
+          .from(ttsGenerations)
+          .where(eq(ttsGenerations.userId, userId))
+          .limit(10_000);
+        return rows
+          .map((r) => r.audioKey)
+          .filter((v): v is string => typeof v === "string" && v.trim())
+          .map((v) => v.trim());
+      } catch (err) {
+        if (!isUndefinedColumnError(err, "audio_key")) throw err;
+        return [] as string[];
+      }
+    })();
+
     await db.delete(ttsGenerations).where(eq(ttsGenerations.userId, userId));
+    if (keys.length && isR2Configured()) {
+      try {
+        await r2DeleteObjects(keys);
+      } catch {
+        // ignore
+      }
+    }
   } else if (id) {
+    const keys = await (async () => {
+      try {
+        const rows = await db
+          .select({ audioKey: ttsGenerations.audioKey })
+          .from(ttsGenerations)
+          .where(and(eq(ttsGenerations.userId, userId), eq(ttsGenerations.id, id)))
+          .limit(1);
+        const key = rows[0]?.audioKey;
+        return typeof key === "string" && key.trim() ? [key.trim()] : [];
+      } catch (err) {
+        if (!isUndefinedColumnError(err, "audio_key")) throw err;
+        return [] as string[];
+      }
+    })();
+
     await db
       .delete(ttsGenerations)
       .where(and(eq(ttsGenerations.userId, userId), eq(ttsGenerations.id, id)));
+    if (keys.length && isR2Configured()) {
+      try {
+        await r2DeleteObjects(keys);
+      } catch {
+        // ignore
+      }
+    }
   } else {
     return NextResponse.json({ error: "Missing delete target" }, { status: 400 });
   }

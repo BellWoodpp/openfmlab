@@ -5,6 +5,7 @@ import { and, desc, eq, inArray, lt, sql } from "drizzle-orm";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { ttsGenerations } from "@/lib/db/schema/tts";
+import { isR2Configured, r2DeleteObjects, r2PutObject } from "@/lib/storage/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,13 +50,30 @@ async function applyRetention(userId: string): Promise<void> {
 }
 
 async function getUsage(userId: string): Promise<{ totalItems: number; totalBytes: number }> {
-  const [row] = await db
-    .select({
-      totalItems: sql<number>`count(*)::int`,
-      totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
-    })
-    .from(ttsGenerations)
-    .where(eq(ttsGenerations.userId, userId));
+  const [row] = await (async () => {
+    try {
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(coalesce(${ttsGenerations.audioSize}, octet_length(${ttsGenerations.audio}))), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    } catch (err) {
+      const code = (err as { code?: unknown })?.code;
+      const message = (err as { message?: unknown })?.message;
+      const missingAudioSize =
+        code === "42703" || (typeof message === "string" && message.includes(`column "audio_size" does not exist`));
+      if (!missingAudioSize) throw err;
+      return await db
+        .select({
+          totalItems: sql<number>`count(*)::int`,
+          totalBytes: sql<number>`coalesce(sum(octet_length(${ttsGenerations.audio})), 0)::bigint`,
+        })
+        .from(ttsGenerations)
+        .where(eq(ttsGenerations.userId, userId));
+    }
+  })();
 
   return {
     totalItems: row?.totalItems ?? 0,
@@ -68,6 +86,16 @@ function isAudioFile(file: File): boolean {
   if (t.startsWith("audio/")) return true;
   const name = file.name.toLowerCase();
   return name.endsWith(".mp3") || name.endsWith(".wav") || name.endsWith(".ogg") || name.endsWith(".m4a") || name.endsWith(".webm");
+}
+
+function extFromMimeType(mimeType: string): string {
+  const t = (mimeType || "").toLowerCase();
+  if (t.includes("wav")) return "wav";
+  if (t.includes("ogg")) return "ogg";
+  if (t.includes("webm")) return "webm";
+  if (t.includes("mpeg") || t.includes("mp3")) return "mp3";
+  if (t.includes("m4a") || t.includes("mp4")) return "m4a";
+  return "bin";
 }
 
 export async function POST(req: NextRequest) {
@@ -120,32 +148,74 @@ export async function POST(req: NextRequest) {
 
   const id = nanoid(12);
   const audioBytes = Buffer.from(await file.arrayBuffer());
+  const audioSize = audioBytes.length;
 
   try {
     await applyRetention(userId);
 
-    const [inserted] = await db
-      .insert(ttsGenerations)
-      .values({
-        id,
-        userId,
-        input: input.slice(0, 5000),
-        voice: voice.slice(0, 256),
-        tone: "neutral",
-        speakingRateMode: "auto",
-        speakingRate: null,
-        volumeGainDb: 0,
-        format,
-        mimeType,
-        audio: audioBytes,
-      })
-      .returning({ createdAt: ttsGenerations.createdAt });
+    const key = isR2Configured() ? `tts/${userId}/${id}.${extFromMimeType(mimeType)}` : null;
+    let storedInR2 = false;
+    if (key) {
+      try {
+        await r2PutObject({
+          key,
+          body: new Uint8Array(audioBytes),
+          contentType: mimeType || "application/octet-stream",
+        });
+        storedInR2 = true;
+      } catch (err) {
+        console.warn("[r2] upload failed; falling back to DB storage:", err);
+      }
+    }
+
+    const valuesBase = {
+      id,
+      userId,
+      input: input.slice(0, 5000),
+      voice: voice.slice(0, 256),
+      tone: "neutral",
+      speakingRateMode: "auto",
+      speakingRate: null,
+      volumeGainDb: 0,
+      format,
+      mimeType,
+    } as const;
+
+    const [inserted] = await (async () => {
+      try {
+        return await db
+          .insert(ttsGenerations)
+          .values({
+            ...valuesBase,
+            ...(storedInR2 && key ? { audioKey: key, audioSize, audio: null } : { audio: audioBytes }),
+            ...(!storedInR2 ? { audioSize } : {}),
+          })
+          .returning({ createdAt: ttsGenerations.createdAt });
+      } catch (err) {
+        // Backward-compat: old schema without audio_key/audio_size or audio being NOT NULL.
+        const code = (err as { code?: unknown })?.code;
+        if (code === "42703" || code === "23502") {
+          return await db
+            .insert(ttsGenerations)
+            .values({ ...valuesBase, audio: audioBytes })
+            .returning({ createdAt: ttsGenerations.createdAt });
+        }
+        throw err;
+      }
+    })();
 
     await applyRetention(userId);
 
     const usage = await getUsage(userId);
     if (usage.totalBytes > POLICY.maxTotalBytes) {
       await db.delete(ttsGenerations).where(and(eq(ttsGenerations.userId, userId), eq(ttsGenerations.id, id)));
+      if (storedInR2 && key && isR2Configured()) {
+        try {
+          await r2DeleteObjects([key]);
+        } catch {
+          // ignore
+        }
+      }
       return NextResponse.json(
         {
           error: "Storage quota exceeded. Please delete some history and try again.",
@@ -170,4 +240,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-

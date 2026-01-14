@@ -20,6 +20,7 @@ Optional:
 - `OPENAI_MODEL_TEXT` (default `gpt-4o-mini`)
 - `OPENAI_MODEL_TTS` (default `gpt-4o-mini-tts`)
 - `DATABASE_URL` (enable saved TTS history + public share links; run Drizzle migration in `drizzle/`)
+- `R2_*` (recommended: store large audio files in Cloudflare R2 instead of Postgres `bytea`)
 
 ## Setup
 

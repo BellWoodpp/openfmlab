@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { ttsGenerations } from "@/lib/db/schema/tts";
 import { siteConfig } from "@/lib/site-config";
+import { isR2Configured, r2GetObject } from "@/lib/storage/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -79,11 +80,20 @@ export async function GET(
 
   const { id } = await params;
 
-  let rows: Array<{ audio: Buffer; mimeType: string; voice: string; title?: string | null }> = [];
+  let rows: Array<{
+    audio: Buffer | null;
+    audioKey?: string | null;
+    audioSize?: number | null;
+    mimeType: string;
+    voice: string;
+    title?: string | null;
+  }> = [];
   try {
     rows = await db
       .select({
         audio: ttsGenerations.audio,
+        audioKey: ttsGenerations.audioKey,
+        audioSize: ttsGenerations.audioSize,
         mimeType: ttsGenerations.mimeType,
         voice: ttsGenerations.voice,
         title: ttsGenerations.title,
@@ -92,16 +102,57 @@ export async function GET(
       .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
       .limit(1);
   } catch (err) {
-    if (!isUndefinedColumnError(err, "title")) throw err;
-    rows = await db
-      .select({
-        audio: ttsGenerations.audio,
-        mimeType: ttsGenerations.mimeType,
-        voice: ttsGenerations.voice,
-      })
-      .from(ttsGenerations)
-      .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
-      .limit(1);
+    if (isUndefinedColumnError(err, "audio_key") || isUndefinedColumnError(err, "audio_size")) {
+      try {
+        rows = await db
+          .select({
+            audio: ttsGenerations.audio,
+            mimeType: ttsGenerations.mimeType,
+            voice: ttsGenerations.voice,
+            title: ttsGenerations.title,
+          })
+          .from(ttsGenerations)
+          .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
+          .limit(1);
+      } catch (err2) {
+        if (!isUndefinedColumnError(err2, "title")) throw err2;
+        rows = await db
+          .select({
+            audio: ttsGenerations.audio,
+            mimeType: ttsGenerations.mimeType,
+            voice: ttsGenerations.voice,
+          })
+          .from(ttsGenerations)
+          .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
+          .limit(1);
+      }
+    } else {
+      if (!isUndefinedColumnError(err, "title")) throw err;
+      try {
+        rows = await db
+          .select({
+            audio: ttsGenerations.audio,
+            audioKey: ttsGenerations.audioKey,
+            audioSize: ttsGenerations.audioSize,
+            mimeType: ttsGenerations.mimeType,
+            voice: ttsGenerations.voice,
+          })
+          .from(ttsGenerations)
+          .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
+          .limit(1);
+      } catch (err2) {
+        if (!isUndefinedColumnError(err2, "audio_key") && !isUndefinedColumnError(err2, "audio_size")) throw err2;
+        rows = await db
+          .select({
+            audio: ttsGenerations.audio,
+            mimeType: ttsGenerations.mimeType,
+            voice: ttsGenerations.voice,
+          })
+          .from(ttsGenerations)
+          .where(and(eq(ttsGenerations.id, id), eq(ttsGenerations.userId, userId)))
+          .limit(1);
+      }
+    }
   }
 
   const found = rows[0];
@@ -114,10 +165,6 @@ export async function GET(
   const nameBase = safeFilenamePart(typeof found.title === "string" && found.title.trim() ? found.title : found.voice);
   const filename = `${siteConfig.downloadPrefix}-${nameBase}-${id}.${ext}`;
 
-  const audioBuffer = Buffer.from(found.audio);
-  const size = audioBuffer.length;
-  const range = parseRangeHeader(req.headers.get("range"), size);
-
   const baseHeaders: HeadersInit = {
     "Content-Type": mimeType,
     "Cache-Control": "no-store",
@@ -125,6 +172,38 @@ export async function GET(
     "Content-Disposition": `inline; filename="${filename}"`,
     "Accept-Ranges": "bytes",
   };
+
+  const hasInlineAudio = found.audio && Buffer.byteLength(found.audio) > 0;
+  const audioKey = typeof found.audioKey === "string" && found.audioKey.trim() ? found.audioKey.trim() : null;
+
+  if (!hasInlineAudio && audioKey) {
+    if (!isR2Configured()) {
+      return Response.json({ error: "Audio is stored in object storage but R2 is not configured." }, { status: 500 });
+    }
+
+    const rangeHeader = req.headers.get("range");
+    const r2Res = await r2GetObject({ key: audioKey, range: rangeHeader });
+
+    const contentRange = r2Res.headers.get("content-range");
+    const contentLength = r2Res.headers.get("content-length");
+
+    return new Response(r2Res.body, {
+      status: contentRange ? 206 : 200,
+      headers: {
+        ...baseHeaders,
+        ...(contentRange ? { "Content-Range": contentRange } : {}),
+        ...(contentLength ? { "Content-Length": contentLength } : {}),
+      },
+    });
+  }
+
+  if (!hasInlineAudio) {
+    return Response.json({ error: "Audio blob is missing." }, { status: 500 });
+  }
+
+  const audioBuffer = Buffer.from(found.audio as Buffer);
+  const size = audioBuffer.length;
+  const range = parseRangeHeader(req.headers.get("range"), size);
 
   if (!range) {
     return new Response(audioBuffer, {

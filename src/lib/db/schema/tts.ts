@@ -23,7 +23,10 @@ export const ttsGenerations = pgTable("tts_generations", {
 
   format: text("format").notNull().default("mp3"),
   mimeType: text("mime_type").notNull().default("audio/mpeg"),
-  audio: pgBytea("audio").notNull(),
+  // Prefer storing large audio blobs in object storage (Cloudflare R2). Keep `audio` as a DB fallback.
+  audioKey: text("audio_key"),
+  audioSize: bigint("audio_size", { mode: "number" }),
+  audio: pgBytea("audio"),
 
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });

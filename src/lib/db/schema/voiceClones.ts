@@ -1,4 +1,4 @@
-import { customType, pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { bigint, customType, pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
 import { users } from "./users";
 
 export type VoiceCloneStatus = "creating" | "training" | "ready" | "failed";
@@ -40,6 +40,9 @@ export const voiceCloneSamples = pgTable("voice_clone_samples", {
     .references(() => users.id, { onDelete: "cascade" }),
   filename: text("filename").notNull(),
   mimeType: text("mime_type").notNull(),
-  audio: pgBytea("audio").notNull(),
+  // Prefer storing samples in object storage; keep `audio` as a DB fallback.
+  audioKey: text("audio_key"),
+  audioSize: bigint("audio_size", { mode: "number" }),
+  audio: pgBytea("audio"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
