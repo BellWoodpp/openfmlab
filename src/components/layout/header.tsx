@@ -152,7 +152,7 @@ export function Header() {
 	          <a
 	            href={githubUrl}
 	            target="_blank"
-	            rel="noopener noreferrer"
+	            rel="nofollow noopener noreferrer"
 	            className="inline-flex items-center justify-center rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
 	            aria-label="GitHub"
 	          >
