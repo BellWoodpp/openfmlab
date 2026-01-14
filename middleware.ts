@@ -6,6 +6,20 @@ const LOCALE_COOKIE = "rtvox_locale";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Redirect well-known icon paths to the public asset host (R2 custom domain).
+  // Browsers may request these directly, ignoring <link rel="icon">.
+  if (pathname === "/favicon.ico" || pathname === "/apple-touch-icon.png") {
+    const base = process.env.NEXT_PUBLIC_ASSET_BASE_URL?.trim();
+    if (base) {
+      const target =
+        pathname === "/apple-touch-icon.png"
+          ? `${base.replace(/\/$/, "")}/photo/text-to-speech.png`
+          : `${base.replace(/\/$/, "")}/photo/text-to-speech.ico`;
+      return NextResponse.redirect(target);
+    }
+  }
+
   const savedLocale = request.cookies.get(LOCALE_COOKIE)?.value;
   const preferredLocale =
     typeof savedLocale === "string" && (locales as readonly string[]).includes(savedLocale)
@@ -59,6 +73,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|admin|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*).*)",
+    "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/((?!api|admin|_next/static|_next/image|sitemap.xml|robots.txt|.*\\..*).*)",
   ],
 };
