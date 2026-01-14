@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
 import { voiceAvatarDataUri } from "@/lib/voice-avatar";
 import type { HomeDictionary } from "@/i18n/types";
+import { assetUrl } from "@/lib/asset-url";
 
 type Voice = { id: string; name: string; label: string };
 
@@ -31,17 +32,17 @@ function isIntroText(value: string): boolean {
 }
 
 const SAMPLE_AUDIO_BY_VOICE_ID: Record<string, string> = {
-  en_us_journey_d: "/voice/English/Journey.mp3",
-  en_us_neural2_f: "/voice/English/Neural2-F.mp3",
-  en_gb_wavenet_b: "/voice/English/Wavenet-B.mp3",
-  en_au_standard_c: "/voice/English/Standard-C.mp3",
-  en_in_standard_a: "/voice/English/Standard-A.mp3",
-  en_us_chirp3_hd: "/voice/English/Chirp3-HD.mp3",
-  zh_cn_wavenet_a: "/voice/Chinese/Wavenet-A.mp3",
-  zh_cn_chirp3_hd: "/voice/Chinese/Chirp3-HD.mp3",
-  zh_tw_standard_b: "/voice/Chinese/Standard-B.mp3",
-  ja_jp_wavenet_a: "/voice/Japanese/Wavenet-A.mp3",
-  ja_jp_neural2_b: "/voice/Japanese/Neural2-B.mp3",
+  en_us_journey_d: assetUrl("/voice/English/Journey.mp3"),
+  en_us_neural2_f: assetUrl("/voice/English/Neural2-F.mp3"),
+  en_gb_wavenet_b: assetUrl("/voice/English/Wavenet-B.mp3"),
+  en_au_standard_c: assetUrl("/voice/English/Standard-C.mp3"),
+  en_in_standard_a: assetUrl("/voice/English/Standard-A.mp3"),
+  en_us_chirp3_hd: assetUrl("/voice/English/Chirp3-HD.mp3"),
+  zh_cn_wavenet_a: assetUrl("/voice/Chinese/Wavenet-A.mp3"),
+  zh_cn_chirp3_hd: assetUrl("/voice/Chinese/Chirp3-HD.mp3"),
+  zh_tw_standard_b: assetUrl("/voice/Chinese/Standard-B.mp3"),
+  ja_jp_wavenet_a: assetUrl("/voice/Japanese/Wavenet-A.mp3"),
+  ja_jp_neural2_b: assetUrl("/voice/Japanese/Neural2-B.mp3"),
 };
 
 function avatarDataUri(input: string): string {
@@ -340,8 +341,8 @@ export function TtsUiMockup({ className, strings }: { className?: string; string
                         isLoading || isPlaying ? "bg-primary/90 text-primary-foreground" : "bg-white";
                       const avatarFolder =
                         voiceLang === "zh" ? "Chinese" : voiceLang === "ja" ? "Japanese" : "English";
-                      const avatarSrc = `/avator/${avatarFolder}/${encodeURIComponent(voice.name)}.png`;
-                      const legacyAvatarSrc = `/avator/${encodeURIComponent(voice.name)}.png`;
+                      const avatarSrc = assetUrl(`/avator/${avatarFolder}/${encodeURIComponent(voice.name)}.png`);
+                      const legacyAvatarSrc = assetUrl(`/avator/${encodeURIComponent(voice.name)}.png`);
 
                       return (
                         <button
@@ -373,7 +374,7 @@ export function TtsUiMockup({ className, strings }: { className?: string; string
                                 className="h-14 w-14 rounded-full object-cover"
                                 onError={(e) => {
                                   if (e.currentTarget.dataset.fallbackApplied === "2") {
-                                    e.currentTarget.src = "/avatar-placeholder.svg";
+                                    e.currentTarget.src = assetUrl("/avatar-placeholder.svg");
                                     return;
                                   }
                                   if (e.currentTarget.dataset.fallbackApplied === "1") {

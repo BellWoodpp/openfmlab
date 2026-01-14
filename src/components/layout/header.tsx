@@ -11,6 +11,7 @@ import { Menu, X, Github, Coins, Loader2 } from "lucide-react";
 import { useLocale } from "@/hooks";
 import { authClient } from "@/lib/auth/client";
 import { resolveIntlNumberLocale } from "@/i18n/locale-config";
+import { assetUrl } from "@/lib/asset-url";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,7 +87,7 @@ export function Header() {
         <div className="flex items-center flex-1">
           <Link href={locale === 'en' ? '/' : `/${locale}/`} className="flex items-center space-x-2">
             <Image
-              src="/photo/RTVox.webp"
+              src={assetUrl("/photo/RTVox.webp")}
               alt="RTVox"
               width={1052}
               height={266}
@@ -94,7 +95,7 @@ export function Header() {
               className="h-8 w-auto dark:hidden"
             />
             <Image
-              src="/photo/RTVox-black.webp"
+              src={assetUrl("/photo/RTVox-black.webp")}
               alt="RTVox"
               width={1052}
               height={266}

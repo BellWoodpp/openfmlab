@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {FooterDictionary, type Locale, locales} from "@/i18n/types";
 import {Button} from "@/components/ui/button";
+import { assetUrl } from "@/lib/asset-url";
 
 interface FooterProps {
   dictionary: FooterDictionary;
@@ -46,14 +47,14 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/photo/RTVox.webp"
+                src={assetUrl("/photo/RTVox.webp")}
                 alt="RTVox"
                 width={1052}
                 height={266}
                 className="h-8 w-auto dark:hidden"
               />
               <Image
-                src="/photo/RTVox-black.webp"
+                src={assetUrl("/photo/RTVox-black.webp")}
                 alt="RTVox"
                 width={1052}
                 height={266}

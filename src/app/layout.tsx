@@ -10,6 +10,7 @@ import { Header, FooterWrapper } from "@/components/layout";
 import { siteConfig } from "@/lib/site-config";
 import { defaultLocale } from "@/i18n/types";
 import Script from "next/script";
+import { assetUrl } from "@/lib/asset-url";
 
 // 声明常量geistSans
 const geistSans = Geist({
@@ -33,13 +34,13 @@ export const metadata: Metadata = {
   description: siteConfig.defaultDescription,
   icons: {
     icon: [
-      { url: "/photo/text-to-speech.ico", type: "image/x-icon" },
+      { url: assetUrl("/photo/text-to-speech.ico"), type: "image/x-icon" },
     ],
     apple: [
-      { url: "/photo/text-to-speech.png", type: "image/png" },
+      { url: assetUrl("/photo/text-to-speech.png"), type: "image/png" },
     ],
     shortcut: [
-      { url: "/photo/text-to-speech.ico", type: "image/x-icon" },
+      { url: assetUrl("/photo/text-to-speech.ico"), type: "image/x-icon" },
     ],
   },
   openGraph: {

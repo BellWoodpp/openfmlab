@@ -3,6 +3,7 @@ import * as Switch from "@radix-ui/react-switch";
 import s from "./Switcher.module.css";
 import { useAudioClip } from "@/hooks/useAudioClip";
 import { Code } from "./Icons";
+import { assetUrl } from "@/lib/asset-url";
 interface SwitcherProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
@@ -10,7 +11,7 @@ interface SwitcherProps {
 }
 
 export const Switcher = ({ checked, onChange, id }: SwitcherProps) => {
-  const play = useAudioClip("/click.wav");
+  const play = useAudioClip(assetUrl("/click.wav"));
 
   return (
     <div className="flex items-center cursor-pointer hover:text-current/70 transition-colors">

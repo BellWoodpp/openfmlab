@@ -11,6 +11,7 @@ import { Check } from "@/components/ui/Icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { voiceAvatarDataUri } from "@/lib/voice-avatar";
 import { siteConfig } from "@/lib/site-config";
+import { assetUrl } from "@/lib/asset-url";
 
 type VoicesResponse = {
   lang: string;
@@ -607,7 +608,7 @@ function VoiceAvatar({ voiceName, selected }: { voiceName: string; selected: boo
         alt={voiceDisplayName(voiceName)}
         className="h-14 w-14 rounded-full object-cover"
         onError={(e) => {
-          e.currentTarget.src = "/avatar-placeholder.svg";
+          e.currentTarget.src = assetUrl("/avatar-placeholder.svg");
         }}
       />
       {selected ? (

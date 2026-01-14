@@ -3,15 +3,27 @@ import "server-only";
 import { createHash, createHmac, randomUUID } from "node:crypto";
 
 function mustGetEnv(name: string): string {
-  const value = process.env[name];
+  const raw = process.env[name];
+  const value = stripWrappingQuotes(raw);
   if (!value || !value.trim()) throw new Error(`${name} is not set`);
   return value.trim();
 }
 
 function getEnv(name: string): string | null {
-  const value = process.env[name];
+  const raw = process.env[name];
+  const value = stripWrappingQuotes(raw);
   if (!value || !value.trim()) return null;
   return value.trim();
+}
+
+function stripWrappingQuotes(value: unknown): string {
+  const trimmed = String(value ?? "").trim();
+  const first = trimmed[0];
+  const last = trimmed[trimmed.length - 1];
+  if ((first === `"` && last === `"`) || (first === `'` && last === `'`)) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
 }
 
 export function isR2Configured(): boolean {
@@ -136,7 +148,19 @@ function signRequest(opts: {
 }
 
 function buildR2Url(opts: { endpoint: string; bucket: string; key?: string; query?: Record<string, string> }): URL {
-  const endpoint = opts.endpoint.replace(/\/$/, "");
+  let endpoint = opts.endpoint.trim().replace(/\/$/, "");
+  // Be forgiving: if user accidentally sets endpoint like `...r2.cloudflarestorage.com/<bucket>`,
+  // strip the bucket segment to avoid double-prefixing.
+  try {
+    const parsed = new URL(endpoint);
+    const bucketSuffix = `/${opts.bucket}`;
+    if (parsed.pathname === bucketSuffix || parsed.pathname === `${bucketSuffix}/`) {
+      endpoint = parsed.origin;
+    }
+  } catch {
+    // ignore
+  }
+
   const base = `${endpoint}/${encodeRfc3986(opts.bucket)}`;
   const pathname = opts.key ? `${base}/${opts.key.split("/").map(encodeRfc3986).join("/")}` : base;
   const url = new URL(pathname);

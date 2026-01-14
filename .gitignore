@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local-only static assets (uploaded to R2, not committed to GitHub)
+public/avator/
+public/voice/
+public/photo/
+public/mockups/
+public/*.svg
+public/*.png
+public/*.webp
+public/*.ico
+public/*.wav
+public/worker-*.js

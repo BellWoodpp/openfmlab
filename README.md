@@ -21,6 +21,7 @@ Optional:
 - `OPENAI_MODEL_TTS` (default `gpt-4o-mini-tts`)
 - `DATABASE_URL` (enable saved TTS history + public share links; run Drizzle migration in `drizzle/`)
 - `R2_*` (recommended: store large audio files in Cloudflare R2 instead of Postgres `bytea`)
+- `NEXT_PUBLIC_ASSET_BASE_URL` (recommended: serve `public/` static assets from R2; run `pnpm r2:upload-public`)
 
 ## Setup
 
@@ -35,6 +36,14 @@ pnpm dev
 ```bash
 pnpm creem:smoke -- --retrieve-only
 pnpm creem:smoke
+```
+
+## R2 static assets upload (optional)
+
+This project can serve large `public/` assets (logos, voice samples, etc) from Cloudflare R2 instead of committing them to GitHub.
+
+```bash
+pnpm r2:upload-public
 ```
 
 ## Notes

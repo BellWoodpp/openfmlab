@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "creem:smoke": "node scripts/creem-smoke.mjs",
+    "r2:smoke": "node scripts/r2-smoke.mjs",
+    "r2:upload-public": "node scripts/r2-upload-public.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push"

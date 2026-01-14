@@ -19,6 +19,7 @@ import { Block } from "./ui/Block";
 import { Footer } from "./ui/Footer";
 import { appStore } from "@/lib/store";
 import { siteConfig } from "@/lib/site-config";
+import { assetUrl } from "@/lib/asset-url";
 import { Skeleton } from "@/components/ui/skeleton";
 import BrowserNotSupported from "./ui/BrowserNotSupported";
 import PlayButton from "./PlayButton";
@@ -1212,7 +1213,7 @@ const Sidebar = ({
 	      <div className="p-6">
 	        <div className="flex items-center gap-3">
 	           <Image
-	             src="/photo/text-to-speech.webp"
+	             src={assetUrl("/photo/text-to-speech.webp")}
 	             alt="RTVox"
 	             width={32}
 	             height={32}

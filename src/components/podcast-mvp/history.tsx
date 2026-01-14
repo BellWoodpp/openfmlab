@@ -17,6 +17,7 @@ import type { Locale } from "@/i18n";
 import { useBodyScrollable } from "@/hooks/useBodyScrollable";
 import { siteConfig } from "@/lib/site-config";
 import { getPodcastMvpUiCopy } from "@/components/TTSPage";
+import { assetUrl } from "@/lib/asset-url";
 
 function formatTemplate(template: string, vars: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (match, key) => {
@@ -160,7 +161,7 @@ const Sidebar = ({ active }: { active: "tts" | "history" }) => {
       <div className="p-6">
         <div className="flex items-center gap-3">
           <Image
-            src="/photo/text-to-speech.webp"
+            src={assetUrl("/photo/text-to-speech.webp")}
             alt="RTVox"
             width={32}
             height={32}
