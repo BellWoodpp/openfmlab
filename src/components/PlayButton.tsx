@@ -231,9 +231,13 @@ export default function PlayButton() {
     const trimmed = input.trim();
     if (!trimmed) return 0;
     try {
+      const { ttsProvider } = appStore.getState();
       const url = new URL("/api/tts/cost", window.location.origin);
       url.searchParams.set("voice", voice);
       url.searchParams.set("chars", String(trimmed.length));
+      if (ttsProvider === "azure" || ttsProvider === "google") {
+        url.searchParams.set("provider", ttsProvider);
+      }
       const res = await fetch(url.toString(), { cache: "no-store" });
       if (!res.ok) throw new Error("cost not available");
       const json = (await res.json()) as { data?: unknown };
@@ -247,7 +251,7 @@ export default function PlayButton() {
   };
 
   const handleSubmit = async () => {
-    const { input, voice, tone, speakingRateMode, speakingRate, volumeGainDb, customTitleEnabled, customTitle } =
+    const { ttsProvider, input, voice, tone, speakingRateMode, speakingRate, volumeGainDb, customTitleEnabled, customTitle } =
       appStore.getState();
     const requiredTokens = await getRequiredTokens(input, voice);
 
@@ -279,6 +283,9 @@ export default function PlayButton() {
 
     try {
       const metaUrl = new URL("/api/tts/meta", window.location.origin);
+      if (ttsProvider === "azure" || ttsProvider === "google") {
+        metaUrl.searchParams.set("provider", ttsProvider);
+      }
       metaUrl.searchParams.set("voice", voice);
       metaUrl.searchParams.set("format", "mp3");
       metaUrl.searchParams.set("tone", tone);
@@ -301,6 +308,7 @@ export default function PlayButton() {
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,
         body: JSON.stringify({
+          provider: ttsProvider,
           input,
           voice,
           tone,
@@ -353,6 +361,8 @@ export default function PlayButton() {
         audioUrl: string;
         createdAt?: string | null;
         title?: string | null;
+        voice?: string;
+        provider?: string;
         tokensUsed?: number;
         tokensRemaining?: number | null;
       };
@@ -382,8 +392,9 @@ export default function PlayButton() {
         draft.latestAudioBlobUrl = audioUrl;
         const createdAt = data.createdAt ?? new Date().toISOString();
         const tokensUsed = typeof data.tokensUsed === "number" && Number.isFinite(data.tokensUsed) ? data.tokensUsed : 0;
+        const persistedVoice = typeof data.voice === "string" && data.voice.trim() ? data.voice.trim() : voice;
         draft.ttsHistory = [
-          { id: data.id, createdAt, title: data.title ?? null, voice, tone, audioUrl, tokensUsed },
+          { id: data.id, createdAt, title: data.title ?? null, voice: persistedVoice, tone, audioUrl, tokensUsed },
           ...draft.ttsHistory.filter((it) => it.id !== data.id),
         ];
       });

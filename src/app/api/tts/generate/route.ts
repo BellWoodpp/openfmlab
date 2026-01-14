@@ -9,7 +9,7 @@ import { ttsGenerations } from "@/lib/db/schema/tts";
 import { ttsMonthlyUsage } from "@/lib/db/schema/tts";
 import { voiceClones } from "@/lib/db/schema/voiceClones";
 import type { GoogleVoiceSelectionParams } from "@/lib/tts";
-import { inferGoogleBillingTier, getTtsProvider, type TtsBillingTier, synthesizeTts } from "@/lib/tts";
+import { inferGoogleBillingTier, getTtsProvider, resolveAzureVoice, TtsHttpError, type TtsBillingTier, synthesizeTts } from "@/lib/tts";
 import { estimateHkdCostForRequest, getGoogleTtsPricingForTier, monthKey } from "@/lib/tts-pricing";
 import { estimateTokensForRequest } from "@/lib/tts-tokens";
 import { checkUserPaidMembership } from "@/lib/membership";
@@ -21,10 +21,44 @@ export const dynamic = "force-dynamic";
 
 const ELEVEN_PREFIX = "elevenlabs:";
 const CLONE_PREFIX = "clone:";
+const AZURE_PREFIX = "azure:";
 
 function googleTierFromVoiceInput(voice: string): TtsBillingTier {
   if (voice.startsWith(CLONE_PREFIX)) return "chirp-voice-cloning";
   return inferGoogleBillingTier(voice);
+}
+
+function looksLikeGoogleVoiceName(voice: string): boolean {
+  return /^[a-z]{2,3}-[A-Z]{2}-/.test((voice || "").trim());
+}
+
+function extractLanguageCodeFromVoiceName(voice: string): string {
+  const v = (voice || "").trim();
+  if (!looksLikeGoogleVoiceName(v)) return process.env.GOOGLE_TTS_LANGUAGE_CODE || "en-US";
+  return v.split("-").slice(0, 2).join("-") || (process.env.GOOGLE_TTS_LANGUAGE_CODE || "en-US");
+}
+
+function googleStandardFallbackVoice(languageCode: string): string {
+  const lang = (languageCode || "").trim() || "en-US";
+  if (lang === "en-US") return "en-US-Standard-C";
+  return `${lang}-Standard-A`;
+}
+
+function shouldFallbackAzureToGoogle(err: unknown): boolean {
+  if (!(err instanceof TtsHttpError)) return false;
+  if (err.provider !== "azure") return false;
+
+  // Azure Speech free tier commonly hits rate limits (429) or quota/limit errors (403/402).
+  if (err.status === 429) return true;
+  if (err.status === 402 || err.status === 403) {
+    const body = (err.body || "").toLowerCase();
+    if (body.includes("quota")) return true;
+    if (body.includes("rate")) return true;
+    if (body.includes("limit")) return true;
+    if (body.includes("too many")) return true;
+  }
+
+  return false;
 }
 
 async function getGoogleMonthlyUsedChars(month: string, tier: TtsBillingTier): Promise<number> {
@@ -371,6 +405,7 @@ export async function POST(req: NextRequest) {
   const voiceRaw = normalizeString((body as { voice?: unknown })?.voice);
   const titleRaw = normalizeString((body as { title?: unknown })?.title);
   const title = titleRaw && titleRaw.length <= 80 ? titleRaw : "";
+  const providerRaw = normalizeString((body as { provider?: unknown })?.provider);
   const tone = normalizeTone(String((body as { tone?: unknown })?.tone ?? ""));
   const speakingRateMode = normalizeString((body as { speakingRateMode?: unknown })?.speakingRateMode) === "custom" ? "custom" : "auto";
   const speakingRateRaw = (body as { speakingRate?: unknown })?.speakingRate;
@@ -395,8 +430,15 @@ export async function POST(req: NextRequest) {
   try {
     const wantsElevenLabs = voiceRaw.startsWith(ELEVEN_PREFIX);
     const wantsClone = voiceRaw.startsWith(CLONE_PREFIX);
+    const requestedProvider = (() => {
+      const v = providerRaw.toLowerCase();
+      if (v === "google") return "google";
+      if (v === "azure" || v === "microsoft" || v === "ms" || v === "speech") return "azure";
+      if (v === "openai") return "openai";
+      return null;
+    })();
 
-    let provider = wantsElevenLabs ? "elevenlabs" : getTtsProvider();
+    let provider = wantsElevenLabs ? "elevenlabs" : requestedProvider ?? getTtsProvider();
     let voice = wantsElevenLabs ? voiceRaw.slice(ELEVEN_PREFIX.length) : voiceRaw;
 
     if (wantsClone) {
@@ -460,6 +502,10 @@ export async function POST(req: NextRequest) {
       } else {
         return NextResponse.json({ error: "Unsupported cloned voice provider" }, { status: 501 });
       }
+    }
+
+    if (provider === "azure" && voice.startsWith(AZURE_PREFIX)) {
+      voice = voice.slice(AZURE_PREFIX.length).trim() || voice;
     }
 
     if (provider === "google" && !wantsClone) {
@@ -591,6 +637,8 @@ export async function POST(req: NextRequest) {
         audioUrl: `/api/tts/audio/${id}`,
         createdAt: persisted.createdAt ? persisted.createdAt.toISOString() : null,
         title: title || null,
+        voice: voiceRaw,
+        provider,
         tokensUsed,
         tokensRemaining,
       });
@@ -628,24 +676,118 @@ export async function POST(req: NextRequest) {
     charged = true;
     tokensRemaining = chargedRow.tokens;
 
-    const audioBytes = await synthesizeTts({
-      provider,
-      input,
-      format,
-      voice: voiceRaw,
-      tone,
-      speakingRate,
-      volumeGainDb,
-      openAi: apiKey ? { apiKey, model: process.env.OPENAI_MODEL_TTS || "gpt-4o-mini-tts" } : undefined,
-      google: googleVoiceSelection ? { voiceSelection: googleVoiceSelection } : undefined,
-    });
+    const providerAllowsFallback = process.env.AZURE_TTS_FALLBACK_TO_GOOGLE !== "0";
+    let providerUsed = provider;
+    let persistedVoice = voiceRaw;
+
+    // When using Azure as primary, store the actual Azure voice used for this generation.
+    // This keeps history consistent with the audio users hear.
+    if (provider === "azure") {
+      const resolved = resolveAzureVoice(voiceRaw);
+      persistedVoice = `${AZURE_PREFIX}${resolved.name}`;
+    }
+
+    let audioBytes: Uint8Array;
+    try {
+      audioBytes = await synthesizeTts({
+        provider,
+        input,
+        format,
+        voice: voiceRaw,
+        tone,
+        speakingRate,
+        volumeGainDb,
+        openAi: apiKey ? { apiKey, model: process.env.OPENAI_MODEL_TTS || "gpt-4o-mini-tts" } : undefined,
+        google: googleVoiceSelection ? { voiceSelection: googleVoiceSelection } : undefined,
+      });
+    } catch (err) {
+      if (provider === "azure" && providerAllowsFallback && shouldFallbackAzureToGoogle(err)) {
+        providerUsed = "google";
+
+        // If the user is not paid and the originally selected voice is premium, degrade to a standard voice for the same language.
+        let fallbackVoice = voiceRaw;
+        const selectedTier = googleTierFromVoiceInput(voiceRaw);
+        if (selectedTier !== "standard" && looksLikeGoogleVoiceName(voiceRaw)) {
+          const membership = await checkUserPaidMembership(userId).catch(() => null);
+          if (!membership?.isPaid) {
+            const lang = extractLanguageCodeFromVoiceName(voiceRaw);
+            fallbackVoice = googleStandardFallbackVoice(lang);
+          }
+        }
+
+        const fallbackTier = googleTierFromVoiceInput(fallbackVoice);
+        const googleTokensUsed = estimateTokensForRequest({
+          provider: "google",
+          billingTier: fallbackTier,
+          chars: input.length,
+        }).tokens;
+
+        if (googleTokensUsed !== tokensUsed) {
+          if (googleTokensUsed > tokensUsed) {
+            const extra = googleTokensUsed - tokensUsed;
+            const [extraCharged] = await db
+              .update(users)
+              .set({ tokens: sql`${users.tokens} - ${extra}` })
+              .where(and(eq(users.id, userId), gte(users.tokens, extra)))
+              .returning({ tokens: users.tokens });
+
+            if (!extraCharged) {
+              await refundTokens(userId, tokensUsed);
+              const [row] = await db
+                .select({ tokens: users.tokens })
+                .from(users)
+                .where(eq(users.id, userId))
+                .limit(1);
+
+              return NextResponse.json(
+                {
+                  error: "INSUFFICIENT_TOKENS",
+                  message: "Not enough tokens to generate this audio.",
+                  tokens: row?.tokens ?? 0,
+                  required: googleTokensUsed,
+                },
+                { status: 402 },
+              );
+            }
+
+            tokensRemaining = extraCharged.tokens;
+          } else {
+            const refund = tokensUsed - googleTokensUsed;
+            await refundTokens(userId, refund);
+            const [row] = await db
+              .select({ tokens: users.tokens })
+              .from(users)
+              .where(eq(users.id, userId))
+              .limit(1);
+            tokensRemaining = row?.tokens ?? tokensRemaining;
+          }
+
+          tokensUsed = googleTokensUsed;
+        }
+
+        audioBytes = await synthesizeTts({
+          provider: "google",
+          input,
+          format,
+          voice: fallbackVoice,
+          tone,
+          speakingRate,
+          volumeGainDb,
+        });
+
+        googleBillingTier = fallbackTier;
+        persistedVoice = fallbackVoice;
+      } else {
+        throw err;
+      }
+    }
 
     const persisted = await persistTtsGeneration({
       id,
       userId,
       title: title || null,
       input,
-      voice: voiceRaw,
+      voice: persistedVoice,
       tone,
       speakingRateMode,
       speakingRate,
@@ -680,8 +822,8 @@ export async function POST(req: NextRequest) {
     }
 
     let cost: unknown = null;
-    if (provider === "google") {
-      const tier = googleBillingTier ?? googleTierFromVoiceInput(voiceRaw);
+    if (providerUsed === "google") {
+      const tier = googleBillingTier ?? googleTierFromVoiceInput(persistedVoice);
       const pricing = getGoogleTtsPricingForTier(tier);
       const month = monthKey();
       try {
@@ -733,8 +875,10 @@ export async function POST(req: NextRequest) {
       audioUrl: `/api/tts/audio/${id}`,
       createdAt: persisted.createdAt ? persisted.createdAt.toISOString() : null,
       title: title || null,
+      voice: persistedVoice,
       tokensUsed,
       tokensRemaining,
+      provider: providerUsed,
       cost,
     });
   } catch (err) {

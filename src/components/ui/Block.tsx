@@ -12,6 +12,7 @@ interface BlockProps {
   tabs?: Tab[];
   value?: string;
   onChange?: (nextTab: string) => void;
+  rightSlot?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -24,6 +25,7 @@ export const Block: React.FC<BlockProps> = ({
   tabs,
   value,
   onChange,
+  rightSlot,
   children,
 }) => {
   return (
@@ -31,6 +33,7 @@ export const Block: React.FC<BlockProps> = ({
       <div className="flex flex-row justify-between -mb-[1px] relative items-center gap-2">
         <div className="flex uppercase py-1 text-current/70">{title}</div>
         <div className="flex flex-1 h-[1px] bg-foreground/8" />
+        {rightSlot ? <div className="flex items-center">{rightSlot}</div> : null}
         {/* Render tab buttons if tabs are provided */}
         {tabs && tabs.length > 0 && (
           <div className="flex">

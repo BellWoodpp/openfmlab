@@ -1,13 +1,14 @@
 import { TextToSpeechClient, protos } from "@google-cloud/text-to-speech";
 import { ensureGoogleApplicationCredentials } from "@/lib/google/credentials";
 
-export type TtsProvider = "openai" | "google" | "elevenlabs";
+export type TtsProvider = "openai" | "google" | "elevenlabs" | "azure";
 export type TtsFormat = "mp3" | "wav";
 export type TtsTone = "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised";
 export type GoogleVoiceSelectionParams = protos.google.cloud.texttospeech.v1.IVoiceSelectionParams;
 
 export type TtsBillingTier =
   | "openai"
+  | "azure"
   | "elevenlabs"
   | "standard"
   | "wavenet"
@@ -27,6 +28,20 @@ export type TtsMeta = {
   model?: string;
 };
 
+export class TtsHttpError extends Error {
+  provider: TtsProvider;
+  status: number;
+  body: string;
+
+  constructor(opts: { provider: TtsProvider; status: number; body: string; message?: string }) {
+    super(opts.message || `TTS failed (${opts.status})`);
+    this.name = "TtsHttpError";
+    this.provider = opts.provider;
+    this.status = opts.status;
+    this.body = opts.body;
+  }
+}
+
 function getEnv(name: string): string | undefined {
   const value = process.env[name];
   if (!value) return undefined;
@@ -36,6 +51,7 @@ function getEnv(name: string): string | undefined {
 export function getTtsProvider(): TtsProvider {
   const raw = (getEnv("TTS_PROVIDER") || "openai").toLowerCase();
   if (raw === "google" || raw === "gcp" || raw === "google-cloud") return "google";
+  if (raw === "azure" || raw === "microsoft" || raw === "ms" || raw === "speech") return "azure";
   if (raw === "elevenlabs" || raw === "eleven-labs" || raw === "11labs") return "elevenlabs";
   return "openai";
 }
@@ -124,6 +140,146 @@ async function elevenLabsTts(opts: {
   return new Uint8Array(arrayBuffer);
 }
 
+const AZURE_VOICE_MAP: Record<string, { languageCode: string; name: string }> = {
+  // OpenAI-style aliases (used by /api/generate and podcast-render)
+  alloy: { languageCode: "en-US", name: "en-US-JennyNeural" },
+  ash: { languageCode: "en-US", name: "en-US-GuyNeural" },
+  ballad: { languageCode: "en-US", name: "en-US-AriaNeural" },
+  coral: { languageCode: "en-US", name: "en-US-AmberNeural" },
+  echo: { languageCode: "en-US", name: "en-US-BrandonNeural" },
+  fable: { languageCode: "en-US", name: "en-US-AnaNeural" },
+  nova: { languageCode: "en-US", name: "en-US-JaneNeural" },
+  onyx: { languageCode: "en-US", name: "en-US-DavisNeural" },
+  sage: { languageCode: "en-US", name: "en-US-AndrewNeural" },
+  shimmer: { languageCode: "en-US", name: "en-US-EmmaNeural" },
+  verse: { languageCode: "en-US", name: "en-US-MonicaNeural" },
+
+  // Common language defaults (used to map Google voice selections to Azure)
+  "en-US": { languageCode: "en-US", name: "en-US-JennyNeural" },
+  "en-GB": { languageCode: "en-GB", name: "en-GB-SoniaNeural" },
+  "zh-CN": { languageCode: "zh-CN", name: "zh-CN-XiaoxiaoNeural" },
+  "zh-TW": { languageCode: "zh-TW", name: "zh-TW-HsiaoChenNeural" },
+  "ja-JP": { languageCode: "ja-JP", name: "ja-JP-NanamiNeural" },
+  "ko-KR": { languageCode: "ko-KR", name: "ko-KR-SunHiNeural" },
+  "es-ES": { languageCode: "es-ES", name: "es-ES-ElviraNeural" },
+  "es-MX": { languageCode: "es-MX", name: "es-MX-DaliaNeural" },
+  "fr-FR": { languageCode: "fr-FR", name: "fr-FR-DeniseNeural" },
+  "de-DE": { languageCode: "de-DE", name: "de-DE-KatjaNeural" },
+  "it-IT": { languageCode: "it-IT", name: "it-IT-ElsaNeural" },
+  "pt-BR": { languageCode: "pt-BR", name: "pt-BR-FranciscaNeural" },
+  "ru-RU": { languageCode: "ru-RU", name: "ru-RU-SvetlanaNeural" },
+  "ar-SA": { languageCode: "ar-SA", name: "ar-SA-ZariyahNeural" },
+  "id-ID": { languageCode: "id-ID", name: "id-ID-GadisNeural" },
+};
+
+export function resolveAzureVoice(voiceInput: string): { languageCode: string; name: string } {
+  const forcedName = getEnv("AZURE_TTS_VOICE_NAME");
+  if (forcedName) {
+    const forcedLanguage = getEnv("AZURE_TTS_LANGUAGE_CODE") || forcedName.split("-").slice(0, 2).join("-") || "en-US";
+    return { languageCode: forcedLanguage, name: forcedName };
+  }
+
+  const raw = (voiceInput || "").trim();
+  const normalized = raw.startsWith("azure:") ? raw.slice("azure:".length).trim() : raw;
+  const mapped = AZURE_VOICE_MAP[normalized];
+  if (mapped) return mapped;
+
+  // If it's already an Azure voice name (common pattern: xx-XX-NameNeural)
+  if (/^[a-z]{2,3}-[A-Z]{2}-/.test(normalized) && /Neural$/i.test(normalized)) {
+    const languageCode = normalized.split("-").slice(0, 2).join("-") || "en-US";
+    return { languageCode, name: normalized };
+  }
+
+  // If it's a Google voice name, derive a reasonable default from its BCP-47 prefix.
+  if (/^[a-z]{2,3}-[A-Z]{2}-/.test(normalized)) {
+    const languageCode = normalized.split("-").slice(0, 2).join("-") || "en-US";
+    if (languageCode === "cmn-CN") return { languageCode: "zh-CN", name: "zh-CN-XiaoxiaoNeural" };
+    return AZURE_VOICE_MAP[languageCode] ?? { languageCode: "en-US", name: "en-US-JennyNeural" };
+  }
+
+  return { languageCode: "en-US", name: "en-US-JennyNeural" };
+}
+
+function azureOutputFormat(format: TtsFormat): string {
+  return format === "wav" ? "riff-16khz-16bit-mono-pcm" : "audio-16khz-32kbitrate-mono-mp3";
+}
+
+function azureProsodyRate(speakingRate: number | undefined): string | null {
+  if (typeof speakingRate !== "number" || !Number.isFinite(speakingRate)) return null;
+  const pct = Math.round((speakingRate - 1) * 100);
+  const clamped = Math.max(-80, Math.min(200, pct));
+  return clamped >= 0 ? `+${clamped}%` : `${clamped}%`;
+}
+
+function azureProsodyVolume(volumeGainDb: number | undefined): string | null {
+  if (typeof volumeGainDb !== "number" || !Number.isFinite(volumeGainDb) || volumeGainDb === 0) return null;
+  const clamped = Math.max(-96, Math.min(16, Math.round(volumeGainDb)));
+  return clamped >= 0 ? `+${clamped}dB` : `${clamped}dB`;
+}
+
+async function azureSpeechTts(opts: {
+  input: string;
+  voiceInput: string;
+  format: TtsFormat;
+  tone: TtsTone;
+  volumeGainDb: number;
+  speakingRate?: number;
+}) {
+  const key = getEnv("AZURE_SPEECH_KEY");
+  const region = getEnv("AZURE_SPEECH_REGION");
+  if (!key) throw new Error("Missing AZURE_SPEECH_KEY on server");
+  if (!region) throw new Error("Missing AZURE_SPEECH_REGION on server");
+
+  const resolved = resolveAzureVoice(opts.voiceInput);
+  const safeText = escapeSsml(opts.input);
+
+  const pitchByTone: Record<TtsTone, string | null> = {
+    neutral: null,
+    calm: "-2st",
+    serious: "-1st",
+    cheerful: "+1st",
+    excited: "+2st",
+    surprised: "+4st",
+  };
+
+  const rate = azureProsodyRate(opts.speakingRate);
+  const volume = azureProsodyVolume(opts.volumeGainDb);
+  const pitch = pitchByTone[opts.tone] ?? null;
+
+  const prosodyAttrs: string[] = [];
+  if (rate) prosodyAttrs.push(`rate="${rate}"`);
+  if (volume) prosodyAttrs.push(`volume="${volume}"`);
+  if (pitch) prosodyAttrs.push(`pitch="${pitch}"`);
+
+  const prosodyOpen = prosodyAttrs.length ? `<prosody ${prosodyAttrs.join(" ")}>` : "<prosody>";
+  const ssml = [
+    `<speak version="1.0" xml:lang="${resolved.languageCode}" xmlns="http://www.w3.org/2001/10/synthesis">`,
+    `<voice name="${resolved.name}">`,
+    `${prosodyOpen}${safeText}</prosody>`,
+    `</voice>`,
+    `</speak>`,
+  ].join("");
+
+  const url = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": key,
+      "Content-Type": "application/ssml+xml",
+      "X-Microsoft-OutputFormat": azureOutputFormat(opts.format),
+    },
+    body: ssml,
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new TtsHttpError({ provider: "azure", status: res.status, body: text || "" });
+  }
+
+  const arrayBuffer = await res.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
 const GOOGLE_VOICE_MAP: Record<string, { languageCode: string; name: string }> = {
   alloy: { languageCode: "en-US", name: "en-US-Wavenet-D" },
   ash: { languageCode: "en-US", name: "en-US-Wavenet-C" },
@@ -191,6 +347,18 @@ export function getTtsMeta(opts: {
   format: TtsFormat;
   openAiModel?: string;
 }): TtsMeta {
+  if (opts.provider === "azure") {
+    const resolved = resolveAzureVoice(opts.voice);
+    return {
+      provider: "azure",
+      format: opts.format,
+      voiceInput: opts.voice,
+      languageCode: resolved.languageCode,
+      voiceName: resolved.name,
+      billingTier: "azure",
+    };
+  }
+
   if (opts.provider === "google") {
     const resolved = resolveGoogleVoice(opts.voice);
     return {
@@ -286,6 +454,24 @@ export async function synthesizeTts(opts: {
       voiceId: opts.voice,
       input: opts.input,
       format: opts.format,
+    });
+  }
+
+  if (opts.provider === "azure") {
+    return azureSpeechTts({
+      input: opts.input,
+      voiceInput: opts.voice,
+      format: opts.format,
+      tone:
+        opts.tone === "calm" ||
+        opts.tone === "serious" ||
+        opts.tone === "cheerful" ||
+        opts.tone === "excited" ||
+        opts.tone === "surprised"
+          ? opts.tone
+          : "neutral",
+      volumeGainDb: typeof opts.volumeGainDb === "number" ? opts.volumeGainDb : 0,
+      speakingRate: typeof opts.speakingRate === "number" ? opts.speakingRate : undefined,
     });
   }
 

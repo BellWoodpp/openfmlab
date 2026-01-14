@@ -111,6 +111,11 @@ export default function RootLayout({
             gtag('config', 'G-7N4LVQSRPM');
           `}
         </Script>
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="dPlq4/V+zKlZF8vuPoLGqQ"
+          strategy="afterInteractive"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

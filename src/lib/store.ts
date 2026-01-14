@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export interface AppState {
+  ttsProvider: "google" | "azure";
   voice: string;
   tone: "neutral" | "calm" | "serious" | "cheerful" | "excited" | "surprised";
   speakingRateMode: "auto" | "custom";
@@ -29,6 +30,7 @@ export interface AppState {
 const DEFAULT_VOICE = "en-US-Standard-C";
 
 const INITIAL_STATE: AppState = {
+  ttsProvider: "google",
   voice: DEFAULT_VOICE,
   tone: "neutral",
   speakingRateMode: "auto",
@@ -68,6 +70,7 @@ class AppStore {
       .then((data) => {
         if (data) {
           this.store.setState((draft) => {
+            draft.ttsProvider = "google";
             draft.input = data.input;
             draft.voice = data.voice;
             draft.tone = "neutral";

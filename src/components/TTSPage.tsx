@@ -47,6 +47,9 @@ type PodcastMvpUiCopy = {
   sidebarHistory: string;
   sidebarSupportTitle: string;
   blockTextToSpeech: string;
+  apiProviderLabel: string;
+  apiProviderGoogle: string;
+  apiProviderAzure: string;
   blockSelectVoice: string;
   blockGeneratedHistory: string;
   historyBoardTitle: string;
@@ -119,6 +122,9 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
     sidebarHistory: "History",
     sidebarSupportTitle: "If you have any questions, contact us",
     blockTextToSpeech: "Text to Speech",
+    apiProviderLabel: "API",
+    apiProviderGoogle: "Google",
+    apiProviderAzure: "Microsoft",
     blockSelectVoice: "Select a voice",
     blockGeneratedHistory: "Generated History",
     historyBoardTitle: "Audio Generation History",
@@ -200,6 +206,9 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
     sidebarHistory: "历史",
     sidebarSupportTitle: "如果有使用上的问题，联系我们",
     blockTextToSpeech: "文字转语音",
+    apiProviderLabel: "接口",
+    apiProviderGoogle: "谷歌",
+    apiProviderAzure: "微软",
     blockSelectVoice: "选择声音",
     blockGeneratedHistory: "生成历史",
     historyBoardTitle: "音频生成历史",
@@ -1286,17 +1295,9 @@ const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode; 
 const TTSBoard = () => {
   const { locale } = useLocale();
   const copy = getPodcastMvpUiCopy(locale);
-  const toneLabel = (value: string) => {
-    if (value === "neutral") return copy.toneOptions.neutral;
-    if (value === "calm") return copy.toneOptions.calm;
-    if (value === "serious") return copy.toneOptions.serious;
-    if (value === "cheerful") return copy.toneOptions.cheerful;
-    if (value === "excited") return copy.toneOptions.excited;
-    if (value === "surprised") return copy.toneOptions.surprised;
-    return value;
-  };
 
   const tone = appStore.useState((state) => state.tone);
+  const ttsProvider = appStore.useState((state) => state.ttsProvider);
   const speakingRateMode = appStore.useState((state) => state.speakingRateMode);
   const speakingRate = appStore.useState((state) => state.speakingRate);
   const playbackRate = appStore.useState((state) => state.playbackRate);
@@ -1330,11 +1331,12 @@ const TTSBoard = () => {
           return;
         }
 	      const url = new URL("/api/tts/cost", window.location.origin);
+        url.searchParams.set("provider", ttsProvider);
 	      url.searchParams.set("voice", v);
 	      url.searchParams.set("chars", String(chars));
 	      fetch(url.toString(), { cache: "no-store" })
 	        .then((res) => (res.ok ? res.json() : null))
-        .then((json) => {
+	        .then((json) => {
           if (cancelled) return;
           const data = (json as { data?: unknown } | null)?.data as CostEstimateData | undefined;
           if (!data || typeof data.supported !== "boolean") {
@@ -1353,7 +1355,7 @@ const TTSBoard = () => {
       cancelled = true;
       window.clearTimeout(t);
     };
-  }, [input.length, voice]);
+  }, [input.length, voice, ttsProvider]);
 
   const formatPartSize = (length: number) => {
     if (!Number.isFinite(length) || length <= 0) return "0";
@@ -1434,7 +1436,50 @@ const TTSBoard = () => {
       <div className="flex flex-col lg:flex-row gap-6 h-full pb-6">
         {/* Left Column: Text Input & Controls (1/2 Width) */}
         <div className="lg:flex-[2_1_0%] flex flex-col min-w-0 h-full">
-          <Block title={copy.blockTextToSpeech}>
+          <Block
+            title={copy.blockTextToSpeech}
+            rightSlot={
+              <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="whitespace-nowrap">{copy.apiProviderLabel}</span>
+                <div className="flex items-center rounded-full border border-border bg-muted p-1">
+                  <button
+                    type="button"
+                    aria-pressed={ttsProvider === "google"}
+                    onClick={() => {
+                      appStore.setState((draft) => {
+                        draft.ttsProvider = "google";
+                      });
+                    }}
+                    className={clsx(
+                      "relative rounded-full px-3 py-1 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30",
+                      ttsProvider === "google"
+                        ? "bg-blue-600 text-white shadow-sm dark:bg-blue-500"
+                        : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {copy.apiProviderGoogle}
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={ttsProvider === "azure"}
+                    onClick={() => {
+                      appStore.setState((draft) => {
+                        draft.ttsProvider = "azure";
+                      });
+                    }}
+                    className={clsx(
+                      "relative rounded-full px-3 py-1 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30",
+                      ttsProvider === "azure"
+                        ? "bg-purple-600 text-white shadow-sm dark:bg-purple-500"
+                        : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {copy.apiProviderAzure}
+                  </button>
+                </div>
+              </div>
+            }
+          >
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <input

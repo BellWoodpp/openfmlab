@@ -41,9 +41,10 @@ const POLICY = {
 
 function guessProviderAndTierFromVoiceInput(voiceInput: string): { provider: TtsProvider; billingTier: TtsBillingTier } {
   const v = (voiceInput || "").trim();
+  if (v.startsWith("azure:")) return { provider: "azure", billingTier: "azure" };
   if (v.startsWith("elevenlabs:")) return { provider: "elevenlabs", billingTier: "elevenlabs" };
   if (v.startsWith("clone:")) return { provider: "google", billingTier: "chirp-voice-cloning" };
-  if (/^[a-z]{2}-[A-Z]{2}-/.test(v)) return { provider: "google", billingTier: inferGoogleBillingTier(v) };
+  if (/^[a-z]{2,3}-[A-Z]{2}-/.test(v)) return { provider: "google", billingTier: inferGoogleBillingTier(v) };
   return { provider: "openai", billingTier: "openai" };
 }
 

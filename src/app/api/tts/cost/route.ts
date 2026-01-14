@@ -26,6 +26,16 @@ function tierFromVoiceInput(voice: string): TtsBillingTier {
   return inferGoogleBillingTier(voice);
 }
 
+function normalizeProvider(value: string): ReturnType<typeof getTtsProvider> | null {
+  const v = normalizeString(value).toLowerCase();
+  if (!v) return null;
+  if (v === "google" || v === "gcp" || v === "google-cloud") return "google";
+  if (v === "azure" || v === "microsoft" || v === "ms" || v === "speech") return "azure";
+  if (v === "elevenlabs" || v === "eleven-labs" || v === "11labs") return "elevenlabs";
+  if (v === "openai") return "openai";
+  return null;
+}
+
 export async function GET(req: NextRequest) {
   const voice = normalizeString(req.nextUrl.searchParams.get("voice"));
   const chars = intParam(req.nextUrl.searchParams.get("chars"), 0, 0, 5000);
@@ -34,11 +44,13 @@ export async function GET(req: NextRequest) {
     return Response.json({ error: "Missing voice" }, { status: 400 });
   }
 
-  const provider = voice.startsWith("clone:") ? "google" : getTtsProvider();
-  const billingTier = provider === "google" ? tierFromVoiceInput(voice) : provider;
+  const requestedProvider = normalizeProvider(req.nextUrl.searchParams.get("provider") || "");
+  const provider = voice.startsWith("clone:") ? "google" : requestedProvider ?? getTtsProvider();
+  const billingTier: TtsBillingTier =
+    provider === "google" ? tierFromVoiceInput(voice) : provider === "azure" ? "azure" : (provider as TtsBillingTier);
   const tokenEstimate = estimateTokensForRequest({
     provider,
-    billingTier: typeof billingTier === "string" ? (billingTier as TtsBillingTier) : "unknown",
+    billingTier,
     chars,
   });
 

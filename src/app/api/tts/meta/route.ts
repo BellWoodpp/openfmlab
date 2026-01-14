@@ -25,9 +25,21 @@ function clampFloat(value: unknown, min: number, max: number, fallback: number):
   return Math.max(min, Math.min(max, n));
 }
 
+function normalizeProvider(value: string): ReturnType<typeof getTtsProvider> | null {
+  const v = normalizeString(value).toLowerCase();
+  if (!v) return null;
+  if (v === "google" || v === "gcp" || v === "google-cloud") return "google";
+  if (v === "azure" || v === "microsoft" || v === "ms" || v === "speech") return "azure";
+  if (v === "elevenlabs" || v === "eleven-labs" || v === "11labs") return "elevenlabs";
+  if (v === "openai") return "openai";
+  return null;
+}
+
 export async function GET(req: NextRequest) {
-  const provider = getTtsProvider();
-  const defaultVoice = provider === "google" ? "en-US-Standard-C" : "alloy";
+  const requestedProvider = normalizeProvider(req.nextUrl.searchParams.get("provider") || "");
+  const provider = requestedProvider ?? getTtsProvider();
+  const defaultVoice =
+    provider === "google" ? "en-US-Standard-C" : provider === "azure" ? "en-US-JennyNeural" : "alloy";
   const voice = normalizeString(req.nextUrl.searchParams.get("voice")) || defaultVoice;
   const rawFormat = normalizeString(req.nextUrl.searchParams.get("format")) || "mp3";
   const format = rawFormat === "wav" ? "wav" : "mp3";
