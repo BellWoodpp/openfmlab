@@ -11,6 +11,15 @@ interface FooterProps {
 
 export function Footer({ dictionary, currentLocale }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com";
+  const xUrl = process.env.NEXT_PUBLIC_X_URL ?? "https://x.com";
+  const linkedInUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com";
+  const moreProducts = [
+    { href: "https://billybobgames.org", label: dictionary.moreProductsWebGames },
+    { href: "https://stripchart.org", label: dictionary.moreProductsStripChart },
+    { href: "https://silksong.uk", label: dictionary.moreProductsSilksong },
+    { href: "https://datools.org", label: dictionary.moreProductsDataTools },
+  ];
 
   const getLanguageLabel = (locale: Locale) => {
     switch (locale) {
@@ -42,7 +51,7 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
   return (
     <footer className="bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -66,7 +75,9 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href={xUrl}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
                 className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
                 aria-label="Twitter"
               >
@@ -75,7 +86,9 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
                 </svg>
               </a>
               <a
-                href="#"
+                href={githubUrl}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
                 className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
                 aria-label="GitHub"
               >
@@ -84,7 +97,9 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
                 </svg>
               </a>
               <a
-                href="#"
+                href={linkedInUrl}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
                 className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
                 aria-label="LinkedIn"
               >
@@ -199,6 +214,25 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
                   {dictionary.cookiePolicy}
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          {/* More Products */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{dictionary.moreProducts}</h3>
+            <ul className="space-y-3">
+              {moreProducts.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

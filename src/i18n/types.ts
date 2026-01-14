@@ -248,6 +248,11 @@ export interface FooterDictionary {
   contactUs: string;
   serviceStatus: string;
   legal: string;
+  moreProducts: string;
+  moreProductsWebGames: string;
+  moreProductsStripChart: string;
+  moreProductsSilksong: string;
+  moreProductsDataTools: string;
   privacyPolicy: string;
   termsOfService: string;
   cookiePolicy: string;
