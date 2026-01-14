@@ -167,7 +167,7 @@ async function applyRetention(userId: string): Promise<void> {
 
     const keys = overflow
       .map((r) => (r as { audioKey?: unknown }).audioKey)
-      .filter((v): v is string => typeof v === "string" && v.trim())
+      .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
       .map((v) => v.trim());
     if (keys.length && isR2Configured()) {
       try {
@@ -547,50 +547,33 @@ export async function POST(req: NextRequest) {
         elevenLabs: { apiKey },
       });
 
-      let inserted: { createdAt: Date } | undefined;
-      try {
-        [inserted] = await db
-          .insert(ttsGenerations)
-          .values({
-            id,
-            userId,
-            ...(title ? { title } : {}),
-            input,
-            voice: voiceRaw,
-            tone,
-            speakingRateMode,
-            speakingRate,
-            volumeGainDb,
-            format,
-            mimeType: "audio/mpeg",
-            audio: Buffer.from(audioBytes),
-          })
-          .returning({ createdAt: ttsGenerations.createdAt });
-      } catch (err) {
-        if (!title || !isUndefinedColumnError(err, "title")) throw err;
-        [inserted] = await db
-          .insert(ttsGenerations)
-          .values({
-            id,
-            userId,
-            input,
-            voice: voiceRaw,
-            tone,
-            speakingRateMode,
-            speakingRate,
-            volumeGainDb,
-            format,
-            mimeType: "audio/mpeg",
-            audio: Buffer.from(audioBytes),
-          })
-          .returning({ createdAt: ttsGenerations.createdAt });
-      }
+      const persisted = await persistTtsGeneration({
+        id,
+        userId,
+        title: title || null,
+        input,
+        voice: voiceRaw,
+        tone,
+        speakingRateMode,
+        speakingRate,
+        volumeGainDb,
+        format,
+        mimeType: "audio/mpeg",
+        audioBytes,
+      });
 
       await applyRetention(userId);
 
       const usage = await getUsage(userId);
       if (usage.totalBytes > POLICY.maxTotalBytes) {
         await db.delete(ttsGenerations).where(and(eq(ttsGenerations.userId, userId), eq(ttsGenerations.id, id)));
+        if (persisted.audioKey && isR2Configured()) {
+          try {
+            await r2DeleteObjects([persisted.audioKey]);
+          } catch {
+            // ignore
+          }
+        }
         await refundTokens(userId, tokensUsed);
         return NextResponse.json(
           {
@@ -606,7 +589,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         id,
         audioUrl: `/api/tts/audio/${id}`,
-        createdAt: inserted?.createdAt ? inserted.createdAt.toISOString() : null,
+        createdAt: persisted.createdAt ? persisted.createdAt.toISOString() : null,
         title: title || null,
         tokensUsed,
         tokensRemaining,
@@ -618,11 +601,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing OPENAI_API_KEY on server" }, { status: 500 });
     }
 
-      const [chargedRow] = await db
-        .update(users)
-        .set({ tokens: sql`${users.tokens} - ${tokensUsed}` })
-        .where(and(eq(users.id, userId), gte(users.tokens, tokensUsed)))
-        .returning({ tokens: users.tokens });
+    const [chargedRow] = await db
+      .update(users)
+      .set({ tokens: sql`${users.tokens} - ${tokensUsed}` })
+      .where(and(eq(users.id, userId), gte(users.tokens, tokensUsed)))
+      .returning({ tokens: users.tokens });
 
     if (!chargedRow) {
       const [row] = await db
@@ -657,50 +640,33 @@ export async function POST(req: NextRequest) {
       google: googleVoiceSelection ? { voiceSelection: googleVoiceSelection } : undefined,
     });
 
-    let inserted: { createdAt: Date } | undefined;
-    try {
-      [inserted] = await db
-        .insert(ttsGenerations)
-        .values({
-          id,
-          userId,
-          ...(title ? { title } : {}),
-          input,
-          voice: voiceRaw,
-          tone,
-          speakingRateMode,
-          speakingRate,
-          volumeGainDb,
-          format,
-          mimeType: "audio/mpeg",
-          audio: Buffer.from(audioBytes),
-        })
-        .returning({ createdAt: ttsGenerations.createdAt });
-    } catch (err) {
-      if (!title || !isUndefinedColumnError(err, "title")) throw err;
-      [inserted] = await db
-        .insert(ttsGenerations)
-        .values({
-          id,
-          userId,
-          input,
-          voice: voiceRaw,
-          tone,
-          speakingRateMode,
-          speakingRate,
-          volumeGainDb,
-          format,
-          mimeType: "audio/mpeg",
-          audio: Buffer.from(audioBytes),
-        })
-        .returning({ createdAt: ttsGenerations.createdAt });
-    }
+    const persisted = await persistTtsGeneration({
+      id,
+      userId,
+      title: title || null,
+      input,
+      voice: voiceRaw,
+      tone,
+      speakingRateMode,
+      speakingRate,
+      volumeGainDb,
+      format,
+      mimeType: "audio/mpeg",
+      audioBytes,
+    });
 
     await applyRetention(userId);
 
     const usage = await getUsage(userId);
     if (usage.totalBytes > POLICY.maxTotalBytes) {
       await db.delete(ttsGenerations).where(and(eq(ttsGenerations.userId, userId), eq(ttsGenerations.id, id)));
+      if (persisted.audioKey && isR2Configured()) {
+        try {
+          await r2DeleteObjects([persisted.audioKey]);
+        } catch {
+          // ignore
+        }
+      }
       await refundTokens(userId, tokensUsed);
       return NextResponse.json(
         {
@@ -765,7 +731,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       id,
       audioUrl: `/api/tts/audio/${id}`,
-      createdAt: inserted?.createdAt ? inserted.createdAt.toISOString() : null,
+      createdAt: persisted.createdAt ? persisted.createdAt.toISOString() : null,
       title: title || null,
       tokensUsed,
       tokensRemaining,

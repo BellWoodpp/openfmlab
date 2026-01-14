@@ -53,9 +53,17 @@ function encodeRfc3986(str: string): string {
 
 function canonicalUri(pathname: string): string {
   // Preserve '/' but RFC3986-encode each segment.
+  // `URL.pathname` is already percent-encoded, so decode first to avoid double-encoding.
   return pathname
     .split("/")
-    .map((seg) => encodeRfc3986(seg))
+    .map((seg) => {
+      if (!seg) return seg;
+      try {
+        return encodeRfc3986(decodeURIComponent(seg));
+      } catch {
+        return encodeRfc3986(seg);
+      }
+    })
     .join("/");
 }
 
@@ -140,6 +148,17 @@ function buildR2Url(opts: { endpoint: string; bucket: string; key?: string; quer
   return url;
 }
 
+function bodyInitFromUint8Array(body: Uint8Array): ArrayBuffer {
+  const buf = body.buffer;
+  if (buf instanceof ArrayBuffer) {
+    if (body.byteOffset === 0 && body.byteLength === buf.byteLength) return buf;
+    return buf.slice(body.byteOffset, body.byteOffset + body.byteLength);
+  }
+
+  // SharedArrayBuffer etc: copy into an ArrayBuffer-backed typed array.
+  return body.slice().buffer;
+}
+
 async function r2Fetch(opts: {
   method: string;
   key?: string;
@@ -172,7 +191,7 @@ async function r2Fetch(opts: {
   return fetch(url.toString(), {
     method: opts.method,
     headers: signedHeaders,
-    body: opts.body,
+    body: opts.body ? bodyInitFromUint8Array(opts.body) : undefined,
   });
 }
 
@@ -258,4 +277,3 @@ export async function r2DeleteObjects(keys: string[]): Promise<{ deleted: number
 
   return { deleted: unique.length, requestId: res.headers.get("x-amz-request-id") ?? randomUUID() };
 }
-

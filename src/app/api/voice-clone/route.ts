@@ -7,6 +7,7 @@ import { db } from "@/lib/db/client";
 import { voiceClones, voiceCloneSamples } from "@/lib/db/schema/voiceClones";
 import { checkUserPaidMembership } from "@/lib/membership";
 import { isVoiceCloningEnabled } from "@/lib/voice-cloning-enabled";
+import { isR2Configured, r2DeleteObjects, r2PutObject } from "@/lib/storage/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +45,23 @@ function isMissingColumnError(err: unknown, column: string): boolean {
     return typeof message === "string" && message.toLowerCase().includes(column.toLowerCase());
   }
   return typeof message === "string" && message.includes(`column "${column}" does not exist`);
+}
+
+function isNotNullViolation(err: unknown, column: string): boolean {
+  if (!err || typeof err !== "object") return false;
+  const code = (err as { code?: unknown }).code;
+  const message = (err as { message?: unknown }).message;
+  if (code === "23502") return typeof message === "string" ? message.includes(column) : true;
+  return typeof message === "string" && message.toLowerCase().includes("null value") && message.includes(column);
+}
+
+function extFromMimeType(mimeType: string): string {
+  const t = (mimeType || "").toLowerCase();
+  if (t.includes("wav")) return "wav";
+  if (t.includes("ogg")) return "ogg";
+  if (t.includes("webm")) return "webm";
+  if (t.includes("mpeg") || t.includes("mp3")) return "mp3";
+  return "bin";
 }
 
 async function requireUserId(req: NextRequest): Promise<string | null> {
@@ -259,30 +277,101 @@ export async function POST(req: NextRequest) {
 
     // Store sample audio for review/processing (platform-hosted).
     if (files.length > 0) {
-      const rows: Array<{
-        id: string;
-        cloneId: string;
-        userId: string;
+      const drafts: Array<{
+        sampleId: string;
         filename: string;
         mimeType: string;
         audio: Buffer;
-        createdAt: Date;
+        r2Key: string | null;
       }> = [];
 
       for (const f of files) {
         const ab = await f.arrayBuffer();
-        rows.push({
-          id: nanoid(14),
-          cloneId: id,
-          userId,
-          filename: (f.name || "sample").slice(0, 200),
-          mimeType: (f.type || "application/octet-stream").slice(0, 100),
-          audio: Buffer.from(ab),
-          createdAt: now,
-        });
+        const audio = Buffer.from(ab);
+        const sampleId = nanoid(14);
+        const filename = (f.name || "sample").slice(0, 200);
+        const mimeType = (f.type || "application/octet-stream").slice(0, 100);
+
+        let r2Key: string | null = null;
+        if (isR2Configured()) {
+          const key = `voice-clone-samples/${userId}/${id}/${sampleId}.${extFromMimeType(mimeType)}`;
+          try {
+            await r2PutObject({
+              key,
+              body: new Uint8Array(audio),
+              contentType: mimeType || "application/octet-stream",
+            });
+            r2Key = key;
+          } catch (err) {
+            console.warn("[r2] voice-clone sample upload failed; falling back to DB storage:", err);
+            r2Key = null;
+          }
+        }
+
+        drafts.push({ sampleId, filename, mimeType, audio, r2Key });
       }
 
-      await db.insert(voiceCloneSamples).values(rows);
+      const uploadedKeys = drafts
+        .map((d) => d.r2Key)
+        .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
+        .map((v) => v.trim());
+
+      const rowsWithR2 = drafts.map((d) => ({
+        id: d.sampleId,
+        cloneId: id,
+        userId,
+        filename: d.filename,
+        mimeType: d.mimeType,
+        audioKey: d.r2Key,
+        audioSize: d.audio.length,
+        audio: d.r2Key ? null : d.audio,
+        createdAt: now,
+      }));
+
+      const rowsWithAudio = drafts.map((d) => ({
+        id: d.sampleId,
+        cloneId: id,
+        userId,
+        filename: d.filename,
+        mimeType: d.mimeType,
+        audioSize: d.audio.length,
+        audio: d.audio,
+        createdAt: now,
+      }));
+
+      const rowsAudioOnly = drafts.map((d) => ({
+        id: d.sampleId,
+        cloneId: id,
+        userId,
+        filename: d.filename,
+        mimeType: d.mimeType,
+        audio: d.audio,
+        createdAt: now,
+      }));
+
+      try {
+        await db.insert(voiceCloneSamples).values(rowsWithR2 as never);
+      } catch (err) {
+        const missingR2Columns = isMissingColumnError(err, "audio_key") || isMissingColumnError(err, "audio_size");
+        const audioNotNull = isNotNullViolation(err, "audio");
+        if (!missingR2Columns && !audioNotNull) throw err;
+
+        // If DB requires `audio` (NOT NULL), keep the samples in DB and clean up uploaded objects.
+        try {
+          await db.insert(voiceCloneSamples).values(rowsWithAudio as never);
+        } catch (err2) {
+          if (!isMissingColumnError(err2, "audio_size")) throw err2;
+          await db.insert(voiceCloneSamples).values(rowsAudioOnly as never);
+        }
+
+        if (uploadedKeys.length && isR2Configured()) {
+          try {
+            await r2DeleteObjects(uploadedKeys);
+          } catch {
+            // ignore
+          }
+        }
+      }
     }
 
     return NextResponse.json({

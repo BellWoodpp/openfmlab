@@ -107,7 +107,7 @@ async function applyRetention(userId: string): Promise<{ deletedOld: number; del
 
     const keys = overflow
       .map((r) => (r as { audioKey?: unknown }).audioKey)
-      .filter((v): v is string => typeof v === "string" && v.trim())
+      .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
       .map((v) => v.trim());
     if (keys.length && isR2Configured()) {
       try {
@@ -276,7 +276,7 @@ export async function DELETE(req: NextRequest) {
           .limit(10_000);
         return rows
           .map((r) => r.audioKey)
-          .filter((v): v is string => typeof v === "string" && v.trim())
+          .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
           .map((v) => v.trim());
       } catch (err) {
         if (!isUndefinedColumnError(err, "audio_key")) throw err;
