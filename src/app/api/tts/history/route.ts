@@ -4,6 +4,8 @@ import { desc, eq, and, lt, inArray, sql } from "drizzle-orm";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { ttsGenerations } from "@/lib/db/schema/tts";
+import { inferGoogleBillingTier, type TtsBillingTier, type TtsProvider } from "@/lib/tts";
+import { estimateTokensForRequest } from "@/lib/tts-tokens";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,6 +37,14 @@ const POLICY = {
   maxDays: Math.max(1, envInt("TTS_HISTORY_MAX_DAYS", 7)),
   maxTotalBytes: Math.max(1, envInt("TTS_HISTORY_MAX_TOTAL_BYTES", 50 * 1024 * 1024)),
 };
+
+function guessProviderAndTierFromVoiceInput(voiceInput: string): { provider: TtsProvider; billingTier: TtsBillingTier } {
+  const v = (voiceInput || "").trim();
+  if (v.startsWith("elevenlabs:")) return { provider: "elevenlabs", billingTier: "elevenlabs" };
+  if (v.startsWith("clone:")) return { provider: "google", billingTier: "chirp-voice-cloning" };
+  if (/^[a-z]{2}-[A-Z]{2}-/.test(v)) return { provider: "google", billingTier: inferGoogleBillingTier(v) };
+  return { provider: "openai", billingTier: "openai" };
+}
 
 async function applyRetention(userId: string): Promise<{ deletedOld: number; deletedOverflow: number }> {
   const cutoff = new Date(Date.now() - POLICY.maxDays * 24 * 60 * 60 * 1000);
@@ -150,6 +160,10 @@ export async function GET(req: NextRequest) {
     items: rows.map((r) => ({
       ...r,
       audioUrl: `/api/tts/audio/${r.id}`,
+      tokensUsed: estimateTokensForRequest({
+        ...guessProviderAndTierFromVoiceInput(r.voice),
+        chars: r.input.length,
+      }).tokens,
     })),
     policy: {
       maxItems: POLICY.maxItems,

@@ -22,6 +22,7 @@ export interface AppState {
     voice: string;
     tone: AppState["tone"];
     audioUrl: string;
+    tokensUsed: number;
   }>;
 }
 

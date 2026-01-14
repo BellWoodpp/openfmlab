@@ -382,6 +382,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: string;
     resolved: string;
     cloned: string;
+    autoPick: string;
+    pickCategoryFirst: string;
   }
 > = {
   en: {
@@ -394,6 +396,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Tier",
     resolved: "Resolved",
     cloned: "cloned",
+    autoPick: "Auto pick",
+    pickCategoryFirst: "Pick a category first",
   },
   zh: {
     search: "搜索",
@@ -405,6 +409,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "档位",
     resolved: "已解析",
     cloned: "克隆",
+    autoPick: "自动选择",
+    pickCategoryFirst: "请先选择档位",
   },
   ja: {
     search: "検索",
@@ -416,6 +422,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "ティア",
     resolved: "解決後",
     cloned: "クローン",
+    autoPick: "自動選択",
+    pickCategoryFirst: "先にカテゴリを選択",
   },
   es: {
     search: "Buscar",
@@ -427,6 +435,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Nivel",
     resolved: "Resuelto",
     cloned: "clonada",
+    autoPick: "Selección automática",
+    pickCategoryFirst: "Elige primero una categoría",
   },
   ar: {
     search: "بحث",
@@ -438,6 +448,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "الفئة",
     resolved: "المُحوّل",
     cloned: "مستنسخ",
+    autoPick: "اختيار تلقائي",
+    pickCategoryFirst: "اختر فئة أولاً",
   },
   id: {
     search: "Cari",
@@ -449,6 +461,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Tier",
     resolved: "Terselesaikan",
     cloned: "kloning",
+    autoPick: "Pilih otomatis",
+    pickCategoryFirst: "Pilih kategori terlebih dulu",
   },
   pt: {
     search: "Pesquisar",
@@ -460,6 +474,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Nível",
     resolved: "Resolvido",
     cloned: "clonada",
+    autoPick: "Seleção automática",
+    pickCategoryFirst: "Escolha uma categoria primeiro",
   },
   fr: {
     search: "Rechercher",
@@ -471,6 +487,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Niveau",
     resolved: "Résolu",
     cloned: "clonée",
+    autoPick: "Sélection automatique",
+    pickCategoryFirst: "Choisissez d’abord une catégorie",
   },
   ru: {
     search: "Поиск",
@@ -482,6 +500,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Тир",
     resolved: "Разрешено",
     cloned: "клон",
+    autoPick: "Автовыбор",
+    pickCategoryFirst: "Сначала выберите категорию",
   },
   de: {
     search: "Suchen",
@@ -493,6 +513,8 @@ const VOICE_PICKER_UI_COPY: Record<
     tier: "Stufe",
     resolved: "Aufgelöst",
     cloned: "geklont",
+    autoPick: "Automatisch auswählen",
+    pickCategoryFirst: "Wähle zuerst eine Kategorie",
   },
 };
 
@@ -1222,7 +1244,9 @@ export default function GoogleVoicePicker() {
               className="w-full justify-center"
               disabled={!publicTier}
             >
-              <span className="relative inline-flex items-center">{publicTier ? "Auto pick" : "Pick a category first"}</span>
+              <span className="relative inline-flex items-center">
+                {publicTier ? uiCopy.autoPick : uiCopy.pickCategoryFirst}
+              </span>
             </Button>
           </div>
         ) : (

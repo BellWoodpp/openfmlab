@@ -5,7 +5,7 @@ export const siteConfig = {
   brandName: "RTVox",
   domain,
   siteUrl: `https://${domain}`,
-  supportEmail: `support@${domain}`,
+  supportEmail: "stormrobin50@gmail.com",
   downloadPrefix,
   defaultDescription: "AI Voice Cloning and Text-to-Speech",
   voiceAvatarVariant: "orb3d",

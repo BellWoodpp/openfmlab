@@ -353,6 +353,7 @@ export default function PlayButton() {
         audioUrl: string;
         createdAt?: string | null;
         title?: string | null;
+        tokensUsed?: number;
         tokensRemaining?: number | null;
       };
       const audioPath = data.audioUrl;
@@ -362,6 +363,16 @@ export default function PlayButton() {
         window.dispatchEvent(
           new CustomEvent("tokens:update", { detail: { tokens: data.tokensRemaining } }),
         );
+      } else {
+        fetch("/api/tokens", { cache: "no-store" })
+          .then((resp) => (resp.ok ? resp.json() : null))
+          .then((json) => {
+            const nextTokens = (json as { data?: { tokens?: unknown } } | null)?.data?.tokens;
+            if (typeof nextTokens === "number" && Number.isFinite(nextTokens)) {
+              window.dispatchEvent(new CustomEvent("tokens:update", { detail: { tokens: nextTokens } }));
+            }
+          })
+          .catch(() => {});
       }
 
       setStatusText("Step 2/3 · Saving to history…");
@@ -370,8 +381,9 @@ export default function PlayButton() {
         draft.latestAudioUrl = audioUrl;
         draft.latestAudioBlobUrl = audioUrl;
         const createdAt = data.createdAt ?? new Date().toISOString();
+        const tokensUsed = typeof data.tokensUsed === "number" && Number.isFinite(data.tokensUsed) ? data.tokensUsed : 0;
         draft.ttsHistory = [
-          { id: data.id, createdAt, title: data.title ?? null, voice, tone, audioUrl },
+          { id: data.id, createdAt, title: data.title ?? null, voice, tone, audioUrl, tokensUsed },
           ...draft.ttsHistory.filter((it) => it.id !== data.id),
         ];
       });

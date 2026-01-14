@@ -2,12 +2,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { Header } from "./ui/Header";
-import { Waveform, Refresh } from "./ui/Icons";
+import { Waveform } from "./ui/Icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import dynamic from "next/dynamic";
 import { Coins, Upload, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -26,7 +25,7 @@ import PlayButton from "./PlayButton";
 import { ShareButton } from "./ShareButton";
 import { VoiceCloningClient } from "@/components/voice-cloning-client";
 
-type ViewType = 'tts' | 'cloning' | 'history';
+type ViewType = 'tts' | 'cloning';
 type CostEstimateData = {
   supported: boolean;
   billingTier: string;
@@ -45,9 +44,22 @@ type CostEstimateData = {
 type PodcastMvpUiCopy = {
   sidebarTextToSpeech: string;
   sidebarHistory: string;
+  sidebarSupportTitle: string;
   blockTextToSpeech: string;
   blockSelectVoice: string;
   blockGeneratedHistory: string;
+  historyBoardTitle: string;
+  historyBoardRefresh: string;
+  historyBoardNote: string;
+  historyBoardSelectionSummary: string;
+  historyBoardUsageSummary: string;
+  historyBoardSelectAllAria: string;
+  historyBoardColumnText: string;
+  historyBoardColumnVoice: string;
+  historyBoardColumnCreatedAt: string;
+  historyBoardColumnAudio: string;
+  historyBoardColumnActions: string;
+  historyBoardRecordAudioLabel: string;
   historyDuration: string;
   historyLoading: string;
   historyDownload: string;
@@ -104,9 +116,23 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   en: {
     sidebarTextToSpeech: "Text to Speech",
     sidebarHistory: "History",
+    sidebarSupportTitle: "If you have any questions, contact us",
     blockTextToSpeech: "Text to Speech",
     blockSelectVoice: "Select a voice",
     blockGeneratedHistory: "Generated History",
+    historyBoardTitle: "Audio Generation History",
+    historyBoardRefresh: "Refresh",
+    historyBoardNote:
+      "Note: Audio files are retained for {days} day(s), and only the latest {maxItems} items are kept.",
+    historyBoardSelectionSummary: "{selected} of {pageItems} row(s) selected on this page. Total: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Select all",
+    historyBoardColumnText: "Text",
+    historyBoardColumnVoice: "Voice",
+    historyBoardColumnCreatedAt: "Created At",
+    historyBoardColumnAudio: "Audio",
+    historyBoardColumnActions: "Actions",
+    historyBoardRecordAudioLabel: "Record your audio",
     historyDuration: "Total duration:",
     historyLoading: "Loading…",
     historyDownload: "Download",
@@ -171,9 +197,22 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   zh: {
     sidebarTextToSpeech: "文字转语音",
     sidebarHistory: "历史",
+    sidebarSupportTitle: "如果有使用上的问题，联系我们",
     blockTextToSpeech: "文字转语音",
     blockSelectVoice: "选择声音",
     blockGeneratedHistory: "生成历史",
+    historyBoardTitle: "音频生成历史",
+    historyBoardRefresh: "刷新",
+    historyBoardNote: "提示：音频将保留 {days} 天，仅保留最新 {maxItems} 条。",
+    historyBoardSelectionSummary: "本页已选 {selected}/{pageItems} 条。总计：{totalCount}。",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "全选",
+    historyBoardColumnText: "文本",
+    historyBoardColumnVoice: "音色",
+    historyBoardColumnCreatedAt: "创建时间",
+    historyBoardColumnAudio: "音频",
+    historyBoardColumnActions: "操作",
+    historyBoardRecordAudioLabel: "录制你的音频",
     historyDuration: "总时长：",
     historyLoading: "正在加载…",
     historyDownload: "下载",
@@ -235,9 +274,22 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   ja: {
     sidebarTextToSpeech: "テキスト読み上げ",
     sidebarHistory: "履歴",
+    sidebarSupportTitle: "ご不明点があればご連絡ください",
     blockTextToSpeech: "テキスト読み上げ",
     blockSelectVoice: "音声を選択",
     blockGeneratedHistory: "生成履歴",
+    historyBoardTitle: "音声生成履歴",
+    historyBoardRefresh: "更新",
+    historyBoardNote: "注：音声ファイルは {days} 日間保持され、最新 {maxItems} 件のみが保持されます。",
+    historyBoardSelectionSummary: "このページで {pageItems} 行中 {selected} 行を選択。合計：{totalCount}。",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "すべて選択",
+    historyBoardColumnText: "テキスト",
+    historyBoardColumnVoice: "音声",
+    historyBoardColumnCreatedAt: "作成日時",
+    historyBoardColumnAudio: "音声",
+    historyBoardColumnActions: "操作",
+    historyBoardRecordAudioLabel: "音声を録音",
     historyDuration: "合計時間：",
     historyLoading: "読み込み中…",
     historyDownload: "ダウンロード",
@@ -300,9 +352,24 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   es: {
     sidebarTextToSpeech: "Texto a voz",
     sidebarHistory: "Historial",
+    sidebarSupportTitle: "Si tienes preguntas, contáctanos",
     blockTextToSpeech: "Texto a voz",
     blockSelectVoice: "Selecciona una voz",
     blockGeneratedHistory: "Historial generado",
+    historyBoardTitle: "Historial de generación de audio",
+    historyBoardRefresh: "Actualizar",
+    historyBoardNote:
+      "Nota: Los audios se conservan durante {days} día(s) y solo se guardan los últimos {maxItems} elementos.",
+    historyBoardSelectionSummary:
+      "{selected} de {pageItems} fila(s) seleccionada(s) en esta página. Total: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Seleccionar todo",
+    historyBoardColumnText: "Texto",
+    historyBoardColumnVoice: "Voz",
+    historyBoardColumnCreatedAt: "Creado el",
+    historyBoardColumnAudio: "Audio",
+    historyBoardColumnActions: "Acciones",
+    historyBoardRecordAudioLabel: "Graba tu audio",
     historyDuration: "Duración total:",
     historyLoading: "Cargando…",
     historyDownload: "Descargar",
@@ -365,9 +432,22 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   ar: {
     sidebarTextToSpeech: "تحويل النص إلى كلام",
     sidebarHistory: "السجل",
+    sidebarSupportTitle: "إذا كانت لديك أي أسئلة، تواصل معنا",
     blockTextToSpeech: "تحويل النص إلى كلام",
     blockSelectVoice: "اختر صوتًا",
     blockGeneratedHistory: "سجل الإنشاء",
+    historyBoardTitle: "سجل إنشاء الصوت",
+    historyBoardRefresh: "تحديث",
+    historyBoardNote: "ملاحظة: يتم الاحتفاظ بالملفات الصوتية لمدة {days} يومًا، ويتم حفظ أحدث {maxItems} عنصرًا فقط.",
+    historyBoardSelectionSummary: "تم تحديد {selected} من أصل {pageItems} صف/صفوف في هذه الصفحة. الإجمالي: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "تحديد الكل",
+    historyBoardColumnText: "النص",
+    historyBoardColumnVoice: "الصوت",
+    historyBoardColumnCreatedAt: "تاريخ الإنشاء",
+    historyBoardColumnAudio: "الصوت",
+    historyBoardColumnActions: "إجراءات",
+    historyBoardRecordAudioLabel: "سجّل صوتك",
     historyDuration: "المدة الإجمالية:",
     historyLoading: "جارٍ التحميل…",
     historyDownload: "تنزيل",
@@ -430,9 +510,23 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   id: {
     sidebarTextToSpeech: "Teks ke suara",
     sidebarHistory: "Riwayat",
+    sidebarSupportTitle: "Jika ada pertanyaan, hubungi kami",
     blockTextToSpeech: "Teks ke suara",
     blockSelectVoice: "Pilih suara",
     blockGeneratedHistory: "Riwayat hasil",
+    historyBoardTitle: "Riwayat pembuatan audio",
+    historyBoardRefresh: "Muat ulang",
+    historyBoardNote:
+      "Catatan: File audio disimpan selama {days} hari dan hanya {maxItems} item terbaru yang dipertahankan.",
+    historyBoardSelectionSummary: "{selected} dari {pageItems} baris dipilih di halaman ini. Total: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Pilih semua",
+    historyBoardColumnText: "Teks",
+    historyBoardColumnVoice: "Suara",
+    historyBoardColumnCreatedAt: "Dibuat",
+    historyBoardColumnAudio: "Audio",
+    historyBoardColumnActions: "Aksi",
+    historyBoardRecordAudioLabel: "Rekam audio kamu",
     historyDuration: "Durasi total:",
     historyLoading: "Memuat…",
     historyDownload: "Unduh",
@@ -495,9 +589,23 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   pt: {
     sidebarTextToSpeech: "Texto para fala",
     sidebarHistory: "Histórico",
+    sidebarSupportTitle: "Se tiver dúvidas, fale com a gente",
     blockTextToSpeech: "Texto para fala",
     blockSelectVoice: "Selecione uma voz",
     blockGeneratedHistory: "Histórico gerado",
+    historyBoardTitle: "Histórico de geração de áudio",
+    historyBoardRefresh: "Atualizar",
+    historyBoardNote:
+      "Nota: Os áudios são mantidos por {days} dia(s) e apenas os {maxItems} itens mais recentes são preservados.",
+    historyBoardSelectionSummary: "{selected} de {pageItems} linha(s) selecionada(s) nesta página. Total: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Selecionar tudo",
+    historyBoardColumnText: "Texto",
+    historyBoardColumnVoice: "Voz",
+    historyBoardColumnCreatedAt: "Criado em",
+    historyBoardColumnAudio: "Áudio",
+    historyBoardColumnActions: "Ações",
+    historyBoardRecordAudioLabel: "Grave seu áudio",
     historyDuration: "Duração total:",
     historyLoading: "Carregando…",
     historyDownload: "Baixar",
@@ -560,9 +668,23 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   fr: {
     sidebarTextToSpeech: "Texte en parole",
     sidebarHistory: "Historique",
+    sidebarSupportTitle: "Si vous avez des questions, contactez-nous",
     blockTextToSpeech: "Texte en parole",
     blockSelectVoice: "Choisir une voix",
     blockGeneratedHistory: "Historique généré",
+    historyBoardTitle: "Historique de génération audio",
+    historyBoardRefresh: "Actualiser",
+    historyBoardNote:
+      "Note : les fichiers audio sont conservés pendant {days} jour(s) et seuls les {maxItems} éléments les plus récents sont gardés.",
+    historyBoardSelectionSummary: "{selected} sur {pageItems} ligne(s) sélectionnée(s) sur cette page. Total : {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Tout sélectionner",
+    historyBoardColumnText: "Texte",
+    historyBoardColumnVoice: "Voix",
+    historyBoardColumnCreatedAt: "Créé le",
+    historyBoardColumnAudio: "Audio",
+    historyBoardColumnActions: "Actions",
+    historyBoardRecordAudioLabel: "Enregistrez votre audio",
     historyDuration: "Durée totale :",
     historyLoading: "Chargement…",
     historyDownload: "Télécharger",
@@ -625,9 +747,22 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   ru: {
     sidebarTextToSpeech: "Текст в речь",
     sidebarHistory: "История",
+    sidebarSupportTitle: "Если есть вопросы — свяжитесь с нами",
     blockTextToSpeech: "Текст в речь",
     blockSelectVoice: "Выберите голос",
     blockGeneratedHistory: "История генераций",
+    historyBoardTitle: "История генерации аудио",
+    historyBoardRefresh: "Обновить",
+    historyBoardNote: "Примечание: аудиофайлы хранятся {days} дн., и сохраняются только последние {maxItems} элементов.",
+    historyBoardSelectionSummary: "Выбрано {selected} из {pageItems} строк на этой странице. Всего: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Выбрать всё",
+    historyBoardColumnText: "Текст",
+    historyBoardColumnVoice: "Голос",
+    historyBoardColumnCreatedAt: "Создано",
+    historyBoardColumnAudio: "Аудио",
+    historyBoardColumnActions: "Действия",
+    historyBoardRecordAudioLabel: "Запишите ваше аудио",
     historyDuration: "Общая длительность:",
     historyLoading: "Загрузка…",
     historyDownload: "Скачать",
@@ -690,9 +825,23 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   de: {
     sidebarTextToSpeech: "Text zu Sprache",
     sidebarHistory: "Verlauf",
+    sidebarSupportTitle: "Bei Fragen kontaktiere uns",
     blockTextToSpeech: "Text zu Sprache",
     blockSelectVoice: "Stimme auswählen",
     blockGeneratedHistory: "Generierte Historie",
+    historyBoardTitle: "Audio-Generierungsverlauf",
+    historyBoardRefresh: "Aktualisieren",
+    historyBoardNote:
+      "Hinweis: Audiodateien werden {days} Tag(e) aufbewahrt und es werden nur die neuesten {maxItems} Einträge behalten.",
+    historyBoardSelectionSummary: "{selected} von {pageItems} Zeile(n) auf dieser Seite ausgewählt. Gesamt: {totalCount}.",
+    historyBoardUsageSummary: "{usedItems}/{maxItems} · {usedBytes}/{maxBytes}",
+    historyBoardSelectAllAria: "Alles auswählen",
+    historyBoardColumnText: "Text",
+    historyBoardColumnVoice: "Stimme",
+    historyBoardColumnCreatedAt: "Erstellt am",
+    historyBoardColumnAudio: "Audio",
+    historyBoardColumnActions: "Aktionen",
+    historyBoardRecordAudioLabel: "Nimm dein Audio auf",
     historyDuration: "Gesamtdauer:",
     historyLoading: "Wird geladen…",
     historyDownload: "Herunterladen",
@@ -754,7 +903,7 @@ const PODCAST_MVP_UI_COPY: Partial<Record<Locale, Partial<PodcastMvpUiCopy>>> & 
   },
 };
 
-function getPodcastMvpUiCopy(locale: Locale): PodcastMvpUiCopy {
+export function getPodcastMvpUiCopy(locale: Locale): PodcastMvpUiCopy {
   return {
     ...PODCAST_MVP_UI_COPY.en,
     ...(PODCAST_MVP_UI_COPY[locale] ?? {}),
@@ -877,102 +1026,6 @@ const HistoryIcon = ({ className }: { className?: string }) => (
     <path d="M12 7v5l4 2" />
   </svg>
 );
-
-function formatClock(totalSeconds: number | null) {
-  if (!Number.isFinite(totalSeconds ?? NaN) || (totalSeconds ?? 0) < 0) return "--:--";
-  const s = Math.floor(totalSeconds ?? 0);
-  const mm = Math.floor(s / 60);
-  const ss = s % 60;
-  return `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
-}
-
-async function probeAudioUrl(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, {
-      method: "GET",
-      credentials: "same-origin",
-      headers: { Range: "bytes=0-1" },
-      cache: "no-store",
-    });
-
-    if (res.ok || res.status === 206) return null;
-    if (res.status === 401) return "未登录（请先登录）";
-    if (res.status === 403) return "没有权限访问这段音频";
-    if (res.status === 404) return "音频不存在（404）";
-    if (res.status === 501) return "未启用历史功能（501）";
-    if (res.status >= 500) return `服务器错误（${res.status}）`;
-    return `请求失败（${res.status}）`;
-  } catch {
-    return "网络错误（无法加载音频）";
-  }
-}
-
-function HistoryAudioPlayer({ src }: { src: string }) {
-  const { locale } = useLocale();
-  const copy = getPodcastMvpUiCopy(locale);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [duration, setDuration] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const showLoading = loading && !error;
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span className="inline-flex items-center gap-2">
-          {copy.historyDuration}{formatClock(duration)}
-          {showLoading ? (
-            <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-primary/70 animate-pulse" />
-              <span>{copy.historyLoading}</span>
-            </span>
-          ) : null}
-        </span>
-        {error ? <span className="text-red-500">{error}</span> : null}
-      </div>
-      <audio
-        ref={audioRef}
-        className="w-full"
-        controls
-        preload="metadata"
-        src={src}
-        onLoadStart={() => {
-          setLoading(true);
-          setError(null);
-        }}
-        onLoadedMetadata={(e) => {
-          const d = (e.currentTarget as HTMLAudioElement).duration;
-          setDuration(Number.isFinite(d) ? d : null);
-          setLoading(false);
-          setError(null);
-        }}
-        onDurationChange={(e) => {
-          const d = (e.currentTarget as HTMLAudioElement).duration;
-          setDuration(Number.isFinite(d) ? d : null);
-        }}
-        onPlaying={() => {
-          setLoading(false);
-          setError(null);
-        }}
-        onCanPlay={() => {
-          setLoading(false);
-          setError(null);
-        }}
-        onWaiting={() => {
-          setLoading(true);
-          setError(null);
-        }}
-        onError={() => {
-          setLoading(false);
-          void probeAudioUrl(src).then((detail) => {
-            setError(detail || "无法加载音频");
-          });
-        }}
-      />
-    </div>
-  );
-}
 
 function VoicePickerSkeleton() {
   return (
@@ -1127,10 +1180,8 @@ export default function TtsPage() {
 	             <Header />
 	             {currentView === 'tts' ? (
 	               <TTSBoard />
-	             ) : currentView === 'cloning' && isVoiceCloningUiEnabled ? (
-	               <CloningBoard onGoToTts={() => setCurrentView("tts")} />
 	             ) : (
-	               <HistoryBoard />
+	               <CloningBoard onGoToTts={() => setCurrentView("tts")} />
 	             )}
 	             <Footer />
 	          </div>
@@ -1152,7 +1203,9 @@ const Sidebar = ({
   showVoiceCloning: boolean;
 }) => {
   const { locale } = useLocale();
+  const router = useRouter();
   const copy = getPodcastMvpUiCopy(locale);
+  const historyHref = locale === "en" ? "/podcast-mvp/history" : `/${locale}/podcast-mvp/history`;
 
   return (
 	    <aside className="w-64 bg-background border-r border-border hidden md:flex flex-col">
@@ -1192,14 +1245,14 @@ const Sidebar = ({
 	        <SidebarItem
 	          icon={<HistoryIcon className="w-5 h-5" />}
 	          label={copy.sidebarHistory}
-	          active={currentView === 'history'}
-	          onClick={() => onViewChange('history')}
+	          active={false}
+	          onClick={() => router.push(historyHref)}
 	        />
 	      </nav>
 
 	      <div className="px-4 py-2 mt-auto">
 	        <div className="p-3 rounded-lg bg-muted/30 border border-border mb-6">
-	          <div className="text-sm font-medium">如果有使用上的问题，联系我们</div>
+	          <div className="text-sm font-medium">{copy.sidebarSupportTitle}</div>
 	          <a
 	            className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
 		            href={`mailto:${siteConfig.supportEmail}`}
@@ -1251,7 +1304,6 @@ const TTSBoard = () => {
   const customTitleEnabled = appStore.useState((state) => state.customTitleEnabled);
   const customTitle = appStore.useState((state) => state.customTitle);
   const voice = appStore.useState((state) => state.voice);
-  const ttsHistory = appStore.useState((state) => state.ttsHistory);
   const browserNotSupported = appStore.useState(
     () => !("serviceWorker" in navigator)
   );
@@ -1262,19 +1314,9 @@ const TTSBoard = () => {
       : input.length === 0
         ? 0
         : Math.ceil(input.length / 4);
-  const [historyLoading, setHistoryLoading] = useState(false);
-  const [historyError, setHistoryError] = useState<string | null>(null);
-  const [historyPolicy, setHistoryPolicy] = useState<{
-    maxItems: number;
-    maxDays: number;
-    maxTotalBytes: number;
-  } | null>(null);
-  const [historyUsage, setHistoryUsage] = useState<{ totalItems: number; totalBytes: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [importedParts, setImportedParts] = useState<string[] | null>(null);
   const [activePartIndex, setActivePartIndex] = useState(0);
-  const historyPageSize = 6;
-  const [historyPage, setHistoryPage] = useState(1);
 
 	  useEffect(() => {
 	    let cancelled = false;
@@ -1311,100 +1353,6 @@ const TTSBoard = () => {
       window.clearTimeout(t);
     };
   }, [input.length, voice]);
-
-  useEffect(() => {
-    let cancelled = false;
-    const timer = setTimeout(() => {
-      if (cancelled) return;
-      setHistoryLoading(true);
-      setHistoryError(null);
-    }, 0);
-
-    fetch("/api/tts/history?limit=20")
-      .then(async (res) => {
-        if (!res.ok) {
-          if (res.status === 401) throw new Error("AUTH_REQUIRED");
-          if (res.status === 501) throw new Error("DB_REQUIRED");
-          const details = await res.text().catch(() => "");
-          throw new Error(details || `Failed to load history (${res.status})`);
-        }
-        return res.json() as Promise<{
-          items: Array<{
-            id: string;
-            createdAt: string;
-            title?: string | null;
-            voice: string;
-            tone: string;
-            audioUrl: string;
-          }>;
-          policy: { maxItems: number; maxDays: number; maxTotalBytes: number };
-          usage: { totalItems: number; totalBytes: number };
-        }>;
-      })
-      .then((data) => {
-        if (cancelled) return;
-        setHistoryPolicy(data.policy);
-        setHistoryUsage(data.usage);
-        appStore.setState((draft) => {
-          draft.ttsHistory = data.items.map((it) => ({
-            id: it.id,
-            createdAt: it.createdAt,
-            title: it.title ?? null,
-            voice: it.voice,
-            tone:
-              it.tone === "calm" ||
-              it.tone === "serious" ||
-              it.tone === "cheerful" ||
-              it.tone === "excited" ||
-              it.tone === "surprised"
-                ? it.tone
-                : "neutral",
-            audioUrl: it.audioUrl,
-          }));
-        });
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        const message = err instanceof Error ? err.message : "Failed to load history";
-        if (message === "AUTH_REQUIRED") {
-          setHistoryError("Sign in to sync history across devices.");
-          return;
-        }
-        if (message === "DB_REQUIRED") {
-          setHistoryError("Set DATABASE_URL and run migrations to enable history.");
-          return;
-        }
-        setHistoryError(message);
-      })
-      .finally(() => {
-        clearTimeout(timer);
-        if (cancelled) return;
-        setHistoryLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-    };
-  }, []);
-
-	  const formatBytes = (bytes: number) => {
-    if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-    const units = ["B", "KB", "MB", "GB"];
-    let idx = 0;
-    let value = bytes;
-    while (value >= 1024 && idx < units.length - 1) {
-      value /= 1024;
-      idx += 1;
-    }
-    return `${value.toFixed(idx === 0 ? 0 : 1)} ${units[idx]}`;
-	  };
-
-  const safeDownloadName = ({ title, voice }: { title?: string | null; voice: string }) => {
-    const base = typeof title === "string" && title.trim() ? title : voice;
-    const safe = base.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
-    return `${siteConfig.downloadPrefix}-${safe}.mp3`;
-  };
 
   const formatPartSize = (length: number) => {
     if (!Number.isFinite(length) || length <= 0) return "0";
@@ -1472,67 +1420,6 @@ const TTSBoard = () => {
     setActivePartIndex(0);
     setInputText("");
   };
-
-  const handleClearHistory = async () => {
-    if (!confirm(copy.historyConfirmClearAll)) return;
-    const res = await fetch("/api/tts/history", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ all: true }),
-    });
-    if (!res.ok) {
-      const details = await res.text().catch(() => "");
-      alert(details || "Failed to clear history");
-      return;
-    }
-    const data = (await res.json()) as { usage?: { totalItems: number; totalBytes: number } };
-    setHistoryUsage(data.usage ?? { totalItems: 0, totalBytes: 0 });
-    appStore.setState((draft) => {
-      draft.ttsHistory = [];
-      draft.latestAudioId = null;
-      draft.latestAudioUrl = null;
-      draft.latestAudioBlobUrl = null;
-    });
-  };
-
-	const handleDeleteHistoryItem = async (id: string) => {
-    if (!confirm(copy.historyConfirmDelete)) return;
-    const res = await fetch("/api/tts/history", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    if (!res.ok) {
-      const details = await res.text().catch(() => "");
-      alert(details || "Failed to delete");
-      return;
-    }
-    const data = (await res.json()) as { usage?: { totalItems: number; totalBytes: number } };
-    setHistoryUsage(data.usage ?? historyUsage);
-    appStore.setState((draft) => {
-      draft.ttsHistory = draft.ttsHistory.filter((it) => it.id !== id);
-      if (draft.latestAudioId === id) {
-        const next = draft.ttsHistory[0] ?? null;
-        draft.latestAudioId = next?.id ?? null;
-        draft.latestAudioUrl = next?.audioUrl ?? null;
-        draft.latestAudioBlobUrl = next?.audioUrl ?? null;
-      }
-    });
-  };
-
-	  const historyVisibleItems = ttsHistory.slice(0, 20);
-	  const historyTotalPages = Math.max(1, Math.ceil(historyVisibleItems.length / historyPageSize));
-	  const historyPageClamped = Math.min(Math.max(1, historyPage), historyTotalPages);
-	  const historyPagedItems = historyVisibleItems.slice(
-	    (historyPageClamped - 1) * historyPageSize,
-	    historyPageClamped * historyPageSize,
-	  );
-
-    const retentionText = formatTemplate(copy.historyRetention, {
-      maxItems: historyPolicy?.maxItems ?? 20,
-      maxDays: historyPolicy?.maxDays ?? 7,
-      maxTotalBytes: historyPolicy ? formatBytes(historyPolicy.maxTotalBytes) : "50 MB",
-    });
 
   return (
     <div className="flex-1 flex flex-col h-full w-full relative">
@@ -1606,6 +1493,7 @@ const TTSBoard = () => {
                   <div
                     className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-muted/20 px-4 text-sm text-muted-foreground"
                     dir="ltr"
+                    title={`Tokens · est. cost ${Math.max(0, Math.floor(estimatedTokens)).toLocaleString()}`}
                   >
                     <Coins className="h-4 w-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
                     <span>{Math.max(0, Math.floor(estimatedTokens)).toLocaleString()}</span>
@@ -1887,538 +1775,12 @@ const TTSBoard = () => {
               </div>
 	            </div>
 	          </Block>
-	        </div>
-	      </div>
-
-	      {/* Full-width history (spans both columns) */}
-	      <div className="mt-6">
-	        <Block title={copy.blockGeneratedHistory}>
-	          <div className="flex items-center justify-end mb-3">
-	            <div className="flex items-center gap-3">
-	              {historyPolicy && historyUsage ? (
-	                <span className="text-xs text-muted-foreground">
-	                  {historyUsage.totalItems}/{historyPolicy.maxItems} · {formatBytes(historyUsage.totalBytes)}/
-	                  {formatBytes(historyPolicy.maxTotalBytes)}
-	                </span>
-	              ) : (
-	                <span className="text-xs text-muted-foreground">{ttsHistory.length}</span>
-	              )}
-	              {ttsHistory.length > 0 ? (
-	                <button
-	                  type="button"
-	                  onClick={handleClearHistory}
-	                  className="text-xs font-medium text-muted-foreground hover:text-foreground underline underline-offset-4"
-	                >
-	                  {copy.historyClear}
-	                </button>
-	              ) : null}
-	            </div>
-	          </div>
-
-	          <div className="mb-3 text-xs text-muted-foreground">
-	            {retentionText}
-	          </div>
-
-	          {historyLoading ? (
-              <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-3">
-                {Array.from({ length: 6 }).map((_, idx) => (
-                  <div
-                    key={`history-skel-${idx}`}
-                    className="rounded-xl border border-border bg-background/60 p-4 flex flex-col gap-3 h-full"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="min-w-0 space-y-2">
-                        <Skeleton className="h-4 w-44" />
-                        <Skeleton className="h-3 w-28" />
-                      </div>
-                      <div className="flex items-center gap-3 shrink-0">
-                        <Skeleton className="h-3 w-14" />
-                        <Skeleton className="h-3 w-12" />
-                        <Skeleton className="h-8 w-8 rounded-full" />
-                      </div>
-                    </div>
-                    <Skeleton className="h-10 w-full rounded-full" />
-                  </div>
-                ))}
-              </div>
-	          ) : historyError ? (
-	            <div className="rounded-xl border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-	              {historyError}
-	            </div>
-			          ) : ttsHistory.length === 0 ? (
-			            <div className="rounded-xl border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-			              {copy.noAudioYetStart}
-                    <span className="font-medium text-foreground">{copy.generate}</span>
-                    {copy.noAudioYetEnd}
-			            </div>
-			          ) : (
-		            <div className="space-y-4">
-		              <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-3">
-		                {historyPagedItems.map((item) => (
-		                  <div
-		                    key={item.id}
-		                    className="rounded-xl border border-border bg-background/60 p-4 flex flex-col gap-3 h-full"
-		                  >
-		                    <div className="flex items-center justify-between gap-3">
-		                      <div className="min-w-0">
-                          <div className="text-sm font-medium text-foreground truncate">
-                            {item.title ? item.title : `${item.voice} · ${toneLabel(item.tone)}`}
-                          </div>
-                          {item.title ? (
-                            <div className="text-xs text-muted-foreground truncate">
-                              {item.voice} · {toneLabel(item.tone)}
-                            </div>
-                          ) : null}
-		                        <div className="text-xs text-muted-foreground">
-		                          {new Date(item.createdAt).toLocaleString()}
-		                        </div>
-		                    </div>
-		                      <div className="flex items-center gap-3 shrink-0">
-			                        <a
-			                          className="text-xs font-medium text-primary underline underline-offset-4"
-			                          href={item.audioUrl}
-			                          download={safeDownloadName({ title: item.title, voice: item.voice })}
-			                        >
-			                          {copy.historyDownload}
-			                        </a>
-		                        <button
-		                          type="button"
-		                          className="text-xs font-medium text-muted-foreground hover:text-foreground underline underline-offset-4"
-		                          onClick={() => handleDeleteHistoryItem(item.id)}
-		                        >
-		                          {copy.historyDelete}
-		                        </button>
-		                        <ShareButton generationId={item.id} />
-		                      </div>
-		                    </div>
-		                    <HistoryAudioPlayer src={item.audioUrl} />
-		                  </div>
-		                ))}
-		              </div>
-
-			              {historyTotalPages > 1 ? (
-			                <div className="flex items-center justify-center gap-2">
-			                  {Array.from({ length: historyTotalPages }).map((_, idx) => {
-			                    const pageNum = idx + 1;
-			                    const active = pageNum === historyPageClamped;
-			                    return (
-			                      <button
-		                        key={`generated-history-page-${pageNum}`}
-		                        type="button"
-		                        onClick={() => setHistoryPage(pageNum)}
-		                        aria-current={active ? "page" : undefined}
-		                        className={clsx(
-		                          "h-9 min-w-9 px-3 rounded-full border text-sm font-medium transition-colors",
-		                          active
-		                            ? "border-foreground/30 bg-foreground/10 text-foreground"
-		                            : "border-border bg-muted/10 text-muted-foreground hover:bg-muted/20 hover:text-foreground",
-		                        )}
-		                      >
-		                        {pageNum}
-		                      </button>
-		                    );
-		                  })}
-		                </div>
-		              ) : null}
-		            </div>
-		          )}
-		        </Block>
+		        </div>
 		      </div>
-    </div>
-  );
-};
+	    </div>
+	  );
+	};
 
 const CloningBoard = ({ onGoToTts }: { onGoToTts: () => void }) => {
   return <VoiceCloningClient onGoToTts={onGoToTts} />;
-};
-
-const HistoryBoard = () => {
-  const { locale } = useLocale();
-  const copy = getPodcastMvpUiCopy(locale);
-
-  const [items, setItems] = useState<
-    Array<{
-      id: string;
-      createdAt: string;
-      title?: string | null;
-      voice: string;
-      tone: string;
-      input: string;
-      audioUrl: string;
-    }>
-  >([]);
-  const [policy, setPolicy] = useState<{ maxItems: number; maxDays: number; maxTotalBytes: number } | null>(null);
-  const [usage, setUsage] = useState<{ totalItems: number; totalBytes: number } | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
-  const [cloneNameByVoiceId, setCloneNameByVoiceId] = useState<Record<string, string>>({});
-  const [page, setPage] = useState(1);
-  const pageSize = 6;
-
-  const formatBytes = (bytes: number) => {
-    if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-    const units = ["B", "KB", "MB", "GB"];
-    let idx = 0;
-    let value = bytes;
-    while (value >= 1024 && idx < units.length - 1) {
-      value /= 1024;
-      idx += 1;
-    }
-    return `${value.toFixed(idx === 0 ? 0 : 1)} ${units[idx]}`;
-  };
-
-  const safeDownloadName = ({ title, voice }: { title?: string | null; voice: string }) => {
-    const base = typeof title === "string" && title.trim() ? title : voice;
-    const safe = base.replace(/[^\w\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "voice";
-    return `${siteConfig.downloadPrefix}-${safe}.mp3`;
-  };
-
-  const loadPage = async (requestedPageRaw: number, allowFallback = true) => {
-    const requestedPage = Math.max(1, Math.floor(requestedPageRaw));
-    setLoading(true);
-    setError(null);
-    try {
-      const offset = (requestedPage - 1) * pageSize;
-      const res = await fetch(`/api/tts/history?limit=${pageSize}&offset=${offset}`, { cache: "no-store" });
-      if (!res.ok) {
-        if (res.status === 401) throw new Error("Sign in to view history.");
-        const text = await res.text().catch(() => "");
-        throw new Error(text || "Failed to load history");
-      }
-      const data = (await res.json()) as {
-        items: Array<{ id: string; createdAt: string; title?: string | null; voice: string; tone: string; input: string; audioUrl: string }>;
-        policy: { maxItems: number; maxDays: number; maxTotalBytes: number };
-        usage: { totalItems: number; totalBytes: number };
-        pagination?: { limit: number; offset: number; hasMore: boolean };
-      };
-
-      const usageNext = data.usage ?? null;
-      const totalItems = usageNext?.totalItems ?? 0;
-      const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
-
-      if (allowFallback && totalItems > 0 && requestedPage > totalPages) {
-        setPage(totalPages);
-        await loadPage(totalPages, false);
-        return;
-      }
-
-      setPage(requestedPage);
-      setItems(data.items ?? []);
-      setPolicy(data.policy ?? null);
-      setUsage(usageNext);
-      setSelectedIds(new Set());
-    } catch (err) {
-      setItems([]);
-      setError(err instanceof Error ? err.message : "Failed to load history");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const refresh = async () => {
-    await loadPage(page);
-  };
-
-  useEffect(() => {
-    void loadPage(1);
-    fetch("/api/voice-clone", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { clones?: Array<{ id: string; name: string; provider: string; providerVoiceId: string; status: string }> } | null) => {
-        const map: Record<string, string> = {};
-        for (const c of data?.clones ?? []) {
-          if (c.status !== "ready") continue;
-          map[`clone:${c.id}`] = c.name;
-          if (c.provider === "elevenlabs") map[`elevenlabs:${c.providerVoiceId}`] = c.name;
-        }
-        setCloneNameByVoiceId(map);
-      })
-      .catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const toggleAll = () => {
-    const all = items.map((it) => it.id);
-    setSelectedIds((prev) => {
-      if (prev.size === all.length) return new Set();
-      return new Set(all);
-    });
-  };
-
-  const toggleOne = (id: string) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm(copy.historyConfirmDelete)) return;
-    const res = await fetch("/api/tts/history", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      alert(text || "Failed to delete");
-      return;
-    }
-    await refresh();
-  };
-
-  const selectedCount = selectedIds.size;
-  const totalCount = usage?.totalItems ?? items.length;
-  const noteDays = policy?.maxDays ?? 7;
-  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
-  const canGoPrev = page > 1;
-  const canGoNext = page < totalPages;
-
-  const goToPage = async (next: number) => {
-    const clamped = Math.max(1, Math.min(totalPages, Math.floor(next)));
-    setSelectedIds(new Set());
-    await loadPage(clamped);
-  };
-
-  const pageItems = (() => {
-    const pages = new Set<number>();
-    pages.add(1);
-    pages.add(totalPages);
-    pages.add(page);
-    pages.add(page - 1);
-    pages.add(page + 1);
-    return Array.from(pages)
-      .filter((p) => p >= 1 && p <= totalPages)
-      .sort((a, b) => a - b);
-  })();
-
-  return (
-    <div className="mt-6">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold">Audio Generation History</h1>
-        <button
-          type="button"
-          onClick={refresh}
-          disabled={loading}
-          className="flex items-center gap-2 rounded-xl border border-border bg-muted/20 px-4 py-2 text-sm font-medium hover:bg-muted/30 disabled:opacity-60"
-        >
-          <Refresh className="w-4 h-4" />
-          Refresh
-        </button>
-      </div>
-
-      <div className="mt-6 rounded-3xl border border-border bg-background/40 p-6">
-        <div className="text-sm text-muted-foreground italic">
-          Note: Audio files are retained for {noteDays} day(s), and only the latest {policy?.maxItems ?? 20} items are kept.
-        </div>
-        <div className="mt-2 text-sm text-muted-foreground">
-          {selectedCount} of {items.length} row(s) selected on this page. Total: {totalCount}.
-          {usage && policy ? (
-            <span className="ml-3">
-              {usage.totalItems}/{policy.maxItems} · {formatBytes(usage.totalBytes)}/{formatBytes(policy.maxTotalBytes)}
-            </span>
-          ) : null}
-        </div>
-
-        <div className="mt-5 overflow-x-auto">
-          <table className="w-full min-w-[980px] border-separate border-spacing-0">
-            <thead>
-              <tr className="text-left text-xs text-muted-foreground">
-                <th className="w-10 px-4 py-3 border-y border-border bg-muted/20 rounded-l-2xl">
-                  <input
-                    type="checkbox"
-                    checked={items.length > 0 && selectedIds.size === items.length}
-                    onChange={toggleAll}
-                    className="h-4 w-4 accent-primary"
-                    aria-label="Select all"
-                  />
-                </th>
-                <th className="px-4 py-3 border-y border-border bg-muted/20">Text</th>
-                <th className="px-4 py-3 border-y border-border bg-muted/20">Voice</th>
-                <th className="px-4 py-3 border-y border-border bg-muted/20">Created At</th>
-                <th className="px-4 py-3 border-y border-border bg-muted/20">Audio</th>
-                <th className="px-4 py-3 border-y border-border bg-muted/20">Actions</th>
-                <th className="w-20 px-4 py-3 border-y border-border bg-muted/20 rounded-r-2xl text-right">
-                  <span className="sr-only">{copy.historyDelete}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                Array.from({ length: 6 }).map((_, idx) => (
-                  <tr key={`skeleton-${idx}`} className="hover:bg-muted/10">
-                    <td className="w-10 px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-4 w-4 rounded-full" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-4 w-[260px] max-w-full" />
-                      <Skeleton className="mt-2 h-3 w-[180px] max-w-full opacity-70" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-4 w-[180px] max-w-full" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-4 w-[160px] max-w-full" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-12 w-[340px] max-w-full rounded-full" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50">
-                      <Skeleton className="h-9 w-[110px] rounded-lg" />
-                    </td>
-                    <td className="px-4 py-4 border-b border-border/50 text-right">
-                      <Skeleton className="h-10 w-[96px] rounded-xl" />
-                    </td>
-                  </tr>
-                ))
-              ) : error ? (
-                <tr>
-                  <td colSpan={7} className="px-4 py-10 text-sm text-muted-foreground text-center">
-                    {error}
-                  </td>
-                </tr>
-              ) : items.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="px-4 py-10 text-sm text-muted-foreground text-center">
-                    {formatTemplate(copy.noHistoryYet, { generate: copy.generate, textToSpeech: copy.blockTextToSpeech })}
-                  </td>
-                </tr>
-              ) : (
-                items.map((it, idx) => {
-                  const checked = selectedIds.has(it.id);
-                  const isLast = idx === items.length - 1;
-                  const borderClass = isLast ? "border-b border-border" : "border-b border-border/50";
-                  const displayVoice =
-                    cloneNameByVoiceId[it.voice] ||
-                    (it.voice === "mic-recording" ? "Record your audio" : it.voice);
-                  const textPreview = (it.input || "").trim();
-                  const textShort = textPreview.length > 40 ? `${textPreview.slice(0, 40)}…` : textPreview;
-                  const title = typeof it.title === "string" ? it.title.trim() : "";
-                  return (
-                    <tr key={it.id} className="hover:bg-muted/10">
-                      <td className={`w-10 px-4 py-4 ${borderClass}`}>
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => toggleOne(it.id)}
-                          className="h-4 w-4 accent-primary"
-                          aria-label={`Select ${it.id}`}
-                        />
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass} text-sm text-foreground`}>
-                        {title ? (
-                          <div className="min-w-0">
-                            <div className="font-medium truncate" title={title}>
-                              {title}
-                            </div>
-                            <div className="mt-1 text-xs text-muted-foreground truncate" title={textPreview}>
-                              {textShort || "—"}
-                            </div>
-                          </div>
-                        ) : (
-                          <span title={textPreview}>{textShort || "—"}</span>
-                        )}
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass} text-sm text-muted-foreground`}>
-                        <span title={it.voice}>{displayVoice}</span>
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass} text-sm text-muted-foreground`}>
-                        {new Date(it.createdAt).toLocaleString()}
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass}`}>
-                        <audio className="w-[340px] max-w-full" controls preload="metadata" src={it.audioUrl} />
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass}`}>
-                        <a
-                          href={it.audioUrl}
-                          download={safeDownloadName({ title: it.title, voice: it.voice })}
-                          className="inline-flex items-center justify-center rounded-lg border border-border bg-muted/10 px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-muted/20 hover:text-foreground"
-                        >
-                          {copy.historyDownload}
-                        </a>
-                      </td>
-                      <td className={`px-4 py-4 ${borderClass} text-right`}>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(it.id)}
-                          className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
-                        >
-                          {copy.historyDelete}
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {totalPages > 1 ? (
-          <div className="mt-6">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (!canGoPrev) return;
-                      void goToPage(page - 1);
-                    }}
-                    aria-disabled={!canGoPrev}
-                    tabIndex={canGoPrev ? 0 : -1}
-                    className={!canGoPrev ? "pointer-events-none opacity-50" : undefined}
-                  />
-                </PaginationItem>
-
-                {pageItems.map((p, idx) => {
-                  const prev = pageItems[idx - 1];
-                  const needsEllipsis = prev !== undefined && p - prev > 1;
-                  return (
-                    <React.Fragment key={`page-${p}`}>
-                      {needsEllipsis ? (
-                        <PaginationItem key={`ellipsis-${p}`}>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                      ) : null}
-                      <PaginationItem>
-                        <PaginationLink
-                          href="#"
-                          isActive={p === page}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (p === page) return;
-                            void goToPage(p);
-                          }}
-                        >
-                          {p}
-                        </PaginationLink>
-                      </PaginationItem>
-                    </React.Fragment>
-                  );
-                })}
-
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (!canGoNext) return;
-                      void goToPage(page + 1);
-                    }}
-                    aria-disabled={!canGoNext}
-                    tabIndex={canGoNext ? 0 : -1}
-                    className={!canGoNext ? "pointer-events-none opacity-50" : undefined}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
 };
