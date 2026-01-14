@@ -9,6 +9,7 @@ import "./globals.css";
 import { Header, FooterWrapper } from "@/components/layout";
 import { siteConfig } from "@/lib/site-config";
 import { defaultLocale } from "@/i18n/types";
+import Script from "next/script";
 
 // 声明常量geistSans
 const geistSans = Geist({
@@ -99,6 +100,16 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-7N4LVQSRPM" strategy="afterInteractive" />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-7N4LVQSRPM');
+          `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
