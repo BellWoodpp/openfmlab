@@ -2,8 +2,20 @@
 // 导入getDictionary, defaultLocale
 // 导入类型元数据Metadata
 
+import type { Metadata } from "next";
+
 import { HomePage } from "@/components/home/home-page";
 import { getDictionary, defaultLocale } from "@/i18n";
+import { siteConfig } from "@/lib/site-config";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    url: siteConfig.siteUrl,
+  },
+};
 
 
 export default function RootPage() {

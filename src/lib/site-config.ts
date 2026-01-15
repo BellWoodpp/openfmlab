@@ -8,6 +8,6 @@ export const siteConfig = {
   supportEmail: "stormrobin50@gmail.com",
   downloadPrefix,
   defaultDescription:
-    "AI voice cloning and text-to-speech for podcasts, videos, and apps—natural voices, multilingual support, and fast audio generation.",
+    "AI voice cloning and text-to-speech for podcasts, videos, and apps. Natural voices, multilingual support, fast generation, low latency, and easy integration.",
   voiceAvatarVariant: "orb3d",
 } as const;

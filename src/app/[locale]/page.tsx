@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { HomePage } from "@/components/home/home-page";
 import { getDictionary, locales } from "@/i18n";
 import { siteConfig } from "@/lib/site-config";
+import { defaultLocale } from "@/i18n/types";
 
 interface LocalePageProps {
   params: Promise<{
@@ -48,5 +49,11 @@ export async function generateMetadata({ params }: LocalePageProps) {
   return {
     title: { absolute: `${siteConfig.brandName} — ${heroTitle}` },
     description: dictionary.home.heroDescription,
+    alternates: {
+      canonical: normalizedLocale === defaultLocale ? "/" : `/${normalizedLocale}`,
+    },
+    openGraph: {
+      url: normalizedLocale === defaultLocale ? siteConfig.siteUrl : `${siteConfig.siteUrl}/${normalizedLocale}`,
+    },
   };
 }
