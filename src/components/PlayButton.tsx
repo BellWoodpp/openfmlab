@@ -37,6 +37,27 @@ const PlayingWaveform = ({
   </div>
 );
 
+const CoinsIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <circle cx="8" cy="8" r="6" />
+    <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+    <path d="M7 6h1v4" />
+    <path d="m16.71 13.88.7.71-2.82 2.82" />
+  </svg>
+);
+
 export default function PlayButton() {
   const inputValue = appStore.useState((s) => s.input);
   const playbackRate = appStore.useState((s) => s.playbackRate);
@@ -101,12 +122,20 @@ export default function PlayButton() {
     const map: Partial<
       Record<
         string,
-        { title: string; description: string; cancel: string; signIn: string; signInHref: string }
+        {
+          title: string;
+          description: string;
+          cancel: string;
+          signIn: string;
+          signInHref: string;
+          bonus?: string;
+        }
       >
     > = {
       en: {
         title: "Sign in required",
         description: "Please sign in to generate audio.",
+        bonus: "Sign in to get 500 credits.",
         cancel: "Cancel",
         signIn: "Sign in",
         signInHref: "/login",
@@ -114,6 +143,7 @@ export default function PlayButton() {
       zh: {
         title: "需要登录",
         description: "请先登录后再使用生成功能。",
+        bonus: "登录用户可获得 500 积分。",
         cancel: "取消",
         signIn: "去登录",
         signInHref: "/zh/login",
@@ -121,6 +151,7 @@ export default function PlayButton() {
       ja: {
         title: "ログインが必要です",
         description: "生成機能を使うにはログインしてください。",
+        bonus: "ログインすると500ポイントを受け取れます。",
         cancel: "キャンセル",
         signIn: "ログイン",
         signInHref: "/ja/login",
@@ -128,6 +159,7 @@ export default function PlayButton() {
       es: {
         title: "Inicio de sesión requerido",
         description: "Inicia sesión para generar audio.",
+        bonus: "Inicia sesión para obtener 500 créditos.",
         cancel: "Cancelar",
         signIn: "Iniciar sesión",
         signInHref: "/es/login",
@@ -135,6 +167,7 @@ export default function PlayButton() {
       ar: {
         title: "تسجيل الدخول مطلوب",
         description: "يرجى تسجيل الدخول لاستخدام ميزة التوليد.",
+        bonus: "سجّل الدخول لتحصل على 500 رصيد.",
         cancel: "إلغاء",
         signIn: "تسجيل الدخول",
         signInHref: "/ar/login",
@@ -142,6 +175,7 @@ export default function PlayButton() {
       id: {
         title: "Perlu masuk",
         description: "Silakan masuk untuk membuat audio.",
+        bonus: "Masuk untuk mendapatkan 500 kredit.",
         cancel: "Batal",
         signIn: "Masuk",
         signInHref: "/id/login",
@@ -149,6 +183,7 @@ export default function PlayButton() {
       pt: {
         title: "Login necessário",
         description: "Faça login para gerar áudio.",
+        bonus: "Faça login para ganhar 500 créditos.",
         cancel: "Cancelar",
         signIn: "Entrar",
         signInHref: "/pt/login",
@@ -156,6 +191,7 @@ export default function PlayButton() {
       fr: {
         title: "Connexion requise",
         description: "Connectez-vous pour générer l’audio.",
+        bonus: "Connectez-vous pour recevoir 500 crédits.",
         cancel: "Annuler",
         signIn: "Se connecter",
         signInHref: "/fr/login",
@@ -163,6 +199,7 @@ export default function PlayButton() {
       ru: {
         title: "Требуется вход",
         description: "Войдите, чтобы генерировать аудио.",
+        bonus: "Войдите, чтобы получить 500 кредитов.",
         cancel: "Отмена",
         signIn: "Войти",
         signInHref: "/ru/login",
@@ -170,6 +207,7 @@ export default function PlayButton() {
       de: {
         title: "Anmeldung erforderlich",
         description: "Bitte melde dich an, um Audio zu generieren.",
+        bonus: "Melde dich an, um 500 Credits zu erhalten.",
         cancel: "Abbrechen",
         signIn: "Anmelden",
         signInHref: "/de/login",
@@ -550,6 +588,12 @@ export default function PlayButton() {
             <Dialog.Description className="text-foreground/70 mt-3 text-sm leading-relaxed">
               {authCopy.description}
             </Dialog.Description>
+            {authCopy.bonus ? (
+              <div className="mt-4 flex items-center gap-2 rounded-md border border-border/60 bg-muted/20 px-3 py-2 text-xs text-foreground/80">
+                <CoinsIcon className="h-4 w-4 text-amber-500" />
+                <span>{authCopy.bonus}</span>
+              </div>
+            ) : null}
 
             <div className="mt-6 flex items-center justify-end gap-2">
               <Dialog.Close asChild>

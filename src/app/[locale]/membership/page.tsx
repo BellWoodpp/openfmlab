@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { auth } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
 import { eq, sql } from "drizzle-orm";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Shield, Activity } from "lucide-react";
@@ -16,6 +17,8 @@ import { ttsGenerations } from "@/lib/db/schema/tts";
 import { getUserMembershipDetails } from "@/lib/membership";
 import { resolveIntlNumberLocale } from "@/i18n/locale-config";
 import { PricingComponent } from "@/components/pricing/pricing-component";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { getHomeHref, getHomeLabel } from "@/lib/breadcrumbs";
 
 const DEFAULT_TOKENS = 500;
 
@@ -130,6 +133,8 @@ export default async function MembershipPage({ params }: { params: Promise<{ loc
   }
 
   const dictionary = getDictionary(resolvedParams.locale);
+  const homeHref = getHomeHref(resolvedParams.locale);
+  const homeLabel = getHomeLabel(resolvedParams.locale);
   const numberFormat = new Intl.NumberFormat(resolveIntlNumberLocale(resolvedParams.locale));
 
   const membership = await getUserMembershipDetails(session.user.id);
@@ -221,6 +226,21 @@ export default async function MembershipPage({ params }: { params: Promise<{ loc
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={homeHref}>{homeLabel}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{dictionary.header.userMenu.membership}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
             {dictionary.pages.membership.subtitle}

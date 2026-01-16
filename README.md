@@ -5,7 +5,6 @@ RTVox is a Next.js app for AI text-to-speech, plus a minimal “podcast generato
 ## Podcast MVP
 
 - UI: `http://localhost:3000/podcast-mvp`
-- Script API: `POST /api/podcast/script`
 - Render API: `POST /api/podcast/render` (exports a single WAV)
 
 ### Required env
@@ -17,7 +16,6 @@ RTVox is a Next.js app for AI text-to-speech, plus a minimal “podcast generato
     - Vercel：`GOOGLE_SERVICE_ACCOUNT_JSON`（把 service account JSON 全量粘贴到环境变量；应用会写入 `/tmp` 并自动设置 `GOOGLE_APPLICATION_CREDENTIALS`）
 
 Optional:
-- `OPENAI_MODEL_TEXT` (default `gpt-4o-mini`)
 - `OPENAI_MODEL_TTS` (default `gpt-4o-mini-tts`)
 - `DATABASE_URL` (enable saved TTS history + public share links; run Drizzle migration in `drizzle/`)
 - `R2_*` (recommended: store large audio files in Cloudflare R2 instead of Postgres `bytea`)

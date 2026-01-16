@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 import { resolveIntlNumberLocale } from "@/i18n/locale-config";
 import { authClient } from "@/lib/auth/client";
@@ -24,6 +25,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { DashboardPageDictionary, Locale } from "@/i18n/types";
+import { getHomeHref, getHomeLabel } from "@/lib/breadcrumbs";
 
 interface DashboardPageProps {
   dictionary: DashboardPageDictionary;
@@ -585,9 +587,27 @@ export function DashboardPage({ dictionary, locale, userName }: DashboardPagePro
     );
   };
 
+  const homeHref = getHomeHref(locale);
+  const homeLabel = getHomeLabel(locale);
+
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={homeHref}>{homeLabel}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{dictionary.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
         {/* 欢迎消息 */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">

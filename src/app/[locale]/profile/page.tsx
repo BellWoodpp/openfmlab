@@ -1,12 +1,15 @@
 import { Metadata } from "next";
 import { auth } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Mail, Calendar, Shield } from "lucide-react";
 import { getDictionary } from "@/i18n";
 import { type Locale } from "@/i18n/types";
 import { UserAvatar } from "@/components/user/user-avatar";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { getHomeHref, getHomeLabel } from "@/lib/breadcrumbs";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -34,10 +37,27 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
 
   const user = session.user;
   const dictionary = getDictionary(resolvedParams.locale);
+  const homeHref = getHomeHref(resolvedParams.locale);
+  const homeLabel = getHomeLabel(resolvedParams.locale);
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={homeHref}>{homeLabel}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{dictionary.header.userMenu.profile}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
             {dictionary.pages.profile.subtitle}

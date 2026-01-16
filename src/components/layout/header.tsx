@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeSwitcher } from "./theme-switcher";
 import { UserMenu } from "./user-menu";
@@ -16,6 +17,7 @@ import { assetUrl } from "@/lib/asset-url";
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { locale, dictionary } = useLocale();
+  const pathname = usePathname();
   const session = authClient.useSession();
   const isSessionPending = session.isPending;
   const isAuthenticated = Boolean(session.data?.user);
@@ -80,6 +82,31 @@ export function Header() {
     </span>
   );
 
+  const normalizedPath = (() => {
+    if (!pathname) return "/";
+    const localePrefix = `/${locale}`;
+    if (pathname === localePrefix) return "/";
+    if (pathname.startsWith(`${localePrefix}/`)) return pathname.slice(localePrefix.length);
+    return pathname;
+  })();
+
+  const isActivePath = (path: string) =>
+    normalizedPath === path || normalizedPath.startsWith(`${path}/`);
+
+  const navLinkClass = (active: boolean) =>
+    [
+      "text-sm font-medium transition-colors border-b-2",
+      active
+        ? "text-neutral-900 border-neutral-900 dark:text-neutral-100 dark:border-neutral-100"
+        : "text-neutral-600 border-transparent hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100",
+    ].join(" ");
+
+  const mobileLinkClass = (active: boolean) =>
+    [
+      "block text-sm font-medium transition-colors",
+      active ? "text-neutral-900 dark:text-neutral-100" : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100",
+    ].join(" ");
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80">
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -109,31 +136,36 @@ export function Header() {
         <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
           <Link
             href={locale === 'en' ? '/podcast-mvp' : `/${locale}/podcast-mvp`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+            className={navLinkClass(isActivePath("/podcast-mvp"))}
+            aria-current={isActivePath("/podcast-mvp") ? "page" : undefined}
           >
             {dictionary.header.product}
           </Link>
           <Link
             href={locale === 'en' ? '/features' : `/${locale}/features`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+            className={navLinkClass(isActivePath("/features"))}
+            aria-current={isActivePath("/features") ? "page" : undefined}
           >
             {dictionary.header.features}
           </Link>
           <Link
             href={locale === 'en' ? '/pricing' : `/${locale}/pricing`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+            className={navLinkClass(isActivePath("/pricing"))}
+            aria-current={isActivePath("/pricing") ? "page" : undefined}
           >
             {dictionary.header.pricing}
           </Link>
           <Link
             href={locale === 'en' ? '/blogs' : `/${locale}/blogs`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+            className={navLinkClass(isActivePath("/blogs"))}
+            aria-current={isActivePath("/blogs") ? "page" : undefined}
           >
             Blog
           </Link>
           <Link
             href={locale === 'en' ? '/docs' : `/${locale}/docs`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+            className={navLinkClass(isActivePath("/docs"))}
+            aria-current={isActivePath("/docs") ? "page" : undefined}
           >
             {dictionary.header.docs}
           </Link>
@@ -189,35 +221,40 @@ export function Header() {
           <div className="px-4 py-6 space-y-4">
             <Link
               href={locale === 'en' ? '/podcast-mvp' : `/${locale}/podcast-mvp`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className={mobileLinkClass(isActivePath("/podcast-mvp"))}
+              aria-current={isActivePath("/podcast-mvp") ? "page" : undefined}
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.product}
             </Link>
             <Link
               href={locale === 'en' ? '/features' : `/${locale}/features`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className={mobileLinkClass(isActivePath("/features"))}
+              aria-current={isActivePath("/features") ? "page" : undefined}
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.features}
             </Link>
             <Link
               href={locale === 'en' ? '/pricing' : `/${locale}/pricing`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className={mobileLinkClass(isActivePath("/pricing"))}
+              aria-current={isActivePath("/pricing") ? "page" : undefined}
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.pricing}
             </Link>
             <Link
               href={locale === 'en' ? '/blogs' : `/${locale}/blogs`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className={mobileLinkClass(isActivePath("/blogs"))}
+              aria-current={isActivePath("/blogs") ? "page" : undefined}
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
             </Link>
             <Link
               href={locale === 'en' ? '/docs' : `/${locale}/docs`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className={mobileLinkClass(isActivePath("/docs"))}
+              aria-current={isActivePath("/docs") ? "page" : undefined}
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.docs}

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import {
   Pagination,
   PaginationContent,
@@ -35,7 +36,10 @@ import {
 import { format } from "date-fns";
 import { zhCN, enUS, ja } from "date-fns/locale";
 import type { Order } from "@/lib/db/schema/orders";
+import type { Locale } from "@/i18n/types";
 import { OrderDetails } from "./order-details";
+import Link from "next/link";
+import { getHomeHref, getHomeLabel } from "@/lib/breadcrumbs";
 
 interface OrdersPageProps {
   dict: {
@@ -143,7 +147,7 @@ interface OrdersPageProps {
       notFound: string;
     };
   };
-  locale: string;
+  locale: Locale;
 }
 
 export function OrdersPage({ dict, locale }: OrdersPageProps) {
@@ -187,6 +191,8 @@ export function OrdersPage({ dict, locale }: OrdersPageProps) {
   };
   const deleteLabel = deleteLabelByLocale[locale] ?? deleteLabelByLocale.en ?? "Delete";
   const deleteConfirm = deleteConfirmByLocale[locale] ?? deleteConfirmByLocale.en ?? "Delete this order?";
+  const homeHref = getHomeHref(locale);
+  const homeLabel = getHomeLabel(locale);
 
   // 获取订单列表
   const fetchOrders = useCallback(async (page = 1, statuses = statusFilters, search = searchTerm) => {
@@ -413,6 +419,21 @@ export function OrdersPage({ dict, locale }: OrdersPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={homeHref}>{homeLabel}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{dict.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       {/* 页面标题 */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{dict.title}</h1>
